@@ -1,0 +1,4 @@
+/home/wallison/Documents/cpp/lang-project/build/CMakeFiles/main.dir
+/home/wallison/Documents/cpp/lang-project/build/CMakeFiles/run.dir
+/home/wallison/Documents/cpp/lang-project/build/CMakeFiles/edit_cache.dir
+/home/wallison/Documents/cpp/lang-project/build/CMakeFiles/rebuild_cache.dir
