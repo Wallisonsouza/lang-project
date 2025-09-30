@@ -2,24 +2,24 @@ cmake_minimum_required(VERSION 3.10)
 project(MyInterpreter)
 
 # Define a versão do C++
-set(CMAKE_CXX_STANDARD 20)       # mudar aqui para C++20
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_CXX_EXTENSIONS OFF)    # opcional: desativa extensões do compilador
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Pega todos os arquivos .cpp
-file(GLOB SOURCES "src/**/*.cpp" "*.cpp")
+# Pega todos os arquivos .cpp dentro de src e subpastas
+file(GLOB_RECURSE SOURCES
+    ${PROJECT_SOURCE_DIR}/src/*.cpp
+)
 
-# Cria o executável
-add_executable(main ${SOURCES})
+# Cria o executável incluindo main.cpp da raiz
+add_executable(main
+    main.cpp       # garante que main.cpp seja incluído
+    ${SOURCES}
+)
 
-# Inclui diretórios
+# Inclui diretórios (src raiz cobre todas as subpastas)
 target_include_directories(main PRIVATE
     ${PROJECT_SOURCE_DIR}/src
-    ${PROJECT_SOURCE_DIR}/src/core
-    ${PROJECT_SOURCE_DIR}/src/errors
-    ${PROJECT_SOURCE_DIR}/src/handlers
-    ${PROJECT_SOURCE_DIR}/src/registry
-    ${PROJECT_SOURCE_DIR}/src/plugins
 )
 
 # Alvo customizado para rodar o programa

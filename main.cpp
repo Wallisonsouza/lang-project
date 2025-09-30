@@ -80,173 +80,89 @@ return 0;
 }
 */
 
-#include "CallPlugin.hpp"
-#include "Environment.hpp"
-#include "IdentifierHandler.hpp"
-#include "KeywordHandler.hpp"
-#include "Parser.hpp"
-#include "PunctuationHandler.hpp"
-#include "Stream.hpp"
-#include "Token.hpp"
-#include "TokenDescriptor.hpp"
-#include "TypeHandler.hpp"
+#include "argon/plugins/call_ast.hpp"
 #include "core/Lexer.hpp"
-#include "handlers/NumberHandler.hpp"
-#include "handlers/OperatorHandler.hpp"
-#include "node/Nodes.hpp"
+#include "core/Parser.hpp"
+#include "core/context/descriptor_context.hpp"
+#include "core/context/handler_context.hpp"
+
+#include <algorithm>
+#include <cctype>
+#include <fstream>
 #include <iostream>
-#include <memory>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
-std::shared_ptr<Environment> createStdLib() {
-  auto env = std::make_shared<Environment>();
+#include "argon/argon_main.hpp"
 
-  auto printFunc = std::make_shared<NativeFunctionNode>(
-      [](const std::vector<LanguagePrimitives> &args) -> LanguagePrimitives {
-        for (const auto &arg : args) {
-          std::visit([](auto &&val) { std::cout << val << " "; }, arg);
-        }
-        std::cout << std::endl;
-        return 0;
-      });
+std::vector<std::string> readFileLines(const std::string &path, bool removeWhiteSpace = false) {
+  std::ifstream file(path);
+  if (!file.is_open()) {
+    throw std::runtime_error("Não foi possível abrir o arquivo: " + path);
+  }
 
-  env->exportSymbol("print", printFunc);
-  return env;
+  std::vector<std::string> lines;
+  std::string line;
+
+  while (std::getline(file, line)) {
+    if (removeWhiteSpace) {
+      line.erase(line.begin(), std::find_if(line.begin(), line.end(), [](unsigned char c) { return !std::isspace(c); }));
+      line.erase(std::find_if(line.rbegin(), line.rend(), [](unsigned char c) { return !std::isspace(c); }).base(), line.end());
+    }
+
+    if (!line.empty()) {
+      lines.push_back(line);
+    }
+  }
+
+  return lines;
 }
 
 int main() {
 
-  std::shared_ptr<Environment> standardLib = createStdLib();
+  try {
+    std::unique_ptr<DescriptorContext> descriptorContext = createArgonDesciptorContext();
+    std::unique_ptr<HandlerContext> handlerContext = createArgonHandlerContext();
 
-  LangDescriptor::addDescriptor(DescriptorID::PLUS, "+",
-                                DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::MINUS, "-",
-                                DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::MULTIPLY, "*",
-                                DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::DIVIDE, "/",
-                                DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::ASSIGN, "=",
-                                DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::EQUAL,
-                                "==", DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::NOT_EQUAL,
-                                "!=", DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::LESS, "<",
-                                DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::GREATER, ">",
-                                DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::LESS_EQUAL,
-                                "<=", DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::GREATER_EQUAL,
-                                ">=", DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::AND, "&&",
-                                DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::OR, "||",
-                                DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::NOT, "!",
-                                DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::POWER, "^",
-                                DescriptorType::OPERATOR);
-  LangDescriptor::addDescriptor(DescriptorID::MODULO, "%",
-                                DescriptorType::OPERATOR);
+    std::vector<std::string> argonScrypt = readFileLines("../test.txt", true);
+    Stream<std::string> lineStream(argonScrypt);
 
-  LangDescriptor::addDescriptor(DescriptorID::IF, "if",
-                                DescriptorType::KEYWORD);
-  LangDescriptor::addDescriptor(DescriptorID::ELSE, "else",
-                                DescriptorType::KEYWORD);
-  LangDescriptor::addDescriptor(DescriptorID::WHILE, "while",
-                                DescriptorType::KEYWORD);
-  LangDescriptor::addDescriptor(DescriptorID::FOR, "for",
-                                DescriptorType::KEYWORD);
-  LangDescriptor::addDescriptor(DescriptorID::BREAK, "break",
-                                DescriptorType::KEYWORD);
-  LangDescriptor::addDescriptor(DescriptorID::CONTINUE, "continue",
-                                DescriptorType::KEYWORD);
-  LangDescriptor::addDescriptor(DescriptorID::RETURN, "return",
-                                DescriptorType::KEYWORD);
-  LangDescriptor::addDescriptor(DescriptorID::CONST, "const",
-                                DescriptorType::KEYWORD);
+    std::vector<Token> tokens = Lexer::tokenize(lineStream, *descriptorContext, *handlerContext);
+    Stream<Token> tokenStream(tokens);
 
-  LangDescriptor::addDescriptor(DescriptorID::INT, "int", DescriptorType::TYPE);
-  LangDescriptor::addDescriptor(DescriptorID::FLOAT, "float",
-                                DescriptorType::TYPE);
-  LangDescriptor::addDescriptor(DescriptorID::BOOL, "bool",
-                                DescriptorType::TYPE);
-  LangDescriptor::addDescriptor(DescriptorID::CHAR, "char",
-                                DescriptorType::TYPE);
-  LangDescriptor::addDescriptor(DescriptorID::STRING, "string",
-                                DescriptorType::TYPE);
-  LangDescriptor::addDescriptor(DescriptorID::VOID, "void",
-                                DescriptorType::TYPE);
-
-  LangDescriptor::addDescriptor(DescriptorID::SEMICOLON, ";",
-                                DescriptorType::PUNCTUATION);
-  LangDescriptor::addDescriptor(DescriptorID::COLON, ":",
-                                DescriptorType::PUNCTUATION);
-  LangDescriptor::addDescriptor(DescriptorID::COMMA, ",",
-                                DescriptorType::PUNCTUATION);
-  LangDescriptor::addDescriptor(DescriptorID::DOT, ".",
-                                DescriptorType::PUNCTUATION);
-  LangDescriptor::addDescriptor(DescriptorID::OPEN_PAREN, "(",
-                                DescriptorType::PUNCTUATION);
-  LangDescriptor::addDescriptor(DescriptorID::CLOSE_PAREN, ")",
-                                DescriptorType::PUNCTUATION);
-  LangDescriptor::addDescriptor(DescriptorID::OPEN_BRACE, "{",
-                                DescriptorType::PUNCTUATION);
-  LangDescriptor::addDescriptor(DescriptorID::CLOSE_BRACE, "}",
-                                DescriptorType::PUNCTUATION);
-  LangDescriptor::addDescriptor(DescriptorID::OPEN_BRACKET, "[",
-                                DescriptorType::PUNCTUATION);
-  LangDescriptor::addDescriptor(DescriptorID::CLOSE_BRACKET, "]",
-                                DescriptorType::PUNCTUATION);
-
-  LangDescriptor::addDescriptor(DescriptorID::INT_LITERAL, "",
-                                DescriptorType::LITERAL);
-  LangDescriptor::addDescriptor(DescriptorID::FLOAT_LITERAL, "",
-                                DescriptorType::LITERAL);
-  LangDescriptor::addDescriptor(DescriptorID::STRING_LITERAL, "",
-                                DescriptorType::LITERAL);
-  LangDescriptor::addDescriptor(DescriptorID::CHAR_LITERAL, "",
-                                DescriptorType::LITERAL);
-  LangDescriptor::addDescriptor(DescriptorID::BOOL_LITERAL, "",
-                                DescriptorType::LITERAL);
-  LangDescriptor::addDescriptor(DescriptorID::IDENTIFIER, "",
-                                DescriptorType::IDENTIFIER);
-
-  Lexer lexer(" print(11.12);");
-
-  lexer.addHandler(1, std::make_unique<KeywordHandler>());
-  lexer.addHandler(2, std::make_unique<IdentifierHandler>());
-  lexer.addHandler(3, std::make_unique<NumberHandler>());
-  lexer.addHandler(5, std::make_unique<OperatorHandler>());
-  lexer.addHandler(6, std::make_unique<PunctuationHandler>());
-
-  std::vector<Token> tokens = lexer.tokenize();
-
-  Parser parser;
-  parser.addPlugin(1, std::make_unique<CallPlugin>());
-
-  Stream<Token> tokensStream(tokens);
-  auto ast = parser.parse(tokensStream);
-
-  Environment env;
-  env.importAll(*standardLib);
-
-  for (auto &ast : ast) {
-    ast->execute(env);
-  }
-
-  /*   Parser parser;
-    Stream<Token> stream(tokens);
-
+    Parser parser;
     parser.addPlugin(1, std::make_unique<CallPlugin>());
-    auto ast = parser.parse(stream);
 
-    std::shared_ptr<Environment> std = createGlobalEnv();
+    auto ast = parser.parse(tokenStream);
 
-    for (const std::unique_ptr<ASTNode> &node : ast) {
-      node->execute(*std);
-    } */
+    Environment env;
+
+    std::shared_ptr<Environment> console = createStandardConsoleLibrarie();
+    env.importAll(*console);
+
+    for (auto &ast : ast) {
+      ast->execute(env);
+    }
+
+  } catch (const std::exception &e) {
+    std::cerr << "Erro: " << e.what() << std::endl;
+  }
 
   return 0;
 }
+
+/*  Parser parser;
+    parser.addPlugin(1, std::make_unique<CallPlugin>());
+
+    auto ast = parser.parse(tokenStream);
+
+    Environment env;
+
+    std::shared_ptr<Environment> console = consoleLib();
+    env.importAll(*console);
+
+    for (auto &ast : ast) {
+      ast->execute(env);
+      std::cout << ast->toString();
+    } */

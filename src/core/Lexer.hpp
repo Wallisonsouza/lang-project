@@ -1,27 +1,39 @@
 #pragma once
-#include "HandlerBase.hpp"
+#include "context/descriptor_context.hpp"
+#include "context/handler_context.hpp"
 #include "core/Stream.hpp"
 #include "core/Token.hpp"
-#include <memory>
-#include <string>
 #include <vector>
-
-struct HandlerEntry {
-  int priority;
-  std::unique_ptr<HandlerBase> handler;
-};
 
 class Lexer {
 public:
-  explicit Lexer(const std::string &source);
+  static std::vector<Token> tokenize(Stream<std::string> &lineStream, const DescriptorContext &descriptors, const HandlerContext &handlers) {
+    std::vector<Token> tokens;
 
-  void addHandler(int priority, std::unique_ptr<HandlerBase> handler);
+    while (lineStream.hasNext()) {
+      const std::string &line = lineStream.current();
+      Stream<char> charStream(std::vector<char>(line.begin(), line.end()));
 
-  std::vector<Token> tokenize();
+      while (charStream.hasNext()) {
+        bool matched = false;
 
-private:
-  Stream<char> stream;
-  std::vector<HandlerEntry> handlers;
+        for (const auto &entry : handlers.getHandlers()) {
+          auto result = entry.handler->match(charStream, descriptors, lineStream.position());
+          if (result.has_value()) {
+            tokens.push_back(result.value());
+            matched = true;
+            break;
+          }
+        }
 
-  void skipWhitespace();
+        if (!matched) {
+          charStream.advance();
+        }
+      }
+
+      lineStream.advance();
+    }
+
+    return tokens;
+  }
 };

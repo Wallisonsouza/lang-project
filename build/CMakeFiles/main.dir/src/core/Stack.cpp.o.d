@@ -62,7 +62,7 @@ CMakeFiles/main.dir/src/core/Stack.cpp.o: \
  /usr/include/c++/15.1.1/bits/uses_allocator.h \
  /usr/include/c++/15.1.1/bits/uses_allocator_args.h \
  /usr/include/c++/15.1.1/tuple /usr/include/c++/15.1.1/bits/ranges_util.h \
- /home/wallison/Documents/cpp/lang-project/src/errors/StackErrors.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/core/errors/StackErrors.hpp \
  /usr/include/c++/15.1.1/stdexcept /usr/include/c++/15.1.1/exception \
  /usr/include/c++/15.1.1/bits/exception_ptr.h \
  /usr/include/c++/15.1.1/bits/cxxabi_init_exception.h \

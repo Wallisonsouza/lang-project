@@ -1,0 +1,2 @@
+clear();
+logMessage("esta funcao esta em argon");

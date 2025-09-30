@@ -1,5 +1,5 @@
 #pragma once
-#include "core/Stack.hpp"
+#include "Stack.hpp"
 #include "errors/StreamErrors.hpp"
 #include <cstddef>
 #include <vector>
@@ -61,9 +61,8 @@ public:
 
   bool hasNext() const { return stack.getPosition() < values.size(); }
 
-  void save() { stack.save(); }
-  void restore() { stack.restore(); }
-  void reset() { stack.reset(); }
+  void saveState() { stack.save(); }
+  void rollback() { stack.restore(); }
 
   size_t position() const { return stack.getPosition(); }
 

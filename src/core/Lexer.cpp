@@ -1,46 +1,34 @@
-#include "Lexer.hpp"
-#include <algorithm>
-#include <cctype>
+/* #include "Lexer.hpp"
 
-Lexer::Lexer(const std::string &source)
-    : stream(std::vector<char>(source.begin(), source.end())) {}
-
-void Lexer::addHandler(int priority, std::unique_ptr<HandlerBase> handler) {
-  handlers.push_back({priority, std::move(handler)});
-
-  // ordena assim que adiciona
-  std::sort(handlers.begin(), handlers.end(),
-            [](const HandlerEntry &a, const HandlerEntry &b) {
-              return a.priority < b.priority;
-            });
-}
+Lexer::Lexer(const std::vector<std::string> &source, const DescriptorContext &descriptorCtx, const HandlerContext &handlerCtx) : lineStream(source), descriptors(descriptorCtx), handlers(handlerCtx) {}
 
 std::vector<Token> Lexer::tokenize() {
   std::vector<Token> tokens;
 
-  while (stream.hasNext()) {
-    skipWhitespace();
+  while (lineStream.hasNext()) {
+    const std::string &line = lineStream.current();
+    Stream<char> chars(std::vector<char>(line.begin(), line.end()));
 
-    bool matched = false;
+    while (chars.hasNext()) {
+      bool matched = false;
 
-    for (auto &entry : handlers) {
-      auto result = entry.handler->match(stream);
-      if (result.has_value()) {
-        tokens.push_back(result.value());
-        matched = true;
-        break;
+      for (const auto &entry : handlers.getHandlers()) {
+        auto result = entry.handler->match(chars, descriptors, lineStream.position());
+        if (result.has_value()) {
+          tokens.push_back(result.value());
+          matched = true;
+          break;
+        }
+      }
+
+      if (!matched) {
+        chars.advance();
       }
     }
 
-    if (!matched) {
-      stream.advance();
-    }
+    lineStream.advance();
   }
+
   return tokens;
 }
-
-void Lexer::skipWhitespace() {
-  while (stream.hasNext() && std::isspace(stream.current())) {
-    stream.advance();
-  }
-}
+ */

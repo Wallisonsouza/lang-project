@@ -8,7 +8,6 @@ public:
 
   void save();
   void restore();
-  void reset();
 
   std::size_t getPosition() const;
   void advance();

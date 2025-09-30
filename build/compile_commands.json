@@ -1,26 +1,38 @@
 [
 {
   "directory": "/home/wallison/Documents/cpp/lang-project/build",
-  "command": "/usr/bin/c++  -I/home/wallison/Documents/cpp/lang-project/src -I/home/wallison/Documents/cpp/lang-project/src/core -I/home/wallison/Documents/cpp/lang-project/src/errors -I/home/wallison/Documents/cpp/lang-project/src/handlers -I/home/wallison/Documents/cpp/lang-project/src/registry -I/home/wallison/Documents/cpp/lang-project/src/plugins -std=c++20 -o CMakeFiles/main.dir/main.cpp.o -c /home/wallison/Documents/cpp/lang-project/main.cpp",
+  "command": "/usr/bin/c++  -I/home/wallison/Documents/cpp/lang-project/src -std=c++20 -o CMakeFiles/main.dir/main.cpp.o -c /home/wallison/Documents/cpp/lang-project/main.cpp",
   "file": "/home/wallison/Documents/cpp/lang-project/main.cpp",
   "output": "CMakeFiles/main.dir/main.cpp.o"
 },
 {
   "directory": "/home/wallison/Documents/cpp/lang-project/build",
-  "command": "/usr/bin/c++  -I/home/wallison/Documents/cpp/lang-project/src -I/home/wallison/Documents/cpp/lang-project/src/core -I/home/wallison/Documents/cpp/lang-project/src/errors -I/home/wallison/Documents/cpp/lang-project/src/handlers -I/home/wallison/Documents/cpp/lang-project/src/registry -I/home/wallison/Documents/cpp/lang-project/src/plugins -std=c++20 -o CMakeFiles/main.dir/src/core/Lexer.cpp.o -c /home/wallison/Documents/cpp/lang-project/src/core/Lexer.cpp",
+  "command": "/usr/bin/c++  -I/home/wallison/Documents/cpp/lang-project/src -std=c++20 -o CMakeFiles/main.dir/src/argon/argon_main.cpp.o -c /home/wallison/Documents/cpp/lang-project/src/argon/argon_main.cpp",
+  "file": "/home/wallison/Documents/cpp/lang-project/src/argon/argon_main.cpp",
+  "output": "CMakeFiles/main.dir/src/argon/argon_main.cpp.o"
+},
+{
+  "directory": "/home/wallison/Documents/cpp/lang-project/build",
+  "command": "/usr/bin/c++  -I/home/wallison/Documents/cpp/lang-project/src -std=c++20 -o CMakeFiles/main.dir/src/core/Lexer.cpp.o -c /home/wallison/Documents/cpp/lang-project/src/core/Lexer.cpp",
   "file": "/home/wallison/Documents/cpp/lang-project/src/core/Lexer.cpp",
   "output": "CMakeFiles/main.dir/src/core/Lexer.cpp.o"
 },
 {
   "directory": "/home/wallison/Documents/cpp/lang-project/build",
-  "command": "/usr/bin/c++  -I/home/wallison/Documents/cpp/lang-project/src -I/home/wallison/Documents/cpp/lang-project/src/core -I/home/wallison/Documents/cpp/lang-project/src/errors -I/home/wallison/Documents/cpp/lang-project/src/handlers -I/home/wallison/Documents/cpp/lang-project/src/registry -I/home/wallison/Documents/cpp/lang-project/src/plugins -std=c++20 -o CMakeFiles/main.dir/src/core/Scope.cpp.o -c /home/wallison/Documents/cpp/lang-project/src/core/Scope.cpp",
+  "command": "/usr/bin/c++  -I/home/wallison/Documents/cpp/lang-project/src -std=c++20 -o CMakeFiles/main.dir/src/core/Scope.cpp.o -c /home/wallison/Documents/cpp/lang-project/src/core/Scope.cpp",
   "file": "/home/wallison/Documents/cpp/lang-project/src/core/Scope.cpp",
   "output": "CMakeFiles/main.dir/src/core/Scope.cpp.o"
 },
 {
   "directory": "/home/wallison/Documents/cpp/lang-project/build",
-  "command": "/usr/bin/c++  -I/home/wallison/Documents/cpp/lang-project/src -I/home/wallison/Documents/cpp/lang-project/src/core -I/home/wallison/Documents/cpp/lang-project/src/errors -I/home/wallison/Documents/cpp/lang-project/src/handlers -I/home/wallison/Documents/cpp/lang-project/src/registry -I/home/wallison/Documents/cpp/lang-project/src/plugins -std=c++20 -o CMakeFiles/main.dir/src/core/Stack.cpp.o -c /home/wallison/Documents/cpp/lang-project/src/core/Stack.cpp",
+  "command": "/usr/bin/c++  -I/home/wallison/Documents/cpp/lang-project/src -std=c++20 -o CMakeFiles/main.dir/src/core/Stack.cpp.o -c /home/wallison/Documents/cpp/lang-project/src/core/Stack.cpp",
   "file": "/home/wallison/Documents/cpp/lang-project/src/core/Stack.cpp",
   "output": "CMakeFiles/main.dir/src/core/Stack.cpp.o"
+},
+{
+  "directory": "/home/wallison/Documents/cpp/lang-project/build",
+  "command": "/usr/bin/c++  -I/home/wallison/Documents/cpp/lang-project/src -std=c++20 -o CMakeFiles/main.dir/src/core/context/handler_context.cpp.o -c /home/wallison/Documents/cpp/lang-project/src/core/context/handler_context.cpp",
+  "file": "/home/wallison/Documents/cpp/lang-project/src/core/context/handler_context.cpp",
+  "output": "CMakeFiles/main.dir/src/core/context/handler_context.cpp.o"
 }
 ]

@@ -1,5 +1,5 @@
 #include "Scope.hpp"
-#include "Ast.hpp"
+#include "ast.hpp"
 #include "errors/ScopeErros.hpp"
 
 void Scope::setSymbol(const std::string &name, std::shared_ptr<ASTNode> value) {
@@ -19,6 +19,4 @@ std::shared_ptr<ASTNode> Scope::getSymbol(const std::string &name) const {
   throw SymbolNotFoundError(name);
 }
 
-bool Scope::hasSymbol(const std::string &name) const {
-  return entries.find(name) != entries.end();
-}
+bool Scope::hasSymbol(const std::string &name) const { return entries.find(name) != entries.end(); }

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/wallison/Documents/cpp/lang-project/src -I/home/wallison/Documents/cpp/lang-project/src/core -I/home/wallison/Documents/cpp/lang-project/src/errors -I/home/wallison/Documents/cpp/lang-project/src/handlers -I/home/wallison/Documents/cpp/lang-project/src/registry -I/home/wallison/Documents/cpp/lang-project/src/plugins
+CXX_INCLUDES = -I/home/wallison/Documents/cpp/lang-project/src
 
 CXX_FLAGS = -std=c++20
 

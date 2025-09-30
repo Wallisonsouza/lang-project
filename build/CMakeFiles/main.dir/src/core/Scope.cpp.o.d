@@ -193,9 +193,9 @@ CMakeFiles/main.dir/src/core/Scope.cpp.o: \
  /usr/include/c++/15.1.1/bits/enable_special_members.h \
  /usr/include/c++/15.1.1/bits/node_handle.h \
  /usr/include/c++/15.1.1/bits/erase_if.h \
- /home/wallison/Documents/cpp/lang-project/src/core/Ast.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/core/ast.hpp \
  /home/wallison/Documents/cpp/lang-project/src/core/Environment.hpp \
- /home/wallison/Documents/cpp/lang-project/src/errors/ScopeErros.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/core/errors/ScopeErros.hpp \
  /usr/include/c++/15.1.1/vector /usr/include/c++/15.1.1/bits/stl_vector.h \
  /usr/include/c++/15.1.1/bits/stl_bvector.h \
  /usr/include/c++/15.1.1/bits/vector.tcc /usr/include/c++/15.1.1/variant \

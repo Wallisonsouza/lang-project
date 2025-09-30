@@ -166,6 +166,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/argon/argon_main.o: src/argon/argon_main.cpp.o
+.PHONY : src/argon/argon_main.o
+
+# target to build an object file
+src/argon/argon_main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/argon/argon_main.cpp.o
+.PHONY : src/argon/argon_main.cpp.o
+
+src/argon/argon_main.i: src/argon/argon_main.cpp.i
+.PHONY : src/argon/argon_main.i
+
+# target to preprocess a source file
+src/argon/argon_main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/argon/argon_main.cpp.i
+.PHONY : src/argon/argon_main.cpp.i
+
+src/argon/argon_main.s: src/argon/argon_main.cpp.s
+.PHONY : src/argon/argon_main.s
+
+# target to generate assembly for a file
+src/argon/argon_main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/argon/argon_main.cpp.s
+.PHONY : src/argon/argon_main.cpp.s
+
 src/core/Lexer.o: src/core/Lexer.cpp.o
 .PHONY : src/core/Lexer.o
 
@@ -238,6 +262,30 @@ src/core/Stack.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/Stack.cpp.s
 .PHONY : src/core/Stack.cpp.s
 
+src/core/context/handler_context.o: src/core/context/handler_context.cpp.o
+.PHONY : src/core/context/handler_context.o
+
+# target to build an object file
+src/core/context/handler_context.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/context/handler_context.cpp.o
+.PHONY : src/core/context/handler_context.cpp.o
+
+src/core/context/handler_context.i: src/core/context/handler_context.cpp.i
+.PHONY : src/core/context/handler_context.i
+
+# target to preprocess a source file
+src/core/context/handler_context.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/context/handler_context.cpp.i
+.PHONY : src/core/context/handler_context.cpp.i
+
+src/core/context/handler_context.s: src/core/context/handler_context.cpp.s
+.PHONY : src/core/context/handler_context.s
+
+# target to generate assembly for a file
+src/core/context/handler_context.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/context/handler_context.cpp.s
+.PHONY : src/core/context/handler_context.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -251,6 +299,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/argon/argon_main.o"
+	@echo "... src/argon/argon_main.i"
+	@echo "... src/argon/argon_main.s"
 	@echo "... src/core/Lexer.o"
 	@echo "... src/core/Lexer.i"
 	@echo "... src/core/Lexer.s"
@@ -260,6 +311,9 @@ help:
 	@echo "... src/core/Stack.o"
 	@echo "... src/core/Stack.i"
 	@echo "... src/core/Stack.s"
+	@echo "... src/core/context/handler_context.o"
+	@echo "... src/core/context/handler_context.i"
+	@echo "... src/core/context/handler_context.s"
 .PHONY : help
 
 

@@ -14,11 +14,6 @@ void Stack::restore() {
   stack.pop_back();
 }
 
-void Stack::reset() {
-  current = 0;
-  stack.clear();
-}
-
 size_t Stack::getPosition() const { return current; }
 
 void Stack::advance() { current++; }
