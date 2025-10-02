@@ -4,10 +4,8 @@ main: \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o \
   CMakeFiles/main.dir/main.cpp.o \
   CMakeFiles/main.dir/src/argon/argon_main.cpp.o \
-  CMakeFiles/main.dir/src/core/Lexer.cpp.o \
   CMakeFiles/main.dir/src/core/Scope.cpp.o \
   CMakeFiles/main.dir/src/core/Stack.cpp.o \
-  CMakeFiles/main.dir/src/core/context/handler_context.cpp.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libstdc++.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libm.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libm.so \
@@ -46,13 +44,9 @@ CMakeFiles/main.dir/main.cpp.o:
 
 CMakeFiles/main.dir/src/argon/argon_main.cpp.o:
 
-CMakeFiles/main.dir/src/core/Lexer.cpp.o:
-
 CMakeFiles/main.dir/src/core/Scope.cpp.o:
 
 CMakeFiles/main.dir/src/core/Stack.cpp.o:
-
-CMakeFiles/main.dir/src/core/context/handler_context.cpp.o:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libstdc++.so:
 

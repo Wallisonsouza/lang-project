@@ -2,9 +2,9 @@
 
 #include "argon/argon_descriptor.hpp"
 #include "core/Token.hpp"
-#include "core/base/handler_base.hpp"
+#include "core/base/HandlerPluginBase.hpp"
 
-class StringHandler : public HandlerBase {
+class StringHandler : public HandlerPlugin {
 public:
   std::optional<Token> match(Stream<char> &stream, const DescriptorContext &context, size_t lineNumber) override {
     if (!stream.hasNext() || (stream.current() != '"' && stream.current() != '\'')) {

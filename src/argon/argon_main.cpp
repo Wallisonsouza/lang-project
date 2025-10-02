@@ -1,16 +1,21 @@
+#include "argon/argon_descriptor.hpp"
 #include "argon/handlers/IdentifierHandler.hpp"
+#include "argon/handlers/NumberHandler.hpp"
+#include "argon/handlers/OperatorHandler.hpp"
 #include "argon/handlers/PunctuationHandler.hpp"
 #include "argon/handlers/StringHandler.hpp"
 
+
+
 #include "core/context/descriptor_context.hpp"
-#include "core/context/handler_context.hpp"
 
 #include <memory>
+
+#include "argon_main.hpp"
 
 std::unique_ptr<DescriptorContext> createArgonDesciptorContext() {
 
   std::unique_ptr<DescriptorContext> context = std::make_unique<DescriptorContext>();
-
   context->addDescriptor(DescriptorID::PLUS, "+", DescriptorType::OPERATOR);
   context->addDescriptor(DescriptorID::MINUS, "-", DescriptorType::OPERATOR);
   context->addDescriptor(DescriptorID::MULTIPLY, "*", DescriptorType::OPERATOR);
@@ -65,20 +70,19 @@ std::unique_ptr<DescriptorContext> createArgonDesciptorContext() {
   return context;
 }
 
-std::unique_ptr<HandlerContext> createArgonHandlerContext() {
-
-  std::unique_ptr<HandlerContext> context = std::make_unique<HandlerContext>();
-
-  context->addHandler(2, std::make_unique<IdentifierHandler>());
-  context->addHandler(0, std::make_unique<StringHandler>());
-  context->addHandler(6, std::make_unique<PunctuationHandler>());
+std::unique_ptr<Context<HandlerPlugin>> createArgonHandlerContext() {
+  std::unique_ptr<Context<HandlerPlugin>> context = std::make_unique<Context<HandlerPlugin>>();
+  context->addContext(2, std::make_unique<IdentifierHandler>());
+  context->addContext(3, std::make_unique<NumberHandler>());
+  context->addContext(5, std::make_unique<OperatorHandler>());
+  context->addContext(0, std::make_unique<StringHandler>());
+  context->addContext(6, std::make_unique<PunctuationHandler>());
 
   return context;
+  /*
 
-  /*  lexer.addHandler(0, std::make_unique<StringHandler>());
-   lexer.addHandler(1, std::make_unique<KeywordHandler>()); */
+    lexer.addHandler(1, std::make_unique<KeywordHandler>());
 
-  /*  lexer.addHandler(3, std::make_unique<NumberHandler>());
-   lexer.addHandler(5, std::make_unique<OperatorHandler>());
-*/
+    lexer.addHandler(3, std::make_unique<NumberHandler>());
+    lexer.addHandler(5, std::make_unique<OperatorHandler>()); */
 }

@@ -25,15 +25,6 @@ public:
     return val;
   }
 
-  const T &next() const {
-
-    if (!hasNext()) {
-      throw StreamEndException();
-    }
-
-    return values[stack.getPosition()];
-  }
-
   const T &current() const {
 
     if (!hasNext()) {

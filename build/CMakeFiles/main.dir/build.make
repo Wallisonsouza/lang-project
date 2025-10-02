@@ -100,24 +100,10 @@ CMakeFiles/main.dir/src/argon/argon_main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/argon/argon_main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documents/cpp/lang-project/src/argon/argon_main.cpp -o CMakeFiles/main.dir/src/argon/argon_main.cpp.s
 
-CMakeFiles/main.dir/src/core/Lexer.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/src/core/Lexer.cpp.o: /home/wallison/Documents/cpp/lang-project/src/core/Lexer.cpp
-CMakeFiles/main.dir/src/core/Lexer.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documents/cpp/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/src/core/Lexer.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/Lexer.cpp.o -MF CMakeFiles/main.dir/src/core/Lexer.cpp.o.d -o CMakeFiles/main.dir/src/core/Lexer.cpp.o -c /home/wallison/Documents/cpp/lang-project/src/core/Lexer.cpp
-
-CMakeFiles/main.dir/src/core/Lexer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/core/Lexer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documents/cpp/lang-project/src/core/Lexer.cpp > CMakeFiles/main.dir/src/core/Lexer.cpp.i
-
-CMakeFiles/main.dir/src/core/Lexer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/core/Lexer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documents/cpp/lang-project/src/core/Lexer.cpp -o CMakeFiles/main.dir/src/core/Lexer.cpp.s
-
 CMakeFiles/main.dir/src/core/Scope.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/core/Scope.cpp.o: /home/wallison/Documents/cpp/lang-project/src/core/Scope.cpp
 CMakeFiles/main.dir/src/core/Scope.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documents/cpp/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/src/core/Scope.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documents/cpp/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/src/core/Scope.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/Scope.cpp.o -MF CMakeFiles/main.dir/src/core/Scope.cpp.o.d -o CMakeFiles/main.dir/src/core/Scope.cpp.o -c /home/wallison/Documents/cpp/lang-project/src/core/Scope.cpp
 
 CMakeFiles/main.dir/src/core/Scope.cpp.i: cmake_force
@@ -131,7 +117,7 @@ CMakeFiles/main.dir/src/core/Scope.cpp.s: cmake_force
 CMakeFiles/main.dir/src/core/Stack.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/core/Stack.cpp.o: /home/wallison/Documents/cpp/lang-project/src/core/Stack.cpp
 CMakeFiles/main.dir/src/core/Stack.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documents/cpp/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/src/core/Stack.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documents/cpp/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/src/core/Stack.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/Stack.cpp.o -MF CMakeFiles/main.dir/src/core/Stack.cpp.o.d -o CMakeFiles/main.dir/src/core/Stack.cpp.o -c /home/wallison/Documents/cpp/lang-project/src/core/Stack.cpp
 
 CMakeFiles/main.dir/src/core/Stack.cpp.i: cmake_force
@@ -142,42 +128,24 @@ CMakeFiles/main.dir/src/core/Stack.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/core/Stack.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documents/cpp/lang-project/src/core/Stack.cpp -o CMakeFiles/main.dir/src/core/Stack.cpp.s
 
-CMakeFiles/main.dir/src/core/context/handler_context.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/src/core/context/handler_context.cpp.o: /home/wallison/Documents/cpp/lang-project/src/core/context/handler_context.cpp
-CMakeFiles/main.dir/src/core/context/handler_context.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documents/cpp/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/main.dir/src/core/context/handler_context.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/context/handler_context.cpp.o -MF CMakeFiles/main.dir/src/core/context/handler_context.cpp.o.d -o CMakeFiles/main.dir/src/core/context/handler_context.cpp.o -c /home/wallison/Documents/cpp/lang-project/src/core/context/handler_context.cpp
-
-CMakeFiles/main.dir/src/core/context/handler_context.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/core/context/handler_context.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documents/cpp/lang-project/src/core/context/handler_context.cpp > CMakeFiles/main.dir/src/core/context/handler_context.cpp.i
-
-CMakeFiles/main.dir/src/core/context/handler_context.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/core/context/handler_context.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documents/cpp/lang-project/src/core/context/handler_context.cpp -o CMakeFiles/main.dir/src/core/context/handler_context.cpp.s
-
 # Object files for target main
 main_OBJECTS = \
 "CMakeFiles/main.dir/main.cpp.o" \
 "CMakeFiles/main.dir/src/argon/argon_main.cpp.o" \
-"CMakeFiles/main.dir/src/core/Lexer.cpp.o" \
 "CMakeFiles/main.dir/src/core/Scope.cpp.o" \
-"CMakeFiles/main.dir/src/core/Stack.cpp.o" \
-"CMakeFiles/main.dir/src/core/context/handler_context.cpp.o"
+"CMakeFiles/main.dir/src/core/Stack.cpp.o"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
 
 main: CMakeFiles/main.dir/main.cpp.o
 main: CMakeFiles/main.dir/src/argon/argon_main.cpp.o
-main: CMakeFiles/main.dir/src/core/Lexer.cpp.o
 main: CMakeFiles/main.dir/src/core/Scope.cpp.o
 main: CMakeFiles/main.dir/src/core/Stack.cpp.o
-main: CMakeFiles/main.dir/src/core/context/handler_context.cpp.o
 main: CMakeFiles/main.dir/build.make
 main: CMakeFiles/main.dir/compiler_depend.ts
 main: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/wallison/Documents/cpp/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/wallison/Documents/cpp/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable main"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/main.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

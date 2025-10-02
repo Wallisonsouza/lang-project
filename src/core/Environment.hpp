@@ -10,10 +10,10 @@
 class Environment {
 private:
   std::vector<std::shared_ptr<Scope>> scopes;
-  std::unordered_map<std::string, std::shared_ptr<ASTNode>> imports;
+  std::unordered_map<std::string, std::shared_ptr<Node>> imports;
 
 public:
-  std::unordered_map<std::string, std::shared_ptr<ASTNode>> exports;
+  std::unordered_map<std::string, std::shared_ptr<Node>> exports;
 
   Environment() { pushScope(); }
 
@@ -31,9 +31,7 @@ public:
     return scopes.back();
   }
 
-  void setSymbol(const std::string &name, std::shared_ptr<ASTNode> node) {
-    currentScope()->setSymbol(name, std::move(node));
-  }
+  void setSymbol(const std::string &name, std::shared_ptr<Node> node) { currentScope()->setSymbol(name, std::move(node)); }
 
   bool hasSymbol(const std::string &name) const {
     if (imports.find(name) != imports.end())
@@ -46,7 +44,7 @@ public:
     return false;
   }
 
-  std::shared_ptr<ASTNode> getSymbol(const std::string &name) {
+  std::shared_ptr<Node> getSymbol(const std::string &name) {
     auto it_import = imports.find(name);
     if (it_import != imports.end())
       return it_import->second;
@@ -59,9 +57,7 @@ public:
     throw SymbolNotFoundError(name);
   }
 
-  void exportSymbol(const std::string &name, std::shared_ptr<ASTNode> node) {
-    exports[name] = std::move(node);
-  }
+  void exportSymbol(const std::string &name, std::shared_ptr<Node> node) { exports[name] = std::move(node); }
 
   void importAll(Environment &env) {
     for (auto &pair : env.exports) {

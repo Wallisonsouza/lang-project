@@ -80,11 +80,12 @@ return 0;
 }
 */
 
-#include "argon/plugins/call_ast.hpp"
+#include "argon/generators/BinaryExpressionGenerator.hpp"
+#include "argon/generators/LiteralNodeGenerator.hpp"
 #include "core/Lexer.hpp"
 #include "core/Parser.hpp"
+#include "core/base/StructuralNode.hpp"
 #include "core/context/descriptor_context.hpp"
-#include "core/context/handler_context.hpp"
 
 #include <algorithm>
 #include <cctype>
@@ -122,27 +123,32 @@ std::vector<std::string> readFileLines(const std::string &path, bool removeWhite
 int main() {
 
   try {
-    std::unique_ptr<DescriptorContext> descriptorContext = createArgonDesciptorContext();
-    std::unique_ptr<HandlerContext> handlerContext = createArgonHandlerContext();
 
-    std::vector<std::string> argonScrypt = readFileLines("../test.txt", true);
+    // sintaxe
+    std::unique_ptr<DescriptorContext> descriptorContext = createArgonDesciptorContext();
+
+    // token
+    std::unique_ptr<Context<HandlerPlugin>> handlerContext = createArgonHandlerContext();
+
+    // structure
+    std::unique_ptr<Context<StructuralPlugin>> structuralContext = createArgonStructuralContext();
+
+    // cria as linhas do arquivo
+    auto argonScrypt = readFileLines("../test.txt", true);
     Stream<std::string> lineStream(argonScrypt);
 
-    std::vector<Token> tokens = Lexer::tokenize(lineStream, *descriptorContext, *handlerContext);
+    // cria os tokens
+    auto tokens = Lexer::tokenize(lineStream, *descriptorContext, *handlerContext);
     Stream<Token> tokenStream(tokens);
 
-    Parser parser;
-    parser.addPlugin(1, std::make_unique<CallPlugin>());
+    // cria a pre-ast motando estruturas simples, para a ast
+    std::vector<std::unique_ptr<StructuralNode>> structuralNode = Structural::parse(tokenStream, *structuralContext);
+    Stream<StructuralNode> structuralStream(structuralNode);
 
-    auto ast = parser.parse(tokenStream);
 
-    Environment env;
 
-    std::shared_ptr<Environment> console = createStandardConsoleLibrarie();
-    env.importAll(*console);
-
-    for (auto &ast : ast) {
-      ast->execute(env);
+    for (auto &node : structuralNode) {
+      std::cout << node->toString();
     }
 
   } catch (const std::exception &e) {

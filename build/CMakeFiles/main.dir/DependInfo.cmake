@@ -10,10 +10,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/wallison/Documents/cpp/lang-project/main.cpp" "CMakeFiles/main.dir/main.cpp.o" "gcc" "CMakeFiles/main.dir/main.cpp.o.d"
   "/home/wallison/Documents/cpp/lang-project/src/argon/argon_main.cpp" "CMakeFiles/main.dir/src/argon/argon_main.cpp.o" "gcc" "CMakeFiles/main.dir/src/argon/argon_main.cpp.o.d"
-  "/home/wallison/Documents/cpp/lang-project/src/core/Lexer.cpp" "CMakeFiles/main.dir/src/core/Lexer.cpp.o" "gcc" "CMakeFiles/main.dir/src/core/Lexer.cpp.o.d"
   "/home/wallison/Documents/cpp/lang-project/src/core/Scope.cpp" "CMakeFiles/main.dir/src/core/Scope.cpp.o" "gcc" "CMakeFiles/main.dir/src/core/Scope.cpp.o.d"
   "/home/wallison/Documents/cpp/lang-project/src/core/Stack.cpp" "CMakeFiles/main.dir/src/core/Stack.cpp.o" "gcc" "CMakeFiles/main.dir/src/core/Stack.cpp.o.d"
-  "/home/wallison/Documents/cpp/lang-project/src/core/context/handler_context.cpp" "CMakeFiles/main.dir/src/core/context/handler_context.cpp.o" "gcc" "CMakeFiles/main.dir/src/core/context/handler_context.cpp.o.d"
   "" "main" "gcc" "CMakeFiles/main.dir/link.d"
   )
 

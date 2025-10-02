@@ -1,11 +1,10 @@
-/* #include "HandlerBase.hpp"
-#include "TokenDescriptor.hpp"
-#include <string>
+#include "argon/argon_descriptor.hpp"
+#include "core/Token.hpp"
+#include "core/base/HandlerPluginBase.hpp"
 
-class OperatorHandler : public HandlerBase {
+class OperatorHandler : public HandlerPlugin {
 public:
-  std::optional<Token> match(Stream<char> &stream,
-                             const Context &context) override {
+  std::optional<Token> match(Stream<char> &stream, const DescriptorContext &context, size_t lineNumber) override {
     if (!stream.hasNext())
       return std::nullopt;
 
@@ -25,11 +24,10 @@ public:
     auto descriptor = context.getByLexeme(lexeme);
 
     if (descriptor && descriptor.value()->type == DescriptorType::OPERATOR) {
-      return Token{descriptor.value(), lexeme, start, stream.position()};
+      return Token(descriptor.value(), lexeme, SourceLocation{lineNumber, start, stream.position()});
     }
 
     stream.rollback();
     return std::nullopt;
   }
 };
- */

@@ -2,7 +2,7 @@
 #include "ast.hpp"
 #include "errors/ScopeErros.hpp"
 
-void Scope::setSymbol(const std::string &name, std::shared_ptr<ASTNode> value) {
+void Scope::setSymbol(const std::string &name, std::shared_ptr<Node> value) {
   if (hasSymbol(name)) {
     throw SymbolAlreadyExistsError(name);
   }
@@ -10,7 +10,7 @@ void Scope::setSymbol(const std::string &name, std::shared_ptr<ASTNode> value) {
   entries[name] = std::move(value);
 }
 
-std::shared_ptr<ASTNode> Scope::getSymbol(const std::string &name) const {
+std::shared_ptr<Node> Scope::getSymbol(const std::string &name) const {
   auto it = entries.find(name);
   if (it != entries.end()) {
     return it->second;

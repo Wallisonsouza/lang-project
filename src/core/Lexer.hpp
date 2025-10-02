@@ -1,13 +1,14 @@
 #pragma once
 #include "context/descriptor_context.hpp"
-#include "context/handler_context.hpp"
 #include "core/Stream.hpp"
 #include "core/Token.hpp"
+#include "core/base/Context.hpp"
+#include "core/base/HandlerPluginBase.hpp"
 #include <vector>
 
 class Lexer {
 public:
-  static std::vector<Token> tokenize(Stream<std::string> &lineStream, const DescriptorContext &descriptors, const HandlerContext &handlers) {
+  static std::vector<Token> tokenize(Stream<std::string> &lineStream, const DescriptorContext &descriptors, const Context<HandlerPlugin> &handlers) {
     std::vector<Token> tokens;
 
     while (lineStream.hasNext()) {
@@ -17,8 +18,8 @@ public:
       while (charStream.hasNext()) {
         bool matched = false;
 
-        for (const auto &entry : handlers.getHandlers()) {
-          auto result = entry.handler->match(charStream, descriptors, lineStream.position());
+        for (const auto &entry : handlers.getAllEntries()) {
+          auto result = entry.plugin->match(charStream, descriptors, lineStream.position());
           if (result.has_value()) {
             tokens.push_back(result.value());
             matched = true;

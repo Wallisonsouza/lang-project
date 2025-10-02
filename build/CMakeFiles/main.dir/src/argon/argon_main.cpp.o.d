@@ -1,7 +1,6 @@
 CMakeFiles/main.dir/src/argon/argon_main.cpp.o: \
  /home/wallison/Documents/cpp/lang-project/src/argon/argon_main.cpp \
  /usr/include/stdc-predef.h \
- /home/wallison/Documents/cpp/lang-project/src/argon/handlers/IdentifierHandler.hpp \
  /home/wallison/Documents/cpp/lang-project/src/argon/argon_descriptor.hpp \
  /usr/include/c++/15.1.1/string \
  /usr/include/c++/15.1.1/bits/requires_hosted.h \
@@ -111,7 +110,8 @@ CMakeFiles/main.dir/src/argon/argon_main.cpp.o: \
  /usr/include/c++/15.1.1/bits/uses_allocator.h \
  /usr/include/c++/15.1.1/bits/uses_allocator_args.h \
  /usr/include/c++/15.1.1/tuple /usr/include/c++/15.1.1/bits/ranges_util.h \
- /home/wallison/Documents/cpp/lang-project/src/core/base/handler_base.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/argon/handlers/IdentifierHandler.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/core/base/HandlerPluginBase.hpp \
  /home/wallison/Documents/cpp/lang-project/src/core/Stream.hpp \
  /home/wallison/Documents/cpp/lang-project/src/core/Stack.hpp \
  /usr/include/c++/15.1.1/vector \
@@ -211,7 +211,30 @@ CMakeFiles/main.dir/src/argon/argon_main.cpp.o: \
  /usr/include/c++/15.1.1/bits/hashtable_policy.h \
  /usr/include/c++/15.1.1/bits/node_handle.h \
  /usr/include/c++/15.1.1/bits/erase_if.h \
+ /home/wallison/Documents/cpp/lang-project/src/argon/handlers/NumberHandler.hpp \
+ /usr/include/c++/15.1.1/algorithm \
+ /usr/include/c++/15.1.1/bits/stl_algo.h \
+ /usr/include/c++/15.1.1/bits/algorithmfwd.h \
+ /usr/include/c++/15.1.1/bits/stl_heap.h \
+ /usr/include/c++/15.1.1/bits/uniform_int_dist.h \
+ /usr/include/c++/15.1.1/bits/ranges_algo.h \
+ /usr/include/c++/15.1.1/pstl/glue_algorithm_defs.h \
+ /home/wallison/Documents/cpp/lang-project/src/argon/handlers/OperatorHandler.hpp \
  /home/wallison/Documents/cpp/lang-project/src/argon/handlers/PunctuationHandler.hpp \
  /home/wallison/Documents/cpp/lang-project/src/argon/handlers/StringHandler.hpp \
- /home/wallison/Documents/cpp/lang-project/src/core/context/handler_context.hpp \
- /home/wallison/Documents/cpp/lang-project/src/core/base/handler_entry.hpp
+ /home/wallison/Documents/cpp/lang-project/src/argon/argon_main.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/argon/structural/nodes/FunctionCallStructuralNode.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/core/base/StructuralNode.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/core/base/StructuralPlugin.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/core/Environment.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/core/Scope.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/core/errors/ScopeErros.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/core/base/Context.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/core/base/Entry.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/argon/generators/nodes/NativeFunctionNode.hpp \
+ /home/wallison/Documents/cpp/lang-project/src/core/ast.hpp \
+ /usr/include/c++/15.1.1/variant /usr/include/c++/15.1.1/bits/monostate.h \
+ /usr/include/c++/15.1.1/bits/parse_numbers.h \
+ /usr/include/c++/15.1.1/functional \
+ /usr/include/c++/15.1.1/bits/std_function.h \
+ /usr/include/c++/15.1.1/array /usr/include/c++/15.1.1/iostream

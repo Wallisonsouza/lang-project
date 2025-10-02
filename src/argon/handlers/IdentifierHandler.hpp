@@ -1,8 +1,8 @@
 #pragma once
 #include "argon/argon_descriptor.hpp"
-#include "core/base/handler_base.hpp"
+#include "core/base/HandlerPluginBase.hpp"
 
-class IdentifierHandler : public HandlerBase {
+class IdentifierHandler : public HandlerPlugin {
 public:
   std::optional<Token> match(Stream<char> &charStream, const DescriptorContext &context, size_t lineNumber) override {
 

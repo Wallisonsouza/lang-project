@@ -1,13 +1,10 @@
 #pragma once
 
-#include <optional>
-#include <string>
-
 #include "argon/argon_descriptor.hpp"
 #include "core/Token.hpp"
-#include "core/base/handler_base.hpp"
+#include "core/base/HandlerPluginBase.hpp"
 
-class PunctuationHandler : public HandlerBase {
+class PunctuationHandler : public HandlerPlugin {
 public:
   std::optional<Token> match(Stream<char> &charStream, const DescriptorContext &context, size_t lineNumber) override {
 

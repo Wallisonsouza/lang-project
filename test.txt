@@ -1,2 +1,19 @@
-clear();
-logMessage("esta funcao esta em argon");
+print(1, 2, 3, 4, "ola mundo", 1 + 2);
+
+
+
+int c;
+function add(a, b);
+
+let a;
+int add(int a, int b);
+
+
+
+
+
+
+
+Math: Lib = "asasassa/asasas";
+a: int = 10;
+
