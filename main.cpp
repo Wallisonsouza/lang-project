@@ -143,9 +143,8 @@ int main() {
 
     // cria a pre-ast motando estruturas simples, para a ast
     std::vector<std::unique_ptr<StructuralNode>> structuralNode = Structural::parse(tokenStream, *structuralContext);
-    Stream<StructuralNode> structuralStream(structuralNode);
-
-
+    /*  Stream<StructuralNode> structuralStream(structuralNode);
+     */
 
     for (auto &node : structuralNode) {
       std::cout << node->toString();
