@@ -13,13 +13,28 @@ file(GLOB_RECURSE SOURCES
 
 # Cria o executável incluindo main.cpp da raiz
 add_executable(main
-    main.cpp       # garante que main.cpp seja incluído
+    main.cpp
     ${SOURCES}
 )
 
 # Inclui diretórios (src raiz cobre todas as subpastas)
 target_include_directories(main PRIVATE
     ${PROJECT_SOURCE_DIR}/src
+)
+
+# --- ICU Configuration ---
+find_package(ICU REQUIRED COMPONENTS uc i18n)
+if(ICU_FOUND)
+    message(STATUS "ICU found: ${ICU_INCLUDE_DIRS}")
+    target_include_directories(main PRIVATE ${ICU_INCLUDE_DIRS})
+    target_link_libraries(main PRIVATE ${ICU_LIBRARIES})
+endif()
+
+# Adiciona símbolos de debug (sem sanitizers)
+set_target_properties(main PROPERTIES
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED ON
+    COMPILE_FLAGS "-g"
 )
 
 # Alvo customizado para rodar o programa

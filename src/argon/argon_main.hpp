@@ -1,67 +1,62 @@
 #pragma once
+#include "argon/handlers/KeywordAndIdentifierHandler.hpp"
+#include "argon/handlers/SymbolHandler.hpp"
+#include "core/LangData.hpp"
+#include "core/plugin/Plugin.hpp"
 
-#include "argon/structural/nodes/FunctionCallStructuralNode.hpp"
-#include "core/Environment.hpp"
-#include "core/base/Context.hpp"
-#include "core/base/HandlerPluginBase.hpp"
-#include "core/base/StructuralPlugin.hpp"
-#include "core/context/descriptor_context.hpp"
-#include "generators/nodes/NativeFunctionNode.hpp"
-#include <iostream>
-#include <memory>
-std::unique_ptr<DescriptorContext> createArgonDesciptorContext();
+using namespace lang::core;
+using namespace lang::utils;
 
-std::unique_ptr<Context<HandlerPlugin>> createArgonHandlerContext();
+#pragma once
+#include "core/LangData.hpp"
+#include "core/token/TokenTable.hpp"
+#include <string>
 
-inline std::unique_ptr<Context<StructuralPlugin>> createArgonStructuralContext() {
+namespace argon {
 
-  auto context = std::make_unique<Context<StructuralPlugin>>();
+inline void create_tokens_context(lang::core::LangData &data) {
+  // =====================
+  // 🔹 Keywords
+  // =====================
+  data.descriptors.register_token(TokenKind::If, U"if", TokenGroup::Keyword);
+  data.descriptors.register_token(TokenKind::Else, U"else", TokenGroup::Keyword);
+  data.descriptors.register_token(TokenKind::While, U"while", TokenGroup::Keyword);
+  data.descriptors.register_token(TokenKind::For, U"for", TokenGroup::Keyword);
+  data.descriptors.register_token(TokenKind::Return, U"return", TokenGroup::Keyword);
 
-  context->addContext(0, std::make_unique<FunctionCallStructuralPlugin>());
+  // =====================
+  // 🔹 Operators
+  // =====================
+  data.descriptors.register_token(TokenKind::Plus, U"+", TokenGroup::Operator);
 
-  return context;
+  data.descriptors.register_token(TokenKind::Minus, U"-", TokenGroup::Operator);
+  data.descriptors.register_token(TokenKind::Star, U"*", TokenGroup::Operator);
+  data.descriptors.register_token(TokenKind::Slash, U"/", TokenGroup::Operator);
+  data.descriptors.register_token(TokenKind::Assign, U"=", TokenGroup::Operator);
+
+  // =====================
+  // 🔹 Punctuation
+  // =====================
+  data.descriptors.register_token(TokenKind::LParen, U"(", TokenGroup::Punctuation);
+  data.descriptors.register_token(TokenKind::RParen, U")", TokenGroup::Punctuation);
+  data.descriptors.register_token(TokenKind::LBrace, U"{", TokenGroup::Punctuation);
+  data.descriptors.register_token(TokenKind::RBrace, U"}", TokenGroup::Punctuation);
+  data.descriptors.register_token(TokenKind::Semicolon, U";", TokenGroup::Punctuation);
+
+  // =====================
+  // 🔹 Others
+  // =====================
+  data.descriptors.register_token(TokenKind::Identifier, U"identifier", TokenGroup::Identifier);
+  data.descriptors.register_token(TokenKind::Number, U"number", TokenGroup::Literal);
+  data.descriptors.register_token(TokenKind::String, U"string", TokenGroup::Literal);
+  data.descriptors.register_token(TokenKind::EndOfFile, U"eof", TokenGroup::Error);
 }
 
-inline std::shared_ptr<Environment> createStandardConsoleLibrarie() {
-  auto env = std::make_shared<Environment>();
+inline void create_tokens_handler(lang::core::LangData &data) {
 
-  auto printFunc = std::make_shared<NativeFunctionNode>([](const std::vector<LanguagePrimitives> &args) -> LanguagePrimitives {
-    for (const auto &arg : args) {
-      std::visit([](auto &&val) { std::cout << val << " "; }, arg);
-    }
-    std::cout << std::endl;
-    return 0;
-  });
+  auto keyword_ptr = std::make_shared<plugins::UniqueCharHandler>();
 
-  env->exportSymbol("log", printFunc);
-
-  auto errorFunc = std::make_shared<NativeFunctionNode>([](const std::vector<LanguagePrimitives> &args) -> LanguagePrimitives {
-    for (const auto &arg : args) {
-      std::visit([](auto &&val) { std::cerr << val << " "; }, arg);
-    }
-    std::cerr << std::endl;
-    return 0;
-  });
-
-  env->exportSymbol("error", errorFunc);
-
-  auto readLineFunc = std::make_shared<NativeFunctionNode>([](const std::vector<LanguagePrimitives> &) -> LanguagePrimitives {
-    std::string input;
-    std::getline(std::cin, input);
-    return input;
-  });
-
-  env->exportSymbol("readLine", readLineFunc);
-
-  auto clearFunc = std::make_shared<NativeFunctionNode>([](const std::vector<LanguagePrimitives> &) -> LanguagePrimitives {
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
-    return 0;
-  });
-  env->exportSymbol("clear", clearFunc);
-
-  return env;
+  data.handlers.add(keyword_ptr, 0);
 }
+
+} // namespace argon

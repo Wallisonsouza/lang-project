@@ -1,173 +1,74 @@
-/* #include "TypeHandler.hpp"
-#include "core/Lexer.hpp"
-#include "registry/TokenRegistry.hpp"
-#include <iostream>
-#include <string>
-
-int main() {
-
-  OperatorRegistry::addOperator("+", "Plus");
-  OperatorRegistry::addOperator("-", "Minus");
-  OperatorRegistry::addOperator("*", "Multiply");
-  OperatorRegistry::addOperator("/", "Divide");
-  OperatorRegistry::addOperator("=", "Assign");
-  OperatorRegistry::addOperator("==", "Equal");
-  OperatorRegistry::addOperator("!=", "NotEqual");
-  OperatorRegistry::addOperator("<", "Less");
-  OperatorRegistry::addOperator(">", "Greater");
-  OperatorRegistry::addOperator("<=", "LessEqual");
-  OperatorRegistry::addOperator(">=", "GreaterEqual");
-  OperatorRegistry::addOperator("&&", "And");
-  OperatorRegistry::addOperator("||", "Or");
-  OperatorRegistry::addOperator("!", "Not");
-
-  KeywordRegistry::addKeyword("const", "Const");
-  KeywordRegistry::addKeyword("if", "If");
-  KeywordRegistry::addKeyword("else", "Else");
-  KeywordRegistry::addKeyword("return", "Return");
-  KeywordRegistry::addKeyword("while", "While");
-  KeywordRegistry::addKeyword("for", "For");
-  KeywordRegistry::addKeyword("break", "Break");
-  KeywordRegistry::addKeyword("continue", "Continue");
-
-  PrimitiveRegistry::addPrimitive("int", "Int");
-  PrimitiveRegistry::addPrimitive("float", "Float");
-  PrimitiveRegistry::addPrimitive("bool", "Bool");
-  PrimitiveRegistry::addPrimitive("char", "Char");
-  PrimitiveRegistry::addPrimitive("string", "String");
-  PrimitiveRegistry::addPrimitive("void", "Void");
-
-  PunctuationRegistry::addPunctuation(";", "Semicolon");
-  PunctuationRegistry::addPunctuation(":", "Colon");
-  PunctuationRegistry::addPunctuation(",", "Comma");
-  PunctuationRegistry::addPunctuation(".", "Dot");
-  PunctuationRegistry::addPunctuation("(", "OpenParen");
-  PunctuationRegistry::addPunctuation(")", "CloseParen");
-  PunctuationRegistry::addPunctuation("{", "OpenBrace");
-  PunctuationRegistry::addPunctuation("}", "CloseBrace");
-  PunctuationRegistry::addPunctuation("[", "OpenBracket");
-  PunctuationRegistry::addPunctuation("]", "CloseBracket");
-
-  // Código de exemplo
-  std::string code = "const test: int = 109278 const pi = 3.14;";
-  Lexer lexer(code);
-  lexer.addHandler(5, std::make_unique<OperatorHandler>());
-  /*   lexer.addHandler(1, std::make_unique<KeywordHandler>());
-    lexer.addHandler(2, std::make_unique<IdentifierHandler>());
-    lexer.addHandler(3, std::make_unique<FloatHandler>());
-    lexer.addHandler(4, std::make_unique<IntHandler>());
-
-   lexer.addHandler(0, std::make_unique<TypeHandler>()); lexer.addHandler(5,
-  std::make_unique<OperatorHandler>()); lexer.addHandler(6,
-  std::make_unique<PunctuationHandler>());
-
-// Tokenizar
-std::vector<Token> tokens = lexer.tokenize();
-
-// Printar tokens
-for (const auto &t : tokens) {
-  std::cout << "Token {\n";
-  std::cout << "  lexeme: \"" << t.lexeme << "\",\n";
-  if (t.descriptor) {
-    std::cout << "  category: \"" << t.descriptor->category << "\",\n";
-  }
-  std::cout << "  start: " << t.start << ",\n";
-  std::cout << "  end: " << t.end << "\n";
-  std::cout << "}\n";
-}
-
-return 0;
-}
-*/
-
-#include "argon/generators/BinaryExpressionGenerator.hpp"
-#include "argon/generators/LiteralNodeGenerator.hpp"
-#include "core/Lexer.hpp"
-#include "core/Parser.hpp"
-#include "core/base/StructuralNode.hpp"
-#include "core/context/descriptor_context.hpp"
-
-#include <algorithm>
-#include <cctype>
-#include <fstream>
-#include <iostream>
-#include <stdexcept>
-#include <string>
-#include <vector>
-
 #include "argon/argon_main.hpp"
+#include "core/LangData.hpp"
+#include "core/token/TokenDebug.hpp"
+#include "core/utils/LazyText.hpp"
+#include "core/utils/Stream.hpp"
+#include "core/utils/TextStream.hpp"
+#include "core/utils/Utf8.hpp"
+#include <cstdint>
+#include <iostream>
+#include <string>
 
-std::vector<std::string> readFileLines(const std::string &path, bool removeWhiteSpace = false) {
-  std::ifstream file(path);
-  if (!file.is_open()) {
-    throw std::runtime_error("Não foi possível abrir o arquivo: " + path);
-  }
+class Tokenizer {
+  lang::utils::LazyText &text;
+  lang::core::LangData &data;
 
-  std::vector<std::string> lines;
-  std::string line;
+public:
+  Tokenizer(lang::utils::LazyText &text, lang::core::LangData &data) : text(text), data(data) {}
 
-  while (std::getline(file, line)) {
-    if (removeWhiteSpace) {
-      line.erase(line.begin(), std::find_if(line.begin(), line.end(), [](unsigned char c) { return !std::isspace(c); }));
-      line.erase(std::find_if(line.rbegin(), line.rend(), [](unsigned char c) { return !std::isspace(c); }).base(), line.end());
+  std::vector<std::shared_ptr<lang::core::Token>> tokenizeAll() {
+
+    std::vector<std::shared_ptr<lang::core::Token>> tokens;
+
+    while (!text.isEOF()) {
+      lang::utils::TextStream stream(text.getLine());
+      data.line = text.getLineIndex();
+
+      while (stream.has_next()) {
+        bool matched = false;
+
+        for (auto &entry : data.handlers.get_all()) {
+          if (stream.has_next() && entry) {
+
+            auto token = entry->exec(data, stream);
+
+            if (token) {
+              matched = true;
+              tokens.push_back(token);
+              break;
+            }
+          }
+        }
+
+        if (!matched) {
+          stream.advance();
+        }
+      }
+
+      text.advance();
     }
 
-    if (!line.empty()) {
-      lines.push_back(line);
-    }
+    return tokens;
   }
-
-  return lines;
-}
+};
 
 int main() {
 
-  try {
+  //----config-------------------
+  auto data = lang::core::makeLangData();
+  argon::create_tokens_context(data);
+  argon::create_tokens_handler(data);
 
-    // sintaxe
-    std::unique_ptr<DescriptorContext> descriptorContext = createArgonDesciptorContext();
+  //----load-------------------
+  lang::utils::LazyText text("../examples/test.orb");
 
-    // token
-    std::unique_ptr<Context<HandlerPlugin>> handlerContext = createArgonHandlerContext();
+  //---tokenizer---------
+  Tokenizer tokenizer(text, data);
+  auto tokens = tokenizer.tokenizeAll();
 
-    // structure
-    std::unique_ptr<Context<StructuralPlugin>> structuralContext = createArgonStructuralContext();
-
-    // cria as linhas do arquivo
-    auto argonScrypt = readFileLines("../test.txt", true);
-    Stream<std::string> lineStream(argonScrypt);
-
-    // cria os tokens
-    auto tokens = Lexer::tokenize(lineStream, *descriptorContext, *handlerContext);
-    Stream<Token> tokenStream(tokens);
-
-    // cria a pre-ast motando estruturas simples, para a ast
-    std::vector<std::unique_ptr<StructuralNode>> structuralNode = Structural::parse(tokenStream, *structuralContext);
-    /*  Stream<StructuralNode> structuralStream(structuralNode);
-     */
-
-    for (auto &node : structuralNode) {
-      std::cout << node->toString();
-    }
-
-  } catch (const std::exception &e) {
-    std::cerr << "Erro: " << e.what() << std::endl;
+  for (auto &token : tokens) {
+    lang::debug::debug_token(token);
   }
 
   return 0;
 }
-
-/*  Parser parser;
-    parser.addPlugin(1, std::make_unique<CallPlugin>());
-
-    auto ast = parser.parse(tokenStream);
-
-    Environment env;
-
-    std::shared_ptr<Environment> console = consoleLib();
-    env.importAll(*console);
-
-    for (auto &ast : ast) {
-      ast->execute(env);
-      std::cout << ast->toString();
-    } */

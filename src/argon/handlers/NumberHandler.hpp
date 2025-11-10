@@ -1,60 +1,36 @@
-#pragma once
-#include "argon/argon_descriptor.hpp"
-#include "core/base/HandlerPluginBase.hpp"
-#include "core/context/descriptor_context.hpp"
-#include <algorithm>
+// #pragma once
 
-class NumberHandler : public HandlerPlugin {
-public:
-  std::optional<Token> match(Stream<char> &stream, const DescriptorContext &context, size_t lineNumber) override {
-    if (!stream.hasNext()) {
-      return std::nullopt;
-    }
+// #include "core/LangData.hpp"
+// #include "core/plugin/Plugin.hpp"
+// #include "core/token/Token.hpp"
+// #include "core/utils/Unicode.hpp"
+// #include <memory>
+// #include <string>
 
-    size_t start = stream.position();
-    stream.saveState();
+// namespace argon::plugins::handlers {
 
-    std::optional<DescriptorPtr> plusTokenOpt = context.getById(DescriptorID::PLUS);
-    std::optional<DescriptorPtr> minusTokenOpt = context.getById(DescriptorID::MINUS);
-    std::optional<DescriptorPtr> dotTokenOpt = context.getById(DescriptorID::DOT);
+// class NumberHandler : public lang::core::Plugin {
+// public:
+//   std::shared_ptr<lang::core::Token> exec(lang::core::LangData &data, lang::utils::Stream &stream) override {
+//     const size_t start = stream.position();
+//     char32_t c         = stream.current();
 
-    if (!plusTokenOpt || !minusTokenOpt || !dotTokenOpt) {
-      return std::nullopt;
-    }
+//     if (!lang::utils::Unicode::isDigit(c)) {
+//       return nullptr;
+//     }
 
-    std::string lexeme;
+//     std::u32string lexeme;
 
-    if (stream.current() == plusTokenOpt.value()->lexeme[0] || stream.current() == minusTokenOpt.value()->lexeme[0]) {
-      lexeme += stream.advance();
-    }
+//     while (!stream.isEOF() && lang::utils::Unicode::isDigit(stream.current())) {
+//       lexeme += stream.current();
+//       stream.next();
+//     }
 
-    bool hasDot = false;
+//     lang::core::TokenType numberType{"Number", lang::core::TokenGroup::Literal};
+//     auto descriptor = std::make_shared<lang::core::DescriptorEntry>(lexeme, numberType);
 
-    std::string numberPart = stream.readWhileString([&](char c) {
-      if (std::isdigit(c))
-        return true;
-      if (c == dotTokenOpt.value()->lexeme[0] && !hasDot) {
-        hasDot = true;
-        return true;
-      }
-      return false;
-    });
+//     return std::make_shared<lang::core::Token>(descriptor, lexeme, lang::core::Location{data.line, start, stream.position()});
+//   }
+// };
 
-    lexeme += numberPart;
-
-    bool hasDigit = std::any_of(lexeme.begin(), lexeme.end(), ::isdigit);
-    if (!hasDigit) {
-      stream.rollback();
-      return std::nullopt;
-    }
-
-    std::optional<DescriptorPtr> descriptor = hasDot ? context.getById(DescriptorID::FLOAT_LITERAL) : context.getById(DescriptorID::INT_LITERAL);
-
-    if (!descriptor || descriptor.value()->type != DescriptorType::LITERAL) {
-      stream.rollback();
-      return std::nullopt;
-    }
-
-    return Token(descriptor.value(), lexeme, SourceLocation{lineNumber, start, stream.position()});
-  }
-};
+// } // namespace argon::plugins::handlers
