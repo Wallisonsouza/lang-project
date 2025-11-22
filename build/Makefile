@@ -166,29 +166,77 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-src/core/plugin/PluginRegistry.o: src/core/plugin/PluginRegistry.cpp.o
-.PHONY : src/core/plugin/PluginRegistry.o
+src/core/table/AliasTable.o: src/core/table/AliasTable.cpp.o
+.PHONY : src/core/table/AliasTable.o
 
 # target to build an object file
-src/core/plugin/PluginRegistry.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o
-.PHONY : src/core/plugin/PluginRegistry.cpp.o
+src/core/table/AliasTable.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o
+.PHONY : src/core/table/AliasTable.cpp.o
 
-src/core/plugin/PluginRegistry.i: src/core/plugin/PluginRegistry.cpp.i
-.PHONY : src/core/plugin/PluginRegistry.i
+src/core/table/AliasTable.i: src/core/table/AliasTable.cpp.i
+.PHONY : src/core/table/AliasTable.i
 
 # target to preprocess a source file
-src/core/plugin/PluginRegistry.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.i
-.PHONY : src/core/plugin/PluginRegistry.cpp.i
+src/core/table/AliasTable.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/AliasTable.cpp.i
+.PHONY : src/core/table/AliasTable.cpp.i
 
-src/core/plugin/PluginRegistry.s: src/core/plugin/PluginRegistry.cpp.s
-.PHONY : src/core/plugin/PluginRegistry.s
+src/core/table/AliasTable.s: src/core/table/AliasTable.cpp.s
+.PHONY : src/core/table/AliasTable.s
 
 # target to generate assembly for a file
-src/core/plugin/PluginRegistry.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.s
-.PHONY : src/core/plugin/PluginRegistry.cpp.s
+src/core/table/AliasTable.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/AliasTable.cpp.s
+.PHONY : src/core/table/AliasTable.cpp.s
+
+src/core/table/TokenKindTable.o: src/core/table/TokenKindTable.cpp.o
+.PHONY : src/core/table/TokenKindTable.o
+
+# target to build an object file
+src/core/table/TokenKindTable.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o
+.PHONY : src/core/table/TokenKindTable.cpp.o
+
+src/core/table/TokenKindTable.i: src/core/table/TokenKindTable.cpp.i
+.PHONY : src/core/table/TokenKindTable.i
+
+# target to preprocess a source file
+src/core/table/TokenKindTable.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.i
+.PHONY : src/core/table/TokenKindTable.cpp.i
+
+src/core/table/TokenKindTable.s: src/core/table/TokenKindTable.cpp.s
+.PHONY : src/core/table/TokenKindTable.s
+
+# target to generate assembly for a file
+src/core/table/TokenKindTable.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.s
+.PHONY : src/core/table/TokenKindTable.cpp.s
+
+src/core/table/TokenTable.o: src/core/table/TokenTable.cpp.o
+.PHONY : src/core/table/TokenTable.o
+
+# target to build an object file
+src/core/table/TokenTable.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o
+.PHONY : src/core/table/TokenTable.cpp.o
+
+src/core/table/TokenTable.i: src/core/table/TokenTable.cpp.i
+.PHONY : src/core/table/TokenTable.i
+
+# target to preprocess a source file
+src/core/table/TokenTable.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/TokenTable.cpp.i
+.PHONY : src/core/table/TokenTable.cpp.i
+
+src/core/table/TokenTable.s: src/core/table/TokenTable.cpp.s
+.PHONY : src/core/table/TokenTable.s
+
+# target to generate assembly for a file
+src/core/table/TokenTable.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/TokenTable.cpp.s
+.PHONY : src/core/table/TokenTable.cpp.s
 
 # Help Target
 help:
@@ -203,9 +251,15 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... src/core/plugin/PluginRegistry.o"
-	@echo "... src/core/plugin/PluginRegistry.i"
-	@echo "... src/core/plugin/PluginRegistry.s"
+	@echo "... src/core/table/AliasTable.o"
+	@echo "... src/core/table/AliasTable.i"
+	@echo "... src/core/table/AliasTable.s"
+	@echo "... src/core/table/TokenKindTable.o"
+	@echo "... src/core/table/TokenKindTable.i"
+	@echo "... src/core/table/TokenKindTable.s"
+	@echo "... src/core/table/TokenTable.o"
+	@echo "... src/core/table/TokenTable.i"
+	@echo "... src/core/table/TokenTable.s"
 .PHONY : help
 
 

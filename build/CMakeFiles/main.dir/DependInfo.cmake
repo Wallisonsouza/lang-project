@@ -9,7 +9,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/wallison/Documentos/git/lang-project/main.cpp" "CMakeFiles/main.dir/main.cpp.o" "gcc" "CMakeFiles/main.dir/main.cpp.o.d"
-  "/home/wallison/Documentos/git/lang-project/src/core/plugin/PluginRegistry.cpp" "CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o" "gcc" "CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o.d"
+  "/home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp" "CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o" "gcc" "CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o.d"
+  "/home/wallison/Documentos/git/lang-project/src/core/table/TokenKindTable.cpp" "CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o" "gcc" "CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o.d"
+  "/home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp" "CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o" "gcc" "CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o.d"
   "" "main" "gcc" "CMakeFiles/main.dir/link.d"
   )
 

@@ -86,36 +86,68 @@ CMakeFiles/main.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/main.cpp -o CMakeFiles/main.dir/main.cpp.s
 
-CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o: /home/wallison/Documentos/git/lang-project/src/core/plugin/PluginRegistry.cpp
-CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documentos/git/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o -MF CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o.d -o CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/plugin/PluginRegistry.cpp
+CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp
+CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documentos/git/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o -MF CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o.d -o CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp
 
-CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/src/core/plugin/PluginRegistry.cpp > CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.i
+CMakeFiles/main.dir/src/core/table/AliasTable.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/core/table/AliasTable.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp > CMakeFiles/main.dir/src/core/table/AliasTable.cpp.i
 
-CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/src/core/plugin/PluginRegistry.cpp -o CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.s
+CMakeFiles/main.dir/src/core/table/AliasTable.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/core/table/AliasTable.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp -o CMakeFiles/main.dir/src/core/table/AliasTable.cpp.s
+
+CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o: /home/wallison/Documentos/git/lang-project/src/core/table/TokenKindTable.cpp
+CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documentos/git/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o -MF CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o.d -o CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/TokenKindTable.cpp
+
+CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/src/core/table/TokenKindTable.cpp > CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.i
+
+CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/src/core/table/TokenKindTable.cpp -o CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.s
+
+CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o: /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp
+CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documentos/git/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o -MF CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o.d -o CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp
+
+CMakeFiles/main.dir/src/core/table/TokenTable.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/core/table/TokenTable.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp > CMakeFiles/main.dir/src/core/table/TokenTable.cpp.i
+
+CMakeFiles/main.dir/src/core/table/TokenTable.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/core/table/TokenTable.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp -o CMakeFiles/main.dir/src/core/table/TokenTable.cpp.s
 
 # Object files for target main
 main_OBJECTS = \
 "CMakeFiles/main.dir/main.cpp.o" \
-"CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o"
+"CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o" \
+"CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o" \
+"CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
 
 main: CMakeFiles/main.dir/main.cpp.o
-main: CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o
+main: CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o
+main: CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o
+main: CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o
 main: CMakeFiles/main.dir/build.make
 main: CMakeFiles/main.dir/compiler_depend.ts
 main: /usr/lib64/libicuuc.so
 main: /usr/lib64/libicui18n.so
 main: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/wallison/Documentos/git/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/wallison/Documentos/git/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable main"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/main.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

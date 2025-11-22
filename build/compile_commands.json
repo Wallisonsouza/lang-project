@@ -7,8 +7,20 @@
 },
 {
   "directory": "/home/wallison/Documentos/git/lang-project/build",
-  "command": "/usr/bin/c++  -I/home/wallison/Documentos/git/lang-project/src -std=c++20 -g -o CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/plugin/PluginRegistry.cpp",
-  "file": "/home/wallison/Documentos/git/lang-project/src/core/plugin/PluginRegistry.cpp",
-  "output": "CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o"
+  "command": "/usr/bin/c++  -I/home/wallison/Documentos/git/lang-project/src -std=c++20 -g -o CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp",
+  "file": "/home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp",
+  "output": "CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o"
+},
+{
+  "directory": "/home/wallison/Documentos/git/lang-project/build",
+  "command": "/usr/bin/c++  -I/home/wallison/Documentos/git/lang-project/src -std=c++20 -g -o CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/TokenKindTable.cpp",
+  "file": "/home/wallison/Documentos/git/lang-project/src/core/table/TokenKindTable.cpp",
+  "output": "CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o"
+},
+{
+  "directory": "/home/wallison/Documentos/git/lang-project/build",
+  "command": "/usr/bin/c++  -I/home/wallison/Documentos/git/lang-project/src -std=c++20 -g -o CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp",
+  "file": "/home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp",
+  "output": "CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o"
 }
 ]

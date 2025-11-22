@@ -6,7 +6,7 @@ namespace lang::utils {
 
 class Utf32 {
 public:
-  [[nodiscard]] inline static std::u32string makeText(const std::string &s) { return utils::Utf8Codec::decode(s); }
+  [[nodiscard]] inline static std::u32string makeText(const std::string &s) { return utils::Utf8::decode(s); }
 };
 
 struct Utf32Hash {

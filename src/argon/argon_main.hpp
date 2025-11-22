@@ -1,62 +1,53 @@
 #pragma once
-#include "argon/handlers/KeywordAndIdentifierHandler.hpp"
-#include "argon/handlers/SymbolHandler.hpp"
-#include "core/LangData.hpp"
-#include "core/plugin/Plugin.hpp"
 
-using namespace lang::core;
-using namespace lang::utils;
-
-#pragma once
+#include "argon/matchers/IdentifierMatcher.hpp"
+#include "argon/matchers/NumberMatcher.hpp"
+#include "argon/matchers/Operator.hpp"
+#include "argon/matchers/String.hpp"
 #include "core/LangData.hpp"
-#include "core/token/TokenTable.hpp"
-#include <string>
+#include "core/token/TokenGroup.hpp"
+#include "core/token/TokenKind.hpp"
 
 namespace argon {
 
-inline void create_tokens_context(lang::core::LangData &data) {
-  // =====================
-  // 🔹 Keywords
-  // =====================
-  data.descriptors.register_token(TokenKind::If, U"if", TokenGroup::Keyword);
-  data.descriptors.register_token(TokenKind::Else, U"else", TokenGroup::Keyword);
-  data.descriptors.register_token(TokenKind::While, U"while", TokenGroup::Keyword);
-  data.descriptors.register_token(TokenKind::For, U"for", TokenGroup::Keyword);
-  data.descriptors.register_token(TokenKind::Return, U"return", TokenGroup::Keyword);
+inline void bind(lang::core::LangData &data) {
 
-  // =====================
-  // 🔹 Operators
-  // =====================
-  data.descriptors.register_token(TokenKind::Plus, U"+", TokenGroup::Operator);
+  data.token_table.add_token(lang::core::TokenKind::Function, U"func", lang::core::TokenGroup::Keyword);
+  data.token_table.add_token(lang::core::TokenKind::Variable, U"let", lang::core::TokenGroup::Keyword);
+  data.token_table.add_token(lang::core::TokenKind::If, U"if", lang::core::TokenGroup::Keyword);
+  data.token_table.add_token(lang::core::TokenKind::Else, U"else", lang::core::TokenGroup::Keyword);
+  data.token_table.add_token(lang::core::TokenKind::While, U"while", lang::core::TokenGroup::Keyword);
+  data.token_table.add_token(lang::core::TokenKind::For, U"for", lang::core::TokenGroup::Keyword);
+  data.token_table.add_token(lang::core::TokenKind::Return, U"return", lang::core::TokenGroup::Keyword);
 
-  data.descriptors.register_token(TokenKind::Minus, U"-", TokenGroup::Operator);
-  data.descriptors.register_token(TokenKind::Star, U"*", TokenGroup::Operator);
-  data.descriptors.register_token(TokenKind::Slash, U"/", TokenGroup::Operator);
-  data.descriptors.register_token(TokenKind::Assign, U"=", TokenGroup::Operator);
+  data.token_table.add_token(lang::core::TokenKind::Plus, U"+", lang::core::TokenGroup::Operator);
+  data.token_table.add_token(lang::core::TokenKind::Minus, U"-", lang::core::TokenGroup::Operator);
+  data.token_table.add_token(lang::core::TokenKind::Star, U"*", lang::core::TokenGroup::Operator);
+  data.token_table.add_token(lang::core::TokenKind::Slash, U"/", lang::core::TokenGroup::Operator);
+  data.token_table.add_token(lang::core::TokenKind::Assign, U"=", lang::core::TokenGroup::Operator);
+  data.token_table.add_token(lang::core::TokenKind::Equals, U"==", lang::core::TokenGroup::Operator);
+  data.token_table.add_token(lang::core::TokenKind::Ternary, U"?", lang::core::TokenGroup::Operator);
 
-  // =====================
-  // 🔹 Punctuation
-  // =====================
-  data.descriptors.register_token(TokenKind::LParen, U"(", TokenGroup::Punctuation);
-  data.descriptors.register_token(TokenKind::RParen, U")", TokenGroup::Punctuation);
-  data.descriptors.register_token(TokenKind::LBrace, U"{", TokenGroup::Punctuation);
-  data.descriptors.register_token(TokenKind::RBrace, U"}", TokenGroup::Punctuation);
-  data.descriptors.register_token(TokenKind::Semicolon, U";", TokenGroup::Punctuation);
+  data.token_table.add_token(lang::core::TokenKind::LParen, U"(", lang::core::TokenGroup::Punctuation);
+  data.token_table.add_token(lang::core::TokenKind::Colon, U":", lang::core::TokenGroup::Punctuation);
 
-  // =====================
-  // 🔹 Others
-  // =====================
-  data.descriptors.register_token(TokenKind::Identifier, U"identifier", TokenGroup::Identifier);
-  data.descriptors.register_token(TokenKind::Number, U"number", TokenGroup::Literal);
-  data.descriptors.register_token(TokenKind::String, U"string", TokenGroup::Literal);
-  data.descriptors.register_token(TokenKind::EndOfFile, U"eof", TokenGroup::Error);
+  data.token_table.add_token(lang::core::TokenKind::RParen, U")", lang::core::TokenGroup::Punctuation);
+  data.token_table.add_token(lang::core::TokenKind::LBrace, U"{", lang::core::TokenGroup::Punctuation);
+  data.token_table.add_token(lang::core::TokenKind::RBrace, U"}", lang::core::TokenGroup::Punctuation);
+  data.token_table.add_token(lang::core::TokenKind::Semicolon, U";", lang::core::TokenGroup::Punctuation);
+  data.token_table.add_token(lang::core::TokenKind::Comma, U",", lang::core::TokenGroup::Punctuation);
+  data.token_table.add_token(lang::core::TokenKind::SingleQuote, U"\'", lang::core::TokenGroup::Punctuation);
+
+  data.token_table.add_token(lang::core::TokenKind::Identifier, U"identifier", lang::core::TokenGroup::Literal);
+  data.token_table.add_token(lang::core::TokenKind::Number, U"number", lang::core::TokenGroup::Literal);
+  data.token_table.add_token(lang::core::TokenKind::String, U"string", lang::core::TokenGroup::Literal);
+  data.token_table.add_token(lang::core::TokenKind::EndOfFile, U"eof", lang::core::TokenGroup::Error);
+
+  data.matchers.add(std::make_unique<argon::matchers::StringMatcher>());
+  data.matchers.add(std::make_unique<argon::matchers::IdentifierMatcher>());
+  data.matchers.add(std::make_unique<argon::matchers::OperatorMatcher>());
+  data.matchers.add(std::make_unique<argon::matchers::NumberMatcher>());
+
+  // data.matchers.push_back({argon::matchers::match_operator, 0});
 }
-
-inline void create_tokens_handler(lang::core::LangData &data) {
-
-  auto keyword_ptr = std::make_shared<plugins::UniqueCharHandler>();
-
-  data.handlers.add(keyword_ptr, 0);
-}
-
 } // namespace argon

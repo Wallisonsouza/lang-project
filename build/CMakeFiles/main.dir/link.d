@@ -3,7 +3,9 @@ main: \
   /usr/lib/gcc/x86_64-redhat-linux/15/../../../../lib64/crti.o \
   /usr/lib/gcc/x86_64-redhat-linux/15/crtbegin.o \
   CMakeFiles/main.dir/main.cpp.o \
-  CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o \
+  CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o \
+  CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o \
+  CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o \
   /usr/lib64/libicuuc.so \
   /usr/lib64/libicui18n.so \
   /usr/lib/gcc/x86_64-redhat-linux/15/libstdc++.so \
@@ -43,7 +45,11 @@ main: \
 
 CMakeFiles/main.dir/main.cpp.o:
 
-CMakeFiles/main.dir/src/core/plugin/PluginRegistry.cpp.o:
+CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o:
+
+CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o:
+
+CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o:
 
 /usr/lib64/libicuuc.so:
 

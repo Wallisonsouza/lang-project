@@ -4,7 +4,7 @@
 
 namespace lang::utils {
 
-class Utf8Codec {
+class Utf8 {
 public:
   static bool is_valid(const std::string &str) noexcept {
     size_t i = 0;
@@ -86,7 +86,7 @@ public:
     }
   }
 
-  static std::string encode(const std::u32string &text) {
+  static std::string toUtf8(const std::u32string &text) {
     std::string out;
     out.reserve(text.size() * 4);
     for (uint32_t cp : text)

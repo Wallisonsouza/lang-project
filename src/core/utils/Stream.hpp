@@ -1,56 +1,53 @@
-// #pragma once
-// #include <cstddef>
-// #include <stack>
-// #include <vector>
+#pragma once
+#include <cassert>
+#include <cstddef>
+#include <string>
+#include <vector>
 
-// namespace lang::utils {
+namespace lang::core {
 
-// template <typename T> class Stream {
-// private:
-//   std::vector<T> &source;
-//   std::size_t index = 0;
-//   std::stack<std::size_t> saved;
+template <typename T> class Stream {
+  const std::vector<T> &data;
+  size_t pos  = 0;
+  size_t line = 0;
 
-// public:
-//   explicit Stream(std::vector<T> &src) : source(src) {}
+public:
+  size_t get_current_line() const noexcept { return line; }
 
-//   T *current() {
-//     if (index == 0 || index > source.size())
-//       return nullptr;
-//     return &source[index - 1];
-//   }
+  explicit Stream(const std::vector<T> &input) : data(input) {}
 
-//   T *peek(std::size_t offset = 0) {
-//     if (index + offset >= source.size())
-//       return nullptr;
-//     return &source[index + offset];
-//   }
+  inline bool eof() const noexcept { return pos >= data.size(); }
+  inline bool has(size_t offset = 0) const noexcept { return pos + offset < data.size(); }
 
-//   T *advance() {
-//     if (index >= source.size())
-//       return nullptr;
-//     return &source[index++];
-//   }
+  inline T current() const noexcept {
 
-//   bool has_next() const noexcept { return index < source.size(); }
+    assert(!eof());
+    return data[pos];
+  }
 
-//   void save() { saved.push(index); }
+  inline T peek(size_t offset = 0) const noexcept {
+    assert(has(offset));
+    return data[pos + offset];
+  }
 
-//   void restore() {
-//     if (!saved.empty()) {
-//       index = saved.top();
-//       saved.pop();
-//     }
-//   }
+  inline T consume() noexcept {
+    assert(!eof());
+    return data[pos++];
+  }
 
-//   void discard() {
-//     if (!saved.empty())
-//       saved.pop();
-//   }
+  inline void advance(size_t count = 1) noexcept {
+    pos += count;
+    if (pos > data.size())
+      pos = data.size();
+  }
 
-//   std::size_t position() const noexcept { return index; }
+  inline size_t get_current_position() const noexcept { return pos; }
+  inline void reset(size_t p) noexcept { pos = p; }
 
-//   std::vector<T> &get_source() noexcept { return source; }
-// };
+  inline std::u32string slice(size_t start, size_t end) const {
+    assert(start <= end && end <= data.size());
+    return std::u32string(data.begin() + start, data.begin() + end);
+  }
+};
 
-// } // namespace lang::utils
+} // namespace lang::core

@@ -1,17 +1,17 @@
 #pragma once
 
-#include "core/plugin/Plugin.hpp"
-#include "core/plugin/PluginRegistry.hpp"
-#include "core/token/TokenTable.hpp"
+#include "core/manager/MatcherManager.hpp"
+#include "core/table/AliasTable.hpp"
+#include "core/table/TokenTable.hpp"
 
 namespace lang::core {
 
 struct LangData {
-  size_t line = 0;
 
-  TokenTable descriptors;
-  PluginRegistry handlers;
-  PluginRegistry solvers;
+  TokenTable token_table;
+  AliasTable alias_table;
+
+  lang::core::MatcherManager matchers;
 };
 
 inline LangData makeLangData() { return LangData{}; }

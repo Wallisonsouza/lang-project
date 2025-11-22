@@ -18,7 +18,7 @@ private:
     if (!has_next_buffer_ && !file_.eof()) {
       std::string line;
       if (std::getline(file_, line)) {
-        next_line_buffer_ = lang::utils::Utf8Codec::decode(line);
+        next_line_buffer_ = lang::utils::Utf8::decode(line);
         has_next_buffer_  = true;
       } else {
         eof_reached_ = true;
@@ -41,7 +41,7 @@ public:
     } else {
       std::string line;
       if (std::getline(file_, line)) {
-        current_line_ = lang::utils::Utf8Codec::decode(line);
+        current_line_ = lang::utils::Utf8::decode(line);
       } else {
         eof_reached_ = true;
         current_line_.clear();

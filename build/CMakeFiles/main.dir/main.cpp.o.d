@@ -2,9 +2,10 @@ CMakeFiles/main.dir/main.cpp.o: \
  /home/wallison/Documentos/git/lang-project/main.cpp \
  /usr/include/stdc-predef.h \
  /home/wallison/Documentos/git/lang-project/src/argon/argon_main.hpp \
- /home/wallison/Documentos/git/lang-project/src/argon/handlers/KeywordAndIdentifierHandler.hpp \
+ /home/wallison/Documentos/git/lang-project/src/argon/matchers/IdentifierMatcher.hpp \
  /home/wallison/Documentos/git/lang-project/src/core/LangData.hpp \
- /home/wallison/Documentos/git/lang-project/src/core/plugin/Plugin.hpp \
+ /home/wallison/Documentos/git/lang-project/src/core/manager/MatcherManager.hpp \
+ /home/wallison/Documentos/git/lang-project/src/core/plugin/Matcher.hpp \
  /home/wallison/Documentos/git/lang-project/src/core/token/Token.hpp \
  /home/wallison/Documentos/git/lang-project/src/core/token/TokenDescriptor.hpp \
  /home/wallison/Documentos/git/lang-project/src/core/token/TokenGroup.hpp \
@@ -25,16 +26,23 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
  /usr/include/bits/stdint-least.h \
  /home/wallison/Documentos/git/lang-project/src/core/token/TokenKind.hpp \
- /usr/include/c++/15/algorithm /usr/include/c++/15/bits/stl_algobase.h \
- /usr/include/c++/15/bits/functexcept.h \
- /usr/include/c++/15/bits/exception_defines.h \
- /usr/include/c++/15/bits/cpp_type_traits.h \
- /usr/include/c++/15/bits/version.h /usr/include/c++/15/type_traits \
- /usr/include/c++/15/ext/type_traits.h \
- /usr/include/c++/15/ext/numeric_traits.h \
- /usr/include/c++/15/bits/stl_pair.h /usr/include/c++/15/bits/move.h \
- /usr/include/c++/15/bits/utility.h /usr/include/c++/15/compare \
- /usr/include/c++/15/concepts \
+ /usr/include/c++/15/string /usr/include/c++/15/bits/requires_hosted.h \
+ /usr/include/c++/15/bits/stringfwd.h \
+ /usr/include/c++/15/bits/memoryfwd.h \
+ /usr/include/c++/15/bits/char_traits.h \
+ /usr/include/c++/15/bits/postypes.h /usr/include/c++/15/cwchar \
+ /usr/include/wchar.h /usr/include/bits/floatn.h \
+ /usr/include/bits/floatn-common.h \
+ /usr/lib/gcc/x86_64-redhat-linux/15/include/stddef.h \
+ /usr/lib/gcc/x86_64-redhat-linux/15/include/stdarg.h \
+ /usr/include/bits/types/wint_t.h /usr/include/bits/types/mbstate_t.h \
+ /usr/include/bits/types/__mbstate_t.h /usr/include/bits/types/__FILE.h \
+ /usr/include/bits/types/FILE.h /usr/include/bits/types/locale_t.h \
+ /usr/include/bits/types/__locale_t.h /usr/include/c++/15/type_traits \
+ /usr/include/c++/15/bits/version.h /usr/include/c++/15/compare \
+ /usr/include/c++/15/concepts /usr/include/c++/15/bits/stl_construct.h \
+ /usr/include/c++/15/new /usr/include/c++/15/bits/exception.h \
+ /usr/include/c++/15/bits/move.h \
  /usr/include/c++/15/bits/stl_iterator_base_types.h \
  /usr/include/c++/15/bits/iterator_concepts.h \
  /usr/include/c++/15/bits/ptr_traits.h \
@@ -42,28 +50,49 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/c++/15/bits/stl_iterator_base_funcs.h \
  /usr/include/c++/15/bits/concept_check.h \
  /usr/include/c++/15/debug/assertions.h \
- /usr/include/c++/15/bits/stl_iterator.h /usr/include/c++/15/new \
- /usr/include/c++/15/bits/exception.h \
- /usr/include/c++/15/bits/stl_construct.h \
+ /usr/include/c++/15/bits/allocator.h \
+ /usr/include/c++/15/x86_64-redhat-linux/bits/c++allocator.h \
+ /usr/include/c++/15/bits/new_allocator.h \
+ /usr/include/c++/15/bits/functexcept.h \
+ /usr/include/c++/15/bits/exception_defines.h \
+ /usr/include/c++/15/bits/cpp_type_traits.h \
+ /usr/include/c++/15/bits/localefwd.h \
+ /usr/include/c++/15/x86_64-redhat-linux/bits/c++locale.h \
+ /usr/include/c++/15/clocale /usr/include/locale.h \
+ /usr/include/bits/locale.h /usr/include/c++/15/iosfwd \
+ /usr/include/c++/15/cctype /usr/include/ctype.h \
+ /usr/include/bits/endian.h /usr/include/bits/endianness.h \
+ /usr/include/c++/15/bits/ostream_insert.h \
+ /usr/include/c++/15/bits/cxxabi_forced.h \
+ /usr/include/c++/15/bits/stl_iterator.h \
+ /usr/include/c++/15/ext/type_traits.h \
+ /usr/include/c++/15/bits/stl_function.h \
+ /usr/include/c++/15/backward/binders.h \
+ /usr/include/c++/15/ext/numeric_traits.h \
+ /usr/include/c++/15/bits/stl_algobase.h \
+ /usr/include/c++/15/bits/stl_pair.h /usr/include/c++/15/bits/utility.h \
  /usr/include/c++/15/debug/debug.h \
  /usr/include/c++/15/bits/predefined_ops.h /usr/include/c++/15/bit \
- /usr/include/c++/15/bits/stl_algo.h \
- /usr/include/c++/15/bits/algorithmfwd.h \
- /usr/include/c++/15/initializer_list /usr/include/c++/15/bits/stl_heap.h \
- /usr/include/c++/15/bits/uniform_int_dist.h \
- /usr/include/c++/15/bits/stl_tempbuf.h /usr/include/c++/15/cstdlib \
- /usr/include/stdlib.h \
- /usr/lib/gcc/x86_64-redhat-linux/15/include/stddef.h \
- /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
- /usr/include/bits/floatn.h /usr/include/bits/floatn-common.h \
- /usr/include/bits/types/locale_t.h /usr/include/bits/types/__locale_t.h \
- /usr/include/sys/types.h /usr/include/bits/types/clock_t.h \
- /usr/include/bits/types/clockid_t.h /usr/include/bits/types/time_t.h \
- /usr/include/bits/types/timer_t.h /usr/include/endian.h \
- /usr/include/bits/endian.h /usr/include/bits/endianness.h \
- /usr/include/bits/byteswap.h /usr/include/bits/uintn-identity.h \
- /usr/include/sys/select.h /usr/include/bits/select.h \
- /usr/include/bits/types/sigset_t.h /usr/include/bits/types/__sigset_t.h \
+ /usr/include/c++/15/bits/refwrap.h /usr/include/c++/15/bits/invoke.h \
+ /usr/include/c++/15/bits/range_access.h \
+ /usr/include/c++/15/initializer_list \
+ /usr/include/c++/15/bits/basic_string.h \
+ /usr/include/c++/15/ext/alloc_traits.h \
+ /usr/include/c++/15/bits/alloc_traits.h /usr/include/c++/15/string_view \
+ /usr/include/c++/15/bits/functional_hash.h \
+ /usr/include/c++/15/bits/hash_bytes.h \
+ /usr/include/c++/15/bits/ranges_base.h \
+ /usr/include/c++/15/bits/max_size_type.h /usr/include/c++/15/numbers \
+ /usr/include/c++/15/bits/string_view.tcc \
+ /usr/include/c++/15/ext/string_conversions.h /usr/include/c++/15/cstdlib \
+ /usr/include/stdlib.h /usr/include/bits/waitflags.h \
+ /usr/include/bits/waitstatus.h /usr/include/sys/types.h \
+ /usr/include/bits/types/clock_t.h /usr/include/bits/types/clockid_t.h \
+ /usr/include/bits/types/time_t.h /usr/include/bits/types/timer_t.h \
+ /usr/include/endian.h /usr/include/bits/byteswap.h \
+ /usr/include/bits/uintn-identity.h /usr/include/sys/select.h \
+ /usr/include/bits/select.h /usr/include/bits/types/sigset_t.h \
+ /usr/include/bits/types/__sigset_t.h \
  /usr/include/bits/types/struct_timeval.h \
  /usr/include/bits/types/struct_timespec.h \
  /usr/include/bits/pthreadtypes.h /usr/include/bits/thread-shared-types.h \
@@ -71,45 +100,8 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/bits/atomic_wide_counter.h /usr/include/bits/struct_mutex.h \
  /usr/include/bits/struct_rwlock.h /usr/include/alloca.h \
  /usr/include/bits/stdlib-float.h /usr/include/c++/15/bits/std_abs.h \
- /usr/include/c++/15/bits/ranges_algo.h \
- /usr/include/c++/15/bits/ranges_algobase.h \
- /usr/include/c++/15/bits/ranges_base.h \
- /usr/include/c++/15/bits/max_size_type.h /usr/include/c++/15/numbers \
- /usr/include/c++/15/bits/invoke.h /usr/include/c++/15/bits/ranges_util.h \
- /usr/include/c++/15/pstl/glue_algorithm_defs.h \
- /usr/include/c++/15/pstl/execution_defs.h /usr/include/c++/15/string \
- /usr/include/c++/15/bits/requires_hosted.h \
- /usr/include/c++/15/bits/stringfwd.h \
- /usr/include/c++/15/bits/memoryfwd.h \
- /usr/include/c++/15/bits/char_traits.h \
- /usr/include/c++/15/bits/postypes.h /usr/include/c++/15/cwchar \
- /usr/include/wchar.h \
- /usr/lib/gcc/x86_64-redhat-linux/15/include/stdarg.h \
- /usr/include/bits/types/wint_t.h /usr/include/bits/types/mbstate_t.h \
- /usr/include/bits/types/__mbstate_t.h /usr/include/bits/types/__FILE.h \
- /usr/include/bits/types/FILE.h /usr/include/c++/15/bits/allocator.h \
- /usr/include/c++/15/x86_64-redhat-linux/bits/c++allocator.h \
- /usr/include/c++/15/bits/new_allocator.h \
- /usr/include/c++/15/bits/localefwd.h \
- /usr/include/c++/15/x86_64-redhat-linux/bits/c++locale.h \
- /usr/include/c++/15/clocale /usr/include/locale.h \
- /usr/include/bits/locale.h /usr/include/c++/15/iosfwd \
- /usr/include/c++/15/cctype /usr/include/ctype.h \
- /usr/include/c++/15/bits/ostream_insert.h \
- /usr/include/c++/15/bits/cxxabi_forced.h \
- /usr/include/c++/15/bits/stl_function.h \
- /usr/include/c++/15/backward/binders.h \
- /usr/include/c++/15/bits/refwrap.h \
- /usr/include/c++/15/bits/range_access.h \
- /usr/include/c++/15/bits/basic_string.h \
- /usr/include/c++/15/ext/alloc_traits.h \
- /usr/include/c++/15/bits/alloc_traits.h /usr/include/c++/15/string_view \
- /usr/include/c++/15/bits/functional_hash.h \
- /usr/include/c++/15/bits/hash_bytes.h \
- /usr/include/c++/15/bits/string_view.tcc \
- /usr/include/c++/15/ext/string_conversions.h /usr/include/c++/15/cstdio \
- /usr/include/stdio.h /usr/include/bits/types/__fpos_t.h \
- /usr/include/bits/types/__fpos64_t.h \
+ /usr/include/c++/15/cstdio /usr/include/stdio.h \
+ /usr/include/bits/types/__fpos_t.h /usr/include/bits/types/__fpos64_t.h \
  /usr/include/bits/types/struct_FILE.h \
  /usr/include/bits/types/cookie_io_functions_t.h \
  /usr/include/bits/stdio_lim.h /usr/include/c++/15/cerrno \
@@ -121,15 +113,14 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/c++/15/bits/memory_resource.h /usr/include/c++/15/cstddef \
  /usr/include/c++/15/bits/uses_allocator.h \
  /usr/include/c++/15/bits/uses_allocator_args.h /usr/include/c++/15/tuple \
+ /usr/include/c++/15/bits/ranges_util.h \
+ /home/wallison/Documentos/git/lang-project/src/core/utils/Stream.hpp \
+ /usr/include/c++/15/cassert /usr/include/assert.h \
  /usr/include/c++/15/vector /usr/include/c++/15/bits/stl_uninitialized.h \
  /usr/include/c++/15/bits/stl_vector.h \
  /usr/include/c++/15/bits/stl_bvector.h \
- /usr/include/c++/15/bits/vector.tcc \
- /home/wallison/Documentos/git/lang-project/src/core/utils/Stream.hpp \
- /home/wallison/Documentos/git/lang-project/src/core/utils/TextStream.hpp \
- /usr/include/c++/15/stack /usr/include/c++/15/deque \
- /usr/include/c++/15/bits/stl_deque.h /usr/include/c++/15/bits/deque.tcc \
- /usr/include/c++/15/bits/stl_stack.h /usr/include/c++/15/memory \
+ /usr/include/c++/15/bits/vector.tcc /usr/include/c++/15/memory \
+ /usr/include/c++/15/bits/stl_tempbuf.h \
  /usr/include/c++/15/bits/stl_raw_storage_iter.h \
  /usr/include/c++/15/bits/align.h /usr/include/c++/15/bits/unique_ptr.h \
  /usr/include/c++/15/bits/ostream.h /usr/include/c++/15/ios \
@@ -192,17 +183,27 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/c++/15/bits/std_mutex.h \
  /usr/include/c++/15/backward/auto_ptr.h \
  /usr/include/c++/15/bits/ranges_uninitialized.h \
+ /usr/include/c++/15/bits/ranges_algobase.h \
  /usr/include/c++/15/pstl/glue_memory_defs.h \
- /home/wallison/Documentos/git/lang-project/src/core/plugin/PluginRegistry.hpp \
- /usr/include/c++/15/functional /usr/include/c++/15/bits/std_function.h \
+ /usr/include/c++/15/pstl/execution_defs.h /usr/include/c++/15/algorithm \
+ /usr/include/c++/15/bits/stl_algo.h \
+ /usr/include/c++/15/bits/algorithmfwd.h \
+ /usr/include/c++/15/bits/stl_heap.h \
+ /usr/include/c++/15/bits/uniform_int_dist.h \
+ /usr/include/c++/15/bits/ranges_algo.h \
+ /usr/include/c++/15/pstl/glue_algorithm_defs.h \
+ /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.hpp \
+ /home/wallison/Documentos/git/lang-project/src/core/table/TrieNode.hpp \
  /usr/include/c++/15/unordered_map \
  /usr/include/c++/15/bits/unordered_map.h \
  /usr/include/c++/15/bits/hashtable.h \
  /usr/include/c++/15/bits/hashtable_policy.h \
  /usr/include/c++/15/bits/enable_special_members.h \
  /usr/include/c++/15/bits/node_handle.h \
- /usr/include/c++/15/bits/erase_if.h /usr/include/c++/15/array \
- /home/wallison/Documentos/git/lang-project/src/core/token/TokenTable.hpp \
+ /usr/include/c++/15/bits/erase_if.h \
+ /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.hpp \
+ /usr/include/c++/15/deque /usr/include/c++/15/bits/stl_deque.h \
+ /usr/include/c++/15/bits/deque.tcc \
  /home/wallison/Documentos/git/lang-project/src/core/utils/Unicode.hpp \
  /usr/include/unicode/uchar.h \
  /usr/lib/gcc/x86_64-redhat-linux/15/include/stdbool.h \
@@ -214,14 +215,22 @@ CMakeFiles/main.dir/main.cpp.o: \
  /usr/include/unicode/utf.h /usr/include/unicode/utf8.h \
  /usr/include/unicode/utf16.h /usr/include/unicode/utf_old.h \
  /usr/include/unicode/stringoptions.h /usr/include/unicode/ucpmap.h \
- /home/wallison/Documentos/git/lang-project/src/argon/handlers/SymbolHandler.hpp \
- /home/wallison/Documentos/git/lang-project/src/core/token/TokenDebug.hpp \
- /home/wallison/Documentos/git/lang-project/src/core/utils/Utf8.hpp \
- /usr/include/c++/15/iostream /usr/include/c++/15/ostream \
- /usr/include/c++/15/bits/ostream.tcc /usr/include/c++/15/istream \
- /usr/include/c++/15/bits/istream.tcc \
+ /home/wallison/Documentos/git/lang-project/src/argon/matchers/NumberMatcher.hpp \
+ /home/wallison/Documentos/git/lang-project/src/argon/matchers/Operator.hpp \
+ /home/wallison/Documentos/git/lang-project/src/core/helper/TokenMatchHelper.hpp \
+ /home/wallison/Documentos/git/lang-project/src/argon/matchers/String.hpp \
+ /home/wallison/Documentos/git/lang-project/src/core/lexer/Lexer.hpp \
  /home/wallison/Documentos/git/lang-project/src/core/utils/LazyText.hpp \
- /usr/include/c++/15/fstream /usr/include/c++/15/bits/codecvt.h \
+ /home/wallison/Documentos/git/lang-project/src/core/utils/Utf8.hpp \
+ /usr/include/c++/15/fstream /usr/include/c++/15/istream \
+ /usr/include/c++/15/ostream /usr/include/c++/15/bits/ostream.tcc \
+ /usr/include/c++/15/bits/istream.tcc /usr/include/c++/15/bits/codecvt.h \
  /usr/include/c++/15/x86_64-redhat-linux/bits/basic_file.h \
  /usr/include/c++/15/x86_64-redhat-linux/bits/c++io.h \
- /usr/include/c++/15/bits/fstream.tcc
+ /usr/include/c++/15/bits/fstream.tcc \
+ /home/wallison/Documentos/git/lang-project/src/core/debug/TokenDebug.hpp \
+ /home/wallison/Documentos/git/lang-project/src/core/debug/Console.hpp \
+ /usr/include/c++/15/iostream /usr/include/c++/15/sstream \
+ /usr/include/c++/15/bits/sstream.tcc \
+ /home/wallison/Documentos/git/lang-project/src/core/table/TokenGroupDebug.hpp \
+ /home/wallison/Documentos/git/lang-project/src/core/table/TokenKindTable.hpp
