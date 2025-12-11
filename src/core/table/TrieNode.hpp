@@ -1,58 +1,65 @@
 #pragma once
-#include "core/token/TokenDescriptor.hpp"
-#include <memory>
-#include <string>
+#include <string_view>
 #include <unordered_map>
+#include <vector>
 
-struct TrieNode {
-  bool is_terminal       = false;
-  TokenDescriptor *token = nullptr;
-
-  std::unordered_map<char32_t, std::unique_ptr<TrieNode>> next;
+template <typename T> struct TrieNode {
+  bool is_terminal = false;
+  T *value = nullptr;
+  std::unordered_map<char32_t, TrieNode *> children;
 };
 
-class TokenTrie {
+template <typename T> class Trie {
 private:
-  std::unique_ptr<TrieNode> root = std::make_unique<TrieNode>();
+  TrieNode<T> root_;
+  std::vector<TrieNode<T>> pool_;
 
-public:
-  void clear() { root = std::make_unique<TrieNode>(); }
-
-  void insert(const std::u32string &name, TokenDescriptor *token) {
-    TrieNode *node = root.get();
-
-    for (char32_t ch : name) {
-      if (!node->next.count(ch)) {
-        node->next[ch] = std::make_unique<TrieNode>();
-      }
-      node = node->next[ch].get();
-    }
-
-    node->is_terminal = true;
-    node->token       = token;
+  TrieNode<T> *create_node() {
+    pool_.emplace_back();
+    return &pool_.back();
   }
 
-  bool has_prefix(const std::u32string &prefix) const {
-    const TrieNode *node = root.get();
+public:
+  Trie() { pool_.reserve(256); }
 
-    for (char32_t ch : prefix) {
-      if (!node->next.count(ch))
-        return false;
-      node = node->next.at(ch).get();
+  void clear() {
+    root_ = TrieNode<T>{};
+    pool_.clear();
+  }
+
+  void insert(const std::u32string_view &key, T *value) {
+    TrieNode<T> *node = &root_;
+    for (char32_t ch : key) {
+      auto it = node->children.find(ch);
+      if (it == node->children.end()) {
+        TrieNode<T> *new_node = create_node();
+        node->children[ch] = new_node;
+        node = new_node;
+      } else {
+        node = it->second;
+      }
     }
+    node->is_terminal = true;
+    node->value = value;
+  }
 
+  bool has_prefix(const std::u32string_view &prefix) const {
+    const TrieNode<T> *node = &root_;
+    for (char32_t ch : prefix) {
+      auto it = node->children.find(ch);
+      if (it == node->children.end()) return false;
+      node = it->second;
+    }
     return true;
   }
 
-  TokenDescriptor *lookup(const std::u32string &name) const {
-    const TrieNode *node = root.get();
-
-    for (char32_t ch : name) {
-      if (!node->next.count(ch))
-        return nullptr;
-      node = node->next.at(ch).get();
+  T *lookup(const std::u32string_view &key) const {
+    const TrieNode<T> *node = &root_;
+    for (char32_t ch : key) {
+      auto it = node->children.find(ch);
+      if (it == node->children.end()) return nullptr;
+      node = it->second;
     }
-
-    return node->is_terminal ? node->token : nullptr;
+    return node->is_terminal ? node->value : nullptr;
   }
 };

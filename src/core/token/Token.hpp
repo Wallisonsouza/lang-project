@@ -1,22 +1,15 @@
 #pragma once
 
+#include "core/text/TextSpan.hpp"
 #include "core/token/TokenDescriptor.hpp"
-#include <string>
 
-namespace lang::core {
-
-struct Location {
-  size_t line;
-  size_t start;
-  size_t end;
-};
+namespace interpreter::core {
 
 struct Token {
   const TokenDescriptor *descriptor;
-  const Location location;
-  const std::u32string lexeme;
+  TextSpan span;
 
-  Token(const TokenDescriptor *desc, std::u32string lex, const Location &loc) : descriptor(desc), location(loc), lexeme(std::move(lex)) {}
+  constexpr Token(const TokenDescriptor *desc, TextSpan sp) : descriptor(desc), span(sp) {}
 };
 
-} // namespace lang::core
+} // namespace interpreter::core

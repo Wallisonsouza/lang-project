@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace lang::core {
+namespace interpreter::core {
 enum class TokenKind : uint8_t {
   Function,
   If,
@@ -30,9 +30,15 @@ enum class TokenKind : uint8_t {
   RBrace,
   Semicolon,
 
+  NumberType,
+  StringType,
+
   Identifier,
-  Number,
-  String,
+  NumberLiteral,
+  StringLiteral,
+  NullLiteral,
+  CharLiteral,
+  BoolLiteral,
   EndOfFile,
 };
 }

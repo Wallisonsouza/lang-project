@@ -4,8 +4,9 @@ main: \
   /usr/lib/gcc/x86_64-redhat-linux/15/crtbegin.o \
   CMakeFiles/main.dir/main.cpp.o \
   CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o \
-  CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o \
+  CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o \
   CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o \
+  /usr/lib/gcc/x86_64-redhat-linux/15/../../../../lib64/libzip.so \
   /usr/lib64/libicuuc.so \
   /usr/lib64/libicui18n.so \
   /usr/lib/gcc/x86_64-redhat-linux/15/libstdc++.so \
@@ -34,6 +35,11 @@ main: \
   /usr/lib/gcc/x86_64-redhat-linux/15/libgcc.a \
   /usr/lib/gcc/x86_64-redhat-linux/15/crtend.o \
   /usr/lib/gcc/x86_64-redhat-linux/15/../../../../lib64/crtn.o \
+  /usr/lib64/libbz2.so.1 \
+  /usr/lib64/liblzma.so.5 \
+  /usr/lib64/libzstd.so.1 \
+  /usr/lib64/libcrypto.so.3 \
+  /usr/lib64/libz.so.1 \
   /usr/lib64/libicudata.so.76 \
   /lib64/ld-linux-x86-64.so.2
 
@@ -47,9 +53,11 @@ CMakeFiles/main.dir/main.cpp.o:
 
 CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o:
 
-CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o:
+CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o:
 
 CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o:
+
+/usr/lib/gcc/x86_64-redhat-linux/15/../../../../lib64/libzip.so:
 
 /usr/lib64/libicuuc.so:
 
@@ -106,6 +114,16 @@ CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o:
 /usr/lib/gcc/x86_64-redhat-linux/15/crtend.o:
 
 /usr/lib/gcc/x86_64-redhat-linux/15/../../../../lib64/crtn.o:
+
+/usr/lib64/libbz2.so.1:
+
+/usr/lib64/liblzma.so.5:
+
+/usr/lib64/libzstd.so.1:
+
+/usr/lib64/libcrypto.so.3:
+
+/usr/lib64/libz.so.1:
 
 /usr/lib64/libicudata.so.76:
 

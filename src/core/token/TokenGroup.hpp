@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
 
-namespace lang::core {
-enum class TokenGroup : uint8_t { Keyword, Operator, Punctuation, Literal, Identifier, Type, Error };
+namespace interpreter::core {
+enum class TokenGroup : uint8_t { Keyword, Operator, Punctuation, Literal, Type, Error, Name };
 }

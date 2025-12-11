@@ -2,9 +2,12 @@
 #include "core/token/TokenGroup.hpp"
 #include "core/token/TokenKind.hpp"
 #include <string>
+#include <utility>
 
 struct TokenDescriptor {
-  const lang::core::TokenKind kind;
-  const lang::core::TokenGroup group;
-  std::u32string lexeme;
+  const interpreter::core::TokenKind kind;
+  const interpreter::core::TokenGroup group;
+  const std::u32string lexeme;
+
+  TokenDescriptor(const std::u32string &lexeme, interpreter::core::TokenKind kind, interpreter::core::TokenGroup group) : lexeme(std::move(lexeme)), kind(kind), group(group) {}
 };

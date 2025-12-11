@@ -3,7 +3,7 @@
 #include <unicode/uchar.h>
 #include <unicode/urename.h>
 
-namespace lang::utils {
+namespace interpreter::utils {
 
 class Unicode {
 public:
@@ -32,4 +32,4 @@ public:
   }
 };
 
-} // namespace lang::utils
+} // namespace interpreter::utils

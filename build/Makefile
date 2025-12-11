@@ -190,29 +190,29 @@ src/core/table/AliasTable.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/AliasTable.cpp.s
 .PHONY : src/core/table/AliasTable.cpp.s
 
-src/core/table/TokenKindTable.o: src/core/table/TokenKindTable.cpp.o
-.PHONY : src/core/table/TokenKindTable.o
+src/core/table/PrecedenceTable.o: src/core/table/PrecedenceTable.cpp.o
+.PHONY : src/core/table/PrecedenceTable.o
 
 # target to build an object file
-src/core/table/TokenKindTable.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.o
-.PHONY : src/core/table/TokenKindTable.cpp.o
+src/core/table/PrecedenceTable.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o
+.PHONY : src/core/table/PrecedenceTable.cpp.o
 
-src/core/table/TokenKindTable.i: src/core/table/TokenKindTable.cpp.i
-.PHONY : src/core/table/TokenKindTable.i
+src/core/table/PrecedenceTable.i: src/core/table/PrecedenceTable.cpp.i
+.PHONY : src/core/table/PrecedenceTable.i
 
 # target to preprocess a source file
-src/core/table/TokenKindTable.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.i
-.PHONY : src/core/table/TokenKindTable.cpp.i
+src/core/table/PrecedenceTable.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.i
+.PHONY : src/core/table/PrecedenceTable.cpp.i
 
-src/core/table/TokenKindTable.s: src/core/table/TokenKindTable.cpp.s
-.PHONY : src/core/table/TokenKindTable.s
+src/core/table/PrecedenceTable.s: src/core/table/PrecedenceTable.cpp.s
+.PHONY : src/core/table/PrecedenceTable.s
 
 # target to generate assembly for a file
-src/core/table/TokenKindTable.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/TokenKindTable.cpp.s
-.PHONY : src/core/table/TokenKindTable.cpp.s
+src/core/table/PrecedenceTable.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.s
+.PHONY : src/core/table/PrecedenceTable.cpp.s
 
 src/core/table/TokenTable.o: src/core/table/TokenTable.cpp.o
 .PHONY : src/core/table/TokenTable.o
@@ -254,9 +254,9 @@ help:
 	@echo "... src/core/table/AliasTable.o"
 	@echo "... src/core/table/AliasTable.i"
 	@echo "... src/core/table/AliasTable.s"
-	@echo "... src/core/table/TokenKindTable.o"
-	@echo "... src/core/table/TokenKindTable.i"
-	@echo "... src/core/table/TokenKindTable.s"
+	@echo "... src/core/table/PrecedenceTable.o"
+	@echo "... src/core/table/PrecedenceTable.i"
+	@echo "... src/core/table/PrecedenceTable.s"
 	@echo "... src/core/table/TokenTable.o"
 	@echo "... src/core/table/TokenTable.i"
 	@echo "... src/core/table/TokenTable.s"
