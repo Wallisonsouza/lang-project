@@ -3,16 +3,16 @@
 #include "core/token/TokenKind.hpp"
 #include <unordered_map>
 
-namespace interpreter::core {
+namespace core::table {
 
 class PrecedenceTable {
 public:
-  void add(core::TokenKind kind, int precedence, bool right_assoc = false);
+  void add(token::TokenKind kind, int precedence, bool right_assoc = false);
 
-  bool has(core::TokenKind kind) const;
+  bool has(token::TokenKind kind) const;
 
-  int get_precedence(core::TokenKind kind) const;
-  bool is_right_associative(core::TokenKind kind) const;
+  int get_precedence(token::TokenKind kind) const;
+  bool is_right_associative(token::TokenKind kind) const;
 
 private:
   struct OperatorInfo {
@@ -20,7 +20,7 @@ private:
     bool right_assoc;
   };
 
-  std::unordered_map<core::TokenKind, OperatorInfo> table;
+  std::unordered_map<token::TokenKind, OperatorInfo> table;
 };
 
-} // namespace interpreter::core
+} // namespace core::table

@@ -1,8 +1,8 @@
 #pragma once
 
-namespace interpreter::core {
+namespace core {
 class Plugin {
 public:
   virtual ~Plugin() = default;
 };
-} // namespace interpreter::core
+} // namespace core

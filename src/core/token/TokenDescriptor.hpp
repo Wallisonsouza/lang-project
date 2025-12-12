@@ -4,10 +4,14 @@
 #include <string>
 #include <utility>
 
+namespace core::token {
 struct TokenDescriptor {
-  const interpreter::core::TokenKind kind;
-  const interpreter::core::TokenGroup group;
+  const TokenKind kind;
+  const TokenGroup group;
   const std::u32string lexeme;
 
-  TokenDescriptor(const std::u32string &lexeme, interpreter::core::TokenKind kind, interpreter::core::TokenGroup group) : lexeme(std::move(lexeme)), kind(kind), group(group) {}
+  TokenDescriptor(const std::u32string &lexeme, TokenKind kind,
+                  TokenGroup group)
+      : lexeme(std::move(lexeme)), kind(kind), group(group) {}
 };
+} // namespace core::token

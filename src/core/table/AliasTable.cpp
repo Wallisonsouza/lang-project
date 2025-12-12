@@ -1,15 +1,15 @@
 #include "AliasTable.hpp"
-#include "core/debug/Console.hpp"
-#include "core/utils/Utf8.hpp"
+#include "core/token/TokenKind.hpp"
 #include <string>
 #include <string_view>
 
-namespace interpreter::core {
+namespace core::table {
 
-void AliasTable::add(const std::u32string &alias, TokenDescriptor *descriptor) {
+void AliasTable::add(const std::u32string &alias,
+                     token::TokenDescriptor *descriptor) {
 
-  if (!descriptor) { interpreter::debug::Console::warn("nao e possivel adicionar o alias ", interpreter::utils::Utf8::utf32to8(alias), " pois nao existe um descritor valido para ele"); }
-  if (has_alias(alias) || !descriptor) return;
+  if (has_alias(alias) || !descriptor)
+    return;
 
   by_name_[alias] = descriptor;
 
@@ -18,16 +18,22 @@ void AliasTable::add(const std::u32string &alias, TokenDescriptor *descriptor) {
   trie_.insert(alias, descriptor);
 }
 
-bool AliasTable::has_prefix(const std::u32string_view &prefix) const { return trie_.has_prefix(prefix); }
+bool AliasTable::has_prefix(const std::u32string_view &prefix) const {
+  return trie_.has_prefix(prefix);
+}
 
-TokenDescriptor *AliasTable::lookup_by_name(const std::u32string_view &alias) const {
+token::TokenDescriptor *
+AliasTable::lookup_by_name(const std::u32string_view &alias) const {
   auto it = by_name_.find(alias);
   return it == by_name_.end() ? nullptr : it->second;
 }
 
-bool AliasTable::has_alias(const std::u32string_view &alias) const { return by_name_.contains(alias); }
+bool AliasTable::has_alias(const std::u32string_view &alias) const {
+  return by_name_.contains(alias);
+}
 
-const std::vector<std::u32string_view> &AliasTable::get_aliases(TokenKind kind) const {
+const std::vector<std::u32string_view> &
+AliasTable::get_aliases(token::TokenKind kind) const {
   static const std::vector<std::u32string_view> empty;
 
   auto it = by_kind_.find(kind);
@@ -40,4 +46,4 @@ void AliasTable::clear() {
   trie_.clear();
 }
 
-} // namespace interpreter::core
+} // namespace core::table

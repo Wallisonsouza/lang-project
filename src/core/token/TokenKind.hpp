@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace interpreter::core {
+namespace core::token {
 enum class TokenKind : uint8_t {
   Function,
   If,

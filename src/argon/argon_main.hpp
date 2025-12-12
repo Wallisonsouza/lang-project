@@ -6,41 +6,44 @@
 
 namespace argon {
 
-inline void bind(interpreter::core::LangData &data) {
+inline void bind(core::LangData &data) {
 
-  using namespace interpreter::core;
+  using namespace core::token;
 
-  data.precedence_table.add(interpreter::core::TokenKind::Assign, 1, true);
-  data.precedence_table.add(interpreter::core::TokenKind::Plus, 10);
-  data.precedence_table.add(interpreter::core::TokenKind::Minus, 10);
-  data.precedence_table.add(interpreter::core::TokenKind::Star, 20);
-  data.precedence_table.add(interpreter::core::TokenKind::Slash, 20);
+  data.precedence_table.add(TokenKind::Assign, 1, true);
+  data.precedence_table.add(TokenKind::Plus, 10);
+  data.precedence_table.add(TokenKind::Minus, 10);
+  data.precedence_table.add(TokenKind::Star, 20);
+  data.precedence_table.add(TokenKind::Slash, 20);
 
-  data.token_table.add(interpreter::core::TokenKind::Plus, U"+", interpreter::core::TokenGroup::Operator);
-  data.token_table.add(interpreter::core::TokenKind::Minus, U"-", interpreter::core::TokenGroup::Operator);
-  data.token_table.add(interpreter::core::TokenKind::Star, U"*", interpreter::core::TokenGroup::Operator);
-  data.token_table.add(interpreter::core::TokenKind::Slash, U"/", interpreter::core::TokenGroup::Operator);
+  data.token_table.add(TokenKind::Plus, U"+", TokenGroup::Operator);
+  data.token_table.add(TokenKind::Minus, U"-", TokenGroup::Operator);
+  data.token_table.add(TokenKind::Star, U"*", TokenGroup::Operator);
+  data.token_table.add(TokenKind::Slash, U"/", TokenGroup::Operator);
 
-  data.token_table.add(interpreter::core::TokenKind::Assign, U"=", interpreter::core::TokenGroup::Operator);
+  data.token_table.add(TokenKind::Assign, U"=", TokenGroup::Operator);
 
-  data.alias_table.add(U"->", data.token_table.lookup_by_kind(interpreter::core::TokenKind::Assign));
-  data.alias_table.add(U"<-", data.token_table.lookup_by_kind(interpreter::core::TokenKind::Assign));
-  data.token_table.add(interpreter::core::TokenKind::Equals, U"==", interpreter::core::TokenGroup::Operator);
-  data.token_table.add(interpreter::core::TokenKind::Ternary, U"?", interpreter::core::TokenGroup::Operator);
+  data.alias_table.add(U"->",
+                       data.token_table.lookup_by_kind(TokenKind::Assign));
+  data.alias_table.add(U"<-",
+                       data.token_table.lookup_by_kind(TokenKind::Assign));
+  data.token_table.add(TokenKind::Equals, U"==", TokenGroup::Operator);
+  data.token_table.add(TokenKind::Ternary, U"?", TokenGroup::Operator);
 
-  data.token_table.add(interpreter::core::TokenKind::LParen, U"(", interpreter::core::TokenGroup::Punctuation);
-  data.token_table.add(interpreter::core::TokenKind::Colon, U":", interpreter::core::TokenGroup::Punctuation);
-  data.token_table.add(interpreter::core::TokenKind::RParen, U")", interpreter::core::TokenGroup::Punctuation);
-  data.token_table.add(interpreter::core::TokenKind::LBrace, U"{", interpreter::core::TokenGroup::Punctuation);
-  data.token_table.add(interpreter::core::TokenKind::RBrace, U"}", interpreter::core::TokenGroup::Punctuation);
-  data.token_table.add(interpreter::core::TokenKind::Semicolon, U";", interpreter::core::TokenGroup::Punctuation);
-  data.token_table.add(interpreter::core::TokenKind::Comma, U",", interpreter::core::TokenGroup::Punctuation);
-  data.token_table.add(interpreter::core::TokenKind::SingleQuote, U"\'", interpreter::core::TokenGroup::Punctuation);
+  data.token_table.add(TokenKind::LParen, U"(", TokenGroup::Punctuation);
+  data.token_table.add(TokenKind::Colon, U":", TokenGroup::Punctuation);
+  data.token_table.add(TokenKind::RParen, U")", TokenGroup::Punctuation);
+  data.token_table.add(TokenKind::LBrace, U"{", TokenGroup::Punctuation);
+  data.token_table.add(TokenKind::RBrace, U"}", TokenGroup::Punctuation);
+  data.token_table.add(TokenKind::Semicolon, U";", TokenGroup::Punctuation);
+  data.token_table.add(TokenKind::Comma, U",", TokenGroup::Punctuation);
+  data.token_table.add(TokenKind::SingleQuote, U"\'", TokenGroup::Punctuation);
 
   data.token_table.add(TokenKind::Identifier, TokenGroup::Name);
 
   data.token_table.add(TokenKind::NumberLiteral, TokenGroup::Literal);
   data.token_table.add(TokenKind::NumberType, U"Number", TokenGroup::Type);
+  data.token_table.add(TokenKind::StringType, U"String", TokenGroup::Type);
   data.token_table.add(TokenKind::StringLiteral, TokenGroup::Literal);
   data.token_table.add(TokenKind::BoolLiteral, TokenGroup::Literal);
   data.token_table.add(TokenKind::CharLiteral, TokenGroup::Literal);

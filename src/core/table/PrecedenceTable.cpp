@@ -1,21 +1,29 @@
 #include "core/table/PrecedenceTable.hpp"
+#include "core/token/TokenKind.hpp"
 
-namespace interpreter::core {
+namespace core::table {
 
-void PrecedenceTable::add(core::TokenKind kind, int precedence, bool right_assoc) { table[kind] = OperatorInfo{precedence, right_assoc}; }
+void PrecedenceTable::add(token::TokenKind kind, int precedence,
+                          bool right_assoc) {
+  table[kind] = OperatorInfo{precedence, right_assoc};
+}
 
-bool PrecedenceTable::has(core::TokenKind kind) const { return table.find(kind) != table.end(); }
+bool PrecedenceTable::has(token::TokenKind kind) const {
+  return table.find(kind) != table.end();
+}
 
-int PrecedenceTable::get_precedence(core::TokenKind kind) const {
+int PrecedenceTable::get_precedence(token::TokenKind kind) const {
   auto it = table.find(kind);
-  if (it == table.end()) return -1;
+  if (it == table.end())
+    return -1;
   return it->second.precedence;
 }
 
-bool PrecedenceTable::is_right_associative(core::TokenKind kind) const {
+bool PrecedenceTable::is_right_associative(token::TokenKind kind) const {
   auto it = table.find(kind);
-  if (it == table.end()) return false;
+  if (it == table.end())
+    return false;
   return it->second.right_assoc;
 }
 
-} // namespace interpreter::core
+} // namespace core::table

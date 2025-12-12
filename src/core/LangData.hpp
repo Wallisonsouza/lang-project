@@ -1,33 +1,27 @@
 #pragma once
 
-#include "core/diagnostic/Diagnostic.hpp"
 #include "core/table/AliasTable.hpp"
 #include "core/table/PrecedenceTable.hpp"
 #include "core/table/TokenTable.hpp"
 #include "core/text/TextBuffer.hpp"
 #include "core/token/Token.hpp"
-#include <memory>
+#include "diagnostic/DiagnosticEngine.hpp"
 #include <vector>
 
-namespace interpreter::core {
+namespace core {
 
 struct LangData {
-  TextBuffer buffer;
-  DiagnosticEngine diagnostics;
-  TokenTable token_table;
-  AliasTable alias_table;
-  PrecedenceTable precedence_table;
+  text::TextBuffer buffer;
+  
+  diagnostics::DiagnosticEngine diagnostics;
 
-  std::vector<Token> tokens_storage;
+  table::TokenTable token_table;
+  table::AliasTable alias_table;
+  table::PrecedenceTable precedence_table;
 
-  explicit LangData(TextBuffer buf) : buffer(std::move(buf)) {}
+  std::vector<token::Token> tokens_storage;
 
-  Token *make_token(TokenDescriptor *desc, TextSpan span) {
-    tokens_storage.emplace_back(desc, span);
-    return &tokens_storage.back();
-  }
+  explicit LangData(text::TextBuffer buf) : buffer(std::move(buf)) {}
 };
 
-inline std::shared_ptr<LangData> makeLangData(TextBuffer buffer) { return std::make_shared<LangData>(std::move(buffer)); }
-
-} // namespace interpreter::core
+} // namespace core

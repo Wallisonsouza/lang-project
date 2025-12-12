@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <vector>
 
+namespace core::text {
 class TextStream {
 public:
   struct State {
@@ -13,7 +14,7 @@ public:
   };
 
 private:
-  const TextBuffer &buffer;
+  const core::text::TextBuffer &buffer;
   const char32_t *begin;
   const char32_t *current;
   const char32_t *end;
@@ -24,7 +25,9 @@ private:
   std::vector<State> checkpoints;
 
 public:
-  explicit TextStream(const TextBuffer &buf) : buffer(buf), begin(buf.u32().data()), current(buf.u32().data()), end(buf.u32().data() + buf.u32_size()) {}
+  explicit TextStream(const core::text::TextBuffer &buf)
+      : buffer(buf), begin(buf.u32().data()), current(buf.u32().data()),
+        end(buf.u32().data() + buf.u32_size()) {}
 
   bool eof() const { return current >= end; }
 
@@ -33,8 +36,9 @@ public:
     return p < end ? *p : U'\0';
   }
 
-  char32_t advance() {
-    if (eof()) return U'\0';
+  const char32_t advance() {
+    if (eof())
+      return U'\0';
     char32_t c = *current++;
     if (c == U'\n') {
       line++;
@@ -78,12 +82,15 @@ public:
   void push_checkpoint() { checkpoints.push_back(get_state()); }
 
   void rollback_checkpoint() {
-    if (checkpoints.empty()) return;
+    if (checkpoints.empty())
+      return;
     rollback(checkpoints.back());
     checkpoints.pop_back();
   }
 
   void discard_checkpoint() {
-    if (!checkpoints.empty()) checkpoints.pop_back();
+    if (!checkpoints.empty())
+      checkpoints.pop_back();
   }
 };
+} // namespace core::text

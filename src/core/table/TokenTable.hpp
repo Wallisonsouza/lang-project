@@ -10,24 +10,27 @@
 #include <string_view>
 #include <unordered_map>
 
+namespace core::table {
 class TokenTable {
 public:
-  TokenDescriptor &add(interpreter::core::TokenKind kind, const std::u32string &name, interpreter::core::TokenGroup group);
-  TokenDescriptor &add(interpreter::core::TokenKind kind, interpreter::core::TokenGroup group);
-  TokenDescriptor *lookup_by_kind(interpreter::core::TokenKind kind);
-  TokenDescriptor *lookup_by_name(const std::u32string_view &name);
+  token::TokenDescriptor &add(token::TokenKind kind, const std::u32string &name,
+                              token::TokenGroup group);
+  token::TokenDescriptor &add(token::TokenKind kind, token::TokenGroup group);
+  token::TokenDescriptor *lookup_by_kind(token::TokenKind kind);
+  token::TokenDescriptor *lookup_by_name(const std::u32string_view &name);
 
-  bool has_prefix(const std::u32string_view &prefix) const { return trie_.has_prefix(prefix); }
+  bool has_prefix(const std::u32string_view &prefix) const {
+    return trie_.has_prefix(prefix);
+  }
 
 private:
-  std::deque<TokenDescriptor> storage_;
-  std::unordered_map<interpreter::core::TokenKind, TokenDescriptor *> by_kind_;
+  std::deque<token::TokenDescriptor> storage_;
+  std::unordered_map<token::TokenKind, token::TokenDescriptor *> by_kind_;
 
+  std::unordered_map<std::u32string, token::TokenDescriptor *, U32Hash,
+                     U32Equal>
+      by_name_;
 
-  std::unordered_map<std::u32string, TokenDescriptor *, U32Hash, U32Equal> by_name_;
-
-
-
-  
-  Trie<TokenDescriptor> trie_;
+  Trie<token::TokenDescriptor> trie_;
 };
+} // namespace core::table

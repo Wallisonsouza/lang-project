@@ -3,13 +3,14 @@
 #include "core/text/TextSpan.hpp"
 #include "core/token/TokenDescriptor.hpp"
 
-namespace interpreter::core {
+namespace core::token {
 
 struct Token {
   const TokenDescriptor *descriptor;
-  TextSpan span;
+  text::TextSpan span;
 
-  constexpr Token(const TokenDescriptor *desc, TextSpan sp) : descriptor(desc), span(sp) {}
+  constexpr Token(const TokenDescriptor *desc, text::TextSpan sp)
+      : descriptor(desc), span(sp) {}
 };
 
-} // namespace interpreter::core
+} // namespace core::token

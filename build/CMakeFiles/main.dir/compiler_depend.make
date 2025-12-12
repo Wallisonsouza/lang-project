@@ -4,23 +4,11 @@
 CMakeFiles/main.dir/main.cpp.o: /home/wallison/Documentos/git/lang-project/main.cpp \
   /home/wallison/Documentos/git/lang-project/src/argon/argon_main.hpp \
   /home/wallison/Documentos/git/lang-project/src/core/LangData.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/TextStream.hpp \
   /home/wallison/Documentos/git/lang-project/src/core/TransparentHash.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/debug/Console.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/debug/TokenDebug.hpp \
+  /home/wallison/Documentos/git/lang-project/src/core/diagnostic/Category.hpp \
   /home/wallison/Documentos/git/lang-project/src/core/diagnostic/Diagnostic.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/helper/TokenMatchHelper.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/lexer/Lexer.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/lexer/plugin.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/lexer/plugins/identifier_plugin.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/lexer/plugins/number_plugin.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/lexer/plugins/operator_plugin.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/lexer/plugins/string_plugin.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/parser/Parser.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/parser/VariableDeclarationPlugin.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/parser/expression/IdentifierExpressionPlugin.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/parser/expression/NumberExpressionPlugin.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/parser/expression/StringExpressionPlugin.hpp \
+  /home/wallison/Documentos/git/lang-project/src/core/diagnostic/DiagnosticEngine.hpp \
+  /home/wallison/Documentos/git/lang-project/src/core/diagnostic/Severity.hpp \
   /home/wallison/Documentos/git/lang-project/src/core/plugin/Plugin.hpp \
   /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.hpp \
   /home/wallison/Documentos/git/lang-project/src/core/table/PrecedenceTable.hpp \
@@ -33,8 +21,18 @@ CMakeFiles/main.dir/main.cpp.o: /home/wallison/Documentos/git/lang-project/main.
   /home/wallison/Documentos/git/lang-project/src/core/token/TokenDescriptor.hpp \
   /home/wallison/Documentos/git/lang-project/src/core/token/TokenGroup.hpp \
   /home/wallison/Documentos/git/lang-project/src/core/token/TokenKind.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/utils/Unicode.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/utils/Utf8.hpp \
+  /home/wallison/Documentos/git/lang-project/src/debug/Console.hpp \
+  /home/wallison/Documentos/git/lang-project/src/debug/TokenDebug.hpp \
+  /home/wallison/Documentos/git/lang-project/src/helper/TokenMatchHelper.hpp \
+  /home/wallison/Documentos/git/lang-project/src/lexer/Lexer.hpp \
+  /home/wallison/Documentos/git/lang-project/src/lexer/plugin.hpp \
+  /home/wallison/Documentos/git/lang-project/src/lexer/plugins/identifier_plugin.hpp \
+  /home/wallison/Documentos/git/lang-project/src/lexer/plugins/number_plugin.hpp \
+  /home/wallison/Documentos/git/lang-project/src/lexer/plugins/operator_plugin.hpp \
+  /home/wallison/Documentos/git/lang-project/src/lexer/plugins/string_plugin.hpp \
+  /home/wallison/Documentos/git/lang-project/src/utils/TextLoader.hpp \
+  /home/wallison/Documentos/git/lang-project/src/utils/Unicode.hpp \
+  /home/wallison/Documentos/git/lang-project/src/utils/Utf8.hpp \
   /usr/include/alloca.h \
   /usr/include/asm-generic/bitsperlong.h \
   /usr/include/asm-generic/errno-base.h \
@@ -368,28 +366,17 @@ CMakeFiles/main.dir/main.cpp.o: /home/wallison/Documentos/git/lang-project/main.
 
 CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp \
   /home/wallison/Documentos/git/lang-project/src/core/TransparentHash.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/debug/Console.hpp \
   /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.hpp \
   /home/wallison/Documentos/git/lang-project/src/core/table/TrieNode.hpp \
   /home/wallison/Documentos/git/lang-project/src/core/token/TokenDescriptor.hpp \
   /home/wallison/Documentos/git/lang-project/src/core/token/TokenGroup.hpp \
   /home/wallison/Documentos/git/lang-project/src/core/token/TokenKind.hpp \
-  /home/wallison/Documentos/git/lang-project/src/core/utils/Utf8.hpp \
   /usr/include/alloca.h \
-  /usr/include/asm-generic/bitsperlong.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
-  /usr/include/asm-generic/int-ll64.h \
-  /usr/include/asm-generic/posix_types.h \
-  /usr/include/asm-generic/types.h \
-  /usr/include/asm/bitsperlong.h \
   /usr/include/asm/errno.h \
-  /usr/include/asm/posix_types.h \
-  /usr/include/asm/posix_types_64.h \
-  /usr/include/asm/types.h \
   /usr/include/bits/atomic_wide_counter.h \
   /usr/include/bits/byteswap.h \
-  /usr/include/bits/cpu-set.h \
   /usr/include/bits/endian.h \
   /usr/include/bits/endianness.h \
   /usr/include/bits/errno.h \
@@ -398,12 +385,9 @@ CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: /home/wallison/Documentos/g
   /usr/include/bits/libc-header-start.h \
   /usr/include/bits/locale.h \
   /usr/include/bits/long-double.h \
-  /usr/include/bits/pthread_stack_min-dynamic.h \
   /usr/include/bits/pthreadtypes-arch.h \
   /usr/include/bits/pthreadtypes.h \
-  /usr/include/bits/sched.h \
   /usr/include/bits/select.h \
-  /usr/include/bits/setjmp.h \
   /usr/include/bits/stdint-intn.h \
   /usr/include/bits/stdint-least.h \
   /usr/include/bits/stdint-uintn.h \
@@ -412,10 +396,8 @@ CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: /home/wallison/Documentos/g
   /usr/include/bits/struct_mutex.h \
   /usr/include/bits/struct_rwlock.h \
   /usr/include/bits/thread-shared-types.h \
-  /usr/include/bits/time.h \
   /usr/include/bits/time64.h \
   /usr/include/bits/timesize.h \
-  /usr/include/bits/timex.h \
   /usr/include/bits/types.h \
   /usr/include/bits/types/FILE.h \
   /usr/include/bits/types/__FILE.h \
@@ -432,12 +414,8 @@ CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: /home/wallison/Documentos/g
   /usr/include/bits/types/mbstate_t.h \
   /usr/include/bits/types/sigset_t.h \
   /usr/include/bits/types/struct_FILE.h \
-  /usr/include/bits/types/struct___jmp_buf_tag.h \
-  /usr/include/bits/types/struct_itimerspec.h \
-  /usr/include/bits/types/struct_sched_param.h \
   /usr/include/bits/types/struct_timespec.h \
   /usr/include/bits/types/struct_timeval.h \
-  /usr/include/bits/types/struct_tm.h \
   /usr/include/bits/types/time_t.h \
   /usr/include/bits/types/timer_t.h \
   /usr/include/bits/types/wint_t.h \
@@ -446,14 +424,11 @@ CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: /home/wallison/Documentos/g
   /usr/include/bits/waitflags.h \
   /usr/include/bits/waitstatus.h \
   /usr/include/bits/wchar.h \
-  /usr/include/bits/wctype-wchar.h \
   /usr/include/bits/wordsize.h \
   /usr/include/c++/15/backward/binders.h \
   /usr/include/c++/15/bit \
   /usr/include/c++/15/bits/alloc_traits.h \
   /usr/include/c++/15/bits/allocator.h \
-  /usr/include/c++/15/bits/basic_ios.h \
-  /usr/include/c++/15/bits/basic_ios.tcc \
   /usr/include/c++/15/bits/basic_string.h \
   /usr/include/c++/15/bits/basic_string.tcc \
   /usr/include/c++/15/bits/char_traits.h \
@@ -461,35 +436,24 @@ CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: /home/wallison/Documentos/g
   /usr/include/c++/15/bits/concept_check.h \
   /usr/include/c++/15/bits/cpp_type_traits.h \
   /usr/include/c++/15/bits/cxxabi_forced.h \
-  /usr/include/c++/15/bits/cxxabi_init_exception.h \
   /usr/include/c++/15/bits/enable_special_members.h \
   /usr/include/c++/15/bits/erase_if.h \
   /usr/include/c++/15/bits/exception.h \
   /usr/include/c++/15/bits/exception_defines.h \
-  /usr/include/c++/15/bits/exception_ptr.h \
   /usr/include/c++/15/bits/functexcept.h \
   /usr/include/c++/15/bits/functional_hash.h \
   /usr/include/c++/15/bits/hash_bytes.h \
   /usr/include/c++/15/bits/hashtable.h \
   /usr/include/c++/15/bits/hashtable_policy.h \
   /usr/include/c++/15/bits/invoke.h \
-  /usr/include/c++/15/bits/ios_base.h \
-  /usr/include/c++/15/bits/istream.tcc \
   /usr/include/c++/15/bits/iterator_concepts.h \
-  /usr/include/c++/15/bits/locale_classes.h \
-  /usr/include/c++/15/bits/locale_classes.tcc \
-  /usr/include/c++/15/bits/locale_facets.h \
-  /usr/include/c++/15/bits/locale_facets.tcc \
   /usr/include/c++/15/bits/localefwd.h \
   /usr/include/c++/15/bits/max_size_type.h \
   /usr/include/c++/15/bits/memory_resource.h \
   /usr/include/c++/15/bits/memoryfwd.h \
   /usr/include/c++/15/bits/move.h \
-  /usr/include/c++/15/bits/nested_exception.h \
   /usr/include/c++/15/bits/new_allocator.h \
   /usr/include/c++/15/bits/node_handle.h \
-  /usr/include/c++/15/bits/ostream.h \
-  /usr/include/c++/15/bits/ostream.tcc \
   /usr/include/c++/15/bits/ostream_insert.h \
   /usr/include/c++/15/bits/postypes.h \
   /usr/include/c++/15/bits/predefined_ops.h \
@@ -512,8 +476,6 @@ CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: /home/wallison/Documentos/g
   /usr/include/c++/15/bits/stl_relops.h \
   /usr/include/c++/15/bits/stl_uninitialized.h \
   /usr/include/c++/15/bits/stl_vector.h \
-  /usr/include/c++/15/bits/streambuf.tcc \
-  /usr/include/c++/15/bits/streambuf_iterator.h \
   /usr/include/c++/15/bits/string_view.tcc \
   /usr/include/c++/15/bits/stringfwd.h \
   /usr/include/c++/15/bits/unordered_map.h \
@@ -532,46 +494,29 @@ CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: /home/wallison/Documentos/g
   /usr/include/c++/15/cstdio \
   /usr/include/c++/15/cstdlib \
   /usr/include/c++/15/cwchar \
-  /usr/include/c++/15/cwctype \
   /usr/include/c++/15/debug/assertions.h \
   /usr/include/c++/15/debug/debug.h \
-  /usr/include/c++/15/exception \
   /usr/include/c++/15/ext/aligned_buffer.h \
   /usr/include/c++/15/ext/alloc_traits.h \
-  /usr/include/c++/15/ext/atomicity.h \
   /usr/include/c++/15/ext/numeric_traits.h \
   /usr/include/c++/15/ext/string_conversions.h \
   /usr/include/c++/15/ext/type_traits.h \
   /usr/include/c++/15/initializer_list \
-  /usr/include/c++/15/ios \
   /usr/include/c++/15/iosfwd \
-  /usr/include/c++/15/iostream \
-  /usr/include/c++/15/istream \
   /usr/include/c++/15/new \
   /usr/include/c++/15/numbers \
-  /usr/include/c++/15/ostream \
   /usr/include/c++/15/pstl/pstl_config.h \
-  /usr/include/c++/15/stdexcept \
-  /usr/include/c++/15/streambuf \
   /usr/include/c++/15/string \
   /usr/include/c++/15/string_view \
-  /usr/include/c++/15/system_error \
   /usr/include/c++/15/tuple \
   /usr/include/c++/15/type_traits \
-  /usr/include/c++/15/typeinfo \
   /usr/include/c++/15/unordered_map \
   /usr/include/c++/15/utility \
   /usr/include/c++/15/vector \
-  /usr/include/c++/15/x86_64-redhat-linux/bits/atomic_word.h \
   /usr/include/c++/15/x86_64-redhat-linux/bits/c++allocator.h \
   /usr/include/c++/15/x86_64-redhat-linux/bits/c++config.h \
   /usr/include/c++/15/x86_64-redhat-linux/bits/c++locale.h \
   /usr/include/c++/15/x86_64-redhat-linux/bits/cpu_defines.h \
-  /usr/include/c++/15/x86_64-redhat-linux/bits/ctype_base.h \
-  /usr/include/c++/15/x86_64-redhat-linux/bits/ctype_inline.h \
-  /usr/include/c++/15/x86_64-redhat-linux/bits/error_constants.h \
-  /usr/include/c++/15/x86_64-redhat-linux/bits/gthr-default.h \
-  /usr/include/c++/15/x86_64-redhat-linux/bits/gthr.h \
   /usr/include/c++/15/x86_64-redhat-linux/bits/os_defines.h \
   /usr/include/ctype.h \
   /usr/include/endian.h \
@@ -581,24 +526,15 @@ CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: /home/wallison/Documentos/g
   /usr/include/gnu/stubs-64.h \
   /usr/include/gnu/stubs.h \
   /usr/include/linux/errno.h \
-  /usr/include/linux/posix_types.h \
-  /usr/include/linux/sched/types.h \
-  /usr/include/linux/stddef.h \
-  /usr/include/linux/types.h \
   /usr/include/locale.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
   /usr/include/stdc-predef.h \
   /usr/include/stdint.h \
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
   /usr/include/sys/cdefs.h \
   /usr/include/sys/select.h \
-  /usr/include/sys/single_threaded.h \
   /usr/include/sys/types.h \
-  /usr/include/time.h \
   /usr/include/wchar.h \
-  /usr/include/wctype.h \
   /usr/lib/gcc/x86_64-redhat-linux/15/include/stdarg.h \
   /usr/lib/gcc/x86_64-redhat-linux/15/include/stddef.h \
   /usr/lib/gcc/x86_64-redhat-linux/15/include/stdint.h
@@ -937,6 +873,8 @@ CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o:
 
 /usr/include/unistd.h:
 
+/usr/include/unicode/uversion.h:
+
 CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o:
 
 /usr/include/unicode/utypes.h:
@@ -956,6 +894,8 @@ CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o:
 /usr/include/unicode/stringoptions.h:
 
 /usr/include/unicode/ptypes.h:
+
+/usr/include/unicode/platform.h:
 
 /usr/include/time.h:
 
@@ -1031,6 +971,8 @@ CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o:
 
 /usr/include/c++/15/string:
 
+/usr/include/c++/15/streambuf:
+
 CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o:
 
 /usr/include/sys/syscall.h:
@@ -1040,6 +982,8 @@ CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o:
 /usr/include/c++/15/stdexcept:
 
 /usr/include/c++/15/ratio:
+
+/usr/include/c++/15/pstl/pstl_config.h:
 
 /usr/include/c++/15/pstl/glue_memory_defs.h:
 
@@ -1073,27 +1017,25 @@ CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o:
 
 /usr/include/c++/15/ext/type_traits.h:
 
-/usr/lib64/libc_nonshared.a:
-
-/usr/include/c++/15/ext/numeric_traits.h:
-
 /usr/include/c++/15/bits/algorithmfwd.h:
 
 /usr/include/c++/15/backward/binders.h:
 
+/usr/include/c++/15/array:
+
 /usr/include/c++/15/bits/range_access.h:
+
+/usr/include/bits/timesize.h:
+
+/usr/include/bits/unistd_ext.h:
+
+/usr/include/c++/15/bits/align.h:
 
 /usr/include/bits/uio_lim.h:
 
 /usr/include/c++/15/bits/concept_check.h:
 
 /usr/include/c++/15/bits/version.h:
-
-/usr/include/bits/types/struct_timespec.h:
-
-/usr/lib/gcc/x86_64-redhat-linux/15/include/stddef.h:
-
-/usr/include/c++/15/bits/localefwd.h:
 
 /usr/include/bits/waitflags.h:
 
@@ -1109,6 +1051,8 @@ CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o:
 
 /usr/include/bits/types/mbstate_t.h:
 
+/usr/include/c++/15/bits/alloc_traits.h:
+
 /usr/include/bits/types/locale_t.h:
 
 /usr/lib/gcc/x86_64-redhat-linux/15/include/stdint.h:
@@ -1117,9 +1061,9 @@ CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o:
 
 /usr/include/c++/15/bits/locale_classes.h:
 
-/home/wallison/Documentos/git/lang-project/src/core/lexer/plugins/string_plugin.hpp:
-
 /usr/include/bits/types/__locale_t.h:
+
+/home/wallison/Documentos/git/lang-project/src/lexer/plugins/string_plugin.hpp:
 
 /usr/include/bits/types/__fpos64_t.h:
 
@@ -1138,10 +1082,6 @@ CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o:
 /usr/include/bits/stdlib-float.h:
 
 /usr/include/bits/thread-shared-types.h:
-
-/usr/include/unicode/platform.h:
-
-/home/wallison/Documentos/git/lang-project/src/core/parser/expression/StringExpressionPlugin.hpp:
 
 /usr/include/bits/stdint-least.h:
 
@@ -1165,8 +1105,6 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /usr/include/bits/types/cookie_io_functions_t.h:
 
-/home/wallison/Documentos/git/lang-project/src/core/lexer/plugins/number_plugin.hpp:
-
 /usr/include/features.h:
 
 /usr/include/bits/types/__FILE.h:
@@ -1187,8 +1125,6 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /usr/include/bits/long-double.h:
 
-/home/wallison/Documentos/git/lang-project/src/core/utils/Utf8.hpp:
-
 /usr/include/bits/types/__fpos_t.h:
 
 /usr/include/asm/unistd_64.h:
@@ -1207,7 +1143,33 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /usr/include/bits/stdio_lim.h:
 
+/usr/include/asm/posix_types.h:
+
+/usr/include/bits/time.h:
+
 /usr/include/c++/15/cstdio:
+
+/home/wallison/Documentos/git/lang-project/src/lexer/plugins/number_plugin.hpp:
+
+/usr/lib64/crti.o:
+
+/usr/include/stdio.h:
+
+/usr/include/bits/wordsize.h:
+
+/home/wallison/Documentos/git/lang-project/src/core/token/TokenGroup.hpp:
+
+/usr/include/bits/libc-header-start.h:
+
+/home/wallison/Documentos/git/lang-project/src/core/text/TextSpan.hpp:
+
+/home/wallison/Documentos/git/lang-project/src/helper/TokenMatchHelper.hpp:
+
+/usr/include/bits/types/struct_timeval.h:
+
+/usr/include/unicode/uconfig.h:
+
+/usr/include/bits/byteswap.h:
 
 /usr/include/bits/types/time_t.h:
 
@@ -1215,17 +1177,29 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /usr/include/c++/15/bits/hashtable.h:
 
-/usr/include/wchar.h:
+/usr/lib/gcc/x86_64-redhat-linux/15/include/stddef.h:
 
-/usr/include/c++/15/sstream:
+/usr/include/c++/15/bits/localefwd.h:
 
-/usr/include/bits/posix1_lim.h:
+/home/wallison/Documentos/git/lang-project/src/lexer/plugins/operator_plugin.hpp:
 
-/usr/include/c++/15/cerrno:
+/usr/include/bits/setjmp.h:
 
-/home/wallison/Documentos/git/lang-project/src/core/table/TrieNode.hpp:
+/usr/include/c++/15/bits/char_traits.h:
 
-/home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.hpp:
+/home/wallison/Documentos/git/lang-project/src/debug/Console.hpp:
+
+/usr/include/alloca.h:
+
+/home/wallison/Documentos/git/lang-project/src/core/diagnostic/Diagnostic.hpp:
+
+/home/wallison/Documentos/git/lang-project/src/lexer/plugins/identifier_plugin.hpp:
+
+/usr/include/libintl.h:
+
+/home/wallison/Documentos/git/lang-project/src/core/diagnostic/Severity.hpp:
+
+/usr/include/bits/endianness.h:
 
 /usr/include/bits/types/sigset_t.h:
 
@@ -1237,19 +1211,11 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /usr/include/bits/typesizes.h:
 
-/usr/include/bits/timesize.h:
+/usr/include/bits/types/struct_timespec.h:
 
-/home/wallison/Documentos/git/lang-project/src/core/debug/Console.hpp:
+/home/wallison/Documentos/git/lang-project/src/core/diagnostic/Category.hpp:
 
-/usr/include/c++/15/bits/ranges_uninitialized.h:
-
-/usr/lib64/libicui18n.so:
-
-/usr/include/c++/15/memory:
-
-/home/wallison/Documentos/git/lang-project/src/core/text/TextBuffer.hpp:
-
-/usr/include/c++/15/bits/quoted_string.h:
+/usr/include/c++/15/bits/stl_deque.h:
 
 /usr/include/bits/floatn.h:
 
@@ -1257,61 +1223,11 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /usr/include/c++/15/bits/refwrap.h:
 
-/usr/include/bits/types/struct_timeval.h:
+/home/wallison/Documentos/git/lang-project/src/core/token/TokenDescriptor.hpp:
 
-/home/wallison/Documentos/git/lang-project/src/core/token/TokenGroup.hpp:
+/home/wallison/Documentos/git/lang-project/src/core/diagnostic/DiagnosticEngine.hpp:
 
-/usr/include/bits/libc-header-start.h:
-
-/usr/include/unicode/uconfig.h:
-
-/usr/include/bits/byteswap.h:
-
-/usr/include/unicode/uvernum.h:
-
-/usr/include/c++/15/bits/node_handle.h:
-
-/home/wallison/Documentos/git/lang-project/src/core/lexer/plugins/operator_plugin.hpp:
-
-/usr/include/bits/types/__sigset_t.h:
-
-/usr/lib64/crti.o:
-
-/usr/include/stdio.h:
-
-/usr/include/bits/wordsize.h:
-
-/usr/include/c++/15/cctype:
-
-/usr/include/bits/types/struct_FILE.h:
-
-/usr/include/bits/environments.h:
-
-/home/wallison/Documentos/git/lang-project/src/core/text/TextSpan.hpp:
-
-/home/wallison/Documentos/git/lang-project/src/core/parser/Parser.hpp:
-
-/usr/include/bits/setjmp.h:
-
-/usr/include/c++/15/bits/char_traits.h:
-
-/usr/include/alloca.h:
-
-/home/wallison/Documentos/git/lang-project/src/core/diagnostic/Diagnostic.hpp:
-
-/usr/include/asm-generic/errno.h:
-
-/usr/include/unicode/uversion.h:
-
-/home/wallison/Documentos/git/lang-project/src/core/parser/VariableDeclarationPlugin.hpp:
-
-/home/wallison/Documentos/git/lang-project/src/core/TextStream.hpp:
-
-/usr/include/bits/unistd_ext.h:
-
-/home/wallison/Documentos/git/lang-project/src/core/lexer/Lexer.hpp:
-
-/usr/include/c++/15/bits/shared_ptr.h:
+/home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.hpp:
 
 /usr/include/bits/struct_mutex.h:
 
@@ -1323,31 +1239,29 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /usr/include/asm-generic/errno-base.h:
 
-/home/wallison/Documentos/git/lang-project/src/core/lexer/plugins/identifier_plugin.hpp:
+/usr/include/wchar.h:
 
-/usr/include/c++/15/streambuf:
+/usr/include/c++/15/sstream:
 
-/home/wallison/Documentos/git/lang-project/src/core/lexer/plugin.hpp:
+/usr/include/bits/posix1_lim.h:
 
-/home/wallison/Documentos/git/lang-project/src/core/debug/TokenDebug.hpp:
+/usr/include/c++/15/cerrno:
 
-/usr/include/c++/15/system_error:
+/home/wallison/Documentos/git/lang-project/src/core/table/TrieNode.hpp:
 
-/usr/include/bits/endian.h:
+/usr/include/c++/15/bits/stl_relops.h:
 
-/home/wallison/Documentos/git/lang-project/src/core/token/TokenDescriptor.hpp:
+/usr/include/c++/15/bits/stl_algobase.h:
 
-/usr/include/c++/15/array:
+/home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp:
 
-/usr/include/libintl.h:
+/usr/include/c++/15/clocale:
 
-/usr/include/bits/endianness.h:
-
-/usr/include/c++/15/pstl/pstl_config.h:
-
-/home/wallison/Documentos/git/lang-project/src/core/helper/TokenMatchHelper.hpp:
+/usr/include/asm-generic/errno.h:
 
 /usr/include/asm-generic/int-ll64.h:
+
+/usr/include/bits/types/__sigset_t.h:
 
 /usr/include/c++/15/x86_64-redhat-linux/bits/ctype_inline.h:
 
@@ -1355,35 +1269,37 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /home/wallison/Documentos/git/lang-project/src/core/TransparentHash.hpp:
 
+/home/wallison/Documentos/git/lang-project/src/lexer/plugin.hpp:
+
 /usr/include/c++/15/bits/sstream.tcc:
 
 /usr/include/asm/bitsperlong.h:
 
 /usr/include/c++/15/pstl/glue_algorithm_defs.h:
 
-/usr/include/bits/types/clock_t.h:
+/home/wallison/Documentos/git/lang-project/src/utils/Utf8.hpp:
 
-/home/wallison/Documentos/git/lang-project/src/core/utils/Unicode.hpp:
+/usr/include/bits/types/clock_t.h:
 
 /usr/include/c++/15/bits/charconv.h:
 
-/usr/include/asm/types.h:
+/usr/include/unicode/uvernum.h:
+
+/home/wallison/Documentos/git/lang-project/src/lexer/Lexer.hpp:
+
+/usr/include/c++/15/bits/node_handle.h:
 
 /usr/include/c++/15/bits/monostate.h:
 
-/usr/include/bits/time.h:
-
-/usr/include/asm/posix_types.h:
-
-/usr/include/c++/15/bits/alloc_traits.h:
-
-/usr/include/c++/15/bits/stringfwd.h:
-
-/usr/include/c++/15/bits/erase_if.h:
+/usr/include/asm/types.h:
 
 /usr/include/bits/stdint-uintn.h:
 
 /usr/include/asm/errno.h:
+
+/usr/include/c++/15/system_error:
+
+/usr/include/bits/endian.h:
 
 /usr/include/c++/15/typeinfo:
 
@@ -1393,13 +1309,23 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /usr/include/bits/confname.h:
 
+/usr/lib64/libicui18n.so:
+
+/usr/include/c++/15/memory:
+
+/home/wallison/Documentos/git/lang-project/src/core/text/TextBuffer.hpp:
+
+/usr/include/c++/15/bits/quoted_string.h:
+
+/usr/lib64/libc_nonshared.a:
+
+/usr/include/c++/15/ext/numeric_traits.h:
+
 /usr/include/bits/types.h:
 
 /usr/lib64/liblzma.so.5:
 
 /usr/include/c++/15/bits/streambuf_iterator.h:
-
-/usr/include/c++/15/bits/align.h:
 
 /usr/include/c++/15/bits/unicode.h:
 
@@ -1427,8 +1353,6 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /usr/include/unicode/utf16.h:
 
-/home/wallison/Documentos/git/lang-project/src/core/parser/expression/IdentifierExpressionPlugin.hpp:
-
 /usr/include/c++/15/bits/basic_string.h:
 
 /usr/include/bits/wctype-wchar.h:
@@ -1445,9 +1369,9 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /usr/include/c++/15/bits/chrono_io.h:
 
-/usr/include/bits/wchar.h:
-
 /usr/include/bits/waitstatus.h:
+
+/usr/include/bits/wchar.h:
 
 /usr/include/bits/types/struct___jmp_buf_tag.h:
 
@@ -1493,10 +1417,6 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /usr/include/c++/15/bits/locale_classes.tcc:
 
-/usr/include/c++/15/ext/string_conversions.h:
-
-/usr/include/c++/15/bits/hashtable_policy.h:
-
 /usr/include/bits/cpu-set.h:
 
 /usr/include/c++/15/bits/new_allocator.h:
@@ -1524,6 +1444,8 @@ CMakeFiles/main.dir/main.cpp.o:
 /usr/include/c++/15/cstdlib:
 
 /home/wallison/Documentos/git/lang-project/src/core/token/Token.hpp:
+
+/home/wallison/Documentos/git/lang-project/src/utils/TextLoader.hpp:
 
 /usr/include/c++/15/bits/locale_facets_nonio.h:
 
@@ -1561,9 +1483,31 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /usr/include/c++/15/bits/postypes.h:
 
+/usr/include/c++/15/bits/ranges_algobase.h:
+
+/usr/include/c++/15/bits/stl_construct.h:
+
+/home/wallison/Documentos/git/lang-project/src/debug/TokenDebug.hpp:
+
+/usr/include/c++/15/bits/ptr_traits.h:
+
 /usr/include/asm/unistd.h:
 
 /usr/include/c++/15/bits/ranges_algo.h:
+
+/usr/include/c++/15/bits/ranges_uninitialized.h:
+
+/usr/include/bits/environments.h:
+
+/usr/include/bits/types/struct_FILE.h:
+
+/usr/include/c++/15/cctype:
+
+/usr/include/c++/15/bits/shared_ptr.h:
+
+/usr/include/c++/15/bits/erase_if.h:
+
+/usr/include/c++/15/bits/stringfwd.h:
 
 /usr/include/c++/15/bits/shared_ptr_atomic.h:
 
@@ -1589,27 +1533,13 @@ CMakeFiles/main.dir/main.cpp.o:
 
 /usr/include/c++/15/compare:
 
-/usr/include/c++/15/bits/stl_relops.h:
-
-/usr/include/c++/15/bits/stl_algobase.h:
-
-/home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp:
-
-/usr/include/c++/15/clocale:
-
 /usr/include/c++/15/bits/stl_pair.h:
 
 /usr/include/c++/15/bits/stl_bvector.h:
 
 /usr/include/c++/15/bits/stl_iterator.h:
 
-/usr/include/c++/15/bits/ranges_algobase.h:
-
-/usr/include/c++/15/bits/ptr_traits.h:
-
-/usr/include/c++/15/bits/stl_construct.h:
-
-/usr/include/c++/15/bits/stl_deque.h:
+/home/wallison/Documentos/git/lang-project/src/utils/Unicode.hpp:
 
 /usr/include/c++/15/bits/stl_function.h:
 
@@ -1636,8 +1566,6 @@ CMakeFiles/main.dir/main.cpp.o:
 /usr/include/c++/15/bits/ranges_util.h:
 
 /usr/include/c++/15/bits/stl_raw_storage_iter.h:
-
-/home/wallison/Documentos/git/lang-project/src/core/parser/expression/NumberExpressionPlugin.hpp:
 
 /usr/include/c++/15/bits/deque.tcc:
 
@@ -1690,3 +1618,7 @@ CMakeFiles/main.dir/main.cpp.o:
 /usr/include/c++/15/bits/exception_ptr.h:
 
 /usr/include/c++/15/ext/concurrence.h:
+
+/usr/include/c++/15/bits/hashtable_policy.h:
+
+/usr/include/c++/15/ext/string_conversions.h:
