@@ -1,5 +1,6 @@
 #pragma once
 #include "core/CompilationUnit.hpp"
+#include "core/TokenStream.hpp"
 #include "core/node/Type.hpp"
 #include "core/token/TokenKind.hpp"
 #include "parser/ExpressionParser.hpp"
@@ -12,7 +13,7 @@
 
 namespace parser::match {
 
-inline node::VariableDeclarationNode *match_variable_declaration(CompilationUnit &unit, utils::Stream<core::token::Token *> &stream, ExpressionParser &exp) {
+inline node::VariableDeclarationNode *match_variable_declaration(CompilationUnit &unit, TokenStream &stream, ExpressionParser &exp) {
   stream.push_checkpoint();
   bool has_error = false;
 

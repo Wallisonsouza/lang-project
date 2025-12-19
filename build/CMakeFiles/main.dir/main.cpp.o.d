@@ -243,7 +243,6 @@ CMakeFiles/main.dir/main.cpp.o: \
  /home/wallison/Documentos/git/lang-project/src/parser/ExpressionParser.hpp \
  /home/wallison/Documentos/git/lang-project/src/parser/node/literal_nodes.hpp \
  /home/wallison/Documentos/git/lang-project/src/parser/node/operator_nodes.hpp \
- /home/wallison/Documentos/git/lang-project/src/utils/Stream.hpp \
  /home/wallison/Documentos/git/lang-project/src/utils/Utf8.hpp \
  /home/wallison/Documentos/git/lang-project/src/parser/match/match_modifier.hpp \
  /home/wallison/Documentos/git/lang-project/src/parser/node/statement_nodes.hpp \

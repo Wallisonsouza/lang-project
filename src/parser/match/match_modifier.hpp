@@ -1,10 +1,10 @@
 #pragma once
+#include "core/TokenStream.hpp"
 #include "core/token/Token.hpp"
 #include "parser/node/statement_nodes.hpp"
-#include "utils/Stream.hpp"
 
 namespace parser::match {
-inline node::Modifier match_modifier(utils::Stream<core::token::Token *> &stream) {
+inline node::Modifier match_modifier(TokenStream &stream) {
 
   node::Modifier mods = node::Modifier::None;
 

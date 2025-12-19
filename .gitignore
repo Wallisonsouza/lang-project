@@ -1,0 +1,21 @@
+# Ignorar arquivos compilados
+*.o
+*.obj
+*.exe
+*.out
+
+# Ignorar pastas de build
+/build/
+/bin/
+/dist/
+
+# Ignorar arquivos de IDE
+.vscode/
+.idea/
+
+# Ignorar arquivos temporários
+*.log
+*.tmp
+
+# Ignorar dependências (ex: Node.js)
+node_modules/

@@ -1,12 +1,12 @@
 #pragma once
 #include "core/CompilationUnit.hpp"
+#include "core/TokenStream.hpp"
 #include "parser/node/type_nodes.hpp"
-#include "utils/Stream.hpp"
 #include <vector>
 
 namespace parser::match {
 
-inline node::TypeNode *match_type(CompilationUnit &unit, utils::Stream<core::token::Token *> &stream) {
+inline node::TypeNode *match_type(CompilationUnit &unit, TokenStream &stream) {
   stream.push_checkpoint();
 
   auto tok = stream.peek();

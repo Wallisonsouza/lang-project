@@ -53,7 +53,6 @@ CMakeFiles/main.dir/main.cpp.o: /home/wallison/Documentos/git/lang-project/main.
   /home/wallison/Documentos/git/lang-project/src/parser/node/operator_nodes.hpp \
   /home/wallison/Documentos/git/lang-project/src/parser/node/statement_nodes.hpp \
   /home/wallison/Documentos/git/lang-project/src/parser/node/type_nodes.hpp \
-  /home/wallison/Documentos/git/lang-project/src/utils/Stream.hpp \
   /home/wallison/Documentos/git/lang-project/src/utils/TextLoader.hpp \
   /home/wallison/Documentos/git/lang-project/src/utils/Unicode.hpp \
   /home/wallison/Documentos/git/lang-project/src/utils/Utf8.hpp \
@@ -1379,7 +1378,13 @@ CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o:
 
 /usr/include/c++/15/cerrno:
 
-/usr/include/c++/15/cassert:
+/home/wallison/Documentos/git/lang-project/src/core/text/TextStream.hpp:
+
+/usr/include/c++/15/pstl/execution_defs.h:
+
+/home/wallison/Documentos/git/lang-project/src/core/module/BuiltinScope.hpp:
+
+/usr/include/c++/15/bits/cxxabi_init_exception.h:
 
 /usr/include/bits/types/sigset_t.h:
 
@@ -1437,6 +1442,8 @@ CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o:
 
 /usr/include/bits/confname.h:
 
+/usr/include/c++/15/cassert:
+
 /usr/include/bits/types/__fpos_t.h:
 
 /usr/include/asm/unistd_64.h:
@@ -1467,6 +1474,14 @@ CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o:
 
 /usr/include/asm/bitsperlong.h:
 
+/usr/include/c++/15/pstl/glue_algorithm_defs.h:
+
+/home/wallison/Documentos/git/lang-project/src/utils/Utf8.hpp:
+
+/usr/include/bits/types/clock_t.h:
+
+/usr/include/c++/15/bits/charconv.h:
+
 /usr/include/asm-generic/errno-base.h:
 
 /usr/include/bits/types/__sigset_t.h:
@@ -1480,22 +1495,6 @@ CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o:
 /usr/include/bits/posix2_lim.h:
 
 /home/wallison/Documentos/git/lang-project/src/core/token/TokenDescriptor.hpp:
-
-/home/wallison/Documentos/git/lang-project/src/core/text/TextStream.hpp:
-
-/usr/include/c++/15/pstl/execution_defs.h:
-
-/home/wallison/Documentos/git/lang-project/src/core/module/BuiltinScope.hpp:
-
-/usr/include/c++/15/pstl/glue_algorithm_defs.h:
-
-/usr/include/bits/types/clock_t.h:
-
-/usr/include/c++/15/bits/charconv.h:
-
-/home/wallison/Documentos/git/lang-project/src/utils/Utf8.hpp:
-
-/usr/include/c++/15/bits/cxxabi_init_exception.h:
 
 /usr/include/c++/15/bits/ostream_insert.h:
 
@@ -1516,6 +1515,12 @@ CMakeFiles/main.dir/main.cpp.o:
 /usr/lib/gcc/x86_64-redhat-linux/15/include/stdarg.h:
 
 /home/wallison/Documentos/git/lang-project/src/core/module/Module.hpp:
+
+/usr/include/errno.h:
+
+/usr/include/c++/15/cstddef:
+
+/usr/include/bits/getopt_posix.h:
 
 /home/wallison/Documentos/git/lang-project/src/parser/node/operator_nodes.hpp:
 
@@ -1716,14 +1721,6 @@ CMakeFiles/main.dir/main.cpp.o:
 /lib64/libgcc_s.so.1:
 
 /home/wallison/Documentos/git/lang-project/src/parser/node/statement_nodes.hpp:
-
-/usr/include/errno.h:
-
-/usr/include/c++/15/cstddef:
-
-/usr/include/bits/getopt_posix.h:
-
-/home/wallison/Documentos/git/lang-project/src/utils/Stream.hpp:
 
 /usr/include/c++/15/bits/stl_relops.h:
 

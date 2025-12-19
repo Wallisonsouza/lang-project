@@ -1,19 +1,19 @@
 #pragma once
 #include "core/AST.hpp"
 #include "core/CompilationUnit.hpp"
+#include "core/TokenStream.hpp"
 #include "core/node/Type.hpp"
 #include "parser/node/literal_nodes.hpp"
 #include "parser/node/operator_nodes.hpp"
-#include "utils/Stream.hpp"
 #include "utils/Utf8.hpp"
 #include <string>
 
 class ExpressionParser {
 public:
-  core::node::ExpressionNode *parse(AST &ast, CompilationUnit &unit, utils::Stream<core::token::Token *> &stream) { return parse_binary_expression(ast, unit, stream, 0); }
+  core::node::ExpressionNode *parse(AST &ast, CompilationUnit &unit, TokenStream &stream) { return parse_binary_expression(ast, unit, stream, 0); }
 
 private:
-  core::node::ExpressionNode *parse_binary_expression(AST &ast, CompilationUnit &unit, utils::Stream<core::token::Token *> &stream, int min_precedence) {
+  core::node::ExpressionNode *parse_binary_expression(AST &ast, CompilationUnit &unit, TokenStream &stream, int min_precedence) {
 
     auto left = parse_primary(ast, unit, stream);
     if (!left) return nullptr;
@@ -40,7 +40,7 @@ private:
     return left;
   }
 
-  core::node::ExpressionNode *parse_primary(AST &ast, CompilationUnit &unit, utils::Stream<core::token::Token *> &stream) {
+  core::node::ExpressionNode *parse_primary(AST &ast, CompilationUnit &unit, TokenStream &stream) {
     stream.push_checkpoint();
     auto tok = stream.consume();
     if (!tok || !tok->descriptor) {

@@ -76,71 +76,71 @@ CMakeFiles/main.dir/main.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/main.cpp.o: /home/wallison/Documentos/git/lang-project/main.cpp
 CMakeFiles/main.dir/main.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documentos/git/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/main.dir/main.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/main.cpp.o -MF CMakeFiles/main.dir/main.cpp.o.d -o CMakeFiles/main.dir/main.cpp.o -c /home/wallison/Documentos/git/lang-project/main.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/main.cpp.o -MF CMakeFiles/main.dir/main.cpp.o.d -o CMakeFiles/main.dir/main.cpp.o -c /home/wallison/Documentos/git/lang-project/main.cpp
 
 CMakeFiles/main.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/main.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/main.cpp > CMakeFiles/main.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/main.cpp > CMakeFiles/main.dir/main.cpp.i
 
 CMakeFiles/main.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/main.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/main.cpp -o CMakeFiles/main.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/main.cpp -o CMakeFiles/main.dir/main.cpp.s
 
 CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o: /home/wallison/Documentos/git/lang-project/src/core/module/ModuleRegistry.cpp
 CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documentos/git/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o -MF CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o.d -o CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/module/ModuleRegistry.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o -MF CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o.d -o CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/module/ModuleRegistry.cpp
 
 CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/src/core/module/ModuleRegistry.cpp > CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/src/core/module/ModuleRegistry.cpp > CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.i
 
 CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/src/core/module/ModuleRegistry.cpp -o CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/src/core/module/ModuleRegistry.cpp -o CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.s
 
 CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp
 CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documentos/git/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o -MF CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o.d -o CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o -MF CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o.d -o CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp
 
 CMakeFiles/main.dir/src/core/table/AliasTable.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/core/table/AliasTable.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp > CMakeFiles/main.dir/src/core/table/AliasTable.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp > CMakeFiles/main.dir/src/core/table/AliasTable.cpp.i
 
 CMakeFiles/main.dir/src/core/table/AliasTable.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/core/table/AliasTable.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp -o CMakeFiles/main.dir/src/core/table/AliasTable.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp -o CMakeFiles/main.dir/src/core/table/AliasTable.cpp.s
 
 CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o: /home/wallison/Documentos/git/lang-project/src/core/table/PrecedenceTable.cpp
 CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documentos/git/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o -MF CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o.d -o CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/PrecedenceTable.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o -MF CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o.d -o CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/PrecedenceTable.cpp
 
 CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/src/core/table/PrecedenceTable.cpp > CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/src/core/table/PrecedenceTable.cpp > CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.i
 
 CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/src/core/table/PrecedenceTable.cpp -o CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/src/core/table/PrecedenceTable.cpp -o CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.s
 
 CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o: CMakeFiles/main.dir/flags.make
 CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o: /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp
 CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/wallison/Documentos/git/lang-project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o -MF CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o.d -o CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o -MF CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o.d -o CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp
 
 CMakeFiles/main.dir/src/core/table/TokenTable.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/src/core/table/TokenTable.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp > CMakeFiles/main.dir/src/core/table/TokenTable.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp > CMakeFiles/main.dir/src/core/table/TokenTable.cpp.i
 
 CMakeFiles/main.dir/src/core/table/TokenTable.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/src/core/table/TokenTable.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp -o CMakeFiles/main.dir/src/core/table/TokenTable.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp -o CMakeFiles/main.dir/src/core/table/TokenTable.cpp.s
 
 # Object files for target main
 main_OBJECTS = \

@@ -54,7 +54,6 @@ CMakeFiles/main.dir/main.cpp.o
  /home/wallison/Documentos/git/lang-project/src/parser/node/operator_nodes.hpp
  /home/wallison/Documentos/git/lang-project/src/parser/node/statement_nodes.hpp
  /home/wallison/Documentos/git/lang-project/src/parser/node/type_nodes.hpp
- /home/wallison/Documentos/git/lang-project/src/utils/Stream.hpp
  /home/wallison/Documentos/git/lang-project/src/utils/TextLoader.hpp
  /home/wallison/Documentos/git/lang-project/src/utils/Unicode.hpp
  /home/wallison/Documentos/git/lang-project/src/utils/Utf8.hpp

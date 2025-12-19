@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/CompilationUnit.hpp"
+#include "core/TokenStream.hpp"
 #include "core/token/Token.hpp"
 #include "core/token/TokenKind.hpp"
 #include "parser/ExpressionParser.hpp"
@@ -10,12 +11,11 @@
 #include "parser/match/match_type.hpp"
 #include "parser/match/match_utils.hpp"
 #include "parser/node/type_nodes.hpp"
-#include "utils/Stream.hpp"
 #include <vector>
 
 namespace parser::match {
 
-inline node::FunctionDeclarationNode *match_function_declaration(CompilationUnit &unit, utils::Stream<core::token::Token *> &stream, ExpressionParser &exp) {
+inline node::FunctionDeclarationNode *match_function_declaration(CompilationUnit &unit, TokenStream &stream, ExpressionParser &exp) {
 
   auto mod = match_modifier(stream);
 
