@@ -166,6 +166,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/core/module/ModuleRegistry.o: src/core/module/ModuleRegistry.cpp.o
+.PHONY : src/core/module/ModuleRegistry.o
+
+# target to build an object file
+src/core/module/ModuleRegistry.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o
+.PHONY : src/core/module/ModuleRegistry.cpp.o
+
+src/core/module/ModuleRegistry.i: src/core/module/ModuleRegistry.cpp.i
+.PHONY : src/core/module/ModuleRegistry.i
+
+# target to preprocess a source file
+src/core/module/ModuleRegistry.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.i
+.PHONY : src/core/module/ModuleRegistry.cpp.i
+
+src/core/module/ModuleRegistry.s: src/core/module/ModuleRegistry.cpp.s
+.PHONY : src/core/module/ModuleRegistry.s
+
+# target to generate assembly for a file
+src/core/module/ModuleRegistry.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.s
+.PHONY : src/core/module/ModuleRegistry.cpp.s
+
 src/core/table/AliasTable.o: src/core/table/AliasTable.cpp.o
 .PHONY : src/core/table/AliasTable.o
 
@@ -251,6 +275,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/core/module/ModuleRegistry.o"
+	@echo "... src/core/module/ModuleRegistry.i"
+	@echo "... src/core/module/ModuleRegistry.s"
 	@echo "... src/core/table/AliasTable.o"
 	@echo "... src/core/table/AliasTable.i"
 	@echo "... src/core/table/AliasTable.s"

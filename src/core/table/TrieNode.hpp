@@ -1,18 +1,22 @@
 #pragma once
+#include <deque>
 #include <string_view>
 #include <unordered_map>
-#include <vector>
-
 template <typename T> struct TrieNode {
   bool is_terminal = false;
   T *value = nullptr;
   std::unordered_map<char32_t, TrieNode *> children;
+
+  const TrieNode *child(char32_t c) const {
+    auto it = children.find(c);
+    return it == children.end() ? nullptr : it->second;
+  }
 };
 
 template <typename T> class Trie {
 private:
   TrieNode<T> root_;
-  std::vector<TrieNode<T>> pool_;
+  std::deque<TrieNode<T>> pool_;
 
   TrieNode<T> *create_node() {
     pool_.emplace_back();
@@ -20,14 +24,14 @@ private:
   }
 
 public:
-  Trie() { pool_.reserve(256); }
-
   void clear() {
     root_ = TrieNode<T>{};
     pool_.clear();
   }
+  
+  const TrieNode<T> *root() const { return &root_; }
 
-  void insert(const std::u32string_view &key, T *value) {
+  void insert(std::u32string_view key, T *value) {
     TrieNode<T> *node = &root_;
     for (char32_t ch : key) {
       auto it = node->children.find(ch);
@@ -43,7 +47,7 @@ public:
     node->value = value;
   }
 
-  bool has_prefix(const std::u32string_view &prefix) const {
+  bool has_prefix(std::u32string_view prefix) const {
     const TrieNode<T> *node = &root_;
     for (char32_t ch : prefix) {
       auto it = node->children.find(ch);
@@ -53,7 +57,7 @@ public:
     return true;
   }
 
-  T *lookup(const std::u32string_view &key) const {
+  T *lookup(std::u32string_view key) const {
     const TrieNode<T> *node = &root_;
     for (char32_t ch : key) {
       auto it = node->children.find(ch);

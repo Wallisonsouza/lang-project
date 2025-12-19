@@ -1,16 +1,19 @@
 #pragma once
 
 #include "core/text/TextSpan.hpp"
+#include "core/token/Location.hpp"
 #include "core/token/TokenDescriptor.hpp"
 
 namespace core::token {
 
 struct Token {
-  const TokenDescriptor *descriptor;
-  text::TextSpan span;
+  const TokenDescriptor *descriptor = nullptr;
+  source::Span span{};
+  SourceRange range{};
 
-  constexpr Token(const TokenDescriptor *desc, text::TextSpan sp)
-      : descriptor(desc), span(sp) {}
+  constexpr Token() = default;
+
+  constexpr Token(const TokenDescriptor *desc, source::Span sp, SourceRange rg) : descriptor(desc), span(sp), range(rg) {}
 };
 
 } // namespace core::token

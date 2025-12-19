@@ -1,52 +1,65 @@
 #pragma once
 
-#include "core/LangData.hpp"
+#include "core/Context.hpp"
 #include "core/token/TokenGroup.hpp"
 #include "core/token/TokenKind.hpp"
 
 namespace argon {
 
-inline void bind(core::LangData &data) {
+inline core::Context make_lang_context() {
 
   using namespace core::token;
 
-  data.precedence_table.add(TokenKind::Assign, 1, true);
-  data.precedence_table.add(TokenKind::Plus, 10);
-  data.precedence_table.add(TokenKind::Minus, 10);
-  data.precedence_table.add(TokenKind::Star, 20);
-  data.precedence_table.add(TokenKind::Slash, 20);
+  auto context = core::Context();
 
-  data.token_table.add(TokenKind::Plus, U"+", TokenGroup::Operator);
-  data.token_table.add(TokenKind::Minus, U"-", TokenGroup::Operator);
-  data.token_table.add(TokenKind::Star, U"*", TokenGroup::Operator);
-  data.token_table.add(TokenKind::Slash, U"/", TokenGroup::Operator);
+  context.precedence_table.add(TokenKind::Assign, 1, true);
 
-  data.token_table.add(TokenKind::Assign, U"=", TokenGroup::Operator);
+  context.precedence_table.add(TokenKind::Plus, 10);
+  context.precedence_table.add(TokenKind::Minus, 10);
 
-  data.alias_table.add(U"->",
-                       data.token_table.lookup_by_kind(TokenKind::Assign));
-  data.alias_table.add(U"<-",
-                       data.token_table.lookup_by_kind(TokenKind::Assign));
-  data.token_table.add(TokenKind::Equals, U"==", TokenGroup::Operator);
-  data.token_table.add(TokenKind::Ternary, U"?", TokenGroup::Operator);
+  context.precedence_table.add(TokenKind::Star, 20);
+  context.precedence_table.add(TokenKind::Slash, 20);
 
-  data.token_table.add(TokenKind::LParen, U"(", TokenGroup::Punctuation);
-  data.token_table.add(TokenKind::Colon, U":", TokenGroup::Punctuation);
-  data.token_table.add(TokenKind::RParen, U")", TokenGroup::Punctuation);
-  data.token_table.add(TokenKind::LBrace, U"{", TokenGroup::Punctuation);
-  data.token_table.add(TokenKind::RBrace, U"}", TokenGroup::Punctuation);
-  data.token_table.add(TokenKind::Semicolon, U";", TokenGroup::Punctuation);
-  data.token_table.add(TokenKind::Comma, U",", TokenGroup::Punctuation);
-  data.token_table.add(TokenKind::SingleQuote, U"\'", TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::FunctionKeyword, U"fn", TokenGroup::Keyword);
 
-  data.token_table.add(TokenKind::Identifier, TokenGroup::Name);
+  context.descriptor_table.add(TokenKind::Static, U"static", TokenGroup::Keyword);
 
-  data.token_table.add(TokenKind::NumberLiteral, TokenGroup::Literal);
-  data.token_table.add(TokenKind::NumberType, U"Number", TokenGroup::Type);
-  data.token_table.add(TokenKind::StringType, U"String", TokenGroup::Type);
-  data.token_table.add(TokenKind::StringLiteral, TokenGroup::Literal);
-  data.token_table.add(TokenKind::BoolLiteral, TokenGroup::Literal);
-  data.token_table.add(TokenKind::CharLiteral, TokenGroup::Literal);
-  data.token_table.add(TokenKind::NullLiteral, TokenGroup::Literal);
+  context.descriptor_table.add(TokenKind::Mut, U"mut", TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::Value, U"val", TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::Public, U"public", TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::Private, U"private", TokenGroup::Keyword);
+
+  context.descriptor_table.add(TokenKind::Plus, U"+", TokenGroup::Operator);
+  context.descriptor_table.add(TokenKind::Minus, U"-", TokenGroup::Operator);
+  context.descriptor_table.add(TokenKind::Star, U"*", TokenGroup::Operator);
+  context.descriptor_table.add(TokenKind::Slash, U"/", TokenGroup::Operator);
+
+  context.descriptor_table.add(TokenKind::Assign, U"=", TokenGroup::Operator);
+  context.descriptor_table.add(TokenKind::Arrow, U"->", TokenGroup::Operator);
+  context.descriptor_table.add(TokenKind::Equals, U"==", TokenGroup::Operator);
+  context.descriptor_table.add(TokenKind::Ternary, U"?", TokenGroup::Operator);
+  context.descriptor_table.add(TokenKind::GreaterThan, U">", TokenGroup::Operator);
+  context.descriptor_table.add(TokenKind::LessThan, U"<", TokenGroup::Operator);
+
+  context.descriptor_table.add(TokenKind::OpenParen, U"(", TokenGroup::Punctuation);
+
+  context.descriptor_table.add(TokenKind::Colon, U":", TokenGroup::Punctuation);
+
+  context.descriptor_table.add(TokenKind::CloseParen, U")", TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::OpenBrace, U"{", TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::CloseBrace, U"}", TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::Semicolon, U";", TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::Comma, U",", TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::SingleQuote, U"\'", TokenGroup::Punctuation);
+
+  context.descriptor_table.add(TokenKind::Identifier, TokenGroup::Name);
+
+  context.descriptor_table.add(TokenKind::NumberLiteral, TokenGroup::Literal);
+  context.descriptor_table.add(TokenKind::StringLiteral, TokenGroup::Literal);
+  context.descriptor_table.add(TokenKind::BoolLiteral, TokenGroup::Literal);
+  context.descriptor_table.add(TokenKind::CharLiteral, TokenGroup::Literal);
+  context.descriptor_table.add(TokenKind::NullLiteral, TokenGroup::Literal);
+
+  return context;
 }
 } // namespace argon

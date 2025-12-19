@@ -1,110 +1,63 @@
+
 #include "argon/argon_main.hpp"
-#include "core/LangData.hpp"
-#include "core/text/TextBuffer.hpp"
+#include "core/AST.hpp"
+#include "core/CompilationUnit.hpp"
+#include "core/module/BuiltinScope.hpp"
+#include "core/module/Scope.hpp"
+#include "core/node/Node.hpp"
 #include "debug/Console.hpp"
+#include "debug/NodeDebug.hpp"
 #include "debug/TokenDebug.hpp"
 #include "lexer/Lexer.hpp"
-#include "lexer/plugins/identifier_plugin.hpp"
-#include "lexer/plugins/number_plugin.hpp"
-#include "lexer/plugins/operator_plugin.hpp"
-#include "lexer/plugins/string_plugin.hpp"
+#include "parser/Parser.hpp"
 #include "utils/TextLoader.hpp"
-
-#include <memory>
+#include <iostream>
 #include <string>
 
+// void traverse_ast(core::node::Node *node, core::Scope &current_scope) {
+//   if (!node) return;
+
+//   if (auto var_decl = dynamic_cast<parser::VariableDeclarationNode *>(node)) {
+//     traverse_ast(var_decl->type, current_scope);
+//     traverse_ast(var_decl->value, current_scope);
+//   }
+// }
+
+// inline void validate_ast(CompilationUnit &unit, core::Scope &scope) {
+//   for (auto node : unit.nodes) {
+//     if (auto var = dynamic_cast<parser::VariableDeclarationNode *>(node)) { semantic::validate_variable_declaration(unit, var, scope); }
+//     // aqui você pode adicionar outras validações:
+//     // funções, structs, expressions, etc.
+//   }
+// }
+
 int main() {
+  core::source::Source source("../examples/test.orb", utils::TextLoader::load_file("../examples/test.orb"));
 
-  auto text = utils::TextLoader::load_file("../examples/test.orb");
+  auto context = argon::make_lang_context();
 
-  auto buffer = core::text::TextBuffer(text);
+  auto unit = CompilationUnit(context, source);
+  unit.alias_table.build();
 
-  auto data = core::LangData(buffer);
-  argon::bind(data);
+  lexer::Lexer lexer;
+  lexer.generate_tokens(unit);
 
-  lexer::Lexer lexer(data);
-  lexer.add_plugin(std::make_shared<lexer::plugins::StringPlugin>(), 1);
-  lexer.add_plugin(std::make_shared<lexer::plugins::NumberPlugin>(), 2);
-  lexer.add_plugin(std::make_shared<lexer::plugins::IdentifierPlugin>(), 3);
-  lexer.add_plugin(std::make_shared<lexer::plugins::OperatorPlugin>(), 0);
+  parser::Parser parser;
+  parser.generate_ast(unit);
 
-  debug::Console::time("lexer");
+  debug::Console::log(unit.ast.size());
 
-  lexer.generate_tokens();
+  for (auto &node : unit.ast.get_nodes()) { debug::print_node(node); }
 
-  debug::Console::timeEnd("lexer");
-  debug::Console::log("Tokens generated: ", data.tokens_storage.size());
+  // for (auto &tok : unit.tokens.get_tokens()) { debug::TokenDebug::print_token(unit, tok); }
 
-  for (auto &token : data.tokens_storage) {
-    debug::TokenDebug::print_token(data, token);
-  }
+  core::BuiltinScope builtin_scope;
+
+  core::Scope global_scope(&builtin_scope);
+
+  // validate_ast(unit, global_scope);
+
+  unit.engine.print_all_errors(unit.alias_table);
 
   return 0;
 }
-
-// int main() {
-
-//   auto buffer = TextBuffer("../examples/test.orb");
-//   std::size_t text_size_bytes = buffer.u32_size();
-//   std::cout << "Text size: " << text_size_bytes << " bytes\n";
-
-//   auto data = interpreter::core::makeLangData(buffer);
-
-//   argon::bind(*data);
-
-//   interpreter::core::DiagnosticEngine diag;
-
-//   interpreter::lexer::Lexer lexer(*data);
-
-//   lexer.add_plugin(
-//       std::make_shared<interpreter::lexer::plugins::StringPlugin>(), 1);
-//   lexer.add_plugin(
-//       std::make_shared<interpreter::lexer::plugins::NumberPlugin>(), 2);
-//   lexer.add_plugin(
-//       std::make_shared<interpreter::lexer::plugins::IdentifierPlugin>(), 3);
-//   lexer.add_plugin(
-//       std::make_shared<interpreter::lexer::plugins::OperatorPlugin>(), 0);
-
-//   // --- Benchmark tokenization ---
-//   auto start_lex = std::chrono::high_resolution_clock::now();
-//   lexer.generate_tokens();
-//   auto end_lex = std::chrono::high_resolution_clock::now();
-//   std::chrono::duration<double, std::milli> lex_time = end_lex - start_lex;
-//   std::cout << "Tokenization time: " << lex_time.count() << " ms\n";
-//   std::cout << "Tokens generated: " << data->tokens_storage.size() << "\n";
-
-//   for (auto &token : data->tokens_storage) {
-//     interpreter::debug::TokenDebug::print_token(*data, token);
-//   }
-
-//   // interpreter::parser::Parser parser(*data);
-//   //
-//   parser.statement_plugins.push_back(std::make_shared<interpreter::parser::plugins::VariableDeclarationPlugin>());
-//   //
-//   parser.expression_plugins.push_back(std::make_shared<IdentifierExpressionPlugin>());
-//   //
-//   parser.expression_plugins.push_back(std::make_shared<NumberExpressionPlugin>());
-//   //
-//   parser.expression_plugins.push_back(std::make_shared<StringExpressionPlugin>());
-
-//   // // --- Benchmark parsing ---
-//   // auto start_parse = std::chrono::high_resolution_clock::now();
-//   // auto ast = parser.generate_ast(tokens);
-//   // auto end_parse = std::chrono::high_resolution_clock::now();
-//   // std::chrono::duration<double, std::milli> parse_time = end_parse -
-//   // start_parse; std::cout << "Parsing time: " << parse_time.count() << "
-//   // ms\n"; std::cout << "AST nodes generated: " << ast.size() << "\n";
-
-//   // --- Print diagnostics ---
-//   // for (auto &d : diag.get_all()) {
-//   //   std::cout << d.file << ":" << d.line << ":" << d.column << " [" <<
-//   //   (d.severity == interpreter::core::Diagnostic::Severity::Error ?
-//   "Error" :
-//   //   "Warning") << "/"
-//   //             << (d.category ==
-//   //             interpreter::core::Diagnostic::Category::Lexer ? "Lexer" :
-//   //             "Parser") << "] " << d.message << "\n";
-//   // }
-
-//   return 0;
-// }

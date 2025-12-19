@@ -1,62 +1,40 @@
-// #pragma once
+#pragma once
 
-// #include "core/LangData.hpp"
-// #include "core/parser/Node.hpp"
-// #include "core/parser/ParserPlugin.hpp"
-// #include "core/parser/expression/ExpressionParser.hpp"
-// #include "core/token/Token.hpp"
-// #include "core/utils/Stream.hpp"
-// #include <memory>
-// #include <vector>
+#include "core/CompilationUnit.hpp"
+#include "core/token/Token.hpp"
+#include "parser/ExpressionParser.hpp"
+#include "parser/match/match_function_declaration.hpp"
+#include "parser/match/match_type_declaration.hpp"
+#include "parser/match/match_variable_declaration.hpp"
+#include "utils/Stream.hpp"
 
-// namespace interpreter::parser {
+namespace parser {
 
-// class Parser {
+class Parser {
+public:
+  void generate_ast(CompilationUnit &unit) {
+    utils::Stream<core::token::Token *> stream(unit.tokens.get_tokens());
 
-// private:
-//   core::LangData &data;
-//   ExpressionParser expr_parser;
+    while (!stream.is_end()) {
+      auto node = match_node(unit, stream);
+      if (node) {
+        unit.ast.add_root(node);
+      } else {
+        stream.advance();
+      }
+    }
+  }
 
-// public:
-//   std::vector<std::shared_ptr<ParserPlugin>> statement_plugins;
-//   std::vector<std::shared_ptr<ExpressionPlugin>> expression_plugins;
+private:
+  ExpressionParser exp_engine;
 
-//   const core::LangData &get_data() { return data; }
+  core::node::Node *match_node(CompilationUnit &unit, utils::Stream<core::token::Token *> &stream) {
+    if (auto n = parser::match::match_variable_declaration(unit, stream, exp_engine)) return n;
+    if (auto n = parser::match::match_function_declaration(unit, stream, exp_engine)) return n;
 
-//   Parser(core::LangData &data)
-//       : expr_parser(data, expression_plugins), data(data) {}
+    // futuras regras de parsing: funções, structs, etc.
+    return nullptr;
+  }
+};
 
-//   std::shared_ptr<Node> run(core::Stream<core::Token> &stream) {
-//     for (auto &p : statement_plugins) {
-//       if (auto node = p->match(*this, stream))
-//         return node;
-//     }
-//     return nullptr;
-//   }
-
-//   std::shared_ptr<ExpressionNode>
-//   parse_expression(core::Stream<core::Token> &stream) {
-//     return expr_parser.parse(stream);
-//   }
-
-//   std::vector<std::shared_ptr<Node>>
-//   generate_ast(std::vector<std::shared_ptr<core::Token>> &tokens) {
-
-//     core::Stream<core::Token> stream(tokens);
-//     std::vector<std::shared_ptr<Node>> result;
-
-//     while (!stream.eof()) {
-//       auto node = run(stream);
-
-//       if (node) {
-//         result.push_back(node);
-//       } else {
-//         stream.advance();
-//       }
-//     }
-
-//     return result;
-//   }
-// };
-
-// } // namespace interpreter::parser
+} // namespace parser

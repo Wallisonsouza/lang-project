@@ -1,62 +1,39 @@
 #pragma once
-#include "lexer/plugin.hpp"
-#include <memory>
-#include <vector>
 
-struct PluginEntry {
-  std::shared_ptr<lexer::LexerPlugin> plugin;
-  int priority;
-};
+#include "core/CompilationUnit.hpp"
+#include "core/text/TextStream.hpp"
+#include "lexer/plugins/match_identifier.hpp"
+#include "lexer/plugins/match_number.hpp"
+#include "lexer/plugins/match_operator.hpp"
+#include "lexer/plugins/match_string.hpp"
+#include "utils/Unicode.hpp"
 
 namespace lexer {
+
 class Lexer {
-
-private:
-  std::vector<PluginEntry> plugins;
-  core::LangData &data;
-
 public:
-  Lexer(core::LangData &data) : data(data) {}
-
-  void add_plugin(std::shared_ptr<lexer::LexerPlugin> p, int priority = 0) {
-    plugins.emplace_back(PluginEntry{p, priority});
-    std::sort(plugins.begin(), plugins.end(), [](const auto &a, const auto &b) {
-      return a.priority < b.priority;
-    });
-  }
-
-  bool try_plugin(core::text::TextStream &stream, lexer::LexerPlugin &plugin) {
-
-    stream.push_checkpoint();
-    auto tok = plugin.match(stream, data);
-
-    if (tok) {
-      stream.discard_checkpoint();
-      data.tokens_storage.push_back(*tok);
-      return true;
-    }
-
-    stream.rollback_checkpoint();
-    return false;
-  }
-
-  void generate_tokens() {
-    core::text::TextStream stream(data.buffer);
+  void generate_tokens(CompilationUnit &unit) {
+    core::source::TextStream stream(unit.source.buffer);
 
     while (!stream.eof()) {
-      bool matched = false;
 
-      for (auto &entry : plugins) {
-        if (try_plugin(stream, *entry.plugin)) {
-          matched = true;
-          break;
-        }
-      }
-
-      if (!matched) {
+      if (utils::Unicode::is_white_space(stream.peek())) {
         stream.advance();
+        continue;
       }
+      core::token::Token *token = match_token(unit, stream);
+
+      if (!token) { stream.advance(); }
     }
+  }
+
+private:
+  static core::token::Token *match_token(CompilationUnit &unit, core::source::TextStream &stream) {
+    if (auto t = lexer::match::match_string(unit, stream)) return t;
+    if (auto t = lexer::match::match_number(unit, stream)) return t;
+    if (auto t = lexer::match::match_identifier(unit, stream)) return t;
+    if (auto t = lexer::match::match_operator(unit, stream)) return t;
+    return nullptr;
   }
 };
 

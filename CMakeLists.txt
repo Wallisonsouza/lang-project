@@ -22,20 +22,6 @@ target_include_directories(main PRIVATE
     ${PROJECT_SOURCE_DIR}/src
 )
 
-
-
-# --- LIBZIP Configuration ---
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBZIP REQUIRED libzip)
-
-if(LIBZIP_FOUND)
-    message(STATUS "libzip found")
-    target_include_directories(main PRIVATE ${LIBZIP_INCLUDE_DIRS})
-    target_link_libraries(main PRIVATE ${LIBZIP_LIBRARIES})
-endif()
-
-
-# --- ICU Configuration ---
 find_package(ICU REQUIRED COMPONENTS uc i18n)
 if(ICU_FOUND)
     message(STATUS "ICU found: ${ICU_INCLUDE_DIRS}")

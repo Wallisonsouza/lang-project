@@ -1,25 +1,31 @@
 [
 {
   "directory": "/home/wallison/Documentos/git/lang-project/build",
-  "command": "/usr/bin/c++  -I/home/wallison/Documentos/git/lang-project/src -std=c++20 -g -o CMakeFiles/main.dir/main.cpp.o -c /home/wallison/Documentos/git/lang-project/main.cpp",
+  "command": "/usr/bin/g++  -I/home/wallison/Documentos/git/lang-project/src -g -std=c++20 -g -o CMakeFiles/main.dir/main.cpp.o -c /home/wallison/Documentos/git/lang-project/main.cpp",
   "file": "/home/wallison/Documentos/git/lang-project/main.cpp",
   "output": "CMakeFiles/main.dir/main.cpp.o"
 },
 {
   "directory": "/home/wallison/Documentos/git/lang-project/build",
-  "command": "/usr/bin/c++  -I/home/wallison/Documentos/git/lang-project/src -std=c++20 -g -o CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp",
+  "command": "/usr/bin/g++  -I/home/wallison/Documentos/git/lang-project/src -g -std=c++20 -g -o CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/module/ModuleRegistry.cpp",
+  "file": "/home/wallison/Documentos/git/lang-project/src/core/module/ModuleRegistry.cpp",
+  "output": "CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o"
+},
+{
+  "directory": "/home/wallison/Documentos/git/lang-project/build",
+  "command": "/usr/bin/g++  -I/home/wallison/Documentos/git/lang-project/src -g -std=c++20 -g -o CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp",
   "file": "/home/wallison/Documentos/git/lang-project/src/core/table/AliasTable.cpp",
   "output": "CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o"
 },
 {
   "directory": "/home/wallison/Documentos/git/lang-project/build",
-  "command": "/usr/bin/c++  -I/home/wallison/Documentos/git/lang-project/src -std=c++20 -g -o CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/PrecedenceTable.cpp",
+  "command": "/usr/bin/g++  -I/home/wallison/Documentos/git/lang-project/src -g -std=c++20 -g -o CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/PrecedenceTable.cpp",
   "file": "/home/wallison/Documentos/git/lang-project/src/core/table/PrecedenceTable.cpp",
   "output": "CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o"
 },
 {
   "directory": "/home/wallison/Documentos/git/lang-project/build",
-  "command": "/usr/bin/c++  -I/home/wallison/Documentos/git/lang-project/src -std=c++20 -g -o CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp",
+  "command": "/usr/bin/g++  -I/home/wallison/Documentos/git/lang-project/src -g -std=c++20 -g -o CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o -c /home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp",
   "file": "/home/wallison/Documentos/git/lang-project/src/core/table/TokenTable.cpp",
   "output": "CMakeFiles/main.dir/src/core/table/TokenTable.cpp.o"
 }

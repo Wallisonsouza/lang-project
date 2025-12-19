@@ -2,6 +2,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/main.dir/link.d"
   "CMakeFiles/main.dir/main.cpp.o"
   "CMakeFiles/main.dir/main.cpp.o.d"
+  "CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o"
+  "CMakeFiles/main.dir/src/core/module/ModuleRegistry.cpp.o.d"
   "CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o"
   "CMakeFiles/main.dir/src/core/table/AliasTable.cpp.o.d"
   "CMakeFiles/main.dir/src/core/table/PrecedenceTable.cpp.o"

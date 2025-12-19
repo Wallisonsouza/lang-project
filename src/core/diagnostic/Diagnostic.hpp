@@ -1,22 +1,17 @@
 #pragma once
-#include "Category.hpp"
-#include "Severity.hpp"
+
+#include "core/token/Location.hpp"
 #include <string>
+#include <vector>
 
 namespace core::diagnostics {
+enum class DiagnosticLevel { Error, Warning, Note };
 
 struct Diagnostic {
-
+  DiagnosticLevel level;
   std::string message;
-  std::string file;
-  int line;
-  int column;
-  Severity severity;
-  Category category;
-
-  Diagnostic(const std::string &msg, const std::string &f, int l, int c,
-             Severity s = Severity::Error, Category cat = Category::Parser)
-      : message(msg), file(f), line(l), column(c), severity(s), category(cat) {}
+  SourceRange range;
+  std::vector<std::string> hints;
 };
 
 } // namespace core::diagnostics

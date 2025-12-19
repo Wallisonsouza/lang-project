@@ -20,15 +20,14 @@ CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
 //Path to a program.
 CMAKE_AR:FILEPATH=/usr/bin/ar
 
-//Choose the type of build, options are: None Debug Release RelWithDebInfo
-// MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=
+//No help, variable specified on the command line.
+CMAKE_BUILD_TYPE:STRING=Debug
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
 
-//CXX compiler
-CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++
+//No help, variable specified on the command line.
+CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -53,8 +52,8 @@ CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
 //Flags used by the CXX compiler during RELWITHDEBINFO builds.
 CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
-//C compiler
-CMAKE_C_COMPILER:FILEPATH=/usr/bin/cc
+//No help, variable specified on the command line.
+CMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -293,15 +292,6 @@ MyInterpreter_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 MyInterpreter_SOURCE_DIR:STATIC=/home/wallison/Documentos/git/lang-project
 
-//Arguments to supply to pkg-config
-PKG_CONFIG_ARGN:STRING=
-
-//pkg-config executable
-PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
-
-//Path to a library.
-pkgcfg_lib_LIBZIP_zip:FILEPATH=/usr/lib64/libzip.so
-
 
 ########################
 # INTERNAL cache entries
@@ -375,6 +365,8 @@ CMAKE_EXE_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_EXE_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO
 CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_EXPORT_COMPILE_COMMANDS
+CMAKE_EXPORT_COMPILE_COMMANDS-ADVANCED:INTERNAL=1
 //Name of external makefile project generator.
 CMAKE_EXTRA_GENERATOR:INTERNAL=
 //Name of generator.
@@ -454,8 +446,6 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding ICU
 FIND_PACKAGE_MESSAGE_DETAILS_ICU:INTERNAL=[/usr/include][/usr/lib64/libicuuc.so;/usr/lib64/libicui18n.so][cfound components: uc i18n ][v76.1()]
-//Details about finding PkgConfig
-FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[/usr/bin/pkg-config][v2.3.0()]
 //ADVANCED property for variable: ICU_DERB_EXECUTABLE
 ICU_DERB_EXECUTABLE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: ICU_GENBRK_EXECUTABLE
@@ -502,54 +492,10 @@ ICU_UCONV_EXECUTABLE-ADVANCED:INTERNAL=1
 ICU_UC_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: ICU_UC_LIBRARY_RELEASE
 ICU_UC_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-LIBZIP_CFLAGS:INTERNAL=-I/usr/include
-LIBZIP_CFLAGS_I:INTERNAL=
-LIBZIP_CFLAGS_OTHER:INTERNAL=
-LIBZIP_FOUND:INTERNAL=1
-LIBZIP_INCLUDEDIR:INTERNAL=/usr/include
-LIBZIP_INCLUDE_DIRS:INTERNAL=/usr/include
-LIBZIP_LDFLAGS:INTERNAL=-L/usr/lib64;-lzip
-LIBZIP_LDFLAGS_OTHER:INTERNAL=
-LIBZIP_LIBDIR:INTERNAL=/usr/lib64
-LIBZIP_LIBRARIES:INTERNAL=zip
-LIBZIP_LIBRARY_DIRS:INTERNAL=/usr/lib64
-LIBZIP_LIBS:INTERNAL=
-LIBZIP_LIBS_L:INTERNAL=
-LIBZIP_LIBS_OTHER:INTERNAL=
-LIBZIP_LIBS_PATHS:INTERNAL=
-LIBZIP_MODULE_NAME:INTERNAL=libzip
-LIBZIP_PREFIX:INTERNAL=/usr
-LIBZIP_STATIC_CFLAGS:INTERNAL=-I/usr/include
-LIBZIP_STATIC_CFLAGS_I:INTERNAL=
-LIBZIP_STATIC_CFLAGS_OTHER:INTERNAL=
-LIBZIP_STATIC_INCLUDE_DIRS:INTERNAL=/usr/include
-LIBZIP_STATIC_LDFLAGS:INTERNAL=-L/usr/lib64;-lzip;-lbz2;-llzma;-lzstd;-lssl;-lcrypto;-lz
-LIBZIP_STATIC_LDFLAGS_OTHER:INTERNAL=
-LIBZIP_STATIC_LIBDIR:INTERNAL=
-LIBZIP_STATIC_LIBRARIES:INTERNAL=zip;bz2;lzma;zstd;ssl;crypto;z
-LIBZIP_STATIC_LIBRARY_DIRS:INTERNAL=/usr/lib64
-LIBZIP_STATIC_LIBS:INTERNAL=
-LIBZIP_STATIC_LIBS_L:INTERNAL=
-LIBZIP_STATIC_LIBS_OTHER:INTERNAL=
-LIBZIP_STATIC_LIBS_PATHS:INTERNAL=
-LIBZIP_VERSION:INTERNAL=1.11.4
-LIBZIP_libzip_INCLUDEDIR:INTERNAL=
-LIBZIP_libzip_LIBDIR:INTERNAL=
-LIBZIP_libzip_PREFIX:INTERNAL=
-LIBZIP_libzip_VERSION:INTERNAL=
-//ADVANCED property for variable: PKG_CONFIG_ARGN
-PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
-PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
 //linker supports push/pop state
 _CMAKE_CXX_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 //linker supports push/pop state
 _CMAKE_C_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 //linker supports push/pop state
 _CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
-__pkg_config_arguments_LIBZIP:INTERNAL=REQUIRED;libzip
-__pkg_config_checked_LIBZIP:INTERNAL=1
-//ADVANCED property for variable: pkgcfg_lib_LIBZIP_zip
-pkgcfg_lib_LIBZIP_zip-ADVANCED:INTERNAL=1
-prefix_result:INTERNAL=/usr/lib64
 

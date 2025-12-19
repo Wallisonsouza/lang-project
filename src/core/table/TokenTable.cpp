@@ -5,9 +5,9 @@
 #include <string_view>
 
 namespace core::table {
-token::TokenDescriptor &TokenTable::add(token::TokenKind kind,
-                                        const std::u32string &name,
-                                        token::TokenGroup group) {
+token::TokenDescriptor &DescriptorTable::add(token::TokenKind kind,
+                                             const std::u32string &name,
+                                             token::TokenGroup group) {
   storage_.push_back(token::TokenDescriptor(name, kind, group));
   token::TokenDescriptor *ptr = &storage_.back();
 
@@ -18,8 +18,8 @@ token::TokenDescriptor &TokenTable::add(token::TokenKind kind,
   return *ptr;
 }
 
-token::TokenDescriptor &TokenTable::add(token::TokenKind kind,
-                                        token::TokenGroup group) {
+token::TokenDescriptor &DescriptorTable::add(token::TokenKind kind,
+                                             token::TokenGroup group) {
   storage_.emplace_back(U"", kind, group);
   token::TokenDescriptor *ptr = &storage_.back();
 
@@ -27,13 +27,13 @@ token::TokenDescriptor &TokenTable::add(token::TokenKind kind,
 
   return *ptr;
 }
-token::TokenDescriptor *TokenTable::lookup_by_kind(token::TokenKind kind) {
+token::TokenDescriptor *DescriptorTable::lookup_by_kind(token::TokenKind kind) {
   auto it = by_kind_.find(kind);
   return it != by_kind_.end() ? it->second : nullptr;
 }
 
 token::TokenDescriptor *
-TokenTable::lookup_by_name(const std::u32string_view &name) {
+DescriptorTable::lookup_by_name(const std::u32string_view &name) {
   auto it = by_name_.find(name);
   return it != by_name_.end() ? it->second : nullptr;
 }

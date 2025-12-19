@@ -7,15 +7,11 @@ namespace utils {
 
 class Utf {
 public:
-  static bool utf8_to_utf32(const std::string &s,
-                            std::u32string &out) noexcept {
+  static bool utf8_to_utf32(const std::string &s, std::u32string &out) noexcept {
     out.clear();
     size_t i = 0;
 
-    if (s.size() >= 3 && (uint8_t)s[0] == 0xEF && (uint8_t)s[1] == 0xBB &&
-        (uint8_t)s[2] == 0xBF) {
-      i = 3;
-    }
+    if (s.size() >= 3 && (uint8_t)s[0] == 0xEF && (uint8_t)s[1] == 0xBB && (uint8_t)s[2] == 0xBF) { i = 3; }
 
     while (i < s.size()) {
       uint8_t c = static_cast<uint8_t>(s[i]);
@@ -26,28 +22,23 @@ public:
         cp = c;
         nbytes = 1;
       } else if ((c & 0xE0) == 0xC0) {
-        if (i + 1 >= s.size())
-          return false;
+        if (i + 1 >= s.size()) return false;
         cp = ((c & 0x1F) << 6) | (s[i + 1] & 0x3F);
         nbytes = 2;
       } else if ((c & 0xF0) == 0xE0) {
-        if (i + 2 >= s.size())
-          return false;
+        if (i + 2 >= s.size()) return false;
         cp = ((c & 0x0F) << 12) | ((s[i + 1] & 0x3F) << 6) | (s[i + 2] & 0x3F);
         nbytes = 3;
       } else if ((c & 0xF8) == 0xF0) {
-        if (i + 3 >= s.size())
-          return false;
-        cp = ((c & 0x07) << 18) | ((s[i + 1] & 0x3F) << 12) |
-             ((s[i + 2] & 0x3F) << 6) | (s[i + 3] & 0x3F);
+        if (i + 3 >= s.size()) return false;
+        cp = ((c & 0x07) << 18) | ((s[i + 1] & 0x3F) << 12) | ((s[i + 2] & 0x3F) << 6) | (s[i + 3] & 0x3F);
         nbytes = 4;
       } else {
         return false;
       }
 
       for (size_t j = 1; j < nbytes; ++j) {
-        if ((uint8_t)s[i + j] >> 6 != 0b10)
-          return false;
+        if ((uint8_t)s[i + j] >> 6 != 0b10) return false;
       }
 
       out.push_back(cp);
@@ -55,6 +46,12 @@ public:
     }
 
     return true;
+  }
+
+  static std::u32string utf8_to_utf32(const std::string &s) noexcept {
+    std::u32string out;
+    utf8_to_utf32(s, out);
+    return out;
   }
 
   // [[nodiscard]] static std::u32string utf8to32(const std::string &s) noexcept
@@ -112,8 +109,7 @@ public:
   static std::string utf32to8(const std::u32string_view &text) {
     std::string out;
     out.reserve(text.size() * 4);
-    for (uint32_t cp : text)
-      encode(cp, out);
+    for (uint32_t cp : text) encode(cp, out);
     return out;
   }
 };
