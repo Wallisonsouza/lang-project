@@ -2,6 +2,7 @@
 
 #include "core/CompilationUnit.hpp"
 #include "core/TokenStream.hpp"
+#include "core/node/Type.hpp"
 #include "core/token/Token.hpp"
 #include "core/token/TokenKind.hpp"
 #include "parser/ExpressionParser.hpp"
@@ -10,12 +11,13 @@
 #include "parser/match/match_modifier.hpp"
 #include "parser/match/match_type.hpp"
 #include "parser/match/match_utils.hpp"
-#include "parser/node/type_nodes.hpp"
 #include <vector>
 
 namespace parser::match {
 
-inline node::FunctionDeclarationNode *match_function_declaration(CompilationUnit &unit, TokenStream &stream, ExpressionParser &exp) {
+inline node::FunctionDeclarationNode *
+match_function_declaration(CompilationUnit &unit, TokenStream &stream,
+                           ExpressionParser &exp) {
 
   auto mod = match_modifier(stream);
 
@@ -23,7 +25,8 @@ inline node::FunctionDeclarationNode *match_function_declaration(CompilationUnit
   bool has_error = false;
 
   auto keyword = stream.peek();
-  if (!keyword || keyword->descriptor->kind != core::token::TokenKind::FunctionKeyword) {
+  if (!keyword ||
+      keyword->descriptor->kind != core::token::TokenKind::FunctionKeyword) {
     stream.rollback_checkpoint();
     return nullptr;
   }
@@ -32,7 +35,8 @@ inline node::FunctionDeclarationNode *match_function_declaration(CompilationUnit
 
   // 1. Nome da função
   auto name_token = stream.peek();
-  if (!name_token || name_token->descriptor->kind != core::token::TokenKind::Identifier) {
+  if (!name_token ||
+      name_token->descriptor->kind != core::token::TokenKind::Identifier) {
     stream.rollback_checkpoint();
     return nullptr;
   }
@@ -40,12 +44,14 @@ inline node::FunctionDeclarationNode *match_function_declaration(CompilationUnit
 
   // 4. Parâmetros entre parênteses
   std::vector<node::FunctionParameterNode *> parameters;
-  if (!expect_token(unit, stream, core::token::TokenKind::OpenParen, "Expected '(' for function parameters")) {
+  if (!expect_token(unit, stream, core::token::TokenKind::OpenParen,
+                    "Expected '(' for function parameters")) {
     has_error = true;
   } else {
     while (!stream.is_end()) {
       auto param = match_function_parameter(unit, stream, exp);
-      if (!param) break;
+      if (!param)
+        break;
       parameters.push_back(param);
 
       auto comma = stream.peek();
@@ -56,30 +62,37 @@ inline node::FunctionDeclarationNode *match_function_declaration(CompilationUnit
       }
     }
 
-    if (!expect_token(unit, stream, core::token::TokenKind::CloseParen, "Expected ')' after parameters")) { has_error = true; }
+    if (!expect_token(unit, stream, core::token::TokenKind::CloseParen,
+                      "Expected ')' after parameters")) {
+      has_error = true;
+    }
   }
 
   // 5. Tipo de retorno opcional
-  node::TypeNode *return_type = nullptr;
+  core::node::TypeNode *return_type = nullptr;
   auto next = stream.peek();
   if (next && next->descriptor->kind == core::token::TokenKind::Arrow) {
     stream.advance();
     return_type = match_type(unit, stream);
     if (!return_type) {
-      return_type = unit.ast.create_node<node::TypeNode>(U"<missing>", false);
+      return_type =
+          unit.ast.create_node<core::node::TypeNode>(U"<missing>", false);
       return_type->has_error = true;
       has_error = true;
     }
   } else {
-    return_type = unit.ast.create_node<node::TypeNode>(U"void", false);
+    return_type = unit.ast.create_node<core::node::TypeNode>(U"void", false);
   }
 
   // 6. Bloco da função
   node::BlockNode *body;
-  if (!body) has_error = true;
+  if (!body)
+    has_error = true;
 
   // 7. Criar o nó final
-  auto node = unit.ast.create_node<node::FunctionDeclarationNode>(unit.source.buffer.get_text(name_token->span), parameters, return_type, body, mod);
+  auto node = unit.ast.create_node<node::FunctionDeclarationNode>(
+      unit.source.buffer.get_text(name_token->span), parameters, return_type,
+      body, mod);
   node->has_error = has_error;
 
   stream.discard_checkpoint();

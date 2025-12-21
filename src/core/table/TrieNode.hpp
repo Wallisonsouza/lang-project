@@ -2,6 +2,7 @@
 #include <deque>
 #include <string_view>
 #include <unordered_map>
+
 template <typename T> struct TrieNode {
   bool is_terminal = false;
   T *value = nullptr;

@@ -1,6 +1,0 @@
-
-
-
-function add(a: number) {
-
-}

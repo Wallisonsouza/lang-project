@@ -19,7 +19,8 @@ public:
   }
 
   void traverse(const std::function<void(core::node::Node *)> &fn) const {
-    for (auto *node : roots_) fn(node);
+    for (auto *node : roots_)
+      fn(node);
   }
 
   size_t size() const { return roots_.size(); }

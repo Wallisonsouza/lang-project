@@ -9,15 +9,11 @@
 // alerta de erro que eu deixei, resolver depois
 namespace lexer::match {
 
-inline core::token::Token *match_number(CompilationUnit &unit, core::source::TextStream &stream) {
+inline core::token::Token *match_number(CompilationUnit &unit,
+                                        core::source::TextStream &stream) {
 
   auto start = stream.get_state();
   auto c = stream.peek();
-
-  if (c == U'+' || c == U'-') {
-    stream.advance();
-    c = stream.peek();
-  }
 
   if (!utils::Unicode::is_digit(c)) {
     stream.rollback(start);
@@ -39,9 +35,11 @@ inline core::token::Token *match_number(CompilationUnit &unit, core::source::Tex
   }
 
   auto end = stream.get_state();
-  auto descriptor = unit.context.descriptor_table.lookup_by_kind(core::token::TokenKind::NumberLiteral);
+  auto descriptor = unit.context.descriptor_table.lookup_by_kind(
+      core::token::TokenKind::NumberLiteral);
 
-  return unit.tokens.create_token<core::token::Token>(descriptor, start.span_to(end), start.range_to(end));
+  return unit.tokens.create_token<core::token::Token>(
+      descriptor, start.span_to(end), start.range_to(end));
 }
 
 } // namespace lexer::match

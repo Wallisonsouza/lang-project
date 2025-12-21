@@ -3,6 +3,7 @@
 #include "core/CompilationUnit.hpp"
 #include "core/TokenStream.hpp"
 #include "parser/ExpressionParser.hpp"
+#include "parser/match/match_function_call.hpp"
 #include "parser/match/match_function_declaration.hpp"
 #include "parser/match/match_type_declaration.hpp"
 #include "parser/match/match_variable_declaration.hpp"
@@ -29,9 +30,14 @@ private:
   ExpressionParser exp_engine;
 
   core::node::Node *match_node(CompilationUnit &unit, TokenStream &stream) {
-    if (auto n = parser::match::match_variable_declaration(unit, stream, exp_engine)) return n;
-    if (auto n = parser::match::match_function_declaration(unit, stream, exp_engine)) return n;
-
+    if (auto n =
+            parser::match::match_variable_declaration(unit, stream, exp_engine))
+      return n;
+    if (auto n =
+            parser::match::match_function_declaration(unit, stream, exp_engine))
+      return n;
+    if (auto n = parser::match::match_function_call(unit, stream, exp_engine))
+      return n;
     // futuras regras de parsing: funções, structs, etc.
     return nullptr;
   }

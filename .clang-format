@@ -1,37 +1,37 @@
-# ----------------------------
-# Funções e blocos curtos
-# ----------------------------
+# # ----------------------------
+# # Funções e blocos curtos
+# # ----------------------------
 
-# Permite funções curtas totalmente em uma linha
-AllowShortFunctionsOnASingleLine: All
+# # Permite funções curtas totalmente em uma linha
+# AllowShortFunctionsOnASingleLine: All
 
-# Permite blocos curtos { ... } em uma linha
-AllowShortBlocksOnASingleLine: true
+# # Permite blocos curtos { ... } em uma linha
+# AllowShortBlocksOnASingleLine: true
 
-# Permite if, else, loops, case e expressões curtas em uma linha
-AllowShortIfStatementsOnASingleLine: true
-AllowShortLoopsOnASingleLine: true
-AllowShortCaseLabelsOnASingleLine: true
-AllowShortCaseExpressionOnASingleLine: true
-AllowShortCompoundRequirementOnASingleLine: true
-AllowShortEnumsOnASingleLine: true
-AllowShortLambdasOnASingleLine: true
+# # Permite if, else, loops, case e expressões curtas em uma linha
+# AllowShortIfStatementsOnASingleLine: true
+# AllowShortLoopsOnASingleLine: true
+# AllowShortCaseLabelsOnASingleLine: true
+# AllowShortCaseExpressionOnASingleLine: true
+# AllowShortCompoundRequirementOnASingleLine: true
+# AllowShortEnumsOnASingleLine: true
+# AllowShortLambdasOnASingleLine: true
 
-# Não quebra a linha depois do tipo de retorno da função
-AlwaysBreakAfterDefinitionReturnType: None
+# # Não quebra a linha depois do tipo de retorno da função
+# AlwaysBreakAfterDefinitionReturnType: None
 
-# Mantém { na mesma linha da declaração
-BreakBeforeBraces: Attach
+# # Mantém { na mesma linha da declaração
+# BreakBeforeBraces: Attach
 
-# ----------------------------
-# Assinaturas de função longas
-# ----------------------------
+# # ----------------------------
+# # Assinaturas de função longas
+# # ----------------------------
 
-# Permite que parâmetros de função longos fiquem na mesma linha se couber
-AllowAllParametersOfDeclarationOnNextLine: false
+# # Permite que parâmetros de função longos fiquem na mesma linha se couber
+# AllowAllParametersOfDeclarationOnNextLine: false
 
-# Evita que parâmetros sejam distribuídos em várias linhas
-BinPackParameters: false
+# # Evita que parâmetros sejam distribuídos em várias linhas
+# BinPackParameters: false
 
-# Permite linhas longas sem quebrar (sua configuração já tinha)
-ColumnLimit: 200
+# # Permite linhas longas sem quebrar (sua configuração já tinha)
+# ColumnLimit: 200

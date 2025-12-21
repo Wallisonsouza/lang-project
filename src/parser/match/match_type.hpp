@@ -1,12 +1,13 @@
 #pragma once
 #include "core/CompilationUnit.hpp"
 #include "core/TokenStream.hpp"
-#include "parser/node/type_nodes.hpp"
+#include "core/node/Type.hpp"
 #include <vector>
 
 namespace parser::match {
 
-inline node::TypeNode *match_type(CompilationUnit &unit, TokenStream &stream) {
+inline core::node::TypeNode *match_type(CompilationUnit &unit,
+                                        TokenStream &stream) {
   stream.push_checkpoint();
 
   auto tok = stream.peek();
@@ -18,14 +19,17 @@ inline node::TypeNode *match_type(CompilationUnit &unit, TokenStream &stream) {
   std::u32string type_name = unit.source.buffer.get_text(tok->span);
   stream.advance();
 
-  std::vector<node::TypeNode *> generic_args;
+  std::vector<core::node::TypeNode *> generic_args;
 
   tok = stream.peek();
   if (tok && tok->descriptor->kind == core::token::TokenKind::LessThan) {
     stream.advance();
     while (true) {
       auto arg = match_type(unit, stream);
-      if (!arg) { arg = unit.ast.create_node<node::TypeNode>(U"<missing>", generic_args); }
+      if (!arg) {
+        arg = unit.ast.create_node<core::node::TypeNode>(U"<missing>",
+                                                         generic_args);
+      }
       generic_args.push_back(arg);
 
       tok = stream.peek();
@@ -38,15 +42,18 @@ inline node::TypeNode *match_type(CompilationUnit &unit, TokenStream &stream) {
 
     tok = stream.peek();
     if (!tok || tok->descriptor->kind != core::token::TokenKind::GreaterThan) {
-      // Falta do '>' gera apenas um node::TypeNode "<missing>" no último genérico
-      generic_args.push_back(unit.ast.create_node<node::TypeNode>(U"<missing>", generic_args));
+      // Falta do '>' gera apenas um core::node::TypeNode "<missing>" no último
+      // genérico
+      generic_args.push_back(unit.ast.create_node<core::node::TypeNode>(
+          U"<missing>", generic_args));
     } else {
       stream.advance();
     }
   }
 
   // Cria node de tipo sem resolver no escopo
-  node::TypeNode *type_node = unit.ast.create_node<node::TypeNode>(type_name, generic_args);
+  core::node::TypeNode *type_node =
+      unit.ast.create_node<core::node::TypeNode>(type_name, generic_args);
 
   stream.discard_checkpoint();
   return type_node;

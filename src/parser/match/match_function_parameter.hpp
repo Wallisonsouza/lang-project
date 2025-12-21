@@ -7,17 +7,19 @@
 #include "parser/match/match_type.hpp"
 #include "parser/node/literal_nodes.hpp"
 #include "parser/node/statement_nodes.hpp"
-#include "parser/node/type_nodes.hpp"
 
 namespace parser::match {
 
-inline node::FunctionParameterNode *match_function_parameter(CompilationUnit &unit, TokenStream &stream, ExpressionParser &exp) {
+inline node::FunctionParameterNode *
+match_function_parameter(CompilationUnit &unit, TokenStream &stream,
+                         ExpressionParser &exp) {
   stream.push_checkpoint();
   bool has_error = false;
 
   // 1. Nome da variável
   auto name_token = stream.peek();
-  if (!name_token || name_token->descriptor->kind != core::token::TokenKind::Identifier) {
+  if (!name_token ||
+      name_token->descriptor->kind != core::token::TokenKind::Identifier) {
     stream.rollback_checkpoint();
     return nullptr;
   }
@@ -26,7 +28,8 @@ inline node::FunctionParameterNode *match_function_parameter(CompilationUnit &un
 
   // 2. Dois-pontos obrigatórios
   auto colon_token = stream.peek();
-  if (!colon_token || colon_token->descriptor->kind != core::token::TokenKind::Colon) {
+  if (!colon_token ||
+      colon_token->descriptor->kind != core::token::TokenKind::Colon) {
     stream.rollback_checkpoint();
 
     return nullptr;
@@ -34,9 +37,9 @@ inline node::FunctionParameterNode *match_function_parameter(CompilationUnit &un
   stream.advance();
 
   // 3. Tipo
-  node::TypeNode *type_node = match_type(unit, stream);
+  core::node::TypeNode *type_node = match_type(unit, stream);
   if (!type_node) {
-    type_node = unit.ast.create_node<node::TypeNode>(U"<missing>", false);
+    type_node = unit.ast.create_node<core::node::TypeNode>(U"<missing>", false);
     type_node->has_error = true;
     has_error = true;
   }
@@ -44,9 +47,10 @@ inline node::FunctionParameterNode *match_function_parameter(CompilationUnit &un
   // 4. Valor opcional
   core::node::ExpressionNode *value_node = nullptr;
   auto assign_token = stream.peek();
-  if (assign_token && assign_token->descriptor->kind == core::token::TokenKind::Assign) {
+  if (assign_token &&
+      assign_token->descriptor->kind == core::token::TokenKind::Assign) {
     stream.advance();
-    value_node = exp.parse(unit.ast, unit, stream);
+    value_node = exp.parse_expression(unit, stream);
   }
 
   if (!value_node) {
@@ -55,11 +59,15 @@ inline node::FunctionParameterNode *match_function_parameter(CompilationUnit &un
     has_error = true;
   }
 
-  auto node = unit.ast.create_node<node::FunctionParameterNode>(unit.source.buffer.get_text(name_token->span), type_node, value_node);
+  auto node = unit.ast.create_node<node::FunctionParameterNode>(
+      unit.source.buffer.get_text(name_token->span), type_node, value_node);
   node->has_error = has_error;
 
   auto semicolon_token = stream.peek();
-  if (semicolon_token && semicolon_token->descriptor->kind == core::token::TokenKind::Semicolon) { stream.advance(); }
+  if (semicolon_token &&
+      semicolon_token->descriptor->kind == core::token::TokenKind::Semicolon) {
+    stream.advance();
+  }
 
   stream.discard_checkpoint();
   return node;
