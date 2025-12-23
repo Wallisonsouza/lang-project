@@ -1,10 +1,5 @@
 #pragma once
-#include "core/Arena.hpp"
-#include "core/node/Node.hpp"
-#include <functional>
-
-#pragma once
-#include "core/Arena.hpp"
+#include "core/memory/Arena.hpp"
 #include "core/node/Node.hpp"
 #include <functional>
 #include <vector>

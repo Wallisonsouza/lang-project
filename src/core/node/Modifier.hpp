@@ -1,6 +1,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+
 namespace core::node {
 
 enum class Modifier : uint8_t {

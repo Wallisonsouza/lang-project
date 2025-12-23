@@ -20,13 +20,16 @@ enum class NodeKind {
   ForStatement,
   ReturnStatement,
   ExpressionStatement,
+  ImportStatement,
 
   // === Declarations ===
   VariableDeclaration,
   FunctionDeclaration,
+  OperatorDeclaration,
+
   FunctionCall,
   FunctionParameter,
-  NativeFunction,
+  NativeFunctionDeclaration,
   TypeDeclaration,
   ParameterDeclaration,
 

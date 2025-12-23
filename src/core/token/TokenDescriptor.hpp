@@ -10,6 +10,8 @@ struct TokenDescriptor {
   const TokenGroup group;
   const std::u32string lexeme;
 
-  TokenDescriptor(const std::u32string &lexeme, TokenKind kind, TokenGroup group) : lexeme(std::move(lexeme)), kind(kind), group(group) {}
+  TokenDescriptor(const std::u32string &lexeme, TokenKind kind,
+                  TokenGroup group)
+      : lexeme(std::move(lexeme)), kind(kind), group(group) {}
 };
 } // namespace core::token

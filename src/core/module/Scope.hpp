@@ -1,10 +1,10 @@
 #pragma once
 
-#include "core/Arena.hpp"
+#include "core/memory/Arena.hpp"
 #include "core/module/Symbol.hpp"
 #include "core/node/Node.hpp"
-#include "core/table/OperatorTable.hpp"
 #include <string>
+#include <unordered_map>
 
 namespace core {
 
@@ -12,7 +12,6 @@ struct Scope {
   Scope *parent;
   core::memory::Arena arena;
   std::unordered_map<std::u32string, Symbol *> symbols;
-  table::OperatorTable operators_table;
 
   explicit Scope(Scope *parent_scope) : parent(parent_scope) {}
 

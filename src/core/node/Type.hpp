@@ -31,7 +31,7 @@ struct TypeNode : core::node::Node {
   std::u32string name;
   std::vector<TypeNode *> generics;
   bool is_primitive = false;
-  core::Symbol *symbol = nullptr;
+  Symbol *symbol = nullptr;
 
   explicit TypeNode(std::u32string n, bool primitive = false)
       : Node(core::node::NodeKind::Type), name(std::move(n)),
@@ -48,7 +48,7 @@ struct VoidTypeNode : TypeNode {
   }
 };
 
-struct NativeFunctionNode : core::node::StatementNode {
+struct NativeFunctionDeclarationNode : core::node::StatementNode {
   std::u32string name;
   std::vector<node::TypeNode *> params;
   node::TypeNode *return_type;
@@ -56,12 +56,13 @@ struct NativeFunctionNode : core::node::StatementNode {
   std::function<core::node::Node *(const std::vector<core::node::Node *> &)>
       callback;
 
-  NativeFunctionNode(
+  NativeFunctionDeclarationNode(
       std::u32string n, std::vector<node::TypeNode *> p, node::TypeNode *ret,
       std::function<core::node::Node *(const std::vector<core::node::Node *> &)>
           cb)
-      : StatementNode(core::node::NodeKind::NativeFunction), name(std::move(n)),
-        params(std::move(p)), return_type(ret), callback(std::move(cb)) {}
+      : StatementNode(core::node::NodeKind::NativeFunctionDeclaration),
+        name(std::move(n)), params(std::move(p)), return_type(ret),
+        callback(std::move(cb)) {}
 };
 
 } // namespace core::node

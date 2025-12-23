@@ -1,0 +1,3 @@
+use std.console
+
+console.print("ola")
