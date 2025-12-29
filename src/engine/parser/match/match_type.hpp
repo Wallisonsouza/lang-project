@@ -16,7 +16,7 @@ inline core::node::TypeNode *match_type(CompilationUnit &unit,
     return nullptr;
   }
 
-  std::u32string type_name = unit.source.buffer.get_text(tok->span);
+  std::u32string type_name = unit.source.buffer.get_text(tok->slice.span);
   stream.advance();
 
   std::vector<core::node::TypeNode *> generic_args;

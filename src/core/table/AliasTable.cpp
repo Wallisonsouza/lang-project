@@ -40,6 +40,20 @@ AliasTable::resolve_alias(const std::u32string_view &alias) const {
   return descriptor_table.lookup_by_name(alias);
 }
 
+token::TokenDescriptor *
+AliasTable::resolve_identifier(const std::u32string_view &name) const {
+  auto desc = resolve_alias(name);
+  if (!desc)
+    return nullptr;
+
+  if (desc->group == token::TokenGroup::Literal ||
+      desc->group == token::TokenGroup::Operator) {
+    return nullptr;
+  }
+
+  return desc;
+}
+
 const std::vector<std::u32string> &
 AliasTable::get_aliases(token::TokenKind kind) const {
   auto it = by_kind_.find(kind);

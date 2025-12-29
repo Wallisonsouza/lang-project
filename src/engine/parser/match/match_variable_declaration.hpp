@@ -67,8 +67,8 @@ match_variable_declaration(CompilationUnit &unit, TokenStream &stream,
   }
 
   auto node = unit.ast.create_node<node::VariableDeclarationNode>(
-      unit.source.buffer.get_text(name_token->span), type_node, value_node,
-      mod);
+      unit.source.buffer.get_text(name_token->slice.span), type_node,
+      value_node, mod);
   node->has_error = has_error;
 
   auto semicolon_token = stream.peek();

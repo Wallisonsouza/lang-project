@@ -29,16 +29,16 @@ inline void print_token(const CompilationUnit &unit,
     group = token_group_to_str(token->descriptor->group);
   }
 
-  const std::string text = utils::Utf::utf32to8(token->span.view());
+  const std::string text = utils::Utf::utf32to8(token->slice.span.view());
 
   std::ostringstream oss;
   oss << C_BLUE << "Token" << C_RESET << " {\n"
       << "  " << C_GREEN << "Kind" << C_RESET << ": " << kind << "\n"
       << "  " << C_GREEN << "Group" << C_RESET << ": " << group << "\n"
       << "  " << C_YELLOW << "Text" << C_RESET << ": \"" << text << "\"\n"
-      << "  Line: " << token->range.begin.line
-      << " | Start: " << token->range.begin.column
-      << " | End: " << token->range.end.column << "\n}";
+      << "  Line: " << token->slice.range.begin.line
+      << " | Start: " << token->slice.range.begin.column
+      << " | End: " << token->slice.range.end.column << "\n}";
 
   Console::debug(oss.str());
 }

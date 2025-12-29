@@ -16,9 +16,9 @@ public:
 
     Span span_to(const State &end) const { return Span{ptr, end.ptr}; }
 
-    SourceRange range_to(const State &end) const {
-      return SourceRange{.begin = {offset, line, column},
-                         .end = {end.offset, end.line, end.column}};
+    Range range_to(const State &end) const {
+      return Range{.begin = {offset, line, column},
+                   .end = {end.offset, end.line, end.column}};
     }
   };
 
@@ -63,8 +63,12 @@ public:
       advance();
   }
 
-  Span span_from(const State &a, const State &b) const {
-    return Span{a.ptr, b.ptr};
+  Slice slice_from(const State &begin) const {
+    State end = get_state();
+    return {
+        .range = begin.range_to(end),
+        .span = begin.span_to(end),
+    };
   }
 
   const char32_t *mark() const { return current; }
@@ -77,21 +81,6 @@ public:
     current = s.ptr;
     line = s.line;
     column = s.column;
-  }
-
-  SourceRange range_from(const State &a, const State &b) const {
-    return SourceRange{
-        .begin =
-            {
-                .offset = static_cast<size_t>(a.ptr - buffer.begin()),
-                .line = a.line,
-                .column = a.column,
-            },
-        .end = {
-            .offset = static_cast<size_t>(b.ptr - buffer.begin()),
-            .line = b.line,
-            .column = b.column,
-        }};
   }
 
   void push_checkpoint() { checkpoints.push_back(get_state()); }

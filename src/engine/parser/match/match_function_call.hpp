@@ -23,7 +23,7 @@ inline node::FunctionCallNode *match_function_call(CompilationUnit &unit,
     return nullptr;
 
   auto callee_expr = unit.ast.create_node<node::IdentifierNode>(
-      unit.source.buffer.get_text(tok->span));
+      unit.source.buffer.get_text(tok->slice.span));
 
   // Espera '('
   if (!expect_token(unit, stream, core::token::TokenKind::OpenParen,

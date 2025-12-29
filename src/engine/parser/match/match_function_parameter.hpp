@@ -60,7 +60,8 @@ match_function_parameter(CompilationUnit &unit, TokenStream &stream,
   }
 
   auto node = unit.ast.create_node<node::FunctionParameterNode>(
-      unit.source.buffer.get_text(name_token->span), type_node, value_node);
+      unit.source.buffer.get_text(name_token->slice.span), type_node,
+      value_node);
   node->has_error = has_error;
 
   auto semicolon_token = stream.peek();

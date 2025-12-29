@@ -84,18 +84,18 @@ public:
 
     switch (tok->descriptor->kind) {
     case core::token::TokenKind::NumberLiteral: {
-      auto text = unit.source.buffer.get_text(tok->span);
+      auto text = unit.source.buffer.get_text(tok->slice.span);
       double value = std::stod(utils::Utf::utf32to8(text));
       result = unit.ast.create_node<parser::node::NumberLiteralNode>(value);
       break;
     }
     case core::token::TokenKind::StringLiteral: {
-      auto str = unit.source.buffer.get_text(tok->span);
+      auto str = unit.source.buffer.get_text(tok->slice.span);
       result = unit.ast.create_node<parser::node::StringLiteralNode>(str);
       break;
     }
     case core::token::TokenKind::Identifier: {
-      auto name = unit.source.buffer.get_text(tok->span);
+      auto name = unit.source.buffer.get_text(tok->slice.span);
       result = unit.ast.create_node<parser::node::IdentifierNode>(name);
       break;
     }

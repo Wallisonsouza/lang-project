@@ -1,7 +1,6 @@
 #pragma once
 
 #include "core/source/TextStream.hpp"
-#include "core/token/TokenGroup.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "utils/Unicode.hpp"
 
@@ -12,10 +11,12 @@ inline core::token::Token *match_identifier(CompilationUnit &unit,
   auto c = stream.peek();
   auto start = stream.get_state();
 
-  if (!utils::Unicode::is_alpha(c) && c != U'_')
+  if (!utils::Unicode::is_alpha(c) && c != U'_') {
     return nullptr;
+  }
 
   stream.advance();
+
   while (true) {
     c = stream.peek();
     if (utils::Unicode::is_alpha(c) || utils::Unicode::is_digit(c) ||
@@ -26,20 +27,17 @@ inline core::token::Token *match_identifier(CompilationUnit &unit,
     }
   }
 
-  auto end = stream.get_state();
-  auto span = stream.span_from(start, end);
-  auto location = stream.range_from(start, end);
+  auto slice = stream.slice_from(start);
 
-  // Resolve alias
-  auto descriptor = unit.context.alias_table.resolve_alias(span.view());
-  if (!descriptor || descriptor->group == core::token::TokenGroup::Literal ||
-      descriptor->group == core::token::TokenGroup::Operator) {
+  auto descriptor =
+      unit.context.alias_table.resolve_identifier(slice.span.view());
+
+  if (!descriptor) {
     descriptor = unit.context.descriptor_table.lookup_by_kind(
         core::token::TokenKind::Identifier);
   }
 
-  return unit.tokens.create_token<core::token::Token>(descriptor, span,
-                                                      location);
+  return unit.tokens.create_token<core::token::Token>(descriptor, slice);
 }
 
 } // namespace lexer::match

@@ -39,9 +39,9 @@ inline core::token::Token *match_operator(CompilationUnit &unit,
 
   stream.advance_n(best_len);
 
-  auto end = stream.get_state();
-  return unit.tokens.create_token<core::token::Token>(best, start.span_to(end),
-                                                      start.range_to(end));
+  auto slice = stream.slice_from(start);
+
+  return unit.tokens.create_token<core::token::Token>(best, slice);
 }
 
 } // namespace lexer::match

@@ -6,16 +6,21 @@
 #include "engine/CompilationUnit.hpp"
 
 namespace lexer::match {
+
 inline core::token::Token *match_string(CompilationUnit &unit,
                                         core::source::TextStream &stream) {
   char32_t quote = stream.peek();
-  if (quote != U'"' && quote != U'\'')
+
+  if (quote != U'"' && quote != U'\'') {
     return nullptr;
+  }
 
   auto start = stream.get_state();
   stream.advance();
 
   bool escaped = false;
+  bool closed = false;
+
   while (!stream.eof()) {
     char32_t ch = stream.peek();
 
@@ -27,23 +32,35 @@ inline core::token::Token *match_string(CompilationUnit &unit,
 
     if (ch == U'\\') {
       escaped = true;
-    } else if (ch == quote) {
+      stream.advance();
+      continue;
+    }
+
+    if (ch == quote) {
+      closed = true;
+      stream.advance();
       break;
     }
 
     stream.advance();
   }
 
-  if (!stream.eof() && stream.peek() == quote)
-    stream.advance();
+  auto slice = stream.slice_from(start);
 
-  auto end = stream.get_state();
-  auto span = stream.span_from(start, end);
-  auto range = stream.range_from(start, end);
+  if (!closed) {
+
+    // unit.diagnostics.error(
+    //     "string literal não terminada",
+    //     slice.range
+    // );
+
+    return nullptr;
+  }
 
   auto descriptor = unit.context.descriptor_table.lookup_by_kind(
       core::token::TokenKind::StringLiteral);
-  return unit.tokens.create_token<core::token::Token>(descriptor, span, range);
+
+  return unit.tokens.create_token<core::token::Token>(descriptor, slice);
 }
 
 } // namespace lexer::match

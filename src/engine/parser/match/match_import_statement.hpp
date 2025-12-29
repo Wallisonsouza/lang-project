@@ -3,9 +3,7 @@
 #include "core/TokenStream.hpp"
 #include "core/token/TokenKind.hpp"
 #include "engine/CompilationUnit.hpp"
-#include "engine/parser/ExpressionParser.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
-#include <iostream>
 
 namespace parser::match {
 
@@ -36,7 +34,7 @@ match_import_statement(CompilationUnit &unit, TokenStream &stream) {
     if (!id || id->descriptor->kind != core::token::TokenKind::Identifier)
       break;
 
-    path.push_back(unit.source.buffer.get_text(id->span));
+    path.push_back(unit.source.buffer.get_text(id->slice.span));
     stream.advance();
 
     auto dot = stream.peek();

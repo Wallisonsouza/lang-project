@@ -63,7 +63,7 @@ match_function_declaration(CompilationUnit &unit, TokenStream &stream,
   stream.discard_checkpoint();
 
   return unit.ast.create_node<node::FunctionDeclarationNode>(
-      unit.source.buffer.get_text(name_token->span), std::move(params),
+      unit.source.buffer.get_text(name_token->slice.span), std::move(params),
       return_type, body, mod);
 }
 

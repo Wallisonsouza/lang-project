@@ -20,7 +20,7 @@
 //   // if (!tok || tok->descriptor->kind != core::token::TokenKind::Identifier)
 //   return nullptr;
 
-//   // std::u32string name = unit.source.buffer.get_text(tok->span);
+//   // std::u32string name = unit.source.buffer.get_text(tok->slice.span);
 //   // stream.advance();
 
 //   // std::vector<std::u32string> type_params;
@@ -33,7 +33,7 @@
 //   //     auto param = stream.peek();
 //   //     if (!param || param->descriptor->kind !=
 //   core::token::TokenKind::Identifier) break;
-//   //     type_params.push_back(unit.source.buffer.get_text(param->span));
+//   // type_params.push_back(unit.source.buffer.get_text(param->slice.span));
 //   //     stream.advance();
 
 //   //     auto comma = stream.peek();
