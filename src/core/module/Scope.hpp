@@ -19,8 +19,7 @@ struct Scope {
                   node::Node *declaration,
                   Visibility visibility = Visibility::Private,
                   bool is_builtin = false) {
-    if (symbols.contains(name))
-      return nullptr;
+    if (symbols.contains(name)) return nullptr;
 
     Symbol *sym =
         arena.create<Symbol>(name, kind, declaration, visibility, is_builtin);
@@ -32,8 +31,7 @@ struct Scope {
   Symbol *find(const std::u32string &name) {
     for (Scope *s = this; s; s = s->parent) {
       auto it = s->symbols.find(name);
-      if (it != s->symbols.end())
-        return it->second;
+      if (it != s->symbols.end()) return it->second;
     }
     return nullptr;
   }

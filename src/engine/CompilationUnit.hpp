@@ -1,7 +1,8 @@
 #pragma once
 #include "core/AST.hpp"
-#include "core/TokenStream.hpp"
 #include "core/source/Source.hpp"
+#include "core/token/token_stream.hpp"
+#include "diagnostic/DiagnosticEngine.hpp"
 #include "language/LanguageSpec.hpp"
 
 struct CompilationUnit {
@@ -9,9 +10,9 @@ struct CompilationUnit {
   core::source::Source &source;
 
   AST ast;
-  TokenStream tokens;
+  core::token::TokenStream tokens;
 
-  explicit CompilationUnit(ayla::language::LanguageSpec &ctx,
-                           core::source::Source &src)
-      : context(ctx), source(src) {}
+  DiagnosticEngine diagnostics;
+
+  explicit CompilationUnit(ayla::language::LanguageSpec &ctx, core::source::Source &src) : context(ctx), source(src) {}
 };

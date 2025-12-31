@@ -29,7 +29,7 @@ public:
     root_ = TrieNode<T>{};
     pool_.clear();
   }
-  
+
   const TrieNode<T> *root() const { return &root_; }
 
   void insert(std::u32string_view key, T *value) {

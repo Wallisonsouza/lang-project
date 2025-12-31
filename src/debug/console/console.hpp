@@ -55,7 +55,7 @@ public:
     StyledStream ss(std::cout);
     ss << defaultColor;
     (ss << ... << args);
-    ss << std::endl;
+    ss << Color::reset() << std::endl;
   }
 
   template <typename... Args> static void warn(const Args &...args) {

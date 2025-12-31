@@ -1,4 +1,5 @@
 #pragma once
+
 #include "core/source/Span.hpp"
 #include <cstddef>
 

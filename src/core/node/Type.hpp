@@ -48,16 +48,29 @@ struct VoidTypeNode : TypeNode {
   }
 };
 
+struct FunctionParameterNode : core::node::StatementNode {
+  std::u32string name;
+  core::node::TypeNode *type;
+  core::node::ExpressionNode *value = nullptr;
+  core::Symbol *symbol = nullptr;
+
+  FunctionParameterNode(std::u32string n, core::node::TypeNode *t,
+                        core::node::ExpressionNode *v)
+      : StatementNode(core::node::NodeKind::FunctionParameter),
+        name(std::move(n)), type(t), value(v) {}
+};
+
 struct NativeFunctionDeclarationNode : core::node::StatementNode {
   std::u32string name;
-  std::vector<node::TypeNode *> params;
+  std::vector<FunctionParameterNode *> params;
   node::TypeNode *return_type;
 
   std::function<core::node::Node *(const std::vector<core::node::Node *> &)>
       callback;
 
   NativeFunctionDeclarationNode(
-      std::u32string n, std::vector<node::TypeNode *> p, node::TypeNode *ret,
+      std::u32string n, std::vector<FunctionParameterNode *> p,
+      node::TypeNode *ret,
       std::function<core::node::Node *(const std::vector<core::node::Node *> &)>
           cb)
       : StatementNode(core::node::NodeKind::NativeFunctionDeclaration),

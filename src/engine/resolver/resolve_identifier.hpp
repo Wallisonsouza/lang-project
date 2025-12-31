@@ -1,19 +1,22 @@
-// // resolver/ResolveIdentifier.cpp
-// #include "Resolver.hpp"
-// #include "parser/node/literal_nodes.hpp"
-// #include "utils/Utf8.hpp"
+#pragma once
 
-// namespace resolver {
+#include "Resolver.hpp"
+#include "diagnostic/DiagnosticCode.hpp"
+#include "engine/parser/node/literal_nodes.hpp"
 
-// inline void resolve_identifier(Resolver &ctx, node::IdentifierNode *id) {
-//   core::Symbol *sym = ctx.current_scope->find(id->name);
+namespace resolver {
 
-//   if (!sym) {
-//     ctx.error("símbolo não declarado '" + utils::Utf::utf32to8(id->name) +
-//     "'"); return;
-//   }
+inline void resolve_identifier(Resolver &resolver,
+                               parser::node::IdentifierNode *id_node) {
 
-//   id->symbol = sym;
-// }
+  auto *sym = resolver.current_scope->find(id_node->name);
 
-// } // namespace resolver
+  if (!sym) {
+    resolver.report_error(DiagnosticCode::UndeclaredSymbol, id_node->slice);
+    return;
+  }
+
+  id_node->symbol = sym;
+}
+
+} // namespace resolver

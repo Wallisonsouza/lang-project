@@ -1,12 +1,8 @@
 #pragma once
 
-#include "core/TokenStream.hpp"
+#include "core/token/token_stream.hpp"
 #include "engine/CompilationUnit.hpp"
-#include "engine/parser/ExpressionParser.hpp"
-#include "engine/parser/match/match_function_call.hpp"
-#include "engine/parser/match/match_function_declaration.hpp"
-#include "engine/parser/match/match_import_statement.hpp"
-#include "engine/parser/match/match_variable_declaration.hpp"
+#include "engine/parser/declaration/parse_variable_declaration.hpp"
 
 namespace parser {
 
@@ -27,25 +23,13 @@ public:
   }
 
 private:
-  ExpressionParser exp_engine;
+  core::node::Node *match_node(CompilationUnit &unit, core::token::TokenStream &stream) {
 
-  core::node::Node *match_node(CompilationUnit &unit, TokenStream &stream) {
-
-    if (auto n = parser::match::match_import_statement(unit, stream)) {
-      return n;
-    }
-
-    // if (auto n =
-    //         parser::match::match_variable_declaration(unit, stream,
-    //         exp_engine))
-    //   return n;
-    // if (auto n =
-    //         parser::match::match_function_declaration(unit, stream,
-    //         exp_engine))
-    //   return n;
-    // if (auto n = parser::match::match_function_call(unit, stream,
-    // exp_engine))
-    //   return n;
+    // if (auto n = parser::match::match_import_statement(unit, stream)) return n;
+    if (auto n = parser::declaration::parse_variable_declaration(unit, stream)) return n;
+    // if (auto n = parser::match::match_function_declaration(unit, stream)) return n;
+    // if (auto n = parser::match::match_function_call(unit, stream)) return n;
+    // if (auto n = parser::match::parse_callee(unit, stream)) return n;
 
     return nullptr;
   }

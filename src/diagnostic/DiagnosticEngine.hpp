@@ -1,14 +1,15 @@
-
-
+#pragma once
 #include "core/token/Location.hpp"
+#include "core/token/TokenKind.hpp"
 #include "diagnostic/Diagnostic.hpp"
-#include <vector>
-class DiagnosticEngine {
-private:
-  std::vector<Diagnostic> diagnostics;
 
+class DiagnosticEngine {
 public:
-  void add_error(DiagnosticCode code, Slice slice) {
-    diagnostics.emplace_back(code, slice);
-  }
+  void expected_token(const Slice &where, core::token::TokenKind expected, core::token::TokenKind found);
+
+  void expected_type(const Slice &where, core::token::TokenKind found);
+
+  void expected_expression(const Slice &where, core::token::TokenKind found);
+
+  void emit(Diagnostic diag);
 };

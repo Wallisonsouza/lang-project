@@ -1,15 +1,14 @@
 // #include "Resolver.hpp"
 // #include "core/module/Symbol.hpp"
-// #include "parser/node/literal_nodes.hpp"
-// #include "parser/node/statement_nodes.hpp"
+// #include "engine/parser/node/literal_nodes.hpp"
+// #include "engine/parser/node/statement_nodes.hpp"
 // #include "utils/Utf8.hpp"
 
 // namespace resolver {
 
-// inline void resolve_function_call(Resolver &ctx, node::FunctionCallNode
-// *call) {
-//   if (!call)
-//     return;
+// inline void resolve_function_call(Resolver &ctx,
+//                                   parser::node::FunctionCallNode *call) {
+//   if (!call) return;
 
 //   ctx.resolve(call->callee);
 
@@ -17,7 +16,7 @@
 //     ctx.resolve(arg);
 //   }
 
-//   if (auto *id = static_cast<node::IdentifierNode *>(call->callee)) {
+//   if (auto *id = static_cast<parser::node::IdentifierNode *>(call->callee)) {
 
 //     core::Symbol *sym = ctx.current_scope->find(id->name);
 

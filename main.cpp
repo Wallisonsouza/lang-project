@@ -1,17 +1,21 @@
-#include "core/module/ModuleRegistry.hpp"
 #include "core/source/Source.hpp"
 #include "debug/console/console.hpp"
-#include "debug/node/debug_print_node.hpp"
-#include "debug/token/debug_token.hpp"
+#include "debug/engine/node/DebugNode.hpp"
+#include "debug/engine/token/dump_tokens.hpp"
+#include "diagnostic/diagnostic_debug.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/lexer/Lexer.hpp"
 #include "engine/parser/Parser.hpp"
+#include "engine/resolver/Resolver.hpp"
+#include "language/BuiltinScope.hpp"
+#include "language/LanguageSpec.hpp"
 #include "language/argon_main.hpp"
+#include <iostream>
+#include <ostream>
 
 int main() {
 
-  core::source::Source source(
-      "/home/wallison/Documentos/git/ayla/src/examples/test.orb");
+  core::source::Source source("/home/wallison/Documentos/git/ayla/src/examples/test.orb");
 
   auto context = ayla::language::make_lang_context();
 
@@ -21,18 +25,21 @@ int main() {
 
   lexer::Lexer lexer;
   lexer.generate_tokens(unit);
-  for (auto &tok : unit.tokens.get_tokens()) {
-    debug::token::print_token(unit, tok);
-  }
-
-  auto module = context.module_registry.get_or_create(U"std::console", nullptr);
+  // debug::engine::dump_tokens(unit.tokens);
 
   parser::Parser parser;
   parser.generate_ast(unit);
 
+  ayla::make_ayla_std(context.root_scope);
+
+  resolver::Resolver resolver(&context.root_scope);
+  resolver.diag_target = &unit.diagnostics;
+  resolver.resolve_ast(unit.ast);
+
   debug::Console::log(unit.ast.size());
   for (auto &node : unit.ast.get_nodes()) {
-    debug::node::print_node(node);
+    debug::node::debug_node(node, "", true);
+    std::cout << std::endl;
   }
 
   // optimazer::optimize_ast(unit.ast);

@@ -7,11 +7,15 @@ namespace utils {
 
 class Utf {
 public:
-  static bool utf8_to_utf32(const std::string &s, std::u32string &out) noexcept {
+  static bool utf8_to_utf32(const std::string &s,
+                            std::u32string &out) noexcept {
     out.clear();
     size_t i = 0;
 
-    if (s.size() >= 3 && (uint8_t)s[0] == 0xEF && (uint8_t)s[1] == 0xBB && (uint8_t)s[2] == 0xBF) { i = 3; }
+    if (s.size() >= 3 && (uint8_t)s[0] == 0xEF && (uint8_t)s[1] == 0xBB &&
+        (uint8_t)s[2] == 0xBF) {
+      i = 3;
+    }
 
     while (i < s.size()) {
       uint8_t c = static_cast<uint8_t>(s[i]);
@@ -31,7 +35,8 @@ public:
         nbytes = 3;
       } else if ((c & 0xF8) == 0xF0) {
         if (i + 3 >= s.size()) return false;
-        cp = ((c & 0x07) << 18) | ((s[i + 1] & 0x3F) << 12) | ((s[i + 2] & 0x3F) << 6) | (s[i + 3] & 0x3F);
+        cp = ((c & 0x07) << 18) | ((s[i + 1] & 0x3F) << 12) |
+             ((s[i + 2] & 0x3F) << 6) | (s[i + 3] & 0x3F);
         nbytes = 4;
       } else {
         return false;

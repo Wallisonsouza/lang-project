@@ -26,44 +26,41 @@ struct VariableDeclarationNode : core::node::StatementNode {
   std::u32string name;
   core::node::TypeNode *type;
   core::node::ExpressionNode *value;
-  core::node::Modifier modifiers;
+  core::node::Modifiers modifiers;
   core::Symbol *symbol = nullptr;
 
-  VariableDeclarationNode(
-      std::u32string n, core::node::TypeNode *t, core::node::ExpressionNode *v,
-      core::node::Modifier modifiers = core::node::Modifier::None)
+  VariableDeclarationNode(std::u32string n, core::node::TypeNode *t,
+                          core::node::ExpressionNode *v,
+                          core::node::Modifiers modifiers = {})
       : StatementNode(core::node::NodeKind::VariableDeclaration),
         name(std::move(n)), type(t), value(v), modifiers(modifiers) {}
 };
 
-struct FunctionParameterNode : core::node::StatementNode {
-  std::u32string name;
-  core::node::TypeNode *type;
-  core::node::ExpressionNode *value = nullptr;
-  core::Symbol *symbol = nullptr;
-  bool has_error = false;
-
-  FunctionParameterNode(std::u32string n, core::node::TypeNode *t,
-                        core::node::ExpressionNode *v)
-      : StatementNode(core::node::NodeKind::FunctionParameter),
-        name(std::move(n)), type(t), value(v) {}
-};
-
 struct FunctionDeclarationNode : core::node::StatementNode {
   std::u32string name;
-  std::vector<FunctionParameterNode *> params;
+  std::vector<core::node::FunctionParameterNode *> params;
   core::node::TypeNode *return_type;
   BlockNode *body;
-  core::node::Modifier modifiers;
+  core::node::Modifiers modifiers;
   core::Symbol *symbol = nullptr;
 
   FunctionDeclarationNode(
-      std::u32string n, std::vector<FunctionParameterNode *> params,
+      std::u32string n, std::vector<core::node::FunctionParameterNode *> params,
       core::node::TypeNode *ret_type = nullptr, BlockNode *b = nullptr,
-      core::node::Modifier mods = core::node::Modifier::None)
+      core::node::Modifiers mods = {})
       : StatementNode(core::node::NodeKind::FunctionDeclaration),
         name(std::move(n)), params(std::move(params)), return_type(ret_type),
         body(b), modifiers(mods) {}
+};
+
+struct MemberAccessNode : core::node::ExpressionNode {
+  core::node::ExpressionNode *object;
+  core::node::ExpressionNode *property;
+
+  MemberAccessNode(core::node::ExpressionNode *obj,
+                   core::node::ExpressionNode *prop)
+      : ExpressionNode(core::node::NodeKind::MemberAccess), object(obj),
+        property(prop) {}
 };
 
 struct FunctionCallNode : core::node::ExpressionNode {
@@ -79,7 +76,7 @@ struct FunctionCallNode : core::node::ExpressionNode {
 struct OperatorDeclarationNode : core::node::StatementNode {
   core::token::TokenKind operator_kind; // +, -, *, ==, etc
 
-  std::vector<FunctionParameterNode *> parameters;
+  std::vector<core::node::FunctionParameterNode *> parameters;
   core::node::TypeNode *return_type;
   BlockNode *body;
 
@@ -87,7 +84,8 @@ struct OperatorDeclarationNode : core::node::StatementNode {
   core::Symbol *symbol = nullptr;
 
   OperatorDeclarationNode(
-      core::token::TokenKind op, std::vector<FunctionParameterNode *> params,
+      core::token::TokenKind op,
+      std::vector<core::node::FunctionParameterNode *> params,
       core::node::TypeNode *ret_type = nullptr, BlockNode *b = nullptr,
       core::node::Modifier mods = core::node::Modifier::None)
       : StatementNode(core::node::NodeKind::OperatorDeclaration),

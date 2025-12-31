@@ -7,6 +7,7 @@ enum class TokenKind : uint8_t {
   Mut,
   Public,
   Private,
+  Invalid,
 
   // Define um enum class chamado TokenKind que representa diferentes tipos de
   // tokens na análise léxica.
@@ -17,6 +18,7 @@ enum class TokenKind : uint8_t {
   OperatorKeyword,
   ReturnKeyword,
   UseKeyword,
+  AsKeyword,
 
   Function,    // Representa a palavra-chave 'function' em uma linguagem.
   If,          // Representa a palavra-chave 'if'.
@@ -48,15 +50,15 @@ enum class TokenKind : uint8_t {
   CloseBrace, // Representa a chave direita '}'.
   Semicolon,  // Representa o ponto e vírgula ';'.
   Dot,
-  Alias,      // Representa um alias (como 'type alias' em algumas linguagens).
-  Identifier, // Representa nomes de variáveis, funções ou outros
-              // identificadores.
+  Alias,         // Representa um alias (como 'type alias' em algumas linguagens).
+  Identifier,    // Representa nomes de variáveis, funções ou outros
+                 // identificadores.
   NumberLiteral, // Representa um literal numérico, como 42 ou 3.14.
   StringLiteral, // Representa um literal de string, como "texto".
   NullLiteral,   // Representa o valor nulo 'null'.
   CharLiteral,   // Representa um literal de caractere, como 'a'.
   BoolLiteral,   // Representa um literal booleano: true ou false.
-  EndOfFile, // Representa o fim do arquivo, usado para indicar que não há mais
-             // tokens.
+  EndOfFile,     // Representa o fim do arquivo, usado para indicar que não há mais
+                 // tokens.
 };
 }

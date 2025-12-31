@@ -19,6 +19,9 @@ inline LanguageSpec make_lang_context() {
   context.precedence_table.add(TokenKind::Star, 20);
   context.precedence_table.add(TokenKind::Slash, 20);
 
+  context.descriptor_table.add(TokenKind::AsKeyword, U"as",
+                               TokenGroup::Keyword);
+
   context.descriptor_table.add(TokenKind::FunctionKeyword, U"fn",
                                TokenGroup::Keyword);
   context.descriptor_table.add(TokenKind::UseKeyword, U"use",

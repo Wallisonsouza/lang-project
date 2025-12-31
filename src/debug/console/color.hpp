@@ -65,12 +65,12 @@ inline const Color Color::Cyan(0, 255, 255);
 inline const Color Color::White(255, 255, 255);
 
 inline const Color Color::BrightBlack(128, 128, 128);
-inline const Color Color::BrightRed(255, 128, 128);
-inline const Color Color::BrightGreen(128, 255, 128);
-inline const Color Color::BrightYellow(255, 255, 128);
-inline const Color Color::BrightBlue(128, 128, 255);
-inline const Color Color::BrightMagenta(255, 128, 255);
-inline const Color Color::BrightCyan(128, 255, 255);
+inline const Color Color::BrightRed(255, 0, 0);
+inline const Color Color::BrightGreen(0, 255, 0);
+inline const Color Color::BrightYellow(255, 255, 0);
+inline const Color Color::BrightBlue(0, 0, 255);
+inline const Color Color::BrightMagenta(255, 0, 255);
+inline const Color Color::BrightCyan(0, 255, 255);
 inline const Color Color::BrightWhite(255, 255, 255);
 
 inline const Color Color::Orange(255, 165, 0);
