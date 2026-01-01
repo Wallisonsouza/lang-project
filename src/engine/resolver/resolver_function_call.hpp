@@ -1,40 +1,39 @@
-// #include "Resolver.hpp"
-// #include "core/module/Symbol.hpp"
-// #include "engine/parser/node/literal_nodes.hpp"
-// #include "engine/parser/node/statement_nodes.hpp"
-// #include "utils/Utf8.hpp"
+#include "Resolver.hpp"
+#include "core/module/Symbol.hpp"
+#include "core/node/NodeKind.hpp"
+#include "engine/parser/node/literal_nodes.hpp"
+#include "engine/parser/node/statement_nodes.hpp"
 
-// namespace resolver {
+namespace resolver {
 
-// inline void resolve_function_call(Resolver &ctx,
-//                                   parser::node::FunctionCallNode *call) {
-//   if (!call) return;
+inline void resolve_function_call(CompilationUnit &unit, Resolver &resolver, parser::node::FunctionCallNode *node) {
 
-//   ctx.resolve(call->callee);
+  if (!node) return;
 
-//   for (auto *arg : call->args) {
-//     ctx.resolve(arg);
-//   }
+  resolver.resolve(unit, node->callee);
 
-//   if (auto *id = static_cast<parser::node::IdentifierNode *>(call->callee)) {
+  for (auto *arg : node->args) { resolver.resolve(unit, arg); }
 
-//     core::Symbol *sym = ctx.current_scope->find(id->name);
+  if (node->callee->kind != core::node::NodeKind::Identifier) {
+    resolver.report_error(DiagnosticCode::NotCallable, node->callee->slice);
+    return;
+  }
 
-//     if (!sym) {
-//       ctx.error("Função '" + utils::Utf::utf32to8(id->name) +
-//                 "' não encontrada");
-//       return;
-//     }
+  auto *id = static_cast<parser::node::IdentifierNode *>(node->callee);
 
-//     if (sym->kind != core::SymbolKind::Function) {
-//       ctx.error("'" + utils::Utf::utf32to8(id->name) + "' não é uma função");
-//       return;
-//     }
+  core::Symbol *sym = resolver.current_scope->find(id->name);
 
-//     call->symbol = sym;
-//   } else {
-//     ctx.error("Callee deve ser uma função identificável");
-//   }
-// }
+  if (!sym) {
+    resolver.report_error(DiagnosticCode::UndeclaredIdentifier, id->slice);
+    return;
+  }
 
-// } // namespace resolver
+  if (sym->kind != core::SymbolKind::Function) {
+    resolver.report_error(DiagnosticCode::NotCallable, id->slice);
+    return;
+  }
+
+  node->symbol = sym;
+}
+
+} // namespace resolver

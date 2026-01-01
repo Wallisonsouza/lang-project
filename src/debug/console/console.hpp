@@ -31,9 +31,7 @@ public:
     }
 
     auto end = Clock::now();
-    auto elapsed_ns =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - it->second)
-            .count();
+    auto elapsed_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - it->second).count();
     timers.erase(it);
 
     double seconds = elapsed_ns / 1e9;
@@ -67,7 +65,7 @@ public:
 
   template <typename... Args> static void error(const Args &...args) {
     StyledStream ss(std::cerr);
-    ss << Color::BrightRed;
+    ss << Color::Red;
     (ss << ... << args);
     ss << std::endl;
   }

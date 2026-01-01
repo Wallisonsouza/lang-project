@@ -2,7 +2,7 @@
 #include <string>
 
 namespace core::node {
-enum class BinaryOp {
+enum class BinaryOperation {
   Add,
   Subtract,
   Multiply,
@@ -11,20 +11,14 @@ enum class BinaryOp {
 
 };
 
-inline std::string binary_op_to_string(BinaryOp op) {
+inline std::string binary_op_to_string(BinaryOperation op) {
   switch (op) {
-  case BinaryOp::Add:
-    return "+";
-  case BinaryOp::Subtract:
-    return "-";
-  case BinaryOp::Multiply:
-    return "*";
-  case BinaryOp::Divide:
-    return "/";
-  case BinaryOp::Modulo:
-    return "%";
-  default:
-    return "?";
+  case BinaryOperation::Add: return "+";
+  case BinaryOperation::Subtract: return "-";
+  case BinaryOperation::Multiply: return "*";
+  case BinaryOperation::Divide: return "/";
+  case BinaryOperation::Modulo: return "%";
+  default: return "?";
   }
 }
 } // namespace core::node

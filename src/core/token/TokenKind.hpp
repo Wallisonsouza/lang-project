@@ -9,6 +9,9 @@ enum class TokenKind : uint8_t {
   Private,
   Invalid,
 
+  OpenBracket,
+  CloseBracket,
+
   // Define um enum class chamado TokenKind que representa diferentes tipos de
   // tokens na análise léxica.
   // ': uint8_t' força o enum a usar apenas 1 byte de memória por valor.
@@ -46,6 +49,7 @@ enum class TokenKind : uint8_t {
   OpenParen,  // Representa o parêntese esquerdo '('.
   Space,      // Representa um espaço em branco.
   CloseParen, // Representa o parêntese direito ')'.
+
   OpenBrace,  // Representa a chave esquerda '{'.
   CloseBrace, // Representa a chave direita '}'.
   Semicolon,  // Representa o ponto e vírgula ';'.

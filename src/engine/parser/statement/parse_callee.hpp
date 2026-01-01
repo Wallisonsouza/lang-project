@@ -11,6 +11,7 @@
 namespace parser::match {
 
 inline core::node::ExpressionNode *parse_callee(CompilationUnit &unit, core::token::TokenStream &stream) {
+  
   auto tok = stream.peek();
   if (!tok || tok->descriptor->kind != core::token::TokenKind::Identifier) { return nullptr; }
 

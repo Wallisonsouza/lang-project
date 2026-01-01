@@ -6,7 +6,7 @@
 
 struct Diagnostic {
   DiagnosticCode code;
-  Slice where;
+  const Slice where;
 
   struct {
     core::token::TokenKind found;

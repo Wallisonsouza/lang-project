@@ -1,6 +1,6 @@
 #include "parse_primary_expression.hpp"
+#include "engine/parser/expression/parse_expression.hpp"
 #include "engine/parser/node/literal_nodes.hpp"
-#include "parse_binary_expression.hpp"
 #include "utils/Utf8.hpp"
 
 namespace parser::expression {
@@ -35,11 +35,13 @@ core::node::ExpressionNode *parse_primary_expression(CompilationUnit &unit, core
   case core::token::TokenKind::Identifier: {
     auto name = unit.source.buffer.get_text(tok->slice.span);
     result = unit.ast.create_node<parser::node::IdentifierNode>(name);
+    result->slice = tok->slice;
     break;
   }
 
   case core::token::TokenKind::OpenParen: {
-    result = parse_binary_expression(unit, stream, 0);
+    // Chama o dispatcher principal
+    result = parse_expression(unit, stream);
 
     auto *close = stream.consume();
     if (!result || !close || close->descriptor->kind != core::token::TokenKind::CloseParen) {

@@ -14,7 +14,7 @@ inline bool expect_token(CompilationUnit &unit, core::token::TokenStream &stream
 
   const Slice &where = tok ? tok->slice : stream.last_slice();
 
-  unit.diagnostics.expected_token(where, expected, found);
+  // unit.diagnostics.expected_token(where, expected, found);
   return false;
 }
 
@@ -27,7 +27,7 @@ inline core::node::TypeNode *expect_type(CompilationUnit &unit, core::token::Tok
 
   const Slice &where = tok ? tok->slice : stream.last_slice();
 
-  unit.diagnostics.expected_type(where, found);
+  // unit.diagnostics.expected_type(where, found);
   return nullptr;
 }
 
@@ -40,6 +40,6 @@ inline core::node::ExpressionNode *expect_expression(CompilationUnit &unit, core
 
   const Slice &where = tok ? tok->slice : stream.last_slice();
 
-  unit.diagnostics.expected_expression(where, found);
+  // unit.diagnostics.expected_expression(where, found);
   return nullptr;
 }

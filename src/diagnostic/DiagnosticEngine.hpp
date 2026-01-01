@@ -1,4 +1,5 @@
 #pragma once
+#include "core/source/SourceBuffer.hpp"
 #include "core/token/Location.hpp"
 #include "core/token/TokenKind.hpp"
 #include "diagnostic/Diagnostic.hpp"
@@ -11,5 +12,5 @@ public:
 
   void expected_expression(const Slice &where, core::token::TokenKind found);
 
-  void emit(Diagnostic diag);
+  void emit(Diagnostic diag, const core::source::SourceBuffer &buffer);
 };

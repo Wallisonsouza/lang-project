@@ -2,7 +2,7 @@
 
 #include "core/token/token_stream.hpp"
 #include "engine/CompilationUnit.hpp"
-#include "engine/parser/declaration/parse_variable_declaration.hpp"
+#include "engine/parser/statement/parse_statement.hpp"
 
 namespace parser {
 
@@ -13,7 +13,7 @@ public:
     auto &stream = unit.tokens;
 
     while (!stream.is_end()) {
-      auto node = match_node(unit, stream);
+      auto node = parse_node(unit, stream);
       if (node) {
         unit.ast.add_root(node);
       } else {
@@ -23,16 +23,7 @@ public:
   }
 
 private:
-  core::node::Node *match_node(CompilationUnit &unit, core::token::TokenStream &stream) {
-
-    // if (auto n = parser::match::match_import_statement(unit, stream)) return n;
-    if (auto n = parser::declaration::parse_variable_declaration(unit, stream)) return n;
-    // if (auto n = parser::match::match_function_declaration(unit, stream)) return n;
-    // if (auto n = parser::match::match_function_call(unit, stream)) return n;
-    // if (auto n = parser::match::parse_callee(unit, stream)) return n;
-
-    return nullptr;
-  }
+  core::node::Node *parse_node(CompilationUnit &unit, core::token::TokenStream &stream) { return parser::statement::parse_statement(unit, stream); }
 };
 
 } // namespace parser

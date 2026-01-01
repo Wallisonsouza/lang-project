@@ -16,6 +16,7 @@ enum class NodeKind {
   // === Statements ===
 
   MemberAccess,
+  IndexAccess,
   Block,
   IfStatement,
   WhileStatement,

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "core/node/BinaryOp.hpp"
 #include "core/node/Type.hpp"
 #include <functional>
@@ -8,34 +9,27 @@ namespace core::table {
 
 class OperatorTable {
 public:
-  using FoldCallback = std::function<core::node::ExpressionNode *(
-      core::node::ExpressionNode *, core::node::ExpressionNode *)>;
+  using FoldCallback = std::function<core::node::ExpressionNode *(core::node::ExpressionNode *, core::node::ExpressionNode *)>;
 
-  void register_operation(core::node::BinaryOp op,
-                          core::node::TypeNode *left_type,
-                          core::node::TypeNode *right_type, FoldCallback cb) {
+  void register_operation(core::node::BinaryOperation op, core::node::TypeNode *left_type, core::node::TypeNode *right_type, FoldCallback cb) {
     Key key{op, left_type, right_type};
     table_[key] = cb;
   }
 
-  FoldCallback *get(core::node::BinaryOp op, core::node::TypeNode *left_type,
-                    core::node::TypeNode *right_type) {
+  FoldCallback *get(core::node::BinaryOperation op, core::node::TypeNode *left_type, core::node::TypeNode *right_type) {
     Key key{op, left_type, right_type};
     auto it = table_.find(key);
-    if (it != table_.end())
-      return &it->second;
+    if (it != table_.end()) return &it->second;
     return nullptr;
   }
 
 private:
   struct Key {
-    core::node::BinaryOp op;
+    core::node::BinaryOperation op;
     node::TypeNode *left;
     node::TypeNode *right;
 
-    bool operator==(const Key &other) const {
-      return op == other.op && left == other.left && right == other.right;
-    }
+    bool operator==(const Key &other) const { return op == other.op && left == other.left && right == other.right; }
   };
 
   struct KeyHash {
