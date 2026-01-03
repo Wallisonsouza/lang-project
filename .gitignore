@@ -8,11 +8,11 @@
 /build/
 /bin/
 /dist/
-
+/obsolet/
 # Ignorar arquivos de IDE
 .vscode/
 .idea/
-
+.cache/
 # Ignorar arquivos temporários
 *.log
 *.tmp
