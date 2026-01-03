@@ -34,7 +34,7 @@ enum class TokenKind : uint8_t {
   SingleQuote, // Representa uma aspa simples '\''.
   Variable,    // Representa a declaração de uma variável.
   Colon,       // Representa o caractere ':'.
-
+  DoubleColon,
   Arrow,
   Plus,        // Representa o operador de adição '+'.
   Minus,       // Representa o operador de subtração '-'.
@@ -54,15 +54,15 @@ enum class TokenKind : uint8_t {
   CloseBrace, // Representa a chave direita '}'.
   Semicolon,  // Representa o ponto e vírgula ';'.
   Dot,
-  Alias,         // Representa um alias (como 'type alias' em algumas linguagens).
-  Identifier,    // Representa nomes de variáveis, funções ou outros
-                 // identificadores.
+  Alias,      // Representa um alias (como 'type alias' em algumas linguagens).
+  Identifier, // Representa nomes de variáveis, funções ou outros
+              // identificadores.
   NumberLiteral, // Representa um literal numérico, como 42 ou 3.14.
   StringLiteral, // Representa um literal de string, como "texto".
   NullLiteral,   // Representa o valor nulo 'null'.
   CharLiteral,   // Representa um literal de caractere, como 'a'.
   BoolLiteral,   // Representa um literal booleano: true ou false.
-  EndOfFile,     // Representa o fim do arquivo, usado para indicar que não há mais
-                 // tokens.
+  EndOfFile, // Representa o fim do arquivo, usado para indicar que não há mais
+             // tokens.
 };
 }

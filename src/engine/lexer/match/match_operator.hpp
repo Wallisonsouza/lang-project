@@ -6,25 +6,21 @@
 
 namespace lexer::match {
 
-inline core::token::Token *match_operator(CompilationUnit &unit,
-                                          core::source::TextStream &stream) {
+inline core::token::Token *match_operator(CompilationUnit &unit, core::source::TextStream &stream) {
   auto start = stream.get_state();
 
-  const auto *node = unit.context.alias_table.trie().root();
+  const auto *node = unit.context.descriptor_table.trie().root();
   const core::token::TokenDescriptor *best = nullptr;
   size_t best_len = 0;
-  assert(unit.context.alias_table.trie().root()->child(U':') != nullptr);
 
   size_t offset = 0;
 
   while (true) {
-    char32_t c = stream.peek(offset);
-    if (!c)
-      break;
+    char32_t c = stream.peek_n(offset);
+    if (!c) break;
 
     node = node->child(c);
-    if (!node)
-      break;
+    if (!node) break;
 
     offset++;
 
@@ -34,11 +30,9 @@ inline core::token::Token *match_operator(CompilationUnit &unit,
     }
   }
 
-  if (!best)
-    return nullptr;
+  if (!best) return nullptr;
 
   stream.advance_n(best_len);
-
   auto slice = stream.slice_from(start);
 
   return unit.tokens.create_token<core::token::Token>(best, slice);

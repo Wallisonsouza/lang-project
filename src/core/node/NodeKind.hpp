@@ -12,6 +12,7 @@ enum class NodeKind {
   CharLiteral,
   NullLiteral,
   Identifier,
+  PathExpr,
 
   // === Statements ===
 
@@ -23,7 +24,7 @@ enum class NodeKind {
   ForStatement,
   ReturnStatement,
   ExpressionStatement,
-  ImportStatement,
+  Import,
 
   // === Declarations ===
   VariableDeclaration,

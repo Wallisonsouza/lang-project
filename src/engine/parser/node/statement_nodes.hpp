@@ -3,6 +3,7 @@
 #include "core/node/NodeKind.hpp"
 #include "core/node/Type.hpp"
 #include "core/token/TokenKind.hpp"
+#include <string>
 
 namespace parser::node {
 
@@ -21,25 +22,25 @@ struct BlockNode : core::node::StatementNode {
 };
 
 struct VariableDeclarationNode : core::node::StatementNode {
-  std::u32string name;
+  std::string name;
   core::node::TypeNode *type;
   core::node::ExpressionNode *value;
   core::node::Modifiers modifiers;
   core::Symbol *symbol = nullptr;
 
-  VariableDeclarationNode(std::u32string n, core::node::TypeNode *t, core::node::ExpressionNode *v, core::node::Modifiers modifiers = {})
+  VariableDeclarationNode(std::string n, core::node::TypeNode *t, core::node::ExpressionNode *v, core::node::Modifiers modifiers = {})
       : StatementNode(core::node::NodeKind::VariableDeclaration), name(std::move(n)), type(t), value(v), modifiers(modifiers) {}
 };
 
 struct FunctionDeclarationNode : core::node::StatementNode {
-  std::u32string name;
+  std::string name;
   std::vector<core::node::FunctionParameterNode *> params;
   core::node::TypeNode *return_type;
   BlockNode *body;
   core::node::Modifiers modifiers;
   core::Symbol *symbol = nullptr;
 
-  FunctionDeclarationNode(std::u32string n, std::vector<core::node::FunctionParameterNode *> params, core::node::TypeNode *ret_type = nullptr, BlockNode *b = nullptr, core::node::Modifiers mods = {})
+  FunctionDeclarationNode(std::string n, std::vector<core::node::FunctionParameterNode *> params, core::node::TypeNode *ret_type = nullptr, BlockNode *b = nullptr, core::node::Modifiers mods = {})
       : StatementNode(core::node::NodeKind::FunctionDeclaration), name(std::move(n)), params(std::move(params)), return_type(ret_type), body(b), modifiers(mods) {}
 };
 

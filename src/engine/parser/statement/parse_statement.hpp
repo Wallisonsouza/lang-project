@@ -1,4 +1,5 @@
 #pragma once
+#include "core/token/TokenKind.hpp"
 #include "diagnostic/DiagnosticCode.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/parser/declaration/parse_variable_declaration.hpp"
@@ -9,19 +10,22 @@
 
 namespace parser::statement {
 
-inline core::node::Node *parse_statement(CompilationUnit &unit, core::token::TokenStream &stream) {
+inline core::node::Node *parse_statement(CompilationUnit &unit,
+                                         core::token::TokenStream &stream) {
   stream.add_checkpoint();
 
   core::node::Node *result = nullptr;
 
   auto *tok = stream.peek();
-  if (!tok) return nullptr;
+  if (!tok)
+    return nullptr;
 
   if (auto *import_stmt = match_import_statement(unit, stream)) {
     result = import_stmt;
   }
   // 2️⃣ DECLARAÇÕES
-  else if (tok->descriptor->kind == core::token::TokenKind::Value || tok->descriptor->kind == core::token::TokenKind::Variable) {
+  else if (tok->descriptor->kind == core::token::TokenKind::Value ||
+           tok->descriptor->kind == core::token::TokenKind::Variable) {
     result = parser::declaration::parse_variable_declaration(unit, stream);
   } else if (tok->descriptor->kind == core::token::TokenKind::FunctionKeyword) {
     // result = parser::declaration::parse_function_declaration(unit, stream);
@@ -47,7 +51,11 @@ inline core::node::Node *parse_statement(CompilationUnit &unit, core::token::Tok
   if (tok && tok->descriptor->kind == core::token::TokenKind::Semicolon) {
     stream.consume();
   } else {
-    unit.diagnostics.emit({DiagnosticCode::ExpectedColon, stream.last_slice()}, unit.source.buffer);
+    unit.diagnostics.emit(
+        {DiagnosticCode::ExpectedToken,
+         stream.last_slice(),
+         {.found = tok, .expected = core::token::TokenKind::Semicolon}},
+        unit);
   }
 
   stream.discard_checkpoint();

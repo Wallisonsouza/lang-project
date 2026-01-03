@@ -1,9 +1,9 @@
 #pragma once
-#include "core/source/SourceBuffer.hpp"
 #include "core/token/Location.hpp"
 #include "core/token/TokenKind.hpp"
 #include "diagnostic/Diagnostic.hpp"
 
+struct CompilationUnit;
 class DiagnosticEngine {
 public:
   void expected_token(const Slice &where, core::token::TokenKind expected, core::token::TokenKind found);
@@ -12,5 +12,5 @@ public:
 
   void expected_expression(const Slice &where, core::token::TokenKind found);
 
-  void emit(Diagnostic diag, const core::source::SourceBuffer &buffer);
+  void emit(Diagnostic diag, const CompilationUnit &unit);
 };

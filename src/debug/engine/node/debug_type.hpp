@@ -2,16 +2,13 @@
 #include "core/node/Type.hpp"
 #include "debug/console/color.hpp"
 #include "debug/console/console.hpp"
-#include "utils/Utf8.hpp"
 
-static void debug_type(const core::node::TypeNode *type_node,
-                       const std::string &prefix, bool isLast) {
+static void debug_type(const core::node::TypeNode *type_node, const std::string &prefix, bool isLast) {
   using namespace debug;
 
   node::print_prefix(prefix, isLast);
 
-  Console::log(Color::BrightBlue, "Type: ", Color::Purple,
-               utils::Utf::utf32to8(type_node->name));
+  Console::log(Color::BrightBlue, "Type: ", Color::Purple, type_node->name);
 
   auto child_prefix = node::next_prefix(prefix, isLast);
 

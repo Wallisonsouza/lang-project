@@ -81,7 +81,7 @@ inline void dump_token(const core::token::Token &token) {
     group = token_group_to_str(token.descriptor->group);
   }
 
-  std::string text = sanitize_text(utils::Utf::utf32to8(token.slice.span.view()));
+  std::string text{token.slice.span.view()};
 
   std::ostringstream oss;
   oss << "Token" << " {\n"

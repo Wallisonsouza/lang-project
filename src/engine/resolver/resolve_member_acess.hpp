@@ -11,29 +11,36 @@
 
 // namespace resolver {
 
-// inline void resolve_member_access(CompilationUnit &unit, Resolver &resolver, parser::node::MemberAccessNode *node) {
+// inline void resolve_member_access(CompilationUnit &unit, Resolver &resolver,
+//                                   parser::node::MemberAccessNode *node) {
 
 //   resolver.resolve(unit, node->object);
 
 //   switch (node->property->kind) {
-//   case core::node::NodeKind::Identifier: break;
+//   case core::node::NodeKind::Identifier:
+//     break;
 
-//   default: break;
+//   default:
+//     break;
 //   }
 
-//   auto *prop_id = dynamic_cast<parser::node::IdentifierNode *>(node->property);
+//   auto *prop_id = dynamic_cast<parser::node::IdentifierNode
+//   *>(node->property);
 
 //   if (!prop_id) {
 //     throw std::runtime_error("membro inválido (esperado identificador)");
 //     return;
 //   }
 
-//   if (auto *obj_id = dynamic_cast<parser::node::IdentifierNode *>(node->object)) {
+//   if (auto *obj_id =
+//           dynamic_cast<parser::node::IdentifierNode *>(node->object)) {
 
 //     core::Symbol *base_sym = resolver.current_scope->find(obj_id->name);
 
 //     if (!base_sym) {
-//       throw std::runtime_error("símbolo '" + utils::Utf::utf32to8(obj_id->name) + "' não encontrado");
+//       throw std::runtime_error("símbolo '" +
+//                                utils::Utf::utf32to8(obj_id->name) +
+//                                "' não encontrado");
 //       return;
 //     }
 
@@ -43,8 +50,9 @@
 //     //   core::Symbol *member = module->module_scope.find(prop_id->name);
 
 //     //   if (!member || member->visibility != core::Visibility::Public) {
-//     //     throw std::runtime_error("membro '" + utils::Utf::utf32to8(prop_id->name) + "' não existe no módulo '" + utils::Utf::utf32to8(obj_id->name) + "'");
-//     //     return;
+//     //     throw std::runtime_error("membro '" +
+//     //     utils::Utf::utf32to8(prop_id->name) + "' não existe no módulo '" +
+//     //     utils::Utf::utf32to8(obj_id->name) + "'"); return;
 //     //   }
 
 //     //   node->symbol = member;
@@ -57,7 +65,8 @@
 //   }
 
 //   // 6️⃣ Caso encadeado: (a.b).c
-//   if (auto *inner = dynamic_cast<parser::node::MemberAccessNode *>(node->object)) {
+//   if (auto *inner =
+//           dynamic_cast<parser::node::MemberAccessNode *>(node->object)) {
 
 //     core::Symbol *base = inner->symbol;
 

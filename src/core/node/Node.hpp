@@ -9,7 +9,7 @@ namespace core::node {
 struct Node {
   NodeKind kind;
   Slice slice;
-  virtual std::string to_string() { return "NOT_STRING_IMPLEMENTATION"; }
+  virtual std::string to_string_node() { return "NOT_STRING_IMPLEMENTATION"; }
 
 protected:
   explicit Node(NodeKind k) : kind(k) {}

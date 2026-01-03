@@ -7,12 +7,19 @@
 
 namespace resolver {
 
-inline void resolve_import_node(CompilationUnit &unit, Resolver &resolver, parser::node::statement::ImportNode *node) {
+inline void resolve_import_node(CompilationUnit &unit, Resolver &resolver,
+                                parser::node::statement::ImportNode *node) {
 
-  auto *module = unit.context.module_manager.find_path(node->path);
+  std::vector<std::string> path_segments;
+
+  for (auto *id : node->path) {
+    path_segments.push_back(id->name);
+  }
+
+  auto *module = unit.context.module_manager.find_path(path_segments);
 
   if (!module) {
-    unit.diagnostics.emit({DiagnosticCode::ModuleNotFound, node->slice}, unit.source.buffer);
+    unit.diagnostics.emit({DiagnosticCode::ModuleNotFound, node->slice}, unit);
     return;
   }
 

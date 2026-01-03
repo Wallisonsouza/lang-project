@@ -8,14 +8,19 @@ namespace parser::node {
 struct NumberLiteralNode : core::node::ExpressionNode {
   double value;
 
+  std::string to_string_node() override { return std::to_string(value); }
+
   explicit NumberLiteralNode(double v)
-      : ExpressionNode(core::node::NodeKind::NumberLiteral), value(v) {}
+      : core::node::ExpressionNode(core::node::NodeKind::NumberLiteral),
+        value(v) {}
 };
 
 struct StringLiteralNode : core::node::ExpressionNode {
-  std::u32string value;
+  std::string value;
 
-  explicit StringLiteralNode(std::u32string v)
+  std::string to_string_node() override { return value; }
+
+  explicit StringLiteralNode(std::string v)
       : ExpressionNode(core::node::NodeKind::StringLiteral),
         value(std::move(v)) {}
 };
@@ -39,10 +44,10 @@ struct NullLiteralNode : core::node::ExpressionNode {
 };
 
 struct IdentifierNode : core::node::ExpressionNode {
-  std::u32string name;
+  std::string name;
   core::Symbol *symbol = nullptr;
 
-  explicit IdentifierNode(std::u32string n)
+  explicit IdentifierNode(std::string n)
       : ExpressionNode(core::node::NodeKind::Identifier), name(std::move(n)) {}
 };
 

@@ -6,12 +6,14 @@
 
 namespace resolver {
 
-inline void resolve_identifier_node(CompilationUnit &unit, Resolver &resolver, parser::node::IdentifierNode *id_node) {
+inline void resolve_identifier_node(CompilationUnit &unit, Resolver &resolver,
+                                    parser::node::IdentifierNode *id_node) {
 
   auto *sym = resolver.current_scope->find(id_node->name);
 
   if (!sym) {
-    unit.diagnostics.emit({DiagnosticCode::UndeclaredSymbol, id_node->slice}, unit.source.buffer);
+    unit.diagnostics.emit({DiagnosticCode::UndeclaredSymbol, id_node->slice},
+                          unit);
     return;
   }
 

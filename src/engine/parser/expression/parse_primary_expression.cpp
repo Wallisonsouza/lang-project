@@ -1,60 +1,64 @@
 #include "parse_primary_expression.hpp"
 #include "engine/parser/expression/parse_expression.hpp"
+#include "engine/parser/expression/parse_path_expression.hpp"
 #include "engine/parser/node/literal_nodes.hpp"
-#include "utils/Utf8.hpp"
 
 namespace parser::expression {
 
-core::node::ExpressionNode *parse_primary_expression(CompilationUnit &unit, core::token::TokenStream &stream) {
+core::node::ExpressionNode *
+parse_primary_expression(CompilationUnit &unit,
+                         core::token::TokenStream &stream) {
 
-  stream.add_checkpoint();
-  auto *tok = stream.consume();
-
-  if (!tok || !tok->descriptor) {
-    stream.rollback_checkpoint();
+  auto *tok = stream.peek();
+  if (!tok)
     return nullptr;
-  }
 
   core::node::ExpressionNode *result = nullptr;
 
+  // -------- núcleo --------
   switch (tok->descriptor->kind) {
 
   case core::token::TokenKind::NumberLiteral: {
-    auto text = unit.source.buffer.get_text(tok->slice.span);
-    double value = std::stod(utils::Utf::utf32to8(text));
-    result = unit.ast.create_node<node::NumberLiteralNode>(value);
+    result = unit.ast.create_node<node::NumberLiteralNode>(
+        std::stod(unit.source.buffer.get_text(tok->slice.span)));
+    stream.advance();
     break;
   }
 
   case core::token::TokenKind::StringLiteral: {
-    auto text = unit.source.buffer.get_text(tok->slice.span);
-    result = unit.ast.create_node<parser::node::StringLiteralNode>(text);
+    result = unit.ast.create_node<parser::node::StringLiteralNode>(
+        unit.source.buffer.get_text(tok->slice.span));
+    stream.advance();
     break;
   }
 
   case core::token::TokenKind::Identifier: {
-    auto name = unit.source.buffer.get_text(tok->slice.span);
-    result = unit.ast.create_node<parser::node::IdentifierNode>(name);
-    result->slice = tok->slice;
-    break;
-  }
-
-  case core::token::TokenKind::OpenParen: {
-    // Chama o dispatcher principal
-    result = parse_expression(unit, stream);
-
-    auto *close = stream.consume();
-    if (!result || !close || close->descriptor->kind != core::token::TokenKind::CloseParen) {
-      stream.rollback_checkpoint();
-      return nullptr;
+    auto *next = stream.peek(1);
+    if (next && next->descriptor->kind == core::token::TokenKind::DoubleColon) {
+      result = parse_path(unit, stream);
+    } else {
+      result = unit.ast.create_node<parser::node::IdentifierNode>(
+          unit.source.buffer.get_text(tok->slice.span));
+      result->slice = tok->slice;
+      stream.advance();
     }
     break;
   }
 
-  default: stream.rollback_checkpoint(); return nullptr;
+  case core::token::TokenKind::OpenParen: {
+    stream.advance();
+    result = parse_expression(unit, stream);
+    auto *close = stream.consume();
+    if (!result || !close ||
+        close->descriptor->kind != core::token::TokenKind::CloseParen)
+      return nullptr;
+    break;
   }
 
-  stream.discard_checkpoint();
+  default:
+    return nullptr;
+  }
+
   return result;
 }
 

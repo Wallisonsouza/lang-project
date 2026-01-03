@@ -1,81 +1,162 @@
 #pragma once
 #include "core/source/SourceBuffer.hpp"
-
+#include "core/source/Span.hpp"
 #include "core/token/Location.hpp"
 #include "debug/console/color.hpp"
 #include "debug/console/console.hpp"
+#include "utils/Unicode.hpp"
 #include "utils/Utf8.hpp"
+#include <cstdint>
 #include <iostream>
+#include <ostream>
 #include <sstream>
 #include <string>
+#include <string_view>
 
 namespace diagnostic {
-struct VisualLine {
+
+// ------------------------------------------------------------
+// 🎨 Paleta semântica
+// ------------------------------------------------------------
+using C = debug::Color;
+
+inline auto ERR_LABEL = C::BrightRed;
+inline auto ERR_TEXT = C::Red;
+
+inline auto ARROW = C::DarkRed;
+inline auto LINE_INFO = C::BrightBlue;
+
+inline auto LINE_NO = C::BrightBlack;
+inline auto SEP = C::BrightBlack;
+
+inline auto CODE_TEXT = C::White;
+
+inline auto TILDE = C::DarkRed;
+inline auto CARET = C::BrightRed;
+inline const debug::Color HELP_TEXT(255, 215, 120);
+
+// ------------------------------------------------------------
+// Estruturas auxiliares
+// ------------------------------------------------------------
+struct CutLine {
   std::string text;
-  size_t caret_column;
+  const char *start{};
+  const char *end{};
+  int prefix_offset{0};
 };
 
-static VisualLine make_visual_line(const std::string &line, size_t logical_column, size_t max_width = 120) {
-  const size_t len = line.size();
+// ------------------------------------------------------------
+// UTF-8 helpers
+// ------------------------------------------------------------
+inline const char *compute_display_start(const char *line_ptr, const char *span_begin, size_t context = 10) {
+  const char *p = span_begin;
+  size_t back = 0;
 
-  // coluna é 1-based
-  size_t caret_index = (logical_column > 0) ? logical_column - 1 : 0;
-  if (caret_index > len) caret_index = len;
-
-  // // === MODO: erro começa aqui (strings, comentários, etc) ===
-  // if (style == DiagnosticStyle::FromBegin) {
-  //   size_t start = caret_index;
-  //   size_t end = std::min(start + max_width, len);
-
-  //   std::string text = line.substr(start, end - start);
-  //   if (end < len) text += "...";
-
-  //   return {text, 1};
-  // }
-
-  // === MODO: erro pontual (centralizado) ===
-  if (len <= max_width) { return {line, logical_column}; }
-
-  size_t half = max_width / 2;
-  size_t start = (caret_index > half) ? caret_index - half : 0;
-  size_t end = std::min(start + max_width, len);
-
-  bool left_cut = start > 0;
-  bool right_cut = end < len;
-
-  std::string result;
-  if (left_cut) result += "...";
-  result += line.substr(start, end - start);
-  if (right_cut) result += "...";
-
-  size_t caret_visual = caret_index - start + 1 + (left_cut ? 3 : 0);
-
-  return {result, caret_visual};
+  while (p > line_ptr && back < context) {
+    do { --p; } while (((*p) & 0b11000000) == 0b10000000);
+    ++back;
+  }
+  return p;
 }
 
-inline void print_diagnostic(const std::string &message, const Slice &slice, const core::source::SourceBuffer &buffer) {
+inline const char *compute_display_end(const char *line_end, const char *span_end, size_t context = 10) {
+  const char *p = span_end;
+  size_t forward = 0;
 
-  debug::Console::log(debug::Color::Red, message);
-  std::ostringstream out;
+  while (p < line_end && forward < context) {
+    size_t len = utils::Utf::utf8_char_len(static_cast<uint8_t>(*p));
+    p += len;
+    ++forward;
+  }
+  return p;
+}
 
-  out << message << "\n";
+// ------------------------------------------------------------
+// Corte de linha com ...
+// ------------------------------------------------------------
+inline CutLine cut_line(std::string_view line, const core::source::Span &span, std::string_view cut_prefix = "...", std::string_view cut_suffix = "...") {
+  const char *line_ptr = line.data();
+  const char *line_end = line_ptr + line.size();
 
-  const auto &begin = slice.range.begin;
-  out << " --> line " << begin.line << ", column " << begin.column << "\n";
+  CutLine out;
+  out.start = compute_display_start(line_ptr, span.begin);
+  out.end = compute_display_end(line_end, span.end);
 
-  auto raw_line = utils::Utf::utf32to8(buffer.get_line(begin.line));
-  auto visual = make_visual_line(raw_line, begin.column, 100);
+  if (out.start != line_ptr) {
+    out.text += cut_prefix;
+    out.prefix_offset = static_cast<int>(cut_prefix.size());
+  }
 
-  out << "  |\n";
-  out << begin.line << " | " << visual.text << "\n";
-  out << "  | ";
+  out.text.append(out.start, out.end);
 
-  for (size_t i = 1; i < visual.caret_column; ++i) out << ' ';
-  out << "^\n";
+  if (out.end != line_end) out.text += cut_suffix;
 
-  if (slice.range.begin.line != slice.range.end.line) { out << "note: string literal spans multiple lines\n"; }
+  return out;
+}
 
-  std::cerr << out.str();
+inline bool is_multiline(const Slice &slice) { return slice.range.begin.line != slice.range.end.line; }
+
+// ------------------------------------------------------------
+// Ponteiros (~, ^, path genérico)
+// ------------------------------------------------------------
+inline std::string
+fill_line(const char *display_start, const char *display_end, const char *span_begin, const char *span_end, int prefix_offset, std::string_view fill = " ", std::string_view mark = "~") {
+  std::string out;
+  const char *p = display_start;
+
+  while (p < display_end) {
+    size_t len = utils::Utf::utf8_char_len(static_cast<uint8_t>(*p));
+    char32_t cp = utils::Utf::utf8_to_codepoint(p, len);
+    int w = utils::Unicode::char_width(cp);
+
+    if (p >= span_begin && p < span_end) {
+      for (int i = 0; i < w; ++i) out += mark;
+    } else {
+      for (int i = 0; i < w; ++i) out += fill;
+    }
+
+    p += len;
+  }
+
+  return std::string(prefix_offset, ' ') + out;
+}
+
+// ------------------------------------------------------------
+// Diagnóstico principal
+// ------------------------------------------------------------
+inline void print_diagnostic(const std::string &message, const std::string &help, const Slice &slice, const core::source::SourceBuffer &buffer) {
+  constexpr std::string_view CUT = "...";
+
+  // error label
+  debug::Console::log(ERR_LABEL, "error: ", ERR_TEXT, message);
+
+  // header
+  debug::Console::log(ARROW, "--> ", LINE_INFO, "line ", LINE_INFO, std::to_string(slice.range.begin.line), LINE_INFO, " col ", LINE_INFO, std::to_string(slice.range.begin.column), LINE_INFO, "..",
+                      LINE_INFO, std::to_string(slice.range.end.column));
+
+  // ----------------------------------------------------------
+  // SINGLE LINE
+  // ----------------------------------------------------------
+  if (!is_multiline(slice)) {
+    auto line_sv = buffer.get_line(slice.range.begin.line);
+    auto cut = cut_line(line_sv, slice.span, CUT, CUT);
+
+    std::ostringstream ln;
+    ln << slice.range.begin.line;
+    size_t ln_width = ln.str().size();
+
+    // código
+    debug::Console::log(LINE_NO, ln.str(), SEP, " | ", CODE_TEXT, cut.text);
+
+    // ~~~~
+    debug::Console::log(LINE_NO, std::string(ln_width, ' '), SEP, " | ", TILDE, fill_line(cut.start, cut.end, slice.span.begin, slice.span.end, cut.prefix_offset));
+
+    // ^ + help
+    debug::Console::log(LINE_NO, std::string(ln_width, ' '), SEP, " | ", CARET, fill_line(cut.start, cut.end, slice.span.begin, slice.span.end, cut.prefix_offset, "", " ") + "└─▶  ", HELP_TEXT,
+                        "help: ", help);
+
+    std::cout << std::endl;
+  }
 }
 
 } // namespace diagnostic

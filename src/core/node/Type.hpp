@@ -8,60 +8,56 @@
 namespace core::node {
 
 struct StatementNode : Node {
-protected:
   explicit StatementNode(NodeKind k) : Node(k) {}
 };
 
 struct ExpressionNode : Node {
-protected:
   explicit ExpressionNode(NodeKind k) : Node(k) {}
 };
 
 struct TypeDeclarationNode : Node {
-  std::u32string name;
-  std::vector<std::u32string> type_params;
+  std::string name;
+  std::vector<std::string> type_params;
 
-  explicit TypeDeclarationNode(std::u32string n,
-                               std::vector<std::u32string> params = {})
+  explicit TypeDeclarationNode(std::string n,
+                               std::vector<std::string> params = {})
       : Node(NodeKind::TypeDeclaration), name(std::move(n)),
         type_params(std::move(params)) {}
 };
 
 struct TypeNode : core::node::Node {
-  std::u32string name;
+  std::string name;
   std::vector<TypeNode *> generics;
   bool is_primitive = false;
   Symbol *symbol = nullptr;
 
-  explicit TypeNode(std::u32string n, bool primitive = false)
+  explicit TypeNode(std::string n, bool primitive = false)
       : Node(core::node::NodeKind::Type), name(std::move(n)),
         is_primitive(primitive) {}
 
-  TypeNode(std::u32string n, std::vector<TypeNode *> g)
+  TypeNode(std::string n, std::vector<TypeNode *> g)
       : Node(core::node::NodeKind::Type), name(std::move(n)),
         generics(std::move(g)) {}
 };
 
 struct VoidTypeNode : TypeNode {
-  VoidTypeNode() : TypeNode(U"void", true) {
-    kind = core::node::NodeKind::Type;
-  }
+  VoidTypeNode() : TypeNode("void", true) { kind = core::node::NodeKind::Type; }
 };
 
 struct FunctionParameterNode : core::node::StatementNode {
-  std::u32string name;
+  std::string name;
   core::node::TypeNode *type;
   core::node::ExpressionNode *value = nullptr;
   core::Symbol *symbol = nullptr;
 
-  FunctionParameterNode(std::u32string n, core::node::TypeNode *t,
+  FunctionParameterNode(std::string n, core::node::TypeNode *t,
                         core::node::ExpressionNode *v)
       : StatementNode(core::node::NodeKind::FunctionParameter),
         name(std::move(n)), type(t), value(v) {}
 };
 
 struct NativeFunctionDeclarationNode : core::node::StatementNode {
-  std::u32string name;
+  std::string name;
   std::vector<FunctionParameterNode *> params;
   node::TypeNode *return_type;
 
@@ -69,7 +65,7 @@ struct NativeFunctionDeclarationNode : core::node::StatementNode {
       callback;
 
   NativeFunctionDeclarationNode(
-      std::u32string n, std::vector<FunctionParameterNode *> p,
+      std::string n, std::vector<FunctionParameterNode *> p,
       node::TypeNode *ret,
       std::function<core::node::Node *(const std::vector<core::node::Node *> &)>
           cb)

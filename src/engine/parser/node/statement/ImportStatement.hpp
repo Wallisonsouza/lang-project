@@ -1,16 +1,27 @@
 #pragma once
 #include "core/node/Type.hpp"
+#include "engine/parser/node/literal_nodes.hpp"
 #include <optional>
 #include <string>
 #include <vector>
 
 namespace parser::node::statement {
 
-struct ImportNode : core::node::StatementNode {
-  std::vector<std::u32string> path;
-  std::optional<std::u32string> alias;
+struct PathExprNode : core::node::ExpressionNode {
+  std::vector<IdentifierNode *> segments;
+  core::Symbol *resolved_symbol = nullptr;
 
-  explicit ImportNode(std::vector<std::u32string> p) : StatementNode(core::node::NodeKind::ImportStatement), path(std::move(p)) {}
+  explicit PathExprNode(std::vector<IdentifierNode *> segs)
+      : ExpressionNode(core::node::NodeKind::PathExpr),
+        segments(std::move(segs)) {}
+};
+
+struct ImportNode : core::node::StatementNode {
+  std::vector<IdentifierNode *> path;
+  std::optional<std::string> alias;
+
+  explicit ImportNode(std::vector<IdentifierNode *> p)
+      : StatementNode(core::node::NodeKind::Import), path(std::move(p)) {}
 };
 
 } // namespace parser::node::statement

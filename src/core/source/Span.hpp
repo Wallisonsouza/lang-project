@@ -1,19 +1,13 @@
 #pragma once
-#include <string_view>
 
+#include <string_view>
 namespace core::source {
 
 struct Span {
-  const char32_t *begin = nullptr;
-  const char32_t *end = nullptr;
+  const char *begin;
+  const char *end;
 
-  constexpr size_t size() const noexcept {
-    return static_cast<size_t>(end - begin);
-  }
-
-  constexpr bool empty() const noexcept { return begin == end; }
-
-  std::u32string_view view() const { return {begin, size()}; }
+  std::string_view view() const { return std::string_view(begin, end - begin); }
 };
 
 } // namespace core::source

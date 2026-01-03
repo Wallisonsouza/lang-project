@@ -1,6 +1,5 @@
 // resolver/Resolver.hpp
 #pragma once
-#include "core/AST.hpp"
 #include "core/module/scope.hpp"
 #include "core/node/Node.hpp"
 #include "core/token/Location.hpp"

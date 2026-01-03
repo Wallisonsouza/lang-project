@@ -5,18 +5,24 @@
 
 namespace parser::expression {
 
-inline core::node::ExpressionNode *parse_index_access(CompilationUnit &unit, core::token::TokenStream &stream, core::node::ExpressionNode *base) {
-  if (!base) return nullptr;
+inline core::node::ExpressionNode *
+parse_index_access(CompilationUnit &unit, core::token::TokenStream &stream,
+                   core::node::ExpressionNode *base) {
+  if (!base)
+    return nullptr;
 
   while (true) {
     auto *tok = stream.peek();
-    if (!tok || tok->descriptor->kind != core::token::TokenKind::OpenBracket) break;
+    if (!tok || tok->descriptor->kind != core::token::TokenKind::OpenBracket)
+      break;
     stream.advance();
 
     auto *index = parse_expression(unit, stream);
-    if (!index || !stream.match(core::token::TokenKind::CloseBracket)) break;
+    if (!index || !stream.match(core::token::TokenKind::CloseBracket))
+      break;
 
-    base = unit.ast.create_node<node::parser::node::IndexAccessNode>(base, index);
+    base =
+        unit.ast.create_node<node::parser::node::IndexAccessNode>(base, index);
   }
 
   return base;

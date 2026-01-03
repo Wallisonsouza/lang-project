@@ -2,11 +2,10 @@
 #include "debug/console/color.hpp"
 #include "debug/console/console.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
-#include "utils/Utf8.hpp"
 
 static void debug_variable_declaration(const parser::node::VariableDeclarationNode *var, const std::string &prefix, bool isLast) {
   debug::node::print_prefix(prefix, isLast);
-  debug::Console::log(debug::Color::BrightBlue, "VariableDeclaration: ", debug::Color::Purple, utils::Utf::utf32to8(var->name));
+  debug::Console::log(debug::Color::BrightBlue, "VariableDeclaration: ", debug::Color::Purple, var->name);
 
   auto child_prefix = debug::node::next_prefix(prefix, isLast);
 

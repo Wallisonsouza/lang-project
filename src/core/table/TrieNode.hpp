@@ -32,7 +32,7 @@ public:
 
   const TrieNode<T> *root() const { return &root_; }
 
-  void insert(std::u32string_view key, T *value) {
+  void insert(std::string_view key, T *value) {
     TrieNode<T> *node = &root_;
     for (char32_t ch : key) {
       auto it = node->children.find(ch);
@@ -48,7 +48,7 @@ public:
     node->value = value;
   }
 
-  bool has_prefix(std::u32string_view prefix) const {
+  bool has_prefix(std::string_view prefix) const {
     const TrieNode<T> *node = &root_;
     for (char32_t ch : prefix) {
       auto it = node->children.find(ch);
@@ -58,7 +58,7 @@ public:
     return true;
   }
 
-  T *lookup(std::u32string_view key) const {
+  T *lookup(std::string_view key) const {
     const TrieNode<T> *node = &root_;
     for (char32_t ch : key) {
       auto it = node->children.find(ch);

@@ -11,8 +11,7 @@ struct Source {
   std::string path;
   SourceBuffer buffer;
 
-  Source(std::string p)
-      : path(std::move(p)), buffer(utils::TextLoader::load_file(path)) {}
+  Source(std::string p) : path(std::move(p)), buffer(utils::TextLoader::load_file(path)) {}
 };
 
 } // namespace core::source

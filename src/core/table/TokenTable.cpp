@@ -1,41 +1,68 @@
-#include "TokenTable.hpp"
-#include "core/token/TokenDescriptor.hpp"
-#include "core/token/TokenGroup.hpp"
-#include "core/token/TokenKind.hpp"
-#include <string_view>
+// #pragma once
+// #include "TrieNode.hpp"
+// #include "core/hash/TransparentHash.hpp"
+// #include "core/token/TokenDescriptor.hpp"
+// #include "core/token/TokenGroup.hpp"
+// #include "core/token/TokenKind.hpp"
+// #include <deque>
+// #include <string>
+// #include <unordered_map>
 
-namespace core::table {
-token::TokenDescriptor &DescriptorTable::add(token::TokenKind kind,
-                                             const std::u32string &name,
-                                             token::TokenGroup group) {
-  storage_.push_back(token::TokenDescriptor(name, kind, group));
-  token::TokenDescriptor *ptr = &storage_.back();
+// namespace core::table {
 
-  by_kind_[kind] = ptr;
-  by_name_[name] = ptr;
-  trie_.insert(name, ptr);
+// class DescriptorTable {
+// public:
+//     // Adiciona um token principal com nome
+//     token::TokenDescriptor &add(token::TokenKind kind, const std::string &name, token::TokenGroup group) {
+//         storage_.emplace_back(kind, group, name);
+//         TokenDescriptor &desc = storage_.back();
+//         by_kind_[kind] = &desc;
+//         by_name_[name] = &desc;
+//         trie_.insert(name, &desc);
+//         return desc;
+//     }
 
-  return *ptr;
-}
+//     // Adiciona um token sem nome (ex.: TokenKind::Identifier)
+//     token::TokenDescriptor &add(token::TokenKind kind, token::TokenGroup group) {
+//         storage_.emplace_back(kind, group, "");
+//         TokenDescriptor &desc = storage_.back();
+//         by_kind_[kind] = &desc;
+//         return desc;
+//     }
 
-token::TokenDescriptor &DescriptorTable::add(token::TokenKind kind,
-                                             token::TokenGroup group) {
-  storage_.emplace_back(U"", kind, group);
-  token::TokenDescriptor *ptr = &storage_.back();
+//     // Adiciona um alias para um TokenDescriptor existente
+//     void add_alias(token::TokenKind kind, const std::string &alias) {
+//         auto it = by_kind_.find(kind);
+//         if (!it) return; // token principal não existe
+//         TokenDescriptor *desc = it->second;
+//         by_name_[alias] = desc;
+//         trie_.insert(alias, desc);
+//         desc->aliases.push_back(alias); // opcional, útil para help
+//     }
 
-  by_kind_[kind] = ptr;
+//     token::TokenDescriptor *lookup_by_kind(token::TokenKind kind) {
+//         auto it = by_kind_.find(kind);
+//         return it != by_kind_.end() ? it->second : nullptr;
+//     }
 
-  return *ptr;
-}
-token::TokenDescriptor *DescriptorTable::lookup_by_kind(token::TokenKind kind) {
-  auto it = by_kind_.find(kind);
-  return it != by_kind_.end() ? it->second : nullptr;
-}
+//     token::TokenDescriptor *lookup_by_name(const std::string_view &name) {
+//         auto it = by_name_.find(std::string(name));
+//         return it != by_name_.end() ? it->second : nullptr;
+//     }
 
-token::TokenDescriptor *
-DescriptorTable::lookup_by_name(const std::u32string_view &name) {
-  auto it = by_name_.find(name);
-  return it != by_name_.end() ? it->second : nullptr;
-}
+//     bool has_prefix(const std::string_view &prefix) const {
+//         return trie_.has_prefix(prefix);
+//     }
 
-} // namespace core::table
+//     const std::deque<token::TokenDescriptor> &all() const { return storage_; }
+
+//     const std::unordered_map<std::string, token::TokenDescriptor *> &all_names() const { return by_name_; }
+
+// private:
+//     std::deque<token::TokenDescriptor> storage_;
+//     std::unordered_map<token::TokenKind, token::TokenDescriptor *> by_kind_;
+//     std::unordered_map<std::string, token::TokenDescriptor *, U32Hash, U32Equal> by_name_;
+//     Trie<token::TokenDescriptor> trie_;
+// };
+
+// } // namespace core::table

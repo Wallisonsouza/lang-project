@@ -14,7 +14,7 @@ inline core::node::TypeNode *parse_type(CompilationUnit &unit, core::token::Toke
     return nullptr;
   }
 
-  std::u32string type_name = unit.source.buffer.get_text(tok->slice.span);
+  auto type_name = unit.source.buffer.get_text(tok->slice.span);
   stream.advance();
 
   std::vector<core::node::TypeNode *> generic_args;
@@ -24,7 +24,7 @@ inline core::node::TypeNode *parse_type(CompilationUnit &unit, core::token::Toke
     stream.advance();
     while (true) {
       auto arg = parse_type(unit, stream);
-      if (!arg) { arg = unit.ast.create_node<core::node::TypeNode>(U"<missing>", generic_args); }
+      if (!arg) { arg = unit.ast.create_node<core::node::TypeNode>("<missing>", generic_args); }
       generic_args.push_back(arg);
 
       tok = stream.peek();
@@ -39,7 +39,7 @@ inline core::node::TypeNode *parse_type(CompilationUnit &unit, core::token::Toke
     if (!tok || tok->descriptor->kind != core::token::TokenKind::GreaterThan) {
       // Falta do '>' gera apenas um core::node::TypeNode "<missing>" no último
       // genérico
-      generic_args.push_back(unit.ast.create_node<core::node::TypeNode>(U"<missing>", generic_args));
+      generic_args.push_back(unit.ast.create_node<core::node::TypeNode>("<missing>", generic_args));
     } else {
       stream.advance();
     }
