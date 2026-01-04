@@ -25,6 +25,11 @@ void Resolver::resolve(CompilationUnit &unit, core::node::Node *node) {
 
   switch (node->kind) {
 
+  case core::node::NodeKind::NumberLiteral:
+  case core::node::NodeKind::StringLiteral:
+  case core::node::NodeKind::BooleanLiteral:
+    return;
+
   case core::node::NodeKind::BinaryExpression:
     resolve_binary_expression(
         unit, *this, static_cast<parser::node::BinaryExpressionNode *>(node));
@@ -49,6 +54,24 @@ void Resolver::resolve(CompilationUnit &unit, core::node::Node *node) {
     resolve_function_call(unit, *this,
                           static_cast<parser::node::FunctionCallNode *>(node));
     break;
+  case core::node::NodeKind::VariableDeclaration:
+    resolve_variable_declaration(
+        unit, *this,
+        static_cast<parser::node::VariableDeclarationNode *>(node));
+    break;
+
+  case core::node::NodeKind::ExpressionStatement: {
+    auto *es = static_cast<core::node::ExpressionStatementNode *>(node);
+    resolve(unit, es->expr);
+    break;
+  }
+
+  case core::node::NodeKind::Assignment: {
+    auto *assign = static_cast<parser::node::statement::AssignmentNode *>(node);
+    resolve(unit, assign->target);
+    resolve(unit, assign->value);
+    break;
+  }
 
   default:
     break;

@@ -1,13 +1,7 @@
-#include "parse_primary_expression.hpp"
-#include "engine/parser/expression/parse_expression.hpp"
-#include "engine/parser/expression/parse_path_expression.hpp"
 #include "engine/parser/node/literal_nodes.hpp"
+#include "engine/parser/parser.hpp"
 
-namespace parser::expression {
-
-core::node::ExpressionNode *
-parse_primary_expression(CompilationUnit &unit,
-                         core::token::TokenStream &stream) {
+core::node::ExpressionNode *Parser::parse_primary_expression() {
 
   auto *tok = stream.peek();
   if (!tok)
@@ -15,11 +9,10 @@ parse_primary_expression(CompilationUnit &unit,
 
   core::node::ExpressionNode *result = nullptr;
 
-  // -------- núcleo --------
   switch (tok->descriptor->kind) {
 
   case core::token::TokenKind::NumberLiteral: {
-    result = unit.ast.create_node<node::NumberLiteralNode>(
+    result = unit.ast.create_node<parser::node::NumberLiteralNode>(
         std::stod(unit.source.buffer.get_text(tok->slice.span)));
     stream.advance();
     break;
@@ -35,7 +28,7 @@ parse_primary_expression(CompilationUnit &unit,
   case core::token::TokenKind::Identifier: {
     auto *next = stream.peek(1);
     if (next && next->descriptor->kind == core::token::TokenKind::DoubleColon) {
-      result = parse_path(unit, stream);
+      result = parse_path_expression();
     } else {
       result = unit.ast.create_node<parser::node::IdentifierNode>(
           unit.source.buffer.get_text(tok->slice.span));
@@ -47,7 +40,7 @@ parse_primary_expression(CompilationUnit &unit,
 
   case core::token::TokenKind::OpenParen: {
     stream.advance();
-    result = parse_expression(unit, stream);
+    result = parse_expression();
     auto *close = stream.consume();
     if (!result || !close ||
         close->descriptor->kind != core::token::TokenKind::CloseParen)
@@ -61,5 +54,3 @@ parse_primary_expression(CompilationUnit &unit,
 
   return result;
 }
-
-} // namespace parser::expression

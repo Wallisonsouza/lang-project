@@ -1,39 +1,35 @@
 #pragma once
 #include "core/module/scope.hpp"
-#include "core/node/Node.hpp"
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 namespace core {
 
+using ModuleId = size_t;
+
 struct Module {
   std::string name;
-
   Scope module_scope;
-  Module *parent = nullptr;
-  std::unordered_map<std::string, Module *> children;
+  ModuleId parent = SIZE_MAX;
+  std::unordered_map<std::string, ModuleId> children;
 
-  Module(std::string name, Module *parent_module = nullptr)
-      : name(std::move(name)), module_scope(nullptr), parent(parent_module) {}
+  explicit Module(std::string n, ModuleId p = SIZE_MAX)
+      : name(std::move(n)), parent(p), module_scope(nullptr) {}
 
-  core::node::Node *find(const std::string &name) {
-    auto sym = module_scope.find(name);
-    if (!sym || sym->visibility != core::Visibility::Public)
-      return nullptr;
-    return sym->declaration;
+  SymbolId find_symbol(const std::string &name) {
+    SymbolId id = module_scope.find(name);
+    return id;
   }
 
-  void add_child(Module *child) {
-    if (child) {
-      children[child->name] = child;
-      child->parent = this;
-    }
+  void add_child(const std::string &child_name, ModuleId child_id) {
+    children[child_name] = child_id;
   }
 
-  std::string full_name() const {
-    if (!parent)
+  std::string full_name(const std::vector<Module> &all_modules) const {
+    if (parent == SIZE_MAX)
       return name;
-    return parent->full_name() + "." + name;
+    return all_modules[parent].full_name(all_modules) + "." + name;
   }
 };
 

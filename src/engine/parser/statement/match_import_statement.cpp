@@ -1,18 +1,17 @@
-#pragma once
-
+#include "core/node/Type.hpp"
 #include "core/token/Location.hpp"
 #include "core/token/TokenKind.hpp"
 #include "core/token/token_stream.hpp"
 #include "engine/CompilationUnit.hpp"
+
+#include "engine/parser/node/literal_nodes.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
+#include "engine/parser/parser.hpp"
+#include <optional>
 #include <string>
 #include <vector>
 
-namespace parser::statement {
-
-inline node::statement::ImportNode *
-match_import_statement(CompilationUnit &unit,
-                       core::token::TokenStream &stream) {
+core::node::StatementNode *Parser::parse_import_statement() {
   auto use_tok = stream.peek();
   if (!use_tok ||
       use_tok->descriptor->kind != core::token::TokenKind::UseKeyword)
@@ -59,11 +58,9 @@ match_import_statement(CompilationUnit &unit,
     stream.advance();
   }
 
-  auto *node =
-      unit.ast.create_node<node::statement::ImportNode>(std::move(path_nodes));
+  auto *node = unit.ast.create_node<parser::node::statement::ImportNode>(
+      std::move(path_nodes));
   node->alias = std::move(alias);
   node->slice = stream.last_slice();
   return node;
 }
-
-} // namespace parser::statement

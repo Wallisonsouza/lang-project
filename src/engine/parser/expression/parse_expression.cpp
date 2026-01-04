@@ -1,24 +1,14 @@
-#pragma once
-#include "parse_expression.hpp"
-#include "parse_binary_expression.hpp"
-#include "parse_postfix_expression.hpp"
+#include "debug/engine/token/dump_tokens.hpp"
+#include "engine/parser/node/statement/ImportStatement.hpp"
+#include "engine/parser/parser.hpp"
+#include <iostream>
 
-namespace parser::expression {
+core::node::ExpressionNode *Parser::parse_expression() {
 
-core::node::ExpressionNode *parse_expression(CompilationUnit &unit,
-                                             core::token::TokenStream &stream) {
+  auto *lhs = parse_postfix_expression();
+  if (!lhs) return nullptr;
 
-  auto *primary = parse_postfix_expression(unit, stream);
+  if (auto node = parse_assignment(lhs)) { return node; }
 
-  if (!primary) {
-    return nullptr;
-  }
-
-  if (auto bin = parse_binary_expression(unit, stream, 0, primary)) {
-    return bin;
-  }
-
-  return nullptr;
+  return parse_binary_expression(0, lhs);
 }
-
-} // namespace parser::expression

@@ -1,12 +1,14 @@
 #pragma once
 
 #include "core/source/TextStream.hpp"
+#include "core/token/Token.hpp"
 #include "diagnostic/DiagnosticCode.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/lexer/match/match_identifier.hpp"
 #include "engine/lexer/match/match_number.hpp"
 #include "engine/lexer/match/match_operator.hpp"
 #include "engine/lexer/match/match_string.hpp"
+#include <cstdint>
 
 namespace lexer {
 
@@ -22,12 +24,15 @@ public:
         continue;
       }
 
+      auto state = stream.get_state();
+
       auto start_state = stream.get_state();
       core::token::Token *token = match_token(unit, stream);
 
       if (!token) {
         // Nenhum matcher conseguiu gerar token → erro
-        auto slice = Slice{.range = start_state.range_to(stream.get_state()), .span = start_state.span_to(stream.get_state())};
+        auto slice = Slice{.range = start_state.range_to(stream.get_state()),
+                           .span = start_state.span_to(stream.get_state())};
 
         unit.diagnostics.emit({DiagnosticCode::UnexpectedToken, slice}, unit);
 
@@ -38,12 +43,17 @@ public:
   }
 
 private:
-  static core::token::Token *match_token(CompilationUnit &unit, core::source::TextStream &stream) {
+  static core::token::Token *match_token(CompilationUnit &unit,
+                                         core::source::TextStream &stream) {
 
-    if (auto t = lexer::match::match_string(unit, stream)) return t;
-    if (auto t = lexer::match::match_number(unit, stream)) return t;
-    if (auto t = lexer::match::match_identifier(unit, stream)) return t;
-    if (auto t = lexer::match::match_operator(unit, stream)) return t;
+    if (auto t = lexer::match::match_string(unit, stream))
+      return t;
+    if (auto t = lexer::match::match_number(unit, stream))
+      return t;
+    if (auto t = lexer::match::match_identifier(unit, stream))
+      return t;
+    if (auto t = lexer::match::match_operator(unit, stream))
+      return t;
 
     return nullptr;
   }

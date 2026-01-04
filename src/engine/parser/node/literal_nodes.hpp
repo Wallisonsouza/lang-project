@@ -29,7 +29,7 @@ struct BoolLiteralNode : core::node::ExpressionNode {
   bool value;
 
   explicit BoolLiteralNode(bool v)
-      : ExpressionNode(core::node::NodeKind::BoolLiteral), value(v) {}
+      : ExpressionNode(core::node::NodeKind::BooleanLiteral), value(v) {}
 };
 
 struct CharLiteralNode : core::node::ExpressionNode {
@@ -45,7 +45,7 @@ struct NullLiteralNode : core::node::ExpressionNode {
 
 struct IdentifierNode : core::node::ExpressionNode {
   std::string name;
-  core::Symbol *symbol = nullptr;
+  SymbolId symbol_id = SIZE_MAX;
 
   explicit IdentifierNode(std::string n)
       : ExpressionNode(core::node::NodeKind::Identifier), name(std::move(n)) {}

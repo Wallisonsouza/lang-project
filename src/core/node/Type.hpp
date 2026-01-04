@@ -1,6 +1,7 @@
 #pragma once
-#include "core/module/Symbol.hpp"
+#include "core/memory/symbol.hpp"
 #include "core/node/Node.hpp"
+#include "engine/executor/value.hpp"
 #include <functional>
 #include <string>
 #include <vector>
@@ -13,6 +14,13 @@ struct StatementNode : Node {
 
 struct ExpressionNode : Node {
   explicit ExpressionNode(NodeKind k) : Node(k) {}
+};
+
+struct ExpressionStatementNode : StatementNode {
+  ExpressionNode *expr;
+
+  explicit ExpressionStatementNode(ExpressionNode *expr)
+      : StatementNode(NodeKind::ExpressionStatement), expr(expr) {}
 };
 
 struct TypeDeclarationNode : Node {
@@ -29,7 +37,7 @@ struct TypeNode : core::node::Node {
   std::string name;
   std::vector<TypeNode *> generics;
   bool is_primitive = false;
-  Symbol *symbol = nullptr;
+  SymbolId symbol_id = SIZE_MAX;
 
   explicit TypeNode(std::string n, bool primitive = false)
       : Node(core::node::NodeKind::Type), name(std::move(n)),
@@ -48,7 +56,7 @@ struct FunctionParameterNode : core::node::StatementNode {
   std::string name;
   core::node::TypeNode *type;
   core::node::ExpressionNode *value = nullptr;
-  core::Symbol *symbol = nullptr;
+  SymbolId symbol_id = SIZE_MAX;
 
   FunctionParameterNode(std::string n, core::node::TypeNode *t,
                         core::node::ExpressionNode *v)
@@ -56,20 +64,19 @@ struct FunctionParameterNode : core::node::StatementNode {
         name(std::move(n)), type(t), value(v) {}
 };
 
-struct NativeFunctionDeclarationNode : core::node::StatementNode {
+using native_callback = std::function<Value(const std::vector<Value> &)>;
+
+struct NativeFunctionDeclarationNode : ExpressionNode {
   std::string name;
   std::vector<FunctionParameterNode *> params;
   node::TypeNode *return_type;
 
-  std::function<core::node::Node *(const std::vector<core::node::Node *> &)>
-      callback;
+  native_callback callback;
 
-  NativeFunctionDeclarationNode(
-      std::string n, std::vector<FunctionParameterNode *> p,
-      node::TypeNode *ret,
-      std::function<core::node::Node *(const std::vector<core::node::Node *> &)>
-          cb)
-      : StatementNode(core::node::NodeKind::NativeFunctionDeclaration),
+  NativeFunctionDeclarationNode(std::string n,
+                                std::vector<FunctionParameterNode *> p,
+                                node::TypeNode *ret, native_callback cb)
+      : ExpressionNode(core::node::NodeKind::NativeFunctionDeclaration),
         name(std::move(n)), params(std::move(p)), return_type(ret),
         callback(std::move(cb)) {}
 };

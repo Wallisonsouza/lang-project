@@ -1,34 +1,47 @@
-// // resolver/ResolveVariable.cpp
-// #include "Resolver.hpp"
-// #include "parser/node/statement_nodes.hpp"
-// #include "utils/Utf8.hpp"
+#pragma once
+#include "Resolver.hpp"
+#include "core/memory/symbol.hpp"
+#include "engine/CompilationUnit.hpp"
+#include "engine/parser/node/statement_nodes.hpp"
+#include <iostream>
 
-// namespace resolver {
+#define RESOLVER_DEBUG
 
-// inline void resolve_variable_declaration(Resolver &ctx,
-//                                          node::VariableDeclarationNode *var)
-//                                          {
-//   if (!var)
-//     return;
+#ifdef RESOLVER_DEBUG
+#define RESOLVE_LOG(msg) std::cerr << "[Resolver] " << msg << "\n"
+#else
+#define RESOLVE_LOG(msg) ((void)0)
+#endif
 
-//   if (var->value)
-//     ctx.resolve(var->value);
-//   if (var->type)
-//     ctx.resolve(var->type);
+namespace resolver {
 
-//   auto *sym = ctx.current_scope->declare(
-//       var->name, core::SymbolKind::Variable, var,
-//       core::node::hasModifier(var->modifiers, core::node::Modifier::Public)
-//           ? core::Visibility::Public
-//           : core::Visibility::Private);
+inline void
+resolve_variable_declaration(CompilationUnit &unit, Resolver &resolver,
+                             parser::node::VariableDeclarationNode *var) {
 
-//   if (!sym) {
-//     ctx.error("variável '" + utils::Utf::utf32to8(var->name) +
-//               "' já declarada neste escopo");
-//     return;
-//   }
+  RESOLVE_LOG("Resolving variable declaration: " << var->name);
 
-//   var->symbol = sym;
-// }
+  if (var->value) {
+    RESOLVE_LOG("resolving initializer");
+    resolver.resolve(unit, var->value);
+  }
 
-// } // namespace resolver
+  if (var->type) {
+    RESOLVE_LOG("resolving explicit type");
+    resolver.resolve(unit, var->type);
+  }
+
+  auto symbol_id = unit.symbols.create_symbol(var->name, SymbolKind::Variable);
+
+  RESOLVE_LOG("created symbol id=" << symbol_id);
+
+  resolver.current_scope->add_symbol(var->name, symbol_id);
+
+  RESOLVE_LOG("added to current scope");
+
+  var->symbol_id = symbol_id;
+
+  RESOLVE_LOG("attached symbol to AST node");
+}
+
+} // namespace resolver

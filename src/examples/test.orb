@@ -1,3 +1,10 @@
 use debug::console;
 
-console::log(10 / 2 * 2);
+val a:Number = 10;
+
+val b:Number = 30;
+
+
+a = b + 10
+a = b + 10
+console::log();

@@ -1,14 +1,10 @@
 #include "core/node/BinaryOp.hpp"
-#include "engine/parser/expression/parse_primary_expression.hpp"
 #include "engine/parser/node/operator_nodes.hpp"
-
-namespace parser::expression {
+#include "engine/parser/parser.hpp"
 
 core::node::ExpressionNode *
-parse_binary_expression(CompilationUnit &unit, core::token::TokenStream &stream,
-                        int min_precedence, core::node::ExpressionNode *lhs) {
-
-  core::node::ExpressionNode *left = lhs;
+Parser::parse_binary_expression(int min_precedence,
+                                core::node::ExpressionNode *left) {
   if (!left)
     return nullptr;
 
@@ -27,7 +23,7 @@ parse_binary_expression(CompilationUnit &unit, core::token::TokenStream &stream,
 
     stream.advance();
 
-    auto *right = parse_primary_expression(unit, stream);
+    auto *right = parse_primary_expression();
     if (!right)
       return nullptr;
 
@@ -44,7 +40,7 @@ parse_binary_expression(CompilationUnit &unit, core::token::TokenStream &stream,
       if (next_prec < next_min_prec)
         break;
 
-      right = parse_binary_expression(unit, stream, next_min_prec, right);
+      right = parse_binary_expression(next_min_prec, right);
     }
 
     core::node::BinaryOperation op;
@@ -65,10 +61,9 @@ parse_binary_expression(CompilationUnit &unit, core::token::TokenStream &stream,
       return left;
     }
 
-    left = unit.ast.create_node<node::BinaryExpressionNode>(left, op, right);
+    left = unit.ast.create_node<parser::node::BinaryExpressionNode>(left, op,
+                                                                    right);
   }
 
   return left;
 }
-
-} // namespace parser::expression

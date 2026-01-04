@@ -1,17 +1,14 @@
-#pragma once
 #include "core/node/Type.hpp"
 #include "engine/CompilationUnit.hpp"
+#include "engine/parser/node/literal_nodes.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
-#include <iostream>
+#include "engine/parser/parser.hpp"
 
-namespace parser::expression {
-
-inline core::node::ExpressionNode *
-parse_path(CompilationUnit &unit, core::token::TokenStream &stream) {
+core::node::ExpressionNode *Parser::parse_path_expression() {
   stream.add_checkpoint();
 
   auto id_tok = stream.peek();
-  std::cout << "pass";
+
   if (!id_tok ||
       id_tok->descriptor->kind != core::token::TokenKind::Identifier) {
     stream.rollback_checkpoint();
@@ -48,5 +45,3 @@ parse_path(CompilationUnit &unit, core::token::TokenStream &stream) {
   return unit.ast.create_node<parser::node::statement::PathExprNode>(
       std::move(segments));
 }
-
-} // namespace parser::expression

@@ -65,10 +65,7 @@ inline LanguageSpec make_lang_context() {
 
   context.descriptor_table.add(TokenKind::Semicolon, ";",
                                TokenGroup::Punctuation);
-  context.descriptor_table.add_alias(TokenKind::Semicolon, "end");
-
   context.descriptor_table.add(TokenKind::Comma, ",", TokenGroup::Punctuation);
-
   context.descriptor_table.add(TokenKind::SingleQuote, "\'",
                                TokenGroup::Punctuation);
 

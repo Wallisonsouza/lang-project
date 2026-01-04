@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/memory/symbol.hpp"
 #include "core/module/scope.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
@@ -8,11 +9,11 @@
 
 namespace resolver {
 
-inline core::Symbol *resolve_path(CompilationUnit &unit, Resolver &resolver,
-                                  parser::node::statement::PathExprNode *path) {
-  core::Scope *current_scope =
-      resolver.current_scope; // não sobrescreve o scope atual
-  core::Symbol *sym = nullptr;
+inline SymbolId resolve_path(CompilationUnit &unit, Resolver &resolver,
+                             parser::node::statement::PathExprNode *path) {
+
+  core::Scope *current_scope = resolver.current_scope;
+  SymbolId sym = INVALID_SYMBOL_ID;
 
   std::cout << "[resolve_path] Resolving path: ";
   for (const auto &s : path->segments)
@@ -25,23 +26,30 @@ inline core::Symbol *resolve_path(CompilationUnit &unit, Resolver &resolver,
 
     if (i == path->segments.size() - 1) {
       sym = current_scope->find(seg->name);
-      if (sym) {
+      if (sym != INVALID_SYMBOL_ID) {
         std::cout << "[resolve_path] Found symbol '" << seg->name << "'\n";
       } else {
         std::cout << "[resolve_path] Symbol '" << seg->name << "' not found!\n";
+        // Aqui você pode emitir um erro no CompilationUnit
+        unit.diagnostics.emit({DiagnosticCode::UndeclaredSymbol, seg->slice},
+                              unit);
       }
     } else {
       auto it = current_scope->imports.find(seg->name);
       if (it == current_scope->imports.end()) {
         std::cout << "[resolve_path] Module '" << seg->name << "' not found!\n";
-        return nullptr;
+        return INVALID_SYMBOL_ID;
       }
       std::cout << "[resolve_path] Found module '" << seg->name << "'\n";
       current_scope = it->second;
     }
   }
 
-  path->resolved_symbol = sym;
+  if (sym == INVALID_SYMBOL_ID) {
+    std::cout << "invalid";
+  }
+
+  path->symbol_id = sym;
   return sym;
 }
 

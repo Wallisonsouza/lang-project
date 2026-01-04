@@ -1,14 +1,8 @@
-#pragma once
-#include "engine/CompilationUnit.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
-#include "parse_expression.hpp"
+#include "engine/parser/parser.hpp"
 
-namespace parser::expression {
-
-inline core::node::ExpressionNode *
-parse_function_expression(CompilationUnit &unit,
-                          core::token::TokenStream &stream,
-                          core::node::ExpressionNode *base) {
+core::node::ExpressionNode *
+Parser::finish_call(core::node::ExpressionNode *base) {
   if (!base)
     return nullptr;
 
@@ -21,7 +15,7 @@ parse_function_expression(CompilationUnit &unit,
     std::vector<core::node::ExpressionNode *> args;
     while (!stream.is_end() &&
            !stream.match(core::token::TokenKind::CloseParen)) {
-      auto *expr = parse_expression(unit, stream);
+      auto *expr = parse_expression();
       if (!expr)
         break;
       args.push_back(expr);
@@ -32,10 +26,8 @@ parse_function_expression(CompilationUnit &unit,
       }
     }
 
-    base = unit.ast.create_node<node::FunctionCallNode>(base, args);
+    base = unit.ast.create_node<parser::node::FunctionCallNode>(base, args);
   }
 
   return base;
 }
-
-} // namespace parser::expression

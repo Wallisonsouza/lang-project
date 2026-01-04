@@ -1,116 +1,121 @@
-#include "core/module/scope.hpp"
+#pragma once
+#include "core/memory/symbol.hpp"
 #include "core/node/BinaryOp.hpp"
 #include "core/node/NodeKind.hpp"
 #include "core/node/Type.hpp"
+#include "engine/CompilationUnit.hpp"
 #include "engine/parser/node/literal_nodes.hpp"
 #include "engine/parser/node/operator_nodes.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
-#include <iostream>
-#include <vector>
-
-inline parser::node::NumberLiteralNode *
-number_operations(parser::node::NumberLiteralNode *lhs,
-                  core::node::BinaryOperation op,
-                  parser::node::NumberLiteralNode *rhs) {
-
-  switch (op) {
-  case core::node::BinaryOperation::Add:
-    return new parser::node::NumberLiteralNode(lhs->value + rhs->value);
-
-  case core::node::BinaryOperation::Subtract:
-    return new parser::node::NumberLiteralNode(lhs->value - rhs->value);
-
-  case core::node::BinaryOperation::Divide:
-    return new parser::node::NumberLiteralNode(lhs->value / rhs->value);
-
-  case core::node::BinaryOperation::Multiply:
-    return new parser::node::NumberLiteralNode(lhs->value * rhs->value);
-
-  default:
-    return nullptr;
-  }
-}
+#include "runtime_scope.hpp"
 
 struct Executor {
-  core::Scope *current_scope;
 
-  Executor(core::Scope *scope) : current_scope(scope) {}
+  RuntimeScope *current_scope;
 
-  core::node::Node *
-  execute_binary_expression(parser::node::BinaryExpressionNode *node) {
+  Executor(RuntimeScope *scope) : current_scope(scope) {}
 
-    auto *lhs = execute(node->left);
-    auto *rhs = execute(node->right);
+  Value execute_assignment(CompilationUnit &unit, parser::node::statement::AssignmentNode *node) {
+    // 1. Executa o valor da atribuição
+    Value val = execute_node(unit, node->value);
 
-    if (!lhs || !rhs) {
-      return nullptr;
+    if (auto *id = dynamic_cast<parser::node::IdentifierNode *>(node->target)) {
+      current_scope->set(id->symbol_id, val);
+    } else {
+      throw std::runtime_error("Invalid assignment target");
     }
 
-    if (lhs->kind == core::node::NodeKind::NumberLiteral &&
-        rhs->kind == core::node::NodeKind::NumberLiteral) {
-
-      return number_operations(
-          static_cast<parser::node::NumberLiteralNode *>(lhs), node->op,
-          static_cast<parser::node::NumberLiteralNode *>(rhs));
-    }
-
-    std::cerr << "[Executor] Operação binária inválida para os tipos dados.\n";
-    return nullptr;
+    return val; // ou Void()
   }
 
-  core::node::Node *
-  execute_path_expression(parser::node::statement::PathExprNode *node) {
-    return node->resolved_symbol ? node->resolved_symbol->declaration : nullptr;
-  }
-
-  core::node::Node *
-  execute_function_expression(parser::node::FunctionCallNode *node) {
-    auto *callee_node = execute(node->callee);
-    if (!callee_node)
-      return nullptr;
-
-    if (callee_node->kind == core::node::NodeKind::NativeFunctionDeclaration) {
-      auto *native =
-          static_cast<core::node::NativeFunctionDeclarationNode *>(callee_node);
-
-      std::vector<core::node::Node *> args_values;
-      for (auto *arg : node->args) {
-        args_values.push_back(execute(arg));
-      }
-
-      return native->callback(args_values);
-    }
-
-    return nullptr;
-  }
-
-  core::node::Node *execute(core::node::Node *node) {
-    if (!node)
-      return nullptr;
+  Value execute_node(CompilationUnit &unit, core::node::Node *node) {
+    if (!node) return Value::Null();
 
     switch (node->kind) {
-    case core::node::NodeKind::BinaryExpression:
-      return execute_binary_expression(
-          static_cast<parser::node::BinaryExpressionNode *>(node));
 
-    case core::node::NodeKind::PathExpr:
-      return execute_path_expression(
-          static_cast<parser::node::statement::PathExprNode *>(node));
-
-    case core::node::NodeKind::FunctionCall:
-      return execute_function_expression(
-          static_cast<parser::node::FunctionCallNode *>(node));
-
-    case core::node::NodeKind::NumberLiteral:
-    case core::node::NodeKind::StringLiteral:
-      return node;
-
-    case core::node::NodeKind::Import:
-      return nullptr;
-
-    default:
-      return nullptr;
+    case core::node::NodeKind::ExpressionStatement: {
+      auto *es = static_cast<core::node::ExpressionStatementNode *>(node);
+      execute_node(unit, es->expr);
+      return Value::Void();
     }
+
+    case core::node::NodeKind::Assignment: {
+      return execute_assignment(unit, static_cast<parser::node::statement::AssignmentNode *>(node));
+    }
+
+    case core::node::NodeKind::Identifier: return execute_identifier(static_cast<parser::node::IdentifierNode *>(node)->symbol_id);
+
+    case core::node::NodeKind::NumberLiteral: return Value::Number(static_cast<parser::node::NumberLiteralNode *>(node)->value);
+
+    case core::node::NodeKind::StringLiteral: return Value::String(static_cast<parser::node::StringLiteralNode *>(node)->value);
+
+    case core::node::NodeKind::BinaryExpression: return execute_binary(unit, static_cast<parser::node::BinaryExpressionNode *>(node));
+
+    case core::node::NodeKind::PathExpr: return execute_identifier(static_cast<parser::node::statement::PathExprNode *>(node)->symbol_id);
+
+    case core::node::NodeKind::FunctionCall: return execute_function(unit, static_cast<parser::node::FunctionCallNode *>(node));
+
+    case core::node::NodeKind::VariableDeclaration: return execute_var_decl(unit, static_cast<parser::node::VariableDeclarationNode *>(node));
+
+    default: return Value::Null();
+    }
+  }
+
+  Value execute_identifier(SymbolId id) {
+    if (id == INVALID_SYMBOL_ID) return Value::Null();
+    return current_scope->get(id);
+  }
+
+  Value execute_binary(CompilationUnit &unit, parser::node::BinaryExpressionNode *node) {
+    Value lhs = execute_node(unit, node->left);
+    Value rhs = execute_node(unit, node->right);
+
+    switch (node->op) {
+    case core::node::BinaryOperation::Add: return Value::Number(lhs.get_number() + rhs.get_number());
+    case core::node::BinaryOperation::Subtract: return Value::Number(lhs.get_number() - rhs.get_number());
+    case core::node::BinaryOperation::Multiply: return Value::Number(lhs.get_number() * rhs.get_number());
+    case core::node::BinaryOperation::Divide: return Value::Number(lhs.get_number() / rhs.get_number());
+    default: return Value::Null();
+    }
+  }
+
+  Value execute_var_decl(CompilationUnit &unit, parser::node::VariableDeclarationNode *node) {
+
+    Value value = Value::Null();
+
+    if (node->value) { value = execute_node(unit, node->value); }
+
+    if (node->symbol_id == INVALID_SYMBOL_ID) { throw std::runtime_error("Variable declaration has invalid symbol id"); }
+
+    current_scope->set(node->symbol_id, value);
+
+    return Value::Void();
+  }
+
+  Value execute_function(CompilationUnit &unit, parser::node::FunctionCallNode *node) {
+
+    auto callee = node->callee;
+
+    SymbolId id = INVALID_SYMBOL_ID;
+    if (node->callee->kind == core::node::NodeKind::PathExpr) {
+      auto *path = static_cast<parser::node::statement::PathExprNode *>(node->callee);
+      id = path->symbol_id;
+    }
+
+    if (id == INVALID_SYMBOL_ID) return Value::Null();
+
+    auto symbol = unit.symbols.get(id);
+
+    if (symbol->declaration && symbol->declaration->kind == core::node::NodeKind::NativeFunctionDeclaration) {
+      auto *native = static_cast<core::node::NativeFunctionDeclarationNode *>(symbol->declaration);
+
+      std::vector<Value> args;
+      for (auto *arg : node->args) { args.push_back(execute_node(unit, arg)); }
+
+      return native->callback(args);
+    }
+
+    return Value::Null();
   }
 };

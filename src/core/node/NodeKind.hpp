@@ -4,49 +4,48 @@ namespace core::node {
 
 enum class NodeKind {
   // === Base ===
-  Unknown,
-
-  NumberLiteral,
-  StringLiteral,
-  BoolLiteral,
-  CharLiteral,
-  NullLiteral,
-  Identifier,
-  PathExpr,
+  Unknown = 0,
+  NumberLiteral = 1,
+  StringLiteral = 2,
+  BooleanLiteral = 3,
+  CharLiteral = 4,
+  NullLiteral = 5,
+  Identifier = 6,
+  PathExpr = 7,
 
   // === Statements ===
-
-  MemberAccess,
-  IndexAccess,
-  Block,
-  IfStatement,
-  WhileStatement,
-  ForStatement,
-  ReturnStatement,
-  ExpressionStatement,
-  Import,
+  MemberAccess = 8,
+  IndexAccess = 9,
+  Block = 10,
+  IfStatement = 11,
+  WhileStatement = 12,
+  ForStatement = 13,
+  ReturnStatement = 14,
+  ExpressionStatement = 15,
+  Import = 16,
 
   // === Declarations ===
-  VariableDeclaration,
-  FunctionDeclaration,
-  OperatorDeclaration,
+  VariableDeclaration = 17,
+  FunctionDeclaration = 18,
+  OperatorDeclaration = 19,
 
-  FunctionCall,
-  FunctionParameter,
-  NativeFunctionDeclaration,
-  TypeDeclaration,
-  ParameterDeclaration,
+  FunctionCall = 20,
+  FunctionParameter = 21,
+  NativeFunctionDeclaration = 22,
+  TypeDeclaration = 23,
+  ParameterDeclaration = 24,
 
-  CallExpression,
-  BinaryExpression,
-  UnaryExpression,
-  LiteralExpression,
-  AssignmentExpression,
+  CallExpression = 25,
+  BinaryExpression = 26,
+  UnaryExpression = 27,
+  LiteralExpression = 28,
+  AssignmentExpression = 29,
 
   // === Types ===
-  Type,
-  TypeReference,
-  GenericType,
+  Type = 30,
+  TypeReference = 31,
+  GenericType = 32,
+  Assignment = 33
 };
 
 } // namespace core::node

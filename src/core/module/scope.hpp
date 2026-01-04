@@ -1,28 +1,41 @@
 #pragma once
 
-#include "core/memory/Arena.hpp"
-#include "core/module/Symbol.hpp"
-#include "core/node/Node.hpp"
+#include "core/memory/symbol.hpp"
+#include <cstdint>
 #include <string>
 #include <unordered_map>
 
 namespace core {
 
 struct Scope {
-
   Scope *parent;
-  core::memory::Arena arena;
 
-  std::unordered_map<std::string, Symbol *> symbols;
   std::unordered_map<std::string, Scope *> imports;
+  std::unordered_map<std::string, SymbolId> symbols;
 
-  explicit Scope(Scope *parent_scope);
+  explicit Scope(Scope *parent_scope) : parent(parent_scope) {}
 
-  Symbol *declare(const std::string &name, SymbolKind kind, node::Node *declaration, Visibility visibility = Visibility::Private, bool is_builtin = false);
+  SymbolId find(const std::string &name) const {
+    auto it = symbols.find(name);
+    if (it != symbols.end())
+      return it->second;
+    if (parent)
+      return parent->find(name);
+    return SIZE_MAX;
+  }
 
-  Symbol *find(const std::string &name);
+  SymbolId add_symbol(const std::string &name, SymbolId id) {
+    auto it = symbols.find(name);
+    if (it != symbols.end()) {
+      return it->second;
+    }
+    symbols[name] = id;
+    return id;
+  }
 
-  void import_scope(const std::string &alias, Scope *scope);
+  void import_scope(const std::string &alias, Scope *scope) {
+    imports[alias] = scope;
+  }
 };
 
 } // namespace core

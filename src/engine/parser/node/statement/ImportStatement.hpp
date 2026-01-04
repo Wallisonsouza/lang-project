@@ -9,7 +9,7 @@ namespace parser::node::statement {
 
 struct PathExprNode : core::node::ExpressionNode {
   std::vector<IdentifierNode *> segments;
-  core::Symbol *resolved_symbol = nullptr;
+  SymbolId symbol_id = SIZE_MAX;
 
   explicit PathExprNode(std::vector<IdentifierNode *> segs)
       : ExpressionNode(core::node::NodeKind::PathExpr),
@@ -22,6 +22,14 @@ struct ImportNode : core::node::StatementNode {
 
   explicit ImportNode(std::vector<IdentifierNode *> p)
       : StatementNode(core::node::NodeKind::Import), path(std::move(p)) {}
+};
+
+struct AssignmentNode : core::node::ExpressionNode {
+  core::node::ExpressionNode *target;
+  core::node::ExpressionNode *value;
+
+  AssignmentNode(core::node::ExpressionNode *t, core::node::ExpressionNode *v)
+      : ExpressionNode(core::node::NodeKind::Assignment), target(t), value(v) {}
 };
 
 } // namespace parser::node::statement

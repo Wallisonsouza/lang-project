@@ -13,6 +13,8 @@
 #include "engine/parser/node/statement/ImportStatement.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 #include <iostream>
+
+#include "debug_.hpp"
 using namespace core::node;
 
 namespace debug::node {
@@ -32,6 +34,7 @@ inline void debug_node(const core::node::Node *node, const std::string &prefix,
     return;
 
   switch (node->kind) {
+
   // Literais
   case NodeKind::NumberLiteral:
     debug_number_literal(
@@ -43,7 +46,7 @@ inline void debug_node(const core::node::Node *node, const std::string &prefix,
         static_cast<const parser::node::StringLiteralNode *>(node), prefix,
         isLast);
     break;
-  case NodeKind::BoolLiteral:
+  case NodeKind::BooleanLiteral:
     debug_bool_literal(static_cast<const parser::node::BoolLiteralNode *>(node),
                        prefix, isLast);
     break;
@@ -86,10 +89,21 @@ inline void debug_node(const core::node::Node *node, const std::string &prefix,
         static_cast<const parser::node::FunctionCallNode *>(node), prefix,
         isLast);
     break;
+  case NodeKind::ExpressionStatement:
+    debug_expression_statement(
+        static_cast<const ExpressionStatementNode *>(node), prefix, isLast);
+    break;
 
   case NodeKind::PathExpr:
     debug_path_expr(
         static_cast<const parser::node::statement::PathExprNode *>(node),
+        prefix, isLast);
+    break;
+
+  case NodeKind::Assignment:
+
+    debug_assing_node(
+        static_cast<const parser::node::statement::AssignmentNode *>(node),
         prefix, isLast);
     break;
 
