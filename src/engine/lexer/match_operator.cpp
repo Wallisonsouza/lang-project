@@ -1,12 +1,6 @@
-#pragma once
+#include "lexer.hpp"
 
-#include "core/source/TextStream.hpp"
-#include "core/token/Token.hpp"
-#include "engine/CompilationUnit.hpp"
-
-namespace lexer::match {
-
-inline core::token::Token *match_operator(CompilationUnit &unit, core::source::TextStream &stream) {
+core::token::Token *Lexer::match_operator() {
   auto start = stream.get_state();
 
   const auto *node = unit.context.descriptor_table.trie().root();
@@ -37,5 +31,3 @@ inline core::token::Token *match_operator(CompilationUnit &unit, core::source::T
 
   return unit.tokens.create_token<core::token::Token>(best, slice);
 }
-
-} // namespace lexer::match

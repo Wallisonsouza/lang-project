@@ -1,7 +1,6 @@
 #pragma once
 #include "core/AST.hpp"
 #include "core/memory/module_manager.hpp"
-#include "core/memory/node_manager.hpp"
 #include "core/memory/symbol_manager.hpp"
 #include "core/source/Source.hpp"
 #include "core/token/token_stream.hpp"
@@ -21,7 +20,5 @@ struct CompilationUnit {
 
   DiagnosticEngine diagnostics;
 
-  explicit CompilationUnit(ayla::language::LanguageSpec &ctx,
-                           core::source::Source &src)
-      : context(ctx), source(src) {}
+  explicit CompilationUnit(ayla::language::LanguageSpec &ctx, core::source::Source &src) : context(ctx), source(src) {}
 };

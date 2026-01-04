@@ -1,12 +1,12 @@
 #include "core/source/Source.hpp"
+#include "core/source/TextStream.hpp"
+#include "core/token/token_stream.hpp"
 #include "debug/engine/node/DebugNode.hpp"
-#include "debug/engine/token/dump_tokens.hpp"
 #include "engine/CompilationUnit.hpp"
-#include "engine/executor/executor.hpp"
-#include "engine/lexer/Lexer.hpp"
+#include "engine/lexer/lexer.hpp"
 #include "engine/parser/parser.hpp"
 #include "engine/resolver/Resolver.hpp"
-#include "language/BuiltinScope.hpp"
+#include "engine/runtime/executor.hpp"
 #include "language/LanguageSpec.hpp"
 #include "language/argon_main.hpp"
 #include "language/module_console.hpp"
@@ -20,10 +20,11 @@ int main() {
 
   auto unit = CompilationUnit(context, source);
   ayla::modules::create_module_console(unit);
-  lexer::Lexer lexer;
-  lexer.generate_tokens(unit);
+
+  auto stream = core::source::TextStream(source.buffer);
+  Lexer lexer(unit, stream);
+  lexer.generate_tokens();
   // debug::engine::dump_tokens(unit.tokens);
-  ayla::make_ayla_std(context.root_scope);
 
   Parser parser(unit, unit.tokens);
 

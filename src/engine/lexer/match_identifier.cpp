@@ -1,11 +1,7 @@
-#pragma once
+#include "lexer.hpp"
 
-#include "core/source/TextStream.hpp"
-#include "engine/CompilationUnit.hpp"
-#include "utils/Unicode.hpp"
+core::token::Token *Lexer::match_identifier() {
 
-namespace lexer::match {
-inline core::token::Token *match_identifier(CompilationUnit &unit, core::source::TextStream &stream) {
   auto start = stream.get_state();
   char32_t c = stream.peek();
 
@@ -29,5 +25,3 @@ inline core::token::Token *match_identifier(CompilationUnit &unit, core::source:
 
   return unit.tokens.create_token<core::token::Token>(descriptor, slice);
 }
-
-} // namespace lexer::match

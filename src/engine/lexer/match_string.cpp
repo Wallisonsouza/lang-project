@@ -1,19 +1,9 @@
-#pragma once
+#include "lexer.hpp"
 
-#include "core/source/TextStream.hpp"
-#include "core/token/Token.hpp"
-#include "core/token/TokenKind.hpp"
-#include "engine/CompilationUnit.hpp"
-
-namespace lexer::match {
-
-inline core::token::Token *match_string(CompilationUnit &unit,
-                                        core::source::TextStream &stream) {
+core::token::Token *Lexer::match_string() {
   char32_t quote = stream.peek();
 
-  if (quote != U'"' && quote != U'\'') {
-    return nullptr;
-  }
+  if (quote != U'"' && quote != U'\'') { return nullptr; }
 
   auto start = stream.get_state();
   stream.advance();
@@ -54,10 +44,7 @@ inline core::token::Token *match_string(CompilationUnit &unit,
     return nullptr;
   }
 
-  auto descriptor = unit.context.descriptor_table.lookup_by_kind(
-      core::token::TokenKind::StringLiteral);
+  auto descriptor = unit.context.descriptor_table.lookup_by_kind(core::token::TokenKind::StringLiteral);
 
   return unit.tokens.create_token<core::token::Token>(descriptor, slice);
 }
-
-} // namespace lexer::match

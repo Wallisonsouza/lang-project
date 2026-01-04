@@ -1,8 +1,7 @@
 #pragma once
 #include "core/memory/symbol.hpp"
+#include "core/memory/value.hpp"
 #include "core/node/Node.hpp"
-#include "engine/executor/value.hpp"
-#include <functional>
 #include <string>
 #include <vector>
 
@@ -19,18 +18,14 @@ struct ExpressionNode : Node {
 struct ExpressionStatementNode : StatementNode {
   ExpressionNode *expr;
 
-  explicit ExpressionStatementNode(ExpressionNode *expr)
-      : StatementNode(NodeKind::ExpressionStatement), expr(expr) {}
+  explicit ExpressionStatementNode(ExpressionNode *expr) : StatementNode(NodeKind::ExpressionStatement), expr(expr) {}
 };
 
 struct TypeDeclarationNode : Node {
   std::string name;
   std::vector<std::string> type_params;
 
-  explicit TypeDeclarationNode(std::string n,
-                               std::vector<std::string> params = {})
-      : Node(NodeKind::TypeDeclaration), name(std::move(n)),
-        type_params(std::move(params)) {}
+  explicit TypeDeclarationNode(std::string n, std::vector<std::string> params = {}) : Node(NodeKind::TypeDeclaration), name(std::move(n)), type_params(std::move(params)) {}
 };
 
 struct TypeNode : core::node::Node {
@@ -39,13 +34,9 @@ struct TypeNode : core::node::Node {
   bool is_primitive = false;
   SymbolId symbol_id = SIZE_MAX;
 
-  explicit TypeNode(std::string n, bool primitive = false)
-      : Node(core::node::NodeKind::Type), name(std::move(n)),
-        is_primitive(primitive) {}
+  explicit TypeNode(std::string n, bool primitive = false) : Node(core::node::NodeKind::Type), name(std::move(n)), is_primitive(primitive) {}
 
-  TypeNode(std::string n, std::vector<TypeNode *> g)
-      : Node(core::node::NodeKind::Type), name(std::move(n)),
-        generics(std::move(g)) {}
+  TypeNode(std::string n, std::vector<TypeNode *> g) : Node(core::node::NodeKind::Type), name(std::move(n)), generics(std::move(g)) {}
 };
 
 struct VoidTypeNode : TypeNode {
@@ -58,10 +49,7 @@ struct FunctionParameterNode : core::node::StatementNode {
   core::node::ExpressionNode *value = nullptr;
   SymbolId symbol_id = SIZE_MAX;
 
-  FunctionParameterNode(std::string n, core::node::TypeNode *t,
-                        core::node::ExpressionNode *v)
-      : StatementNode(core::node::NodeKind::FunctionParameter),
-        name(std::move(n)), type(t), value(v) {}
+  FunctionParameterNode(std::string n, core::node::TypeNode *t, core::node::ExpressionNode *v) : StatementNode(core::node::NodeKind::FunctionParameter), name(std::move(n)), type(t), value(v) {}
 };
 
 using native_callback = std::function<Value(const std::vector<Value> &)>;
@@ -73,12 +61,8 @@ struct NativeFunctionDeclarationNode : ExpressionNode {
 
   native_callback callback;
 
-  NativeFunctionDeclarationNode(std::string n,
-                                std::vector<FunctionParameterNode *> p,
-                                node::TypeNode *ret, native_callback cb)
-      : ExpressionNode(core::node::NodeKind::NativeFunctionDeclaration),
-        name(std::move(n)), params(std::move(p)), return_type(ret),
-        callback(std::move(cb)) {}
+  NativeFunctionDeclarationNode(std::string n, std::vector<FunctionParameterNode *> p, node::TypeNode *ret, native_callback cb)
+      : ExpressionNode(core::node::NodeKind::NativeFunctionDeclaration), name(std::move(n)), params(std::move(p)), return_type(ret), callback(std::move(cb)) {}
 };
 
 } // namespace core::node
