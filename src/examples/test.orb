@@ -1,10 +1,7 @@
 use debug::console;
-
-val a:Number = 10;
-
-val b:Number = 30;
+use math;
 
 
-a = b + 10
-a = b + 10
-console::log();
+
+
+console::log(math::random(10))

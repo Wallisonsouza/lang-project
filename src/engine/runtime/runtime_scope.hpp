@@ -9,10 +9,8 @@ struct RuntimeScope {
   void set(SymbolId id, Value val) { values[id] = val; }
 
   Value get(SymbolId id) {
-    if (values.contains(id))
-      return values[id];
-    if (parent)
-      return parent->get(id);
+    if (values.contains(id)) return values[id];
+    if (parent) return parent->get(id);
     return Value::Null();
   }
 };

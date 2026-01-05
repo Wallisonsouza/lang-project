@@ -9,10 +9,10 @@
 struct Lexer {
 private:
   CompilationUnit &unit;
-  core::source::TextStream &stream;
+  core::source::TextStream stream;
 
 public:
-  explicit Lexer(CompilationUnit &unit, core::source::TextStream &stream) : unit(unit), stream(stream) {}
+  explicit Lexer(CompilationUnit &unit) : unit(unit), stream(unit.source.buffer) {}
 
   core::token::Token *match_identifier();
   core::token::Token *match_string();
@@ -39,7 +39,6 @@ public:
       auto *token = match_token();
 
       if (!token) {
-
         auto slice = Slice{.range = start_state.range_to(stream.get_state()), .span = start_state.span_to(stream.get_state())};
         unit.diagnostics.emit({DiagnosticCode::UnexpectedToken, slice}, unit);
 

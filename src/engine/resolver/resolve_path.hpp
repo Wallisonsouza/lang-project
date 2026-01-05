@@ -9,15 +9,13 @@
 
 namespace resolver {
 
-inline SymbolId resolve_path(CompilationUnit &unit, Resolver &resolver,
-                             parser::node::statement::PathExprNode *path) {
+inline SymbolId resolve_path(CompilationUnit &unit, Resolver &resolver, parser::node::statement::PathExprNode *path) {
 
   core::Scope *current_scope = resolver.current_scope;
   SymbolId sym = INVALID_SYMBOL_ID;
 
   std::cout << "[resolve_path] Resolving path: ";
-  for (const auto &s : path->segments)
-    std::cout << s->name << "::";
+  for (const auto &s : path->segments) std::cout << s->name << "::";
   std::cout << "\n";
 
   for (size_t i = 0; i < path->segments.size(); ++i) {
@@ -29,10 +27,9 @@ inline SymbolId resolve_path(CompilationUnit &unit, Resolver &resolver,
       if (sym != INVALID_SYMBOL_ID) {
         std::cout << "[resolve_path] Found symbol '" << seg->name << "'\n";
       } else {
-        std::cout << "[resolve_path] Symbol '" << seg->name << "' not found!\n";
+        std::cout << "[resolve_path] Symbol '" << seg->name << "' not founda!\n";
         // Aqui você pode emitir um erro no CompilationUnit
-        unit.diagnostics.emit({DiagnosticCode::UndeclaredSymbol, seg->slice},
-                              unit);
+        unit.diagnostics.emit({DiagnosticCode::UndeclaredSymbol, seg->slice}, unit);
       }
     } else {
       auto it = current_scope->imports.find(seg->name);
@@ -45,9 +42,7 @@ inline SymbolId resolve_path(CompilationUnit &unit, Resolver &resolver,
     }
   }
 
-  if (sym == INVALID_SYMBOL_ID) {
-    std::cout << "invalid";
-  }
+  if (sym == INVALID_SYMBOL_ID) { std::cout << "invalid"; }
 
   path->symbol_id = sym;
   return sym;

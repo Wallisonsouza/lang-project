@@ -7,10 +7,8 @@
 #include "engine/parser/parser.hpp"
 #include "engine/resolver/Resolver.hpp"
 #include "engine/runtime/executor.hpp"
-#include "language/LanguageSpec.hpp"
 #include "language/argon_main.hpp"
 #include "language/module_console.hpp"
-#include <iostream>
 
 int main() {
 
@@ -18,13 +16,14 @@ int main() {
 
   auto context = ayla::language::make_lang_context();
 
+  auto parent = context.modules.create_module("debug");
+  ayla::modules::create_module_console(context, parent);
+  ayla::modules::create_module_math(context);
+  
   auto unit = CompilationUnit(context, source);
-  ayla::modules::create_module_console(unit);
 
-  auto stream = core::source::TextStream(source.buffer);
-  Lexer lexer(unit, stream);
+  Lexer lexer(unit);
   lexer.generate_tokens();
-  // debug::engine::dump_tokens(unit.tokens);
 
   Parser parser(unit, unit.tokens);
 
@@ -42,10 +41,10 @@ int main() {
   // parser::Parser parser;
   // parser.generate_ast(unit);
 
-  for (auto &node : unit.ast.get_nodes()) {
-    debug::node::debug_node(node, "", true);
-    std::cout << std::endl;
-  }
+  // for (auto &node : unit.ast.get_nodes()) {
+  //   debug::node::debug_node(node, "", true);
+  //   std::cout << std::endl;
+  // }
 
   resolver::Resolver resolver(&context.root_scope);
   resolver.diag_target = &unit.diagnostics;

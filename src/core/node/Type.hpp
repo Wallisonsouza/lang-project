@@ -43,6 +43,10 @@ struct VoidTypeNode : TypeNode {
   VoidTypeNode() : TypeNode("void", true) { kind = core::node::NodeKind::Type; }
 };
 
+struct NumberTypeNode : TypeNode {
+  NumberTypeNode() : TypeNode("Number", true) { kind = core::node::NodeKind::Type; }
+};
+
 struct FunctionParameterNode : core::node::StatementNode {
   std::string name;
   core::node::TypeNode *type;
@@ -58,6 +62,7 @@ struct NativeFunctionDeclarationNode : ExpressionNode {
   std::string name;
   std::vector<FunctionParameterNode *> params;
   node::TypeNode *return_type;
+  SymbolId symbol_id;
 
   native_callback callback;
 

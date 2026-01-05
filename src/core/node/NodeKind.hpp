@@ -11,7 +11,7 @@ enum class NodeKind {
   CharLiteral = 4,
   NullLiteral = 5,
   Identifier = 6,
-  PathExpr = 7,
+  PathExpression = 7,
 
   // === Statements ===
   MemberAccess = 8,

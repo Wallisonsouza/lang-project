@@ -9,6 +9,7 @@
 #include "engine/parser/node/statement/ImportStatement.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 #include "runtime_scope.hpp"
+#include <iostream>
 
 struct Executor {
 
@@ -52,11 +53,11 @@ struct Executor {
 
     case core::node::NodeKind::BinaryExpression: return execute_binary(unit, static_cast<parser::node::BinaryExpressionNode *>(node));
 
-    case core::node::NodeKind::PathExpr: return execute_identifier(static_cast<parser::node::statement::PathExprNode *>(node)->symbol_id);
+    case core::node::NodeKind::PathExpression: return execute_identifier(static_cast<parser::node::statement::PathExprNode *>(node)->symbol_id);
 
     case core::node::NodeKind::FunctionCall: return execute_function(unit, static_cast<parser::node::FunctionCallNode *>(node));
 
-    case core::node::NodeKind::VariableDeclaration: return execute_var_decl(unit, static_cast<parser::node::VariableDeclarationNode *>(node));
+    case core::node::NodeKind::VariableDeclaration: return execute_variable_declaration(unit, static_cast<parser::node::VariableDeclarationNode *>(node));
 
     default: return Value::Null();
     }
@@ -80,7 +81,7 @@ struct Executor {
     }
   }
 
-  Value execute_var_decl(CompilationUnit &unit, parser::node::VariableDeclarationNode *node) {
+  Value execute_variable_declaration(CompilationUnit &unit, parser::node::VariableDeclarationNode *node) {
 
     Value value = Value::Null();
 
@@ -98,7 +99,7 @@ struct Executor {
     auto callee = node->callee;
 
     SymbolId id = INVALID_SYMBOL_ID;
-    if (node->callee->kind == core::node::NodeKind::PathExpr) {
+    if (node->callee->kind == core::node::NodeKind::PathExpression) {
       auto *path = static_cast<parser::node::statement::PathExprNode *>(node->callee);
       id = path->symbol_id;
     }
@@ -109,6 +110,8 @@ struct Executor {
 
     if (symbol->declaration && symbol->declaration->kind == core::node::NodeKind::NativeFunctionDeclaration) {
       auto *native = static_cast<core::node::NativeFunctionDeclarationNode *>(symbol->declaration);
+
+      std::cout << "nativa";
 
       std::vector<Value> args;
       for (auto *arg : node->args) { args.push_back(execute_node(unit, arg)); }
