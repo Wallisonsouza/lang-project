@@ -1,6 +1,6 @@
 #include "lexer.hpp"
 
-core::token::Token *Lexer::match_identifier() {
+core::token::Token *Lexer::match_identifier(core::source::TextStream &stream, LanguageContext &context, core::token::TokenStream &out) {
 
   auto start = stream.get_state();
   char32_t c = stream.peek();
@@ -20,8 +20,8 @@ core::token::Token *Lexer::match_identifier() {
 
   auto slice = stream.slice_from(start);
 
-  auto descriptor = unit.context.descriptor_table.lookup_by_name(slice.span.view());
-  if (!descriptor) { descriptor = unit.context.descriptor_table.lookup_by_kind(core::token::TokenKind::Identifier); }
+  auto descriptor = context.descriptor_table.lookup_by_name(slice.span.view());
+  if (!descriptor) { descriptor = context.descriptor_table.lookup_by_kind(core::token::TokenKind::Identifier); }
 
-  return unit.tokens.create_token<core::token::Token>(descriptor, slice);
+  return out.create_token<core::token::Token>(descriptor, slice);
 }

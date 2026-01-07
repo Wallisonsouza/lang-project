@@ -3,7 +3,7 @@
 #include "core/token/token_stream.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/parser/parser.hpp"
-#include <iostream>
+
 #include <vector>
 
 core::node::TypeNode *Parser::parse_type() {
@@ -31,7 +31,7 @@ core::node::TypeNode *Parser::parse_type() {
   //     }
   //   }
 
-  //   tok = stream.peek();
+  //   tok = stream.peek();s
   //   if (!tok || tok->descriptor->kind != core::token::TokenKind::GreaterThan) {
   //     // Falta do '>' gera apenas um core::node::TypeNode "<missing>" no último
   //     // genérico

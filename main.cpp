@@ -1,3 +1,4 @@
+#include "core/memory/Arena.hpp"
 #include "core/source/Source.hpp"
 #include "core/token/Location.hpp"
 #include "core/token/token_stream.hpp"
@@ -6,17 +7,37 @@
 #include "diagnostic/Diagnostic.hpp"
 #include "diagnostic/diagnostic_debug.hpp"
 #include "engine/CompilationUnit.hpp"
+#include "engine/language_context.hpp"
 #include "engine/lexer/lexer.hpp"
 #include "engine/parser/parser.hpp"
-#include "engine/resolver/Resolver.hpp"
-#include "engine/runtime/executor.hpp"
 #include "language/argon_main.hpp"
 #include "language/module_console.hpp"
 #include <string>
 
-int main() {
+class SourceManager {
+  core::memory::Arena arena;
 
-  core::source::Source source("/home/wallison/Documentos/git/ayla/src/examples/test.orb");
+public:
+  core::source::Source *create_source(const std::string &path) { return arena.create<core::source::Source>(path); }
+};
+
+class Engine {
+
+  LanguageContext &context;
+  SourceManager sources;
+
+public:
+  Engine(LanguageContext &context) : context(context) {}
+
+  CompilationUnit create_unit(const std::string &path) {
+
+    auto source = sources.create_source(path);
+
+    return CompilationUnit(context, *source);
+  }
+};
+
+int main() {
 
   auto context = ayla::language::make_lang_context();
 
@@ -24,13 +45,15 @@ int main() {
   ayla::modules::create_module_console(context, parent);
   ayla::modules::create_module_math(context);
 
-  auto unit = CompilationUnit(context, source);
+  auto engine = Engine(context);
 
-  Lexer lexer(unit);
-  lexer.generate_tokens();
+  auto unit = engine.create_unit("/home/wallison/Documentos/git/ayla/src/examples/test.orb");
+
+  unit.exec();
+
+  debug::engine::dump_tokens(unit.tokens);
 
   Parser parser(unit, unit.tokens);
-  // debug::engine::dump_tokens(unit.tokens);
 
   while (!unit.tokens.is_end()) {
     auto node = parser.call_parser();
@@ -46,81 +69,81 @@ int main() {
     std::cout << std::endl;
   }
 
-  for (auto &diag : unit.diagns.all()) {
-    std::string help;
-    Slice slice = diag.slice.value_or(Slice{});
+  // for (auto &diag : unit.diagns.all()) {
+  //   std::string help;
+  //   Slice slice = diag.slice.value_or(Slice{});
 
-    const core::token::Token *found_token = nullptr;
-    if (diag.token && diag.token->found) {
-      found_token = diag.token->found;
-      slice = found_token->slice;
-    }
+  //   const core::token::Token *found_token = nullptr;
+  //   if (diag.token && diag.token->found) {
+  //     found_token = diag.token->found;
+  //     slice = found_token->slice;
+  //   }
 
-    switch (diag.code) {
+  //   switch (diag.code) {
 
-    case DiagnosticCode::ExpectedToken: {
+  //   case DiagnosticCode::ExpectedToken: {
 
-      auto tok = unit.context.descriptor_table.lookup_by_kind(diag.token->expected);
+  //     auto tok = unit.context.descriptor_table.lookup_by_kind(diag.token->expected);
 
-      if (found_token) {
-        help += "Expected ";
-        help += "'";
-        help += tok->name;
-        help += "'";
-        help += " but found '" + unit.source.buffer.get_text(found_token->slice.span) + "' ";
+  //     if (found_token) {
+  //       help += "Expected ";
+  //       help += "'";
+  //       help += tok->name;
+  //       help += "'";
+  //       help += " but found '" + unit.source.buffer.get_text(found_token->slice.span) + "' ";
 
-      } else {
-        help = "Add an identifier";
-      }
-      break;
-    }
+  //     } else {
+  //       help = "Add an identifier";
+  //     }
+  //     break;
+  //   }
 
-      // case DiagnosticCode::ExpectedIdentifier:
-      //   if (found_token) {
-      //     help = "Expected 'identifier' but found '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
-      //   } else {
-      //     help = "Add an identifier";
-      //   }
-      //   break;
+  //     // case DiagnosticCode::ExpectedIdentifier:
+  //     //   if (found_token) {
+  //     //     help = "Expected 'identifier' but found '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
+  //     //   } else {
+  //     //     help = "Add an identifier";
+  //     //   }
+  //     //   break;
 
-    case DiagnosticCode::ExpectedColon:
-      if (found_token) {
-        help = "Expected ':' but found '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
-      } else {
-        help = "Expected ':'";
-      }
-      break;
+  //   case DiagnosticCode::ExpectedColon:
+  //     if (found_token) {
+  //       help = "Expected ':' but found '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
+  //     } else {
+  //       help = "Expected ':'";
+  //     }
+  //     break;
 
-    case DiagnosticCode::ExpectedType:
-      if (found_token) {
-        help = "Expected a type but found '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
-      } else {
-        help = "Expected a type";
-      }
-      break;
+  //   case DiagnosticCode::ExpectedType:
+  //     if (found_token) {
+  //       help = "Expected a type but found '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
+  //     } else {
+  //       help = "Expected a type";
+  //     }
+  //     break;
 
-    case DiagnosticCode::ExpectedExpression:
-      if (found_token) {
-        help = "Expected an expression but found '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
-      } else {
-        help = "Expected an expression";
-      }
-      break;
+  //   case DiagnosticCode::ExpectedExpression:
+  //     if (found_token) {
+  //       help = "Expected an expression but found '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
+  //     } else {
+  //       help = "Expected an expression";
+  //     }
+  //     break;
 
-    case DiagnosticCode::UnexpectedToken:
-      if (found_token) {
-        help = "Unexpected token '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
-      } else {
-        help = "Unexpected token";
-      }
-      break;
+  //   case DiagnosticCode::UnexpectedToken:
+  //     if (found_token) {
+  //       help = "Unexpected token '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
+  //     } else {
+  //       help = "Unexpected token";
+  //     }
+  //     break;
 
-    default: help = "Unknown error"; break;
-    }
+  //   default: help = "Unknown error"; break;
+  //   }
 
-    // Chama a função de print centralizada
-    diagnostic::print_diagnostic("code", help, slice, unit.source.buffer);
-  }
+  //   // Chama a função de print centralizada
+  //   diagnostic::print_diagnostic("code", help, slice, unit.source.buffer);
+  // }
 
   // resolver::Resolver resolver(&context.root_scope);
   // resolver.resolve_ast(unit);

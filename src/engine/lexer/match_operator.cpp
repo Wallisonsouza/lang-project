@@ -1,9 +1,9 @@
 #include "lexer.hpp"
 
-core::token::Token *Lexer::match_operator() {
+core::token::Token *Lexer::match_operator(core::source::TextStream &stream, LanguageContext &context, core::token::TokenStream &out) {
   auto start = stream.get_state();
 
-  const auto *node = unit.context.descriptor_table.trie().root();
+  const auto *node = context.descriptor_table.trie().root();
   const core::token::TokenDescriptor *best = nullptr;
   size_t best_len = 0;
 
@@ -29,5 +29,5 @@ core::token::Token *Lexer::match_operator() {
   stream.advance_n(best_len);
   auto slice = stream.slice_from(start);
 
-  return unit.tokens.create_token<core::token::Token>(best, slice);
+  return out.create_token<core::token::Token>(best, slice);
 }

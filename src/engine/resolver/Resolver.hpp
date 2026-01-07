@@ -2,7 +2,6 @@
 #include "core/module/scope.hpp"
 #include "core/node/Node.hpp"
 #include "diagnostic/DiagnosticEngine.hpp"
-#include "engine/CompilationUnit.hpp"
 
 namespace resolver {
 

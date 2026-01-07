@@ -1,2 +1,6 @@
+use debug::console;
 
-use debug::10
+val a: Number = 10;
+
+
+

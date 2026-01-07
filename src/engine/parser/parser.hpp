@@ -1,14 +1,12 @@
 #pragma once
 #include "core/node/Modifier.hpp"
 #include "core/node/Node.hpp"
-#include "core/node/NodeKind.hpp"
 #include "core/node/Type.hpp"
 #include "core/token/Location.hpp"
 #include "core/token/TokenKind.hpp"
 #include "diagnostic/Diagnostic.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
-#include <iostream>
 
 struct Parser {
   CompilationUnit &unit;
@@ -40,15 +38,7 @@ public:
   parser::node::BlockNode *parse_block();
   core::node::FunctionParameterNode *parse_function_parameter();
 
-  core::node::Node *call_parser() {
-
-    auto tok = stream.peek();
-    if (!tok) return nullptr;
-
-    if (tok->descriptor->kind == core::token::TokenKind::Colon) { return parse_type(); }
-
-    return parse_statement();
-  }
+  core::node::Node *call_parser() { return parse_statement(); }
 
   void report_error(const DiagnosticCode code, const Slice &slice, DiagnosticToken opt = {}) { unit.diagns.report({.code = code, .slice = slice, .token = opt}); };
 };

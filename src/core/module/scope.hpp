@@ -59,6 +59,8 @@ struct Scope {
     return id;
   }
 
+  bool has_symbol_local(const std::string &name) const { return symbols.find(name) != symbols.end(); }
+
   void import_scope(const std::string &alias, Scope *scope) {
     std::cout << "[Scope::import_scope] Importing scope '" << alias << "'\n";
     imports[alias] = scope;

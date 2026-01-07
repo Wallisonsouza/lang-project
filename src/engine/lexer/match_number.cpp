@@ -1,6 +1,6 @@
 #include "lexer.hpp"
 
-core::token::Token *Lexer::match_number() {
+core::token::Token *Lexer::match_number(core::source::TextStream &stream, LanguageContext &context, core::token::TokenStream &out) {
 
   auto start = stream.get_state();
 
@@ -24,7 +24,7 @@ core::token::Token *Lexer::match_number() {
 
   auto slice = stream.slice_from(start);
 
-  auto descriptor = unit.context.descriptor_table.lookup_by_kind(core::token::TokenKind::NumberLiteral);
+  auto descriptor = context.descriptor_table.lookup_by_kind(core::token::TokenKind::NumberLiteral);
 
-  return unit.tokens.create_token<core::token::Token>(descriptor, slice);
+  return out.create_token<core::token::Token>(descriptor, slice);
 }
