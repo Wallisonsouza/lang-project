@@ -1,6 +1,6 @@
 #include "engine/resolver/Resolver.hpp"
 
-void Resolver::resolve_block_node(parser::node::BlockNode *node) {
+void Resolver::resolve_block(parser::node::BlockNode *node) {
   if (!node) return;
 
   // resolver.enter_scope();

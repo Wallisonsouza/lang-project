@@ -1,0 +1,75 @@
+// for (auto &diag : unit.diagns.all()) {
+  //   std::string help;
+  //   Slice slice = diag.slice.value_or(Slice{});
+
+  //   const core::token::Token *found_token = nullptr;
+  //   if (diag.token && diag.token->found) {
+  //     found_token = diag.token->found;
+  //     slice = found_token->slice;
+  //   }
+
+  //   switch (diag.code) {
+
+  //   case DiagnosticCode::ExpectedToken: {
+
+  //     auto tok = unit.context.descriptor_table.lookup_by_kind(diag.token->expected);
+
+  //     if (found_token) {
+  //       help += "Expected ";
+  //       help += "'";
+  //       help += tok->name;
+  //       help += "'";
+  //       help += " but found '" + unit.source.buffer.get_text(found_token->slice.span) + "' ";
+
+  //     } else {
+  //       help = "Add an identifier";
+  //     }
+  //     break;
+  //   }
+
+  //     // case DiagnosticCode::ExpectedIdentifier:
+  //     //   if (found_token) {
+  //     //     help = "Expected 'identifier' but found '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
+  //     //   } else {
+  //     //     help = "Add an identifier";
+  //     //   }
+  //     //   break;
+
+  //   case DiagnosticCode::ExpectedColon:
+  //     if (found_token) {
+  //       help = "Expected ':' but found '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
+  //     } else {
+  //       help = "Expected ':'";
+  //     }
+  //     break;
+
+  //   case DiagnosticCode::ExpectedType:
+  //     if (found_token) {
+  //       help = "Expected a type but found '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
+  //     } else {
+  //       help = "Expected a type";
+  //     }
+  //     break;
+
+  //   case DiagnosticCode::ExpectedExpression:
+  //     if (found_token) {
+  //       help = "Expected an expression but found '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
+  //     } else {
+  //       help = "Expected an expression";
+  //     }
+  //     break;
+
+  //   case DiagnosticCode::UnexpectedToken:
+  //     if (found_token) {
+  //       help = "Unexpected token '" + unit.source.buffer.get_text(found_token->slice.span) + "'";
+  //     } else {
+  //       help = "Unexpected token";
+  //     }
+  //     break;
+
+  //   default: help = "Unknown error"; break;
+  //   }
+
+  //   // Chama a função de print centralizada
+  //   diagnostic::print_diagnostic("code", help, slice, unit.source.buffer);
+  // }

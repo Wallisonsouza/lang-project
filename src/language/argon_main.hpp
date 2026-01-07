@@ -2,14 +2,19 @@
 #include "core/token/TokenGroup.hpp"
 #include "core/token/TokenKind.hpp"
 #include "engine/language_context.hpp"
+#include "language/module_console.hpp"
 
 namespace ayla::language {
 
-inline LanguageContext make_lang_context() {
+inline LanguageContext create_context() {
 
   using namespace core::token;
 
   auto context = LanguageContext();
+
+  auto parent = context.modules.create_module("debug");
+  ayla::modules::create_module_console(context, parent);
+  ayla::modules::create_module_math(context);
 
   context.precedence_table.add(TokenKind::Assign, 1, true);
   context.precedence_table.add(TokenKind::Equals, 5, false);

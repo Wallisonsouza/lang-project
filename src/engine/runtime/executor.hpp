@@ -151,4 +151,8 @@ struct Executor {
 
     return Value::Null();
   }
+
+  void execute_ast(CompilationUnit &unit) {
+    for (auto &resolved_node : unit.ast.get_nodes()) { execute_node(unit, resolved_node); }
+  }
 };

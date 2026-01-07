@@ -20,7 +20,7 @@ void Resolver::resolve(core::node::Node *node) {
   case core::node::NodeKind::BooleanLiteral: return;
 
   case core::node::NodeKind::IfStatement: resolve_if_statement(static_cast<parser::node::IfStatementNode *>(node)); break;
-  case core::node::NodeKind::Block: resolve_block_node(static_cast<parser::node::BlockNode *>(node)); break;
+  case core::node::NodeKind::Block: resolve_block(static_cast<parser::node::BlockNode *>(node)); break;
   case core::node::NodeKind::BinaryExpression: resolve_binary_expression(static_cast<parser::node::BinaryExpressionNode *>(node)); break;
 
   case core::node::NodeKind::PathExpression: resolve_path(static_cast<parser::node::statement::PathExprNode *>(node)); break;
@@ -50,6 +50,6 @@ void Resolver::resolve(core::node::Node *node) {
   }
 }
 
-void Resolver::resolve_ast(CompilationUnit &unit) {
+void Resolver::resolve_ast() {
   for (auto *node : unit.ast.get_nodes()) { resolve(node); }
 }
