@@ -6,7 +6,7 @@ core::node::ExpressionNode *Parser::parse_binary_expression(int min_precedence, 
   if (!left) return nullptr;
 
   while (true) {
-    auto *tok = stream.peek();
+    auto *tok = unit.tokens.peek();
     if (!tok) break;
 
     int prec = unit.context.precedence_table.get_precedence(tok->descriptor->kind);
@@ -14,7 +14,7 @@ core::node::ExpressionNode *Parser::parse_binary_expression(int min_precedence, 
 
     bool right_assoc = unit.context.precedence_table.is_right_associative(tok->descriptor->kind);
 
-    stream.advance();
+    unit.tokens.advance();
 
     auto *right = parse_primary_expression();
     if (!right) return nullptr;
@@ -22,7 +22,7 @@ core::node::ExpressionNode *Parser::parse_binary_expression(int min_precedence, 
     int next_min_prec = right_assoc ? prec : prec + 1;
 
     while (true) {
-      auto *next = stream.peek();
+      auto *next = unit.tokens.peek();
       if (!next) break;
 
       int next_prec = unit.context.precedence_table.get_precedence(next->descriptor->kind);

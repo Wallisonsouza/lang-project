@@ -14,15 +14,15 @@
 
 core::node::StatementNode *Parser::parse_import_statement() {
 
-  if (!stream.try_match(core::token::TokenKind::UseKeyword)) return nullptr;
+  if (!unit.tokens.try_match(core::token::TokenKind::UseKeyword)) return nullptr;
 
   std::vector<parser::node::IdentifierNode *> path_nodes;
 
   while (true) {
-    auto name_token = stream.try_match(core::token::TokenKind::Identifier);
+    auto name_token = unit.tokens.try_match(core::token::TokenKind::Identifier);
     if (!name_token) {
 
-      report_error(DiagnosticCode::ExpectedToken, stream.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Identifier, .found = stream.peek()});
+      report_error(DiagnosticCode::ExpectedToken, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Identifier, .found = unit.tokens.peek()});
       break;
     };
 
@@ -30,33 +30,33 @@ core::node::StatementNode *Parser::parse_import_statement() {
     auto *id_node = unit.ast.create_node<parser::node::IdentifierNode>(name);
     path_nodes.push_back(id_node);
 
-    auto next = stream.peek();
+    auto next = unit.tokens.peek();
     if (!next) break;
 
-    if (stream.try_match(core::token::TokenKind::DoubleColon)) continue;
+    if (unit.tokens.try_match(core::token::TokenKind::DoubleColon)) continue;
 
-    report_error(DiagnosticCode::ExpectedToken, stream.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::DoubleColon, .found = stream.peek()});
+    report_error(DiagnosticCode::ExpectedToken, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::DoubleColon, .found = unit.tokens.peek()});
 
-    stream.advance();
+    unit.tokens.advance();
   }
 
   if (path_nodes.empty()) return nullptr;
 
   std::optional<std::string> alias;
-  auto as_tok = stream.peek();
+  auto as_tok = unit.tokens.peek();
   if (as_tok && as_tok->descriptor->kind == core::token::TokenKind::AsKeyword) {
-    stream.advance();
-    auto id_tok = stream.peek();
+    unit.tokens.advance();
+    auto id_tok = unit.tokens.peek();
     if (!id_tok || id_tok->descriptor->kind != core::token::TokenKind::Identifier) {
       // unit.diagnostics.emit(DiagnosticCode::ExpectedToken, core::token::TokenKind::AsKeyword, id_tok);
       return nullptr;
     }
     alias = unit.source.buffer.get_text(id_tok->slice.span);
-    stream.advance();
+    unit.tokens.advance();
   }
 
   auto *node = unit.ast.create_node<parser::node::statement::ImportNode>(std::move(path_nodes));
   node->alias = std::move(alias);
-  node->slice = stream.last_slice();
+  node->slice = unit.tokens.last_slice();
   return node;
 }

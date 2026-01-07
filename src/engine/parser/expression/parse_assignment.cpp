@@ -4,7 +4,7 @@
 
 core::node::ExpressionNode *Parser::parse_assignment(core::node::ExpressionNode *target) {
 
-  if (!stream.match(core::token::TokenKind::Assign)) { return nullptr; }
+  if (!unit.tokens.match(core::token::TokenKind::Assign)) { return nullptr; }
 
   auto *value = parse_expression();
 

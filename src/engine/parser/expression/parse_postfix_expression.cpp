@@ -6,7 +6,7 @@ core::node::ExpressionNode *Parser::parse_postfix_expression() {
   if (!expr) return nullptr;
 
   while (true) {
-    auto *tok = stream.peek();
+    auto *tok = unit.tokens.peek();
     if (!tok) break;
 
     switch (tok->descriptor->kind) {
@@ -14,11 +14,11 @@ core::node::ExpressionNode *Parser::parse_postfix_expression() {
     case core::token::TokenKind::OpenParen: expr = finish_call(expr); break;
 
     case core::token::TokenKind::Dot:
-      // expr = parse_member_access(unit, stream, expr);
+      // expr = parse_member_access(unit, unit.tokens, expr);
       break;
 
     case core::token::TokenKind::OpenBracket:
-      // expr = parse_index_access(unit, stream, expr);
+      // expr = parse_index_access(unit, unit.tokens, expr);
       break;
 
     default: return expr;

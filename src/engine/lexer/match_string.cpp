@@ -1,6 +1,6 @@
 #include "lexer.hpp"
 
-core::token::Token *Lexer::match_string(core::source::TextStream &stream, LanguageContext &context, core::token::TokenStream &out) {
+core::token::Token *Lexer::match_string() {
   char32_t quote = stream.peek();
 
   if (quote != U'"' && quote != U'\'') { return nullptr; }
@@ -44,7 +44,7 @@ core::token::Token *Lexer::match_string(core::source::TextStream &stream, Langua
     return nullptr;
   }
 
-  auto descriptor = context.descriptor_table.lookup_by_kind(core::token::TokenKind::StringLiteral);
+  auto descriptor = unit.context.descriptor_table.lookup_by_kind(core::token::TokenKind::StringLiteral);
 
-  return out.create_token<core::token::Token>(descriptor, slice);
+  return unit.tokens.create_token<core::token::Token>(descriptor, slice);
 }

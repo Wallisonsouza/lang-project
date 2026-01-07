@@ -1,3 +1,6 @@
+#include "core/managers/compilation_unit_manager.hpp"
+#include "core/managers/execution_unit_manager.hpp"
+#include "core/managers/surce_manager.hpp"
 #include "core/memory/Arena.hpp"
 #include "core/source/Source.hpp"
 #include "core/token/Location.hpp"
@@ -14,26 +17,24 @@
 #include "language/module_console.hpp"
 #include <string>
 
-class SourceManager {
-  core::memory::Arena arena;
-
-public:
-  core::source::Source *create_source(const std::string &path) { return arena.create<core::source::Source>(path); }
-};
-
 class Engine {
 
   LanguageContext &context;
-  SourceManager sources;
+
+  SourceManager src_manager;
+  CompilationUnitManager cu_manage;
+  ExecutionUnitManager eu_manager;
 
 public:
   Engine(LanguageContext &context) : context(context) {}
 
-  CompilationUnit create_unit(const std::string &path) {
+  ExecutionUnit *create_execution(const std::string &path) {
 
-    auto source = sources.create_source(path);
+    auto source = src_manager.create_source(path);
 
-    return CompilationUnit(context, *source);
+    auto compilation = cu_manage.create_compilation_unit(context, *source);
+
+    return eu_manager.create_execution_unit(*compilation);
   }
 };
 
@@ -45,29 +46,17 @@ int main() {
   ayla::modules::create_module_console(context, parent);
   ayla::modules::create_module_math(context);
 
+
+  
+
   auto engine = Engine(context);
 
-  auto unit = engine.create_unit("/home/wallison/Documentos/git/ayla/src/examples/test.orb");
+  auto exec = engine.create_execution("/home/wallison/Documentos/git/ayla/src/examples/test.orb");
 
-  unit.exec();
+  exec->execute();
 
-  debug::engine::dump_tokens(unit.tokens);
-
-  Parser parser(unit, unit.tokens);
-
-  while (!unit.tokens.is_end()) {
-    auto node = parser.call_parser();
-    if (node) {
-      unit.ast.add_root(node);
-    } else {
-      unit.tokens.advance();
-    }
-  }
-
-  for (auto &node : unit.ast.get_nodes()) {
-    debug::node::debug_node(node, "", true);
-    std::cout << std::endl;
-  }
+  debug::engine::dump_tokens(exec->comp_unit.tokens);
+  debug::node::dump_ast(exec->comp_unit.ast);
 
   // for (auto &diag : unit.diagns.all()) {
   //   std::string help;

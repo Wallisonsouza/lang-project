@@ -3,7 +3,7 @@
 #include "engine/parser/parser.hpp"
 
 core::node::StatementNode *Parser::parse_statement() {
-  auto *tok = stream.peek();
+  auto *tok = unit.tokens.peek();
   if (!tok) return nullptr;
 
   // import
@@ -29,16 +29,16 @@ core::node::StatementNode *Parser::parse_statement() {
   case core::node::NodeKind::FunctionCall:
   case core::node::NodeKind::Assignment:
     break; // OK
-    // default: unit.diagnostics.emit({DiagnosticCode::InvalidExpressionStatement, stream.last_slice(), {}}, unit); return nullptr;
+    // default: unit.diagnostics.emit({DiagnosticCode::InvalidExpressionStatement, unit.tokens.last_slice(), {}}, unit); return nullptr;
   }
 
   auto *stmt = unit.ast.create_node<core::node::ExpressionStatementNode>(expr);
 
-  auto *end = stream.peek();
+  auto *end = unit.tokens.peek();
   if (end && end->descriptor->kind == core::token::TokenKind::Semicolon) {
-    stream.advance();
+    unit.tokens.advance();
   } else {
-    // unit.diagnostics.emit({DiagnosticCode::ExpectedToken, stream.last_slice(), {.found = end, .expected = core::token::TokenKind::Semicolon}}, unit);
+    // unit.diagnostics.emit({DiagnosticCode::ExpectedToken, unit.tokens.last_slice(), {.found = end, .expected = core::token::TokenKind::Semicolon}}, unit);
   }
 
   return stmt;

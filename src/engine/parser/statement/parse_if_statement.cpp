@@ -8,32 +8,32 @@
 
 core::node::StatementNode *Parser::parse_if_statement() {
 
-  if (!stream.match(core::token::TokenKind::IfKeyword)) return nullptr;
+  if (!unit.tokens.match(core::token::TokenKind::IfKeyword)) return nullptr;
 
   auto *condition = parse_expression();
 
   if (!condition) {
-    // unit.diagnostics.emit({DiagnosticCode::ExpectedExpression, stream.last_slice(), {}});
+    // unit.diagnostics.emit({DiagnosticCode::ExpectedExpression, unit.tokens.last_slice(), {}});
     return nullptr;
   }
 
   if (condition->kind == core::node::NodeKind::Assignment) {
-    // unit.diagnostics.emit({DiagnosticCode::NoCode, stream.last_slice(), {}});
+    // unit.diagnostics.emit({DiagnosticCode::NoCode, unit.tokens.last_slice(), {}});
     return nullptr;
   }
 
   auto *then_block = parse_block();
   if (!then_block) {
     std::cout << "if não tem um bloco";
-    // unit.diagnostics.emit({DiagnosticCode::NoCode, stream.last_slice(), {}});
+    // unit.diagnostics.emit({DiagnosticCode::NoCode, unit.tokens.last_slice(), {}});
     return nullptr;
   }
 
   parser::node::BlockNode *else_block = nullptr;
-  if (stream.match(core::token::TokenKind::Else)) {
+  if (unit.tokens.match(core::token::TokenKind::Else)) {
     else_block = parse_block();
     if (!else_block) {
-      // unit.diagnostics.emit({DiagnosticCode::NoCode, stream.last_slice(), {}});
+      // unit.diagnostics.emit({DiagnosticCode::NoCode, unit.tokens.last_slice(), {}});
       return nullptr;
     }
   }

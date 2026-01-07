@@ -3,14 +3,12 @@
 #include "core/node/Node.hpp"
 #include "core/node/Type.hpp"
 #include "core/token/Location.hpp"
-#include "core/token/TokenKind.hpp"
 #include "diagnostic/Diagnostic.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 
 struct Parser {
   CompilationUnit &unit;
-  core::token::TokenStream &stream;
 
   core::node::TypeNode *parse_type();
 
@@ -39,6 +37,18 @@ public:
   core::node::FunctionParameterNode *parse_function_parameter();
 
   core::node::Node *call_parser() { return parse_statement(); }
+
+  void generate_ast() {
+
+    while (!unit.tokens.is_end()) {
+      auto node = call_parser();
+      if (node) {
+        unit.ast.add_root(node);
+      } else {
+        unit.tokens.advance();
+      }
+    }
+  }
 
   void report_error(const DiagnosticCode code, const Slice &slice, DiagnosticToken opt = {}) { unit.diagns.report({.code = code, .slice = slice, .token = opt}); };
 };

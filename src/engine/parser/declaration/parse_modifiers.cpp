@@ -4,7 +4,7 @@
 core::node::Modifiers Parser::parse_modifiers() {
   core::node::Modifiers mods;
 
-  while (auto *tok = stream.peek()) {
+  while (auto *tok = unit.tokens.peek()) {
     switch (tok->descriptor->kind) {
     case core::token::TokenKind::Value: mods.add(core::node::Modifier::Value); break;
     case core::token::TokenKind::Static: mods.add(core::node::Modifier::Static); break;
@@ -13,7 +13,7 @@ core::node::Modifiers Parser::parse_modifiers() {
     case core::token::TokenKind::Private: mods.add(core::node::Modifier::Private); break;
     default: return mods;
     }
-    stream.advance();
+    unit.tokens.advance();
   }
 
   return mods;

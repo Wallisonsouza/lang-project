@@ -5,43 +5,35 @@
 #include "engine/parser/parser.hpp"
 
 core::node::ExpressionNode *Parser::parse_path_expression() {
-  stream.add_checkpoint();
+  unit.tokens.add_checkpoint();
 
-  auto id_tok = stream.peek();
+  auto id_tok = unit.tokens.peek();
 
-  if (!id_tok ||
-      id_tok->descriptor->kind != core::token::TokenKind::Identifier) {
-    stream.rollback_checkpoint();
+  if (!id_tok || id_tok->descriptor->kind != core::token::TokenKind::Identifier) {
+    unit.tokens.rollback_checkpoint();
     return nullptr;
   }
 
   std::vector<parser::node::IdentifierNode *> segments;
 
   while (true) {
-    auto id_tok = stream.peek();
-    if (!id_tok ||
-        id_tok->descriptor->kind != core::token::TokenKind::Identifier)
-      break;
+    auto id_tok = unit.tokens.peek();
+    if (!id_tok || id_tok->descriptor->kind != core::token::TokenKind::Identifier) break;
 
-    auto *id_node = unit.ast.create_node<parser::node::IdentifierNode>(
-        unit.source.buffer.get_text(id_tok->slice.span));
+    auto *id_node = unit.ast.create_node<parser::node::IdentifierNode>(unit.source.buffer.get_text(id_tok->slice.span));
     segments.push_back(id_node);
 
-    stream.advance();
+    unit.tokens.advance();
 
-    auto sep_tok = stream.peek();
-    if (!sep_tok ||
-        sep_tok->descriptor->kind != core::token::TokenKind::DoubleColon)
-      break;
+    auto sep_tok = unit.tokens.peek();
+    if (!sep_tok || sep_tok->descriptor->kind != core::token::TokenKind::DoubleColon) break;
 
-    stream.advance();
+    unit.tokens.advance();
   }
 
-  stream.discard_checkpoint();
+  unit.tokens.discard_checkpoint();
 
-  if (segments.empty())
-    return nullptr;
+  if (segments.empty()) return nullptr;
 
-  return unit.ast.create_node<parser::node::statement::PathExprNode>(
-      std::move(segments));
+  return unit.ast.create_node<parser::node::statement::PathExprNode>(std::move(segments));
 }

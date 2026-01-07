@@ -8,36 +8,36 @@
 
 core::node::TypeNode *Parser::parse_type() {
 
-  auto name_token = stream.try_match(core::token::TokenKind::Identifier);
+  auto name_token = unit.tokens.try_match(core::token::TokenKind::Identifier);
   if (!name_token) { return nullptr; }
 
   auto type_name = unit.source.buffer.get_text(name_token->slice.span);
 
   std::vector<core::node::TypeNode *> generic_args;
 
-  // tok = stream.peek();
+  // tok = unit.tokens.peek();
   // if (tok && tok->descriptor->kind == core::token::TokenKind::LessThan) {
-  //   stream.advance();
+  //   unit.tokens.advance();
   //   while (true) {
   //     auto arg = parse_type();
   //     if (!arg) { arg = unit.ast.create_node<core::node::TypeNode>("<missing>", generic_args); }
   //     generic_args.push_back(arg);
 
-  //     tok = stream.peek();
+  //     tok = unit.tokens.peek();
   //     if (tok && tok->descriptor->kind == core::token::TokenKind::Comma) {
-  //       stream.advance();
+  //       unit.tokens.advance();
   //     } else {
   //       break;
   //     }
   //   }
 
-  //   tok = stream.peek();s
+  //   tok = unit.tokens.peek();s
   //   if (!tok || tok->descriptor->kind != core::token::TokenKind::GreaterThan) {
   //     // Falta do '>' gera apenas um core::node::TypeNode "<missing>" no último
   //     // genérico
   //     generic_args.push_back(unit.ast.create_node<core::node::TypeNode>("<missing>", generic_args));
   //   } else {
-  //     stream.advance();
+  //     unit.tokens.advance();
   //   }
   // }
 

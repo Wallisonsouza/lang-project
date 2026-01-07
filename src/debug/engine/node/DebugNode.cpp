@@ -1,4 +1,5 @@
 #include "DebugNode.hpp"
+#include "core/AST.hpp"
 #include "core/node/NodeKind.hpp"
 #include "core/node/Type.hpp"
 #include "debug/engine/node/debug_binary_expression.hpp"
