@@ -1,7 +1,2 @@
-use debug::console;
-use math;
 
-
-
-
-console::log(math::random(10))
+use debug::10

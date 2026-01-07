@@ -12,8 +12,7 @@ struct Value {
 
   using NativeFn = std::function<Value(const std::vector<Value> &)>;
 
-  using Storage =
-      std::variant<double, bool, std::string, NullValue, VoidValue, NativeFn>;
+  using Storage = std::variant<double, bool, std::string, NullValue, VoidValue, NativeFn>;
 
   Storage data;
 
@@ -33,14 +32,20 @@ struct Value {
   const NativeFn &get_native() const { return std::get<NativeFn>(data); }
 
   std::string convert_to_string() const {
-    if (std::holds_alternative<double>(data))
-      return std::to_string(std::get<double>(data));
-    if (std::holds_alternative<bool>(data))
-      return std::get<bool>(data) ? "true" : "false";
-    if (std::holds_alternative<std::string>(data))
-      return std::get<std::string>(data);
-    if (std::holds_alternative<NativeFn>(data))
-      return "<native function>";
+    if (std::holds_alternative<double>(data)) return std::to_string(std::get<double>(data));
+    if (std::holds_alternative<bool>(data)) return std::get<bool>(data) ? "true" : "false";
+    if (std::holds_alternative<std::string>(data)) return std::get<std::string>(data);
+    if (std::holds_alternative<NativeFn>(data)) return "<native function>";
     return "null";
+  }
+
+  bool as_bool() const {
+    if (std::holds_alternative<bool>(data)) { return std::get<bool>(data); }
+    if (std::holds_alternative<double>(data)) { return std::get<double>(data) != 0.0; }
+    if (std::holds_alternative<std::string>(data)) { return !std::get<std::string>(data).empty(); }
+    if (std::holds_alternative<NullValue>(data)) return false;
+    if (std::holds_alternative<VoidValue>(data)) return false;
+    if (std::holds_alternative<NativeFn>(data)) return true;
+    return false;
   }
 };

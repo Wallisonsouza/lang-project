@@ -39,7 +39,7 @@ core::token::Token *Lexer::match_string() {
 
   if (!closed) {
 
-    unit.diagnostics.emit({DiagnosticCode::UnterminatedString, slice}, unit);
+    // unit.diagnostics.emit({DiagnosticCode::UnterminatedString, slice});
 
     return nullptr;
   }

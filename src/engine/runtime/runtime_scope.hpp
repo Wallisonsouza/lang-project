@@ -4,7 +4,9 @@
 
 struct RuntimeScope {
   std::unordered_map<SymbolId, Value> values;
-  RuntimeScope *parent = nullptr;
+  RuntimeScope *parent;
+
+  RuntimeScope(RuntimeScope *parent = nullptr) : parent(parent) {}
 
   void set(SymbolId id, Value val) { values[id] = val; }
 

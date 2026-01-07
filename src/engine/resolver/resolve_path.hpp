@@ -29,7 +29,7 @@ inline SymbolId resolve_path(CompilationUnit &unit, Resolver &resolver, parser::
       } else {
         std::cout << "[resolve_path] Symbol '" << seg->name << "' not founda!\n";
         // Aqui você pode emitir um erro no CompilationUnit
-        unit.diagnostics.emit({DiagnosticCode::UndeclaredSymbol, seg->slice}, unit);
+        // unit.diagnostics.emit({DiagnosticCode::UndeclaredSymbol, seg->slice});
       }
     } else {
       auto it = current_scope->imports.find(seg->name);

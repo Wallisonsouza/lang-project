@@ -14,10 +14,10 @@ struct CompilationUnit {
   SymbolManager symbols;
   // core::NodeManager nodes;
 
+  DiagnosticEngine diagns;
+
   AST ast;
   core::token::TokenStream tokens;
 
-  DiagnosticEngine diagnostics;
-
-  explicit CompilationUnit(LanguageContext &ctx, core::source::Source &src) : context(ctx), source(src) {}
+  explicit CompilationUnit(LanguageContext &ctx, core::source::Source &src) : context(ctx), source(src), diagns(*this) {}
 };

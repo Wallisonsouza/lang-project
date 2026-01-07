@@ -2,67 +2,48 @@
 #include "engine/parser/node/operator_nodes.hpp"
 #include "engine/parser/parser.hpp"
 
-core::node::ExpressionNode *
-Parser::parse_binary_expression(int min_precedence,
-                                core::node::ExpressionNode *left) {
-  if (!left)
-    return nullptr;
+core::node::ExpressionNode *Parser::parse_binary_expression(int min_precedence, core::node::ExpressionNode *left) {
+  if (!left) return nullptr;
 
   while (true) {
     auto *tok = stream.peek();
-    if (!tok)
-      break;
+    if (!tok) break;
 
-    int prec =
-        unit.context.precedence_table.get_precedence(tok->descriptor->kind);
-    if (prec < min_precedence)
-      break;
+    int prec = unit.context.precedence_table.get_precedence(tok->descriptor->kind);
+    if (prec < min_precedence) break;
 
-    bool right_assoc = unit.context.precedence_table.is_right_associative(
-        tok->descriptor->kind);
+    bool right_assoc = unit.context.precedence_table.is_right_associative(tok->descriptor->kind);
 
     stream.advance();
 
     auto *right = parse_primary_expression();
-    if (!right)
-      return nullptr;
+    if (!right) return nullptr;
 
     int next_min_prec = right_assoc ? prec : prec + 1;
 
     while (true) {
       auto *next = stream.peek();
-      if (!next)
-        break;
+      if (!next) break;
 
-      int next_prec =
-          unit.context.precedence_table.get_precedence(next->descriptor->kind);
+      int next_prec = unit.context.precedence_table.get_precedence(next->descriptor->kind);
 
-      if (next_prec < next_min_prec)
-        break;
+      if (next_prec < next_min_prec) break;
 
       right = parse_binary_expression(next_min_prec, right);
     }
 
     core::node::BinaryOperation op;
     switch (tok->descriptor->kind) {
-    case core::token::TokenKind::Plus:
-      op = core::node::BinaryOperation::Add;
-      break;
-    case core::token::TokenKind::Minus:
-      op = core::node::BinaryOperation::Subtract;
-      break;
-    case core::token::TokenKind::Star:
-      op = core::node::BinaryOperation::Multiply;
-      break;
-    case core::token::TokenKind::Slash:
-      op = core::node::BinaryOperation::Divide;
-      break;
-    default:
-      return left;
+    case core::token::TokenKind::Plus: op = core::node::BinaryOperation::Add; break;
+    case core::token::TokenKind::Minus: op = core::node::BinaryOperation::Subtract; break;
+    case core::token::TokenKind::Star: op = core::node::BinaryOperation::Multiply; break;
+    case core::token::TokenKind::Slash: op = core::node::BinaryOperation::Divide; break;
+    case core::token::TokenKind::Equals: op = core::node::BinaryOperation::Equal; break;
+    case core::token::TokenKind::LessThan: op = core::node::BinaryOperation::Less; break;
+    default: return left;
     }
 
-    left = unit.ast.create_node<parser::node::BinaryExpressionNode>(left, op,
-                                                                    right);
+    left = unit.ast.create_node<parser::node::BinaryExpressionNode>(left, op, right);
   }
 
   return left;

@@ -1,16 +1,20 @@
 #pragma once
-#include "core/token/Location.hpp"
-#include "core/token/TokenKind.hpp"
-#include "diagnostic/Diagnostic.hpp"
+#include "Diagnostic.hpp"
+#include <string>
+#include <vector>
 
 struct CompilationUnit;
 class DiagnosticEngine {
+  const CompilationUnit &unit;
+
+  std::vector<Diagnostic> diagnostics;
+
 public:
-  void expected_token(const Slice &where, core::token::TokenKind expected, core::token::TokenKind found);
+  explicit DiagnosticEngine(const CompilationUnit &unit) : unit(unit) {}
+  void report(const Diagnostic &e) { diagnostics.push_back(e); }
+  const std::vector<Diagnostic> &all() const { return diagnostics; }
 
-  void expected_type(const Slice &where, core::token::TokenKind found);
-
-  void expected_expression(const Slice &where, core::token::TokenKind found);
-
-  void emit(Diagnostic diag, const CompilationUnit &unit);
+private:
+  std::string suggest_add(core::token::TokenKind expected);
+  std::string suggest_remove(const core::token::Token *found, core::token::TokenKind expected);
 };

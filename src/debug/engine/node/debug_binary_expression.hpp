@@ -6,28 +6,26 @@
 #include "engine/parser/node/operator_nodes.hpp"
 #include <string>
 
-static void
-debug_binary_expression(const parser::node::BinaryExpressionNode *node,
-                        const std::string &prefix, bool isLast) {
+static void debug_binary_expression(const parser::node::BinaryExpressionNode *node, const std::string &prefix, bool isLast) {
   using namespace debug;
 
-  // Cabeçalho da expressão
+  // Imprime o nó atual
   node::print_prefix(prefix, isLast);
-  Console::log(Color::BrightBlue, "BinaryExpression: ", Color::Purple,
-               core::node::binary_op_to_string(node->op));
+  Console::log(Color::BrightBlue, "BinaryExpression: ", Color::Purple, core::node::binary_op_to_string(node->op));
 
-  // Prefixo para os filhos
-  auto info_prefix = node::next_prefix(prefix, isLast);
-  auto child_prefix = node::next_prefix(info_prefix, isLast);
+  auto child_prefix = node::next_prefix(prefix, isLast);
+
   // Lado esquerdo
-  node::print_prefix(info_prefix, false);
-  Console::log(Color::BrightBlue, "Left:");
-
-  debug::node::debug_node(node->left, child_prefix, true);
+  if (node->left) {
+    node::print_prefix(child_prefix, !node->right); // se não houver right, left é último
+    Console::log(Color::BrightBlue, "Left:");
+    node::debug_node(node->left, node::next_prefix(child_prefix, !node->right), !node->right);
+  }
 
   // Lado direito
-  node::print_prefix(info_prefix, true);
-  Console::log(Color::BrightBlue, "Right:");
-
-  debug::node::debug_node(node->right, child_prefix, true);
+  if (node->right) {
+    node::print_prefix(child_prefix, true); // sempre último
+    Console::log(Color::BrightBlue, "Right:");
+    node::debug_node(node->right, node::next_prefix(child_prefix, true), true);
+  }
 }

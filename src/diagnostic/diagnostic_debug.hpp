@@ -134,29 +134,23 @@ inline void print_diagnostic(const std::string &message, const std::string &help
   debug::Console::log(ARROW, "--> ", LINE_INFO, "line ", LINE_INFO, std::to_string(slice.range.begin.line), LINE_INFO, " col ", LINE_INFO, std::to_string(slice.range.begin.column), LINE_INFO, "..",
                       LINE_INFO, std::to_string(slice.range.end.column));
 
-  // ----------------------------------------------------------
-  // SINGLE LINE
-  // ----------------------------------------------------------
-  if (!is_multiline(slice)) {
-    auto line_sv = buffer.get_line(slice.range.begin.line);
-    auto cut = cut_line(line_sv, slice.span, CUT, CUT);
+  auto line_sv = buffer.get_line(slice.range.begin.line);
+  auto cut = cut_line(line_sv, slice.span, CUT, CUT);
 
-    std::ostringstream ln;
-    ln << slice.range.begin.line;
-    size_t ln_width = ln.str().size();
+  std::ostringstream ln;
+  ln << slice.range.begin.line;
+  size_t ln_width = ln.str().size();
 
-    // código
-    debug::Console::log(LINE_NO, ln.str(), SEP, " | ", CODE_TEXT, cut.text);
+  debug::Console::log(LINE_NO, ln.str(), SEP, " | ", CODE_TEXT, cut.text);
 
-    // ~~~~
-    debug::Console::log(LINE_NO, std::string(ln_width, ' '), SEP, " | ", TILDE, fill_line(cut.start, cut.end, slice.span.begin, slice.span.end, cut.prefix_offset));
+  debug::Console::log(LINE_NO, std::string(ln_width, ' '), SEP, " | ", TILDE, fill_line(cut.start, cut.end, slice.span.begin, slice.span.end, cut.prefix_offset));
 
-    // ^ + help
-    debug::Console::log(LINE_NO, std::string(ln_width, ' '), SEP, " | ", CARET, fill_line(cut.start, cut.end, slice.span.begin, slice.span.end, cut.prefix_offset, "", " ") + "└─▶  ", HELP_TEXT,
-                        "help: ", help);
+  int caret_pos = static_cast<int>(slice.span.begin - cut.start) + cut.prefix_offset;
+  std::string caret_line(caret_pos, ' ');
+  caret_line += "└─▶ ";
 
-    std::cout << std::endl;
-  }
+  debug::Console::log(LINE_NO, std::string(ln_width, ' '), SEP, " | ", CARET, caret_line, HELP_TEXT, " help: ", help);
+
+  std::cout << std::endl;
 }
-
 } // namespace diagnostic

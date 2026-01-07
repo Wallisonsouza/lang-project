@@ -12,15 +12,23 @@ inline LanguageContext make_lang_context() {
   auto context = LanguageContext();
 
   context.precedence_table.add(TokenKind::Assign, 1, true);
+  context.precedence_table.add(TokenKind::Equals, 5, false);
+
+  context.precedence_table.add(TokenKind::LessThan, 6, false);
 
   context.precedence_table.add(TokenKind::Plus, 10, false);
   context.precedence_table.add(TokenKind::Minus, 10, false);
-
   context.precedence_table.add(TokenKind::Star, 20, false);
   context.precedence_table.add(TokenKind::Slash, 20, false);
 
-  context.descriptor_table.add(TokenKind::AsKeyword, "as", TokenGroup::Keyword);
+  // context.precedence_table.add(TokenKind::NotEqual, 5, false);     // !=
 
+  // context.precedence_table.add(TokenKind::LessEqual, 6, false);    // <=
+  // context.precedence_table.add(TokenKind::Greater, 6, false);      // >
+  // context.precedence_table.add(TokenKind::GreaterEqual, 6, false); // >=
+
+  context.descriptor_table.add(TokenKind::AsKeyword, "as", TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::IfKeyword, "if", TokenGroup::Keyword);
   context.descriptor_table.add(TokenKind::FunctionKeyword, "fn", TokenGroup::Keyword);
   context.descriptor_table.add(TokenKind::UseKeyword, "use", TokenGroup::Keyword);
 

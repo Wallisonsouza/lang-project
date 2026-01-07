@@ -11,8 +11,7 @@ struct Token {
 
   constexpr Token() = default;
 
-  constexpr Token(const TokenDescriptor *desc, Slice slice)
-      : descriptor(desc), slice(slice) {}
+  constexpr Token(const TokenDescriptor *desc, Slice slice) : descriptor(desc), slice(slice) {}
 };
 
 } // namespace core::token

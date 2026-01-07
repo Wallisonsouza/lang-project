@@ -8,18 +8,18 @@
 
 namespace parser::node {
 
-struct IfStatementNode : core::node::StatementNode {
-  core::node::ExpressionNode *condition;
-  std::vector<core::node::StatementNode *> then_body;
-  std::vector<core::node::StatementNode *> else_body;
-
-  IfStatementNode() : StatementNode(core::node::NodeKind::IfStatement) {}
-};
-
 struct BlockNode : core::node::StatementNode {
   std::vector<core::node::StatementNode *> statements;
-
   explicit BlockNode(std::vector<core::node::StatementNode *> stmts = {}) : StatementNode(core::node::NodeKind::Block), statements(std::move(stmts)) {}
+};
+
+struct IfStatementNode : core::node::StatementNode {
+  core::node::ExpressionNode *condition;
+  BlockNode *then_body;
+  BlockNode *else_body;
+
+  IfStatementNode(core::node::ExpressionNode *condition = nullptr, BlockNode *then_body = nullptr, BlockNode *else_body = nullptr)
+      : condition(condition), then_body(then_body), else_body(else_body), StatementNode(core::node::NodeKind::IfStatement) {}
 };
 
 struct VariableDeclarationNode : core::node::StatementNode {

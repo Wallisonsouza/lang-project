@@ -2,6 +2,7 @@
 #include <cstdint>
 
 namespace core::token {
+
 enum class TokenKind : uint8_t {
   Static,
   Mut,
@@ -24,7 +25,7 @@ enum class TokenKind : uint8_t {
   AsKeyword,
 
   Function,    // Representa a palavra-chave 'function' em uma linguagem.
-  If,          // Representa a palavra-chave 'if'.
+  IfKeyword,   // Representa a palavra-chave 'if'.
   Else,        // Representa a palavra-chave 'else'.
   While,       // Representa a palavra-chave 'while'.
   For,         // Representa a palavra-chave 'for'.
@@ -54,15 +55,15 @@ enum class TokenKind : uint8_t {
   CloseBrace, // Representa a chave direita '}'.
   Semicolon,  // Representa o ponto e vírgula ';'.
   Dot,
-  Alias,      // Representa um alias (como 'type alias' em algumas linguagens).
-  Identifier, // Representa nomes de variáveis, funções ou outros
-              // identificadores.
+  Alias,         // Representa um alias (como 'type alias' em algumas linguagens).
+  Identifier,    // Representa nomes de variáveis, funções ou outros
+                 // identificadores.
   NumberLiteral, // Representa um literal numérico, como 42 ou 3.14.
   StringLiteral, // Representa um literal de string, como "texto".
   NullLiteral,   // Representa o valor nulo 'null'.
   CharLiteral,   // Representa um literal de caractere, como 'a'.
   BoolLiteral,   // Representa um literal booleano: true ou false.
-  EndOfFile, // Representa o fim do arquivo, usado para indicar que não há mais
-             // tokens.
+  EndOfFile,     // Representa o fim do arquivo, usado para indicar que não há mais
+                 // tokens.
 };
 }

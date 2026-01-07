@@ -55,6 +55,14 @@ public:
     return true;
   }
 
+  Token *try_match(TokenKind kind) {
+    if (auto *tok = peek(); tok && tok->descriptor->kind == kind) {
+      advance();
+      return tok;
+    }
+    return nullptr;
+  }
+
   // -----------------------------
   // Consumo e avanço
   // -----------------------------
@@ -69,6 +77,11 @@ public:
       last_token_ = tokens_[pos_];
       ++pos_;
     }
+  }
+
+  inline bool peek(TokenKind k, size_t offset = 0) const noexcept {
+    auto *tok = peek(offset);
+    return tok && tok->descriptor && tok->descriptor->kind == k;
   }
 
   inline void reset(size_t p) noexcept { pos_ = (p <= tokens_.size()) ? p : tokens_.size(); }

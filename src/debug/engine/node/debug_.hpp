@@ -4,9 +4,7 @@
 #include "debug/console/console.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
 
-static void
-debug_expression_statement(const core::node::ExpressionStatementNode *node,
-                           const std::string &prefix, bool isLast) {
+static void debug_expression_statement(const core::node::ExpressionStatementNode *node, const std::string &prefix, bool isLast) {
   using namespace debug;
 
   node::print_prefix(prefix, isLast);
@@ -17,9 +15,7 @@ debug_expression_statement(const core::node::ExpressionStatementNode *node,
   node::debug_node(node->expr, child_prefix, true);
 }
 
-static void
-debug_assing_node(const parser::node::statement::AssignmentNode *node,
-                  const std::string &prefix, bool isLast) {
+static void debug_assing_node(const parser::node::statement::AssignmentNode *node, const std::string &prefix, bool isLast) {
   using namespace debug;
 
   node::print_prefix(prefix, isLast);

@@ -1,9 +1,6 @@
-// resolver/Resolver.hpp
 #pragma once
 #include "core/module/scope.hpp"
 #include "core/node/Node.hpp"
-#include "core/token/Location.hpp"
-#include "diagnostic/DiagnosticCode.hpp"
 #include "diagnostic/DiagnosticEngine.hpp"
 #include "engine/CompilationUnit.hpp"
 
@@ -12,7 +9,6 @@ namespace resolver {
 struct Resolver {
 
   core::Scope *current_scope;
-  DiagnosticEngine *diag_target;
 
   explicit Resolver(core::Scope *global) : current_scope(global) {}
 
@@ -20,8 +16,6 @@ struct Resolver {
   void resolve_ast(CompilationUnit &unit);
   void push_scope();
   void pop_scope();
-
-  void report_error(DiagnosticCode code, Slice slice);
 };
 
 } // namespace resolver

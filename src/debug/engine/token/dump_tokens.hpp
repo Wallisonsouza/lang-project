@@ -13,18 +13,12 @@ namespace debug::engine {
 constexpr const char *token_group_to_str(core::token::TokenGroup grp) {
   using G = core::token::TokenGroup;
   switch (grp) {
-  case G::Name:
-    return "Name";
-  case G::Keyword:
-    return "Keyword";
-  case G::Operator:
-    return "Operator";
-  case G::Punctuation:
-    return "Punctuation";
-  case G::Error:
-    return "Error";
-  case G::Literal:
-    return "Literal";
+  case G::Name: return "Name";
+  case G::Keyword: return "Keyword";
+  case G::Operator: return "Operator";
+  case G::Punctuation: return "Punctuation";
+  case G::Error: return "Error";
+  case G::Literal: return "Literal";
   }
   return "<UnknownGroup>";
 }
@@ -32,60 +26,33 @@ constexpr const char *token_group_to_str(core::token::TokenGroup grp) {
 constexpr const char *token_kind_to_str(core::token::TokenKind kin) {
   using K = core::token::TokenKind;
   switch (kin) {
-  case K::UseKeyword:
-    return "UseKeyword";
-  case K::Dot:
-    return "Dot";
-  case K::Function:
-    return "Function";
-  case K::If:
-    return "If";
-  case K::Else:
-    return "Else";
-  case K::While:
-    return "While";
-  case K::For:
-    return "For";
-  case K::Return:
-    return "Return";
-  case K::Equals:
-    return "Equals";
-  case K::Assign:
-    return "Assign";
-  case K::Ternary:
-    return "Ternary";
-  case K::Plus:
-    return "Plus";
-  case K::Minus:
-    return "Minus";
-  case K::Star:
-    return "Star";
-  case K::Slash:
-    return "Slash";
-  case K::Colon:
-    return "Colon";
-  case K::Comma:
-    return "Comma";
-  case K::Semicolon:
-    return "Semicolon";
-  case K::OpenParen:
-    return "LParen";
-  case K::CloseParen:
-    return "RParen";
-  case K::OpenBrace:
-    return "LBrace";
-  case K::CloseBrace:
-    return "RBrace";
-  case K::Identifier:
-    return "Identifier";
-  case K::NumberLiteral:
-    return "NumberLiteral";
-  case K::StringLiteral:
-    return "StringLiteral";
-  case K::Space:
-    return "Space";
-  case K::EndOfFile:
-    return "EndOfFile";
+  case K::UseKeyword: return "UseKeyword";
+  case K::Dot: return "Dot";
+  case K::Function: return "Function";
+  case K::IfKeyword: return "If";
+  case K::Else: return "Else";
+  case K::While: return "While";
+  case K::For: return "For";
+  case K::Return: return "Return";
+  case K::Equals: return "Equals";
+  case K::Assign: return "Assign";
+  case K::Ternary: return "Ternary";
+  case K::Plus: return "Plus";
+  case K::Minus: return "Minus";
+  case K::Star: return "Star";
+  case K::Slash: return "Slash";
+  case K::Colon: return "Colon";
+  case K::Comma: return "Comma";
+  case K::Semicolon: return "Semicolon";
+  case K::OpenParen: return "LParen";
+  case K::CloseParen: return "RParen";
+  case K::OpenBrace: return "LBrace";
+  case K::CloseBrace: return "RBrace";
+  case K::Identifier: return "Identifier";
+  case K::NumberLiteral: return "NumberLiteral";
+  case K::StringLiteral: return "StringLiteral";
+  case K::Space: return "Space";
+  case K::EndOfFile: return "EndOfFile";
   }
   return "<UnknownKind>";
 }
@@ -98,8 +65,7 @@ inline std::string sanitize_text(std::string text, size_t max = 40) {
       c = '>';
   }
 
-  if (text.size() > max)
-    text = text.substr(0, max) + "...";
+  if (text.size() > max) text = text.substr(0, max) + "...";
 
   return text;
 }
@@ -123,11 +89,8 @@ inline void dump_token(const core::token::Token &token) {
       << "  " << "kind " << ": " << kind << "\n"
       << "  " << "group" << ": " << group << "\n"
       << "  " << "text " << ": \"" << text << "\"\n"
-      << "  range : " << token.slice.range.begin.line << ":"
-      << token.slice.range.begin.column << " → " << token.slice.range.end.line
-      << ":" << token.slice.range.end.column << "\n"
-      << "  offset: " << token.slice.range.begin.offset << " → "
-      << token.slice.range.end.offset << "\n"
+      << "  range : " << token.slice.range.begin.line << ":" << token.slice.range.begin.column << " → " << token.slice.range.end.line << ":" << token.slice.range.end.column << "\n"
+      << "  offset: " << token.slice.range.begin.offset << " → " << token.slice.range.end.offset << "\n"
       << "}";
 
   Console::debug(oss.str());
@@ -135,8 +98,6 @@ inline void dump_token(const core::token::Token &token) {
 
 inline void dump_tokens(core::token::TokenStream &tokens) {
 
-  for (auto &token : tokens.get_tokens()) {
-    dump_token(*token);
-  }
+  for (auto &token : tokens.get_tokens()) { dump_token(*token); }
 }
 } // namespace debug::engine

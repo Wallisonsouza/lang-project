@@ -2,6 +2,8 @@
 
 namespace core::node {
 
+enum class NodeKindBase { Expression, Statement, Type, Pattern, Unknown };
+
 enum class NodeKind {
   // === Base ===
   Unknown = 0,

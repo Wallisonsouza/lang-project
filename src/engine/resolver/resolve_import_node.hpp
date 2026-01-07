@@ -2,7 +2,6 @@
 
 #include "Resolver.hpp"
 #include "core/module/module.hpp"
-#include "diagnostic/DiagnosticCode.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
 
@@ -19,7 +18,7 @@ inline void resolve_import_node(CompilationUnit &unit, Resolver &resolver, parse
   core::Module *module = modules.get(module_id);
 
   if (module_id == core::INVALID_MODULE || !module) {
-    unit.diagnostics.emit({DiagnosticCode::ModuleNotFound, node->slice}, unit);
+    // unit.diagnostics.emit({DiagnosticCode::ModuleNotFound, node->slice});
     return;
   }
 

@@ -15,6 +15,8 @@
 #define ANSI_BOLD_YELLOW "\033[1;33m"
 #define ANSI_BOLD_RED "\033[1;31m"
 
+// stdlib_decl.cpp
+
 namespace ayla::modules {
 
 inline core::node::NativeFunctionDeclarationNode *
@@ -53,6 +55,7 @@ inline void create_module_console(LanguageContext &context, core::ModuleId paren
 }
 
 inline void create_module_math(LanguageContext &context, core::ModuleId parent = core::INVALID_MODULE) {
+
   core::ModuleId math_module_id = context.modules.create_module("math", parent);
   auto *module = context.modules.get(math_module_id);
 

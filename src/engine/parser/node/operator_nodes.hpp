@@ -6,16 +6,13 @@
 namespace parser::node {
 
 struct BinaryExpressionNode : core::node::ExpressionNode {
-  
+
   core::node::ExpressionNode *left;
   core::node::BinaryOperation op;
   core::node::ExpressionNode *right;
 
-  BinaryExpressionNode(core::node::ExpressionNode *l,
-                       core::node::BinaryOperation o,
-                       core::node::ExpressionNode *r)
-      : ExpressionNode(core::node::NodeKind::BinaryExpression), left(l), op(o),
-        right(r) {}
+  BinaryExpressionNode(core::node::ExpressionNode *l, core::node::BinaryOperation o, core::node::ExpressionNode *r)
+      : ExpressionNode(core::node::NodeKind::BinaryExpression), left(l), op(o), right(r) {}
 };
 
 } // namespace parser::node

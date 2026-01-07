@@ -11,6 +11,7 @@
 
 #include "engine/resolver/resolve_binary_expression.hpp"
 #include "engine/resolver/resolve_identifier.hpp"
+#include "engine/resolver/resolve_if_statement.hpp"
 #include "engine/resolver/resolve_import_node.hpp"
 #include "engine/resolver/resolve_native_function_declaration.hpp"
 #include "engine/resolver/resolve_path.hpp"
@@ -29,6 +30,8 @@ void Resolver::resolve(CompilationUnit &unit, core::node::Node *node) {
   case core::node::NodeKind::StringLiteral:
   case core::node::NodeKind::BooleanLiteral: return;
 
+  case core::node::NodeKind::IfStatement: resolve_if_statement_node(unit, *this, static_cast<parser::node::IfStatementNode *>(node)); break;
+  case core::node::NodeKind::Block: resolve_block_node(unit, *this, static_cast<parser::node::BlockNode *>(node)); break;
   case core::node::NodeKind::BinaryExpression: resolve_binary_expression(unit, *this, static_cast<parser::node::BinaryExpressionNode *>(node)); break;
 
   case core::node::NodeKind::PathExpression: resolve_path(unit, *this, static_cast<parser::node::statement::PathExprNode *>(node)); break;
@@ -60,10 +63,6 @@ void Resolver::resolve(CompilationUnit &unit, core::node::Node *node) {
 
 void Resolver::resolve_ast(CompilationUnit &unit) {
   for (auto *node : unit.ast.get_nodes()) { resolve(unit, node); }
-}
-
-void Resolver::report_error(DiagnosticCode code, Slice slice) {
-  if (diag_target) {}
 }
 
 } // namespace resolver

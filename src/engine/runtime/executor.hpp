@@ -59,7 +59,35 @@ struct Executor {
 
     case core::node::NodeKind::VariableDeclaration: return execute_variable_declaration(unit, static_cast<parser::node::VariableDeclarationNode *>(node));
 
+    case core::node::NodeKind::Block: return execute_block(unit, static_cast<parser::node::BlockNode *>(node));
+
+    case core::node::NodeKind::IfStatement: return execute_if(unit, static_cast<parser::node::IfStatementNode *>(node));
+
     default: return Value::Null();
+    }
+  }
+
+  Value execute_block(CompilationUnit &unit, parser::node::BlockNode *block) {
+    if (!block) return Value::Void();
+
+    Value last_value = Value::Void();
+    for (auto *stmt : block->statements) { last_value = execute_node(unit, stmt); }
+
+    return last_value;
+  }
+
+  Value execute_if(CompilationUnit &unit, parser::node::IfStatementNode *node) {
+
+    if (!node || !node->condition) return Value::Void();
+
+    Value cond = execute_node(unit, node->condition);
+    bool cond_truthy = cond.as_bool();
+
+    if (cond_truthy) {
+      std::cout << "executando if";
+      return execute_block(unit, node->then_body);
+    } else {
+      return execute_block(unit, node->else_body);
     }
   }
 
@@ -77,6 +105,8 @@ struct Executor {
     case core::node::BinaryOperation::Subtract: return Value::Number(lhs.get_number() - rhs.get_number());
     case core::node::BinaryOperation::Multiply: return Value::Number(lhs.get_number() * rhs.get_number());
     case core::node::BinaryOperation::Divide: return Value::Number(lhs.get_number() / rhs.get_number());
+    case core::node::BinaryOperation::Equal: return Value::Boolean(lhs.get_number() == rhs.get_number());
+    case core::node::BinaryOperation::Less: return Value::Boolean(lhs.get_number() < rhs.get_number());
     default: return Value::Null();
     }
   }
