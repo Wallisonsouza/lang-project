@@ -6,6 +6,7 @@ struct ExecutionUnit {
   CompilationUnit &comp_unit;
   Lexer lexer;
   Parser parser;
+  
 
 public:
   ExecutionUnit(CompilationUnit &unit) : comp_unit(unit), lexer(unit), parser(unit) {}

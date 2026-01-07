@@ -46,9 +46,6 @@ int main() {
   ayla::modules::create_module_console(context, parent);
   ayla::modules::create_module_math(context);
 
-
-  
-
   auto engine = Engine(context);
 
   auto exec = engine.create_execution("/home/wallison/Documentos/git/ayla/src/examples/test.orb");
