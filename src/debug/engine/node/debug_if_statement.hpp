@@ -3,37 +3,50 @@
 #include "debug/console/color.hpp"
 #include "debug/console/console.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
+#include <string>
 
-static void debug_if_statement(const parser::node::IfStatementNode *node, const std::string &prefix, bool isLast) {
-  using namespace debug;
-  using namespace debug::node;
+enum class GrafEdge { First, Middle, Last, Single };
 
-  Console::log(Color::BrightBlue, "If: ");
+inline std::string get_prefix(GrafEdge edge) {
+  switch (edge) {
+  case GrafEdge::First:
+  case GrafEdge::Middle: return "├─ ";
+  case GrafEdge::Last: return "└─ ";
+  }
+  return "";
+}
 
-  // auto child_prefix = next_prefix(prefix, isLast);
+inline std::string next_prefix(const std::string &current, GrafEdge edge) {
+  switch (edge) {
+  case GrafEdge::First:
+  case GrafEdge::Middle: return current + "│ ";
 
-  // // Condition
-  // if (node->condition) {
-  //   // Condition é último se then e else não existirem
-  //   bool last_condition = !node->then_body && !node->else_body;
-  //   print_prefix(child_prefix, last_condition);
-  //   Console::log("Condition: ");
-  //   debug_node(node->condition, next_prefix(child_prefix, last_condition), true);
-  // }
+  case GrafEdge::Last:
+  case GrafEdge::Single: return current + " ";
+  }
+  return current;
+}
 
-  // // Then
-  // if (node->then_body) {
-  //   // Then é último se else não existir
-  //   bool last_then = !node->else_body;
-  //   print_prefix(child_prefix, last_then);
-  //   Console::log("Then: ");
-  //   debug_node(node->then_body, next_prefix(child_prefix, last_then), true);
-  // }
+static void debug_if_statement(const parser::node::IfStatementNode *node, const std::string &prefix, bool is_last) {
+  auto edge = is_last ? GrafEdge::Last : GrafEdge::Middle;
 
-  // // Else
+  // print do nó
+  debug::Console::log(debug::Color::BrightBlue, prefix, get_prefix(edge), "If");
+
+  // prefixo herdado pelos filhos (apenas UMA vez)
+  auto child_prefix = next_prefix(prefix, edge);
+
+  if (node->condition) { debug::Console::log(child_prefix, get_prefix(GrafEdge::Middle), "Condition"); }
+
+  if (node->then_body) {
+    bool last_then = !node->else_body;
+
+    debug::Console::log(child_prefix, get_prefix(last_then ? GrafEdge::Last : GrafEdge::Middle), "Then");
+
+    debug::node::debug_node(node->then_body, child_prefix);
+  }
+
   // if (node->else_body) {
-  //   print_prefix(child_prefix, true); // sempre último
-  //   Console::log("Else: ");
-  //   debug_node(node->else_body, next_prefix(child_prefix, true), true);
+  //   debug::Console::log(child_prefix, get_prefix(GrafEdge::Last), "Else");
   // }
 }

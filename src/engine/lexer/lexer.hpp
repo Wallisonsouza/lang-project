@@ -1,11 +1,8 @@
 #pragma once
 
-#include "core/source/SourceBuffer.hpp"
 #include "core/source/TextStream.hpp"
 #include "core/token/Token.hpp"
-#include "core/token/token_stream.hpp"
 #include "engine/CompilationUnit.hpp"
-#include "engine/language_context.hpp"
 #include "utils/Unicode.hpp"
 
 struct Lexer {

@@ -33,8 +33,6 @@ inline void debug_node(const core::node::Node *node, const std::string &prefix, 
   if (!node) return;
 
   switch (node->kind) {
-
-  // Literais
   case NodeKind::NumberLiteral: debug_number_literal(static_cast<const parser::node::NumberLiteralNode *>(node), prefix, isLast); break;
   case NodeKind::StringLiteral: debug_string_literal(static_cast<const parser::node::StringLiteralNode *>(node), prefix, isLast); break;
   case NodeKind::BooleanLiteral: debug_bool_literal(static_cast<const parser::node::BoolLiteralNode *>(node), prefix, isLast); break;

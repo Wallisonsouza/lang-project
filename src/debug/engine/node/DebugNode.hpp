@@ -13,6 +13,7 @@ std::string next_prefix(const std::string &prefix, bool isLast);
 
 inline void dump_ast(AST &ast) {
 
+  debug::Console::log("AST: ");
   for (auto &node : ast.get_nodes()) { debug_node(node); }
 }
 

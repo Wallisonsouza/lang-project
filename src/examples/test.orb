@@ -1,8 +1,0 @@
-use debug::console;
-
-val a: Number = 10;
-
-
-
-
-console::log("ola");

@@ -19,7 +19,9 @@ inline LanguageContext create_context() {
   context.precedence_table.add(TokenKind::Assign, 1, true);
   context.precedence_table.add(TokenKind::Equals, 5, false);
 
+  context.descriptor_table.add(TokenKind::LessThan, "<", TokenGroup::Operator);
   context.precedence_table.add(TokenKind::LessThan, 6, false);
+  
 
   context.precedence_table.add(TokenKind::Plus, 10, false);
   context.precedence_table.add(TokenKind::Minus, 10, false);
@@ -54,7 +56,6 @@ inline LanguageContext create_context() {
   context.descriptor_table.add(TokenKind::Equals, "==", TokenGroup::Operator);
   context.descriptor_table.add(TokenKind::Ternary, "?", TokenGroup::Operator);
   context.descriptor_table.add(TokenKind::GreaterThan, ">", TokenGroup::Operator);
-  context.descriptor_table.add(TokenKind::LessThan, "<", TokenGroup::Operator);
 
   context.descriptor_table.add(TokenKind::OpenParen, "(", TokenGroup::Punctuation);
 

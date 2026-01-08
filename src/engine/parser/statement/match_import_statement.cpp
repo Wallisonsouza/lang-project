@@ -35,6 +35,8 @@ core::node::StatementNode *Parser::parse_import_statement() {
 
     if (unit.tokens.try_match(core::token::TokenKind::DoubleColon)) continue;
 
+    if (unit.tokens.match(core::token::TokenKind::Semicolon)) { break; }
+
     report_error(DiagnosticCode::ExpectedToken, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::DoubleColon, .found = unit.tokens.peek()});
 
     unit.tokens.advance();

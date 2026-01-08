@@ -1,6 +1,7 @@
 #include "core/node/Type.hpp"
 #include "core/token/TokenKind.hpp"
 #include "engine/parser/parser.hpp"
+#include <iostream>
 
 core::node::StatementNode *Parser::parse_statement() {
   auto *tok = unit.tokens.peek();
@@ -36,6 +37,8 @@ core::node::StatementNode *Parser::parse_statement() {
 
   auto *end = unit.tokens.peek();
   if (end && end->descriptor->kind == core::token::TokenKind::Semicolon) {
+
+    std::cout << "pass";
     unit.tokens.advance();
   } else {
     // unit.diagnostics.emit({DiagnosticCode::ExpectedToken, unit.tokens.last_slice(), {.found = end, .expected = core::token::TokenKind::Semicolon}}, unit);

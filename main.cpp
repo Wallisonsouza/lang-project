@@ -13,11 +13,11 @@ int main() {
 
   auto engine = Engine(context);
 
-  auto exec = engine.create_execution("/home/wallison/Documentos/git/ayla/src/examples/test.orb");
+  auto exec = engine.create_execution("/home/wallison/Documentos/git/ayla/example.ayla");
 
   exec->execute();
 
-  debug::engine::dump_tokens(exec->comp_unit.tokens);
+  // debug::engine::dump_tokens(exec->comp_unit.tokens);
   debug::node::dump_ast(exec->comp_unit.ast);
 
   RuntimeScope scope;

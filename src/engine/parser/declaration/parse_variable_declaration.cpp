@@ -50,11 +50,11 @@ core::node::StatementNode *Parser::parse_variable_declaration() {
     }
   }
 
-  else if (!unit.tokens.match(core::token::TokenKind::Semicolon)) {
+  // else if (!unit.tokens.match(core::token::TokenKind::Semicolon)) {
 
-    report_error(DiagnosticCode::UnexpectedToken, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Assign, .found = unit.tokens.peek()});
-    return nullptr;
-  }
+  //   report_error(DiagnosticCode::UnexpectedToken, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Assign, .found = unit.tokens.peek()});
+  //   return nullptr;
+  // }
 
   return unit.ast.create_node<parser::node::VariableDeclarationNode>(std::move(name), type_node, value_node, mods);
 }

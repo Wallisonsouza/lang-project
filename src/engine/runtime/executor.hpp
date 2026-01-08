@@ -141,8 +141,6 @@ struct Executor {
     if (symbol->declaration && symbol->declaration->kind == core::node::NodeKind::NativeFunctionDeclaration) {
       auto *native = static_cast<core::node::NativeFunctionDeclarationNode *>(symbol->declaration);
 
-      std::cout << "nativa";
-
       std::vector<Value> args;
       for (auto *arg : node->args) { args.push_back(execute_node(unit, arg)); }
 
