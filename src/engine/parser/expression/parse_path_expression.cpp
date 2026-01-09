@@ -1,6 +1,3 @@
-#include "core/node/Type.hpp"
-#include "engine/CompilationUnit.hpp"
-#include "engine/parser/node/literal_nodes.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
 #include "engine/parser/parser.hpp"
 
@@ -14,19 +11,19 @@ core::node::ExpressionNode *Parser::parse_path_expression() {
     return nullptr;
   }
 
-  std::vector<parser::node::IdentifierNode *> segments;
+  std::vector<core::node::IdentifierNode *> segments;
 
   while (true) {
     auto id_tok = unit.tokens.peek();
     if (!id_tok || id_tok->descriptor->kind != core::token::TokenKind::Identifier) break;
 
-    auto *id_node = unit.ast.create_node<parser::node::IdentifierNode>(unit.source.buffer.get_text(id_tok->slice.span));
+    auto *id_node = unit.ast.create_node<core::node::IdentifierNode>(unit.source.buffer.get_text(id_tok->slice.span));
     segments.push_back(id_node);
 
     unit.tokens.advance();
 
     auto sep_tok = unit.tokens.peek();
-    if (!sep_tok || sep_tok->descriptor->kind != core::token::TokenKind::DoubleColon) break;
+    if (!sep_tok || sep_tok->descriptor->kind != core::token::TokenKind::Dot) break;
 
     unit.tokens.advance();
   }

@@ -24,7 +24,7 @@ struct Module {
   explicit Module(std::string n, ModuleId p = SIZE_MAX) : name(std::move(n)), parent(p), module_scope(nullptr) {}
 
   SymbolId find_symbol(const std::string &name) {
-    SymbolId id = module_scope.find(name);
+    SymbolId id = module_scope.resolve_symbol(name);
     return id;
   }
 

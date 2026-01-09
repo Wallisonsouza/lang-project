@@ -1,6 +1,5 @@
 #pragma once
 #include "core/node/Type.hpp"
-#include "engine/parser/node/literal_nodes.hpp"
 #include <optional>
 #include <string>
 #include <vector>
@@ -8,17 +7,17 @@
 namespace parser::node::statement {
 
 struct PathExprNode : core::node::ExpressionNode {
-  std::vector<IdentifierNode *> segments;
+  std::vector<core::node::IdentifierNode *> segments;
   SymbolId symbol_id = SIZE_MAX;
 
-  explicit PathExprNode(std::vector<IdentifierNode *> segs) : ExpressionNode(core::node::NodeKind::PathExpression), segments(std::move(segs)) {}
+  explicit PathExprNode(std::vector<core::node::IdentifierNode *> segs) : ExpressionNode(core::node::NodeKind::PathExpression), segments(std::move(segs)) {}
 };
 
 struct ImportNode : core::node::StatementNode {
-  std::vector<IdentifierNode *> path;
+  std::vector<core::node::IdentifierNode *> path;
   std::optional<std::string> alias;
 
-  explicit ImportNode(std::vector<IdentifierNode *> p) : StatementNode(core::node::NodeKind::Import), path(std::move(p)) {}
+  explicit ImportNode(std::vector<core::node::IdentifierNode *> p) : StatementNode(core::node::NodeKind::Import), path(std::move(p)) {}
 };
 
 struct AssignmentNode : core::node::ExpressionNode {

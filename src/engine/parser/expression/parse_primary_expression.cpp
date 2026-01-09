@@ -1,3 +1,4 @@
+#include "core/node/Type.hpp"
 #include "engine/parser/node/literal_nodes.hpp"
 #include "engine/parser/parser.hpp"
 
@@ -24,10 +25,10 @@ core::node::ExpressionNode *Parser::parse_primary_expression() {
 
   case core::token::TokenKind::Identifier: {
     auto *next = unit.tokens.peek(1);
-    if (next && next->descriptor->kind == core::token::TokenKind::DoubleColon) {
+    if (next && next->descriptor->kind == core::token::TokenKind::Dot) {
       result = parse_path_expression();
     } else {
-      result = unit.ast.create_node<parser::node::IdentifierNode>(unit.source.buffer.get_text(tok->slice.span));
+      result = unit.ast.create_node<core::node::IdentifierNode>(unit.source.buffer.get_text(tok->slice.span));
       result->slice = tok->slice;
       unit.tokens.advance();
     }

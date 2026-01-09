@@ -3,9 +3,9 @@
 void Resolver::resolve_block(parser::node::BlockNode *node) {
   if (!node) return;
 
-  // resolver.enter_scope();
+  push_scope();
 
-  for (auto &statement : node->statements) { resolve(statement); }
+  for (auto *statement : node->statements) { resolve(statement); }
 
-  // resolver.exit_scope();
+  pop_scope();
 }

@@ -1,4 +1,16 @@
-use debug::console;
+import debug.console;
 
-console::log(10 +10 -29);
+val a: Number;
 
+
+// wtf a not initialized is false?
+if a {
+  console.log(a);
+} 
+
+a = 20;
+
+
+if a {
+  console.log(a);
+}

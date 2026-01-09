@@ -13,6 +13,8 @@ core::node::TypeNode *Parser::parse_type() {
 
   auto type_name = unit.source.buffer.get_text(name_token->slice.span);
 
+  auto id = unit.ast.create_node<core::node::IdentifierNode>(type_name);
+
   std::vector<core::node::TypeNode *> generic_args;
 
   // tok = unit.tokens.peek();
@@ -43,5 +45,5 @@ core::node::TypeNode *Parser::parse_type() {
 
   // Cria node de tipo sem resolver no escopo
 
-  return unit.ast.create_node<core::node::TypeNode>(type_name, generic_args);
+  return unit.ast.create_node<core::node::TypeNode>(id, generic_args);
 }

@@ -38,7 +38,7 @@ public:
     return allocate(size, alignment);
   }
 
-  template <typename T, typename... Args> T *create(Args &&...args) {
+  template <typename T, typename... Args> T *alloc(Args &&...args) {
     static_assert(!std::is_array_v<T>, "T não pode ser um array");
     void *mem = allocate(sizeof(T), alignof(T));
     T *obj = new (mem) T(std::forward<Args>(args)...);

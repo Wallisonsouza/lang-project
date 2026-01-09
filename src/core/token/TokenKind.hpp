@@ -21,12 +21,12 @@ enum class TokenKind : uint8_t {
   FunctionKeyword,
   OperatorKeyword,
   ReturnKeyword,
-  UseKeyword,
+  ImportKeyword,
   AsKeyword,
 
   Function,    // Representa a palavra-chave 'function' em uma linguagem.
   IfKeyword,   // Representa a palavra-chave 'if'.
-  Else,        // Representa a palavra-chave 'else'.
+  ElseKeyword, // Representa a palavra-chave 'else'.
   While,       // Representa a palavra-chave 'while'.
   For,         // Representa a palavra-chave 'for'.
   Return,      // Representa a palavra-chave 'return'.
@@ -35,7 +35,6 @@ enum class TokenKind : uint8_t {
   SingleQuote, // Representa uma aspa simples '\''.
   Variable,    // Representa a declaração de uma variável.
   Colon,       // Representa o caractere ':'.
-  DoubleColon,
   Arrow,
   Plus,        // Representa o operador de adição '+'.
   Minus,       // Representa o operador de subtração '-'.

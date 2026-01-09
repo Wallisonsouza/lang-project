@@ -4,11 +4,7 @@
 
 parser::node::BlockNode *Parser::parse_block() {
 
-  auto tok = unit.tokens.peek();
-
-  if (!tok && tok->descriptor->kind != core::token::TokenKind::OpenBrace) { return nullptr; }
-
-  unit.tokens.consume();
+  if (!unit.tokens.match(core::token::TokenKind::OpenBrace)) { return nullptr; }
 
   std::vector<core::node::StatementNode *> statements;
 
@@ -16,10 +12,7 @@ parser::node::BlockNode *Parser::parse_block() {
 
     auto tok = unit.tokens.peek();
 
-    if (tok && tok->descriptor->kind == core::token::TokenKind::CloseBrace) {
-      unit.tokens.advance();
-      return unit.ast.create_node<parser::node::BlockNode>(std::move(statements));
-    }
+    if (unit.tokens.match(core::token::TokenKind::CloseBrace)) { return unit.ast.create_node<parser::node::BlockNode>(std::move(statements)); }
 
     auto stmt = parse_statement();
 

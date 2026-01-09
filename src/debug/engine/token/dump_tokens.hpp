@@ -26,11 +26,11 @@ constexpr const char *token_group_to_str(core::token::TokenGroup grp) {
 constexpr const char *token_kind_to_str(core::token::TokenKind kin) {
   using K = core::token::TokenKind;
   switch (kin) {
-  case K::UseKeyword: return "UseKeyword";
+  case K::ImportKeyword: return "UseKeyword";
   case K::Dot: return "Dot";
   case K::Function: return "Function";
   case K::IfKeyword: return "If";
-  case K::Else: return "Else";
+  case K::ElseKeyword: return "Else";
   case K::While: return "While";
   case K::For: return "For";
   case K::Return: return "Return";

@@ -29,23 +29,30 @@ struct TypeDeclarationNode : StatementNode {
   explicit TypeDeclarationNode(std::string n, std::vector<std::string> params = {}) : StatementNode(NodeKind::TypeDeclaration), name(std::move(n)), type_params(std::move(params)) {}
 };
 
-struct TypeNode : core::node::Node {
+struct IdentifierNode : core::node::ExpressionNode {
   std::string name;
-  std::vector<TypeNode *> generics;
+  SymbolId symbol_id = SIZE_MAX;
+
+  explicit IdentifierNode(std::string n) : ExpressionNode(core::node::NodeKind::Identifier), name(std::move(n)) {}
+};
+
+struct TypeNode : core::node::Node {
+  IdentifierNode *id;
+  const std::vector<TypeNode *> generics;
   bool is_primitive = false;
   SymbolId symbol_id = SIZE_MAX;
 
-  explicit TypeNode(std::string n, bool primitive = false) : Node(NodeKindBase::Type, core::node::NodeKind::Type), name(std::move(n)), is_primitive(primitive) {}
+  explicit TypeNode(IdentifierNode *id, bool primitive = false) : Node(NodeKindBase::Type, core::node::NodeKind::Type), id(id), is_primitive(primitive) {}
 
-  TypeNode(std::string n, std::vector<TypeNode *> g) : Node(NodeKindBase::Type, core::node::NodeKind::Type), name(std::move(n)), generics(std::move(g)) {}
+  TypeNode(IdentifierNode *id, std::vector<TypeNode *> g) : Node(NodeKindBase::Type, core::node::NodeKind::Type), id(id), generics(std::move(g)) {}
 };
 
 struct VoidTypeNode : TypeNode {
-  VoidTypeNode() : TypeNode("void", true) { kind = core::node::NodeKind::Type; }
+  VoidTypeNode() : TypeNode(new IdentifierNode("void"), true) { kind = core::node::NodeKind::Type; }
 };
 
 struct NumberTypeNode : TypeNode {
-  NumberTypeNode() : TypeNode("Number", true) { kind = core::node::NodeKind::Type; }
+  NumberTypeNode() : TypeNode(new IdentifierNode("number"), true) { kind = core::node::NodeKind::Type; }
 };
 
 struct FunctionParameterNode : StatementNode {

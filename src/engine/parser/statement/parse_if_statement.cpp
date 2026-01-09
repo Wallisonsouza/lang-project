@@ -1,10 +1,4 @@
-#include "core/node/Type.hpp"
-#include "core/token/TokenKind.hpp"
-#include "core/token/token_stream.hpp"
-#include "engine/CompilationUnit.hpp"
-#include "engine/parser/node/statement_nodes.hpp"
 #include "engine/parser/parser.hpp"
-#include <iostream>
 
 core::node::StatementNode *Parser::parse_if_statement() {
 
@@ -23,14 +17,16 @@ core::node::StatementNode *Parser::parse_if_statement() {
   }
 
   auto *then_block = parse_block();
-  if (!then_block) {
+
+  if (!then_block || then_block->statements.empty()) {
     std::cout << "if não tem um bloco";
     // unit.diagnostics.emit({DiagnosticCode::NoCode, unit.tokens.last_slice(), {}});
     return nullptr;
   }
 
   parser::node::BlockNode *else_block = nullptr;
-  if (unit.tokens.match(core::token::TokenKind::Else)) {
+  if (unit.tokens.match(core::token::TokenKind::ElseKeyword)) {
+    std::cout << "else";
     else_block = parse_block();
     if (!else_block) {
       // unit.diagnostics.emit({DiagnosticCode::NoCode, unit.tokens.last_slice(), {}});

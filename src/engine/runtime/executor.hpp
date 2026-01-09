@@ -9,7 +9,6 @@
 #include "engine/parser/node/statement/ImportStatement.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 #include "runtime_scope.hpp"
-#include <iostream>
 
 struct Executor {
 
@@ -21,7 +20,7 @@ struct Executor {
     // 1. Executa o valor da atribuição
     Value val = execute_node(unit, node->value);
 
-    if (auto *id = dynamic_cast<parser::node::IdentifierNode *>(node->target)) {
+    if (auto *id = dynamic_cast<core::node::IdentifierNode *>(node->target)) {
       current_scope->set(id->symbol_id, val);
     } else {
       throw std::runtime_error("Invalid assignment target");
@@ -45,7 +44,7 @@ struct Executor {
       return execute_assignment(unit, static_cast<parser::node::statement::AssignmentNode *>(node));
     }
 
-    case core::node::NodeKind::Identifier: return execute_identifier(static_cast<parser::node::IdentifierNode *>(node)->symbol_id);
+    case core::node::NodeKind::Identifier: return execute_identifier(static_cast<core::node::IdentifierNode *>(node)->symbol_id);
 
     case core::node::NodeKind::NumberLiteral: return Value::Number(static_cast<parser::node::NumberLiteralNode *>(node)->value);
 
@@ -84,10 +83,9 @@ struct Executor {
     bool cond_truthy = cond.as_bool();
 
     if (cond_truthy) {
-      std::cout << "executando if";
-      return execute_block(unit, node->then_body);
+      return execute_block(unit, node->then_block);
     } else {
-      return execute_block(unit, node->else_body);
+      return execute_block(unit, node->else_block);
     }
   }
 

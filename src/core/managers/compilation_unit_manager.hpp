@@ -6,5 +6,5 @@ class CompilationUnitManager {
   core::memory::Arena arena;
 
 public:
-  CompilationUnit *create_compilation_unit(LanguageContext &ctx, core::source::Source &src) { return arena.create<CompilationUnit>(ctx, src); }
+  CompilationUnit *create_compilation_unit(LanguageContext &ctx, core::source::Source &src) { return arena.alloc<CompilationUnit>(ctx, src); }
 };

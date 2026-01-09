@@ -1,6 +1,5 @@
 #include "core/managers/execution_unit_manager.hpp"
-#include "debug/engine/node/DebugNode.hpp"
-#include "debug/engine/token/dump_tokens.hpp"
+#include "debug/engine/node/ast_debug.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/Engine.hpp"
 #include "engine/runtime/executor.hpp"
@@ -17,8 +16,9 @@ int main() {
 
   exec->execute();
 
-  // debug::engine::dump_tokens(exec->comp_unit.tokens);
-  debug::node::dump_ast(exec->comp_unit.ast);
+  auto debugger = ASTDebug();
+
+  debugger.dump_ast(exec->comp_unit.ast);
 
   RuntimeScope scope;
   Executor executor(&scope);

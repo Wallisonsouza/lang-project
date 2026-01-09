@@ -5,7 +5,6 @@
 #include "diagnostic/Diagnostic.hpp"
 #include "engine/CompilationUnit.hpp"
 
-#include "engine/parser/node/literal_nodes.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
 #include "engine/parser/parser.hpp"
 #include <optional>
@@ -14,9 +13,9 @@
 
 core::node::StatementNode *Parser::parse_import_statement() {
 
-  if (!unit.tokens.try_match(core::token::TokenKind::UseKeyword)) return nullptr;
+  if (!unit.tokens.try_match(core::token::TokenKind::ImportKeyword)) return nullptr;
 
-  std::vector<parser::node::IdentifierNode *> path_nodes;
+  std::vector<core::node::IdentifierNode *> path_nodes;
 
   while (true) {
     auto name_token = unit.tokens.try_match(core::token::TokenKind::Identifier);
@@ -27,17 +26,17 @@ core::node::StatementNode *Parser::parse_import_statement() {
     };
 
     auto name = unit.source.buffer.get_text(name_token->slice.span);
-    auto *id_node = unit.ast.create_node<parser::node::IdentifierNode>(name);
+    auto *id_node = unit.ast.create_node<core::node::IdentifierNode>(name);
     path_nodes.push_back(id_node);
 
     auto next = unit.tokens.peek();
     if (!next) break;
 
-    if (unit.tokens.try_match(core::token::TokenKind::DoubleColon)) continue;
+    if (unit.tokens.try_match(core::token::TokenKind::Dot)) continue;
 
     if (unit.tokens.match(core::token::TokenKind::Semicolon)) { break; }
 
-    report_error(DiagnosticCode::ExpectedToken, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::DoubleColon, .found = unit.tokens.peek()});
+    report_error(DiagnosticCode::ExpectedToken, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Dot, .found = unit.tokens.peek()});
 
     unit.tokens.advance();
   }

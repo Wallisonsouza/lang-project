@@ -7,5 +7,5 @@ class ExecutionUnitManager {
   core::memory::Arena arena;
 
 public:
-  ExecutionUnit *create_execution_unit(CompilationUnit &cu) { return arena.create<ExecutionUnit>(cu); }
+  ExecutionUnit *create_execution_unit(CompilationUnit &cu) { return arena.alloc<ExecutionUnit>(cu); }
 };

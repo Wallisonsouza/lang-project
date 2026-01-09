@@ -1,4 +1,5 @@
 #include "Resolver.hpp"
+#include "core/node/Type.hpp"
 
 void Resolver::resolve_function_call(parser::node::FunctionCallNode *node) {
 
@@ -14,10 +15,10 @@ void Resolver::resolve_function_call(parser::node::FunctionCallNode *node) {
     return;
   }
 
-  auto *id_node = static_cast<parser::node::IdentifierNode *>(node->callee);
+  auto *id_node = static_cast<core::node::IdentifierNode *>(node->callee);
 
   // Agora find retorna SymbolId
-  SymbolId sym_id = current_scope->find(id_node->name);
+  SymbolId sym_id = current_scope->resolve_symbol(id_node->name);
 
   if (sym_id == SIZE_MAX) {
     // report_error(DiagnosticCode::UndeclaredIdentifier, id_node->slice);

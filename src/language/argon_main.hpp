@@ -21,7 +21,6 @@ inline LanguageContext create_context() {
 
   context.descriptor_table.add(TokenKind::LessThan, "<", TokenGroup::Operator);
   context.precedence_table.add(TokenKind::LessThan, 6, false);
-  
 
   context.precedence_table.add(TokenKind::Plus, 10, false);
   context.precedence_table.add(TokenKind::Minus, 10, false);
@@ -35,9 +34,12 @@ inline LanguageContext create_context() {
   // context.precedence_table.add(TokenKind::GreaterEqual, 6, false); // >=
 
   context.descriptor_table.add(TokenKind::AsKeyword, "as", TokenGroup::Keyword);
+
   context.descriptor_table.add(TokenKind::IfKeyword, "if", TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::ElseKeyword, "else", TokenGroup::Keyword);
+
   context.descriptor_table.add(TokenKind::FunctionKeyword, "fn", TokenGroup::Keyword);
-  context.descriptor_table.add(TokenKind::UseKeyword, "use", TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::ImportKeyword, "import", TokenGroup::Keyword);
 
   context.descriptor_table.add(TokenKind::Static, "static", TokenGroup::Keyword);
 
@@ -60,7 +62,6 @@ inline LanguageContext create_context() {
   context.descriptor_table.add(TokenKind::OpenParen, "(", TokenGroup::Punctuation);
 
   context.descriptor_table.add(TokenKind::Colon, ":", TokenGroup::Punctuation);
-  context.descriptor_table.add(TokenKind::DoubleColon, "::", TokenGroup::Punctuation);
   context.descriptor_table.add(TokenKind::Dot, ".", TokenGroup::Punctuation);
   context.descriptor_table.add(TokenKind::CloseParen, ")", TokenGroup::Punctuation);
   context.descriptor_table.add(TokenKind::OpenBrace, "{", TokenGroup::Punctuation);

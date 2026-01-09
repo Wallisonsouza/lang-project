@@ -1,16 +1,23 @@
 #include "Resolver.hpp"
+#include <iostream>
 
 void Resolver::resolve_variable_declaration(parser::node::VariableDeclarationNode *node) {
+  if (!node || !node->identifier) return;
 
-  if (current_scope->has_symbol_local(node->name)) { return; }
+  resolve(node->identifier);
 
-  if (node->type) { resolve(node->type); }
+  // Emitir erro se redefinição
+  if (current_scope->has_symbol_local(node->identifier->name)) {
 
-  if (node->value) { resolve(node->value); }
+    std::cout << "aaaaaaaaaaaaaaaaaaa";
+    // unit.diagnostics.emit_error("Variable '" + node->identifier->name + "' already declared in this scope");
+    return; // ou continue, dependendo de como quer lidar com erro
+  }
 
-  auto symbol_id = unit.symbols.create_symbol(node->name, SymbolKind::Variable);
+  if (node->type) resolve(node->type);
+  if (node->value) resolve(node->value);
 
-  current_scope->add_symbol(node->name, symbol_id);
-
+  auto symbol_id = unit.symbols.create_symbol(node->identifier->name, SymbolKind::Variable);
+  current_scope->add_symbol(node->identifier->name, symbol_id);
   node->symbol_id = symbol_id;
 }

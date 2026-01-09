@@ -5,7 +5,7 @@ void Resolver::resolve_if_statement(parser::node::IfStatementNode *node) {
 
   if (node->condition) { resolve(node->condition); }
 
-  if (node->then_body) { resolve(node->then_body); }
+  if (node->then_block) { resolve(node->then_block); }
 
-  if (node->else_body) { resolve(node->else_body); }
+  if (node->else_block) { resolve(node->else_block); }
 }

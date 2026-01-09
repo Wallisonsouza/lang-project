@@ -10,7 +10,7 @@ public:
   TokenStream() = default;
 
   template <typename T, typename... Args> T *create_token(Args &&...args) {
-    T *tok = arena_.create<T>(std::forward<Args>(args)...);
+    T *tok = arena_.alloc<T>(std::forward<Args>(args)...);
     tokens_.push_back(tok);
     return tok;
   }

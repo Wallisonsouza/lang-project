@@ -15,22 +15,22 @@ struct BlockNode : core::node::StatementNode {
 
 struct IfStatementNode : core::node::StatementNode {
   core::node::ExpressionNode *condition;
-  BlockNode *then_body;
-  BlockNode *else_body;
+  BlockNode *then_block;
+  BlockNode *else_block;
 
   IfStatementNode(core::node::ExpressionNode *condition = nullptr, BlockNode *then_body = nullptr, BlockNode *else_body = nullptr)
-      : condition(condition), then_body(then_body), else_body(else_body), StatementNode(core::node::NodeKind::IfStatement) {}
+      : condition(condition), then_block(then_body), else_block(else_body), StatementNode(core::node::NodeKind::IfStatement) {}
 };
 
 struct VariableDeclarationNode : core::node::StatementNode {
-  std::string name;
+  core::node::IdentifierNode *identifier;
   core::node::TypeNode *type;
   core::node::ExpressionNode *value;
   core::node::Modifiers modifiers;
   SymbolId symbol_id = SIZE_MAX;
 
-  VariableDeclarationNode(std::string n, core::node::TypeNode *t, core::node::ExpressionNode *v, core::node::Modifiers modifiers = {})
-      : StatementNode(core::node::NodeKind::VariableDeclaration), name(std::move(n)), type(t), value(v), modifiers(modifiers) {}
+  VariableDeclarationNode(core::node::IdentifierNode *n, core::node::TypeNode *t, core::node::ExpressionNode *v, core::node::Modifiers modifiers = {})
+      : StatementNode(core::node::NodeKind::VariableDeclaration), identifier(n), type(t), value(v), modifiers(modifiers) {}
 };
 
 struct FunctionDeclarationNode : core::node::StatementNode {
