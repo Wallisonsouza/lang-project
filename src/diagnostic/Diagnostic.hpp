@@ -1,37 +1,19 @@
 #pragma once
-#include "core/token/Token.hpp"
-#include "core/token/TokenKind.hpp"
-#include <optional>
-#include <string>
 
-enum class DiagnosticCode {
-  UnexpectedToken,
-  ExpectedToken,
-  ExpectedIdentifier,
-  ExpectedType,
-  ExpectedExpression,
-  ExpectedColon,
-  ExpectedDoubleColon,
-  UndeclaredSymbol,
-  NotCallable,
-  UnterminatedString,
-  ModuleNotFound,
-  Custom
-};
+#include "core/token/Location.hpp"
+#include "diagnostic/diagnostic_code.hpp"
+#include "diagnostic/diagnostic_context.hpp"
+#include <optional>
 
 enum class DiagnosticOrigin { Lexer, Parser, Semantic, Runtime, Custom };
 
-struct DiagnosticToken {
-  core::token::TokenKind expected;
-  const core::token::Token *found;
-};
+enum class Severity { Info, Warning, Error, Fatal };
 
 struct Diagnostic {
-  DiagnosticCode code;
   DiagnosticOrigin origin;
+  DiagnosticCode code;
+  Severity severity;
+
   std::optional<Slice> slice;
-  std::optional<std::string> message;
-  std::optional<std::string> suggestion;
-  std::optional<DiagnosticToken> token;
-  std::string file;
+  DiagnosticContext context;
 };

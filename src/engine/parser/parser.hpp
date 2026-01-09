@@ -2,8 +2,6 @@
 #include "core/node/Modifier.hpp"
 #include "core/node/Node.hpp"
 #include "core/node/Type.hpp"
-#include "core/token/Location.hpp"
-#include "diagnostic/Diagnostic.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 
@@ -50,5 +48,26 @@ public:
     }
   }
 
-  void report_error(const DiagnosticCode code, const Slice &slice, DiagnosticToken opt = {}) { unit.diagns.report({.code = code, .slice = slice, .token = opt}); };
+  inline void report_expected(DiagnosticCode code, const std::variant<core::token::TokenKind, core::node::NodeKind, std::string> &expected, const core::token::Token *found) {
+    DiagnosticContext ctx;
+
+    if (std::holds_alternative<core::token::TokenKind>(expected))
+      ctx.set("expected", std::get<core::token::TokenKind>(expected));
+    else if (std::holds_alternative<core::node::NodeKind>(expected))
+      ctx.set("expected", std::get<core::node::NodeKind>(expected));
+    else
+      ctx.set("expected", std::get<std::string>(expected));
+
+    // Preenche o found se houver
+    if (found && !found->descriptor->name.empty()) {
+      ctx.set("found", found->descriptor->kind);
+    } else if (found) {
+      // fallback se não houver descriptor
+      ctx.set("found", unit.source.buffer.get_text(found->slice.span));
+    }
+    auto slice = unit.tokens.last_slice();
+    if (found) { slice = found->slice; }
+
+    unit.diagns.report(Diagnostic{.origin = DiagnosticOrigin::Parser, .code = code, .slice = slice, .context = std::move(ctx)});
+  }
 };

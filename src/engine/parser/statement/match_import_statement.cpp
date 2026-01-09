@@ -2,8 +2,6 @@
 #include "core/token/Location.hpp"
 #include "core/token/TokenKind.hpp"
 #include "core/token/token_stream.hpp"
-#include "diagnostic/Diagnostic.hpp"
-#include "engine/CompilationUnit.hpp"
 
 #include "engine/parser/node/statement/ImportStatement.hpp"
 #include "engine/parser/parser.hpp"
@@ -21,7 +19,7 @@ core::node::StatementNode *Parser::parse_import_statement() {
     auto name_token = unit.tokens.try_match(core::token::TokenKind::Identifier);
     if (!name_token) {
 
-      report_error(DiagnosticCode::ExpectedToken, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Identifier, .found = unit.tokens.peek()});
+      // report_error(DiagnosticCode::ExpectedToken, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Identifier, .found = unit.tokens.peek()});
       break;
     };
 
@@ -36,7 +34,7 @@ core::node::StatementNode *Parser::parse_import_statement() {
 
     if (unit.tokens.match(core::token::TokenKind::Semicolon)) { break; }
 
-    report_error(DiagnosticCode::ExpectedToken, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Dot, .found = unit.tokens.peek()});
+    // report_error(DiagnosticCode::ExpectedToken, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Dot, .found = unit.tokens.peek()});
 
     unit.tokens.advance();
   }

@@ -1,5 +1,6 @@
 #include "core/managers/execution_unit_manager.hpp"
 #include "debug/engine/node/ast_debug.hpp"
+#include "diagnostic/formatter.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/Engine.hpp"
 #include "engine/runtime/executor.hpp"
@@ -23,6 +24,8 @@ int main() {
   RuntimeScope scope;
   Executor executor(&scope);
   executor.execute_ast(exec->comp_unit);
+
+  for (auto &diag : exec->comp_unit.diagns.all()) { print(diag, exec->comp_unit); }
 
   return 0;
 }

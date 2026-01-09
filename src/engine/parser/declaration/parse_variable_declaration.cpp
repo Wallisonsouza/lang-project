@@ -1,49 +1,49 @@
 #include "core/node/Type.hpp"
 #include "core/token/TokenKind.hpp"
-#include "diagnostic/Diagnostic.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 #include "engine/parser/parser.hpp"
 
 core::node::StatementNode *Parser::parse_variable_declaration() {
   auto mods = parse_modifiers();
-
   if (mods.order.empty()) return nullptr;
 
+  // identifier
   auto *name_token = unit.tokens.try_match(core::token::TokenKind::Identifier);
   if (!name_token) {
-    report_error(DiagnosticCode::ExpectedIdentifier, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Identifier, .found = unit.tokens.peek()});
+    report_expected(DiagnosticCode::ExpectedIdentifier, core::token::TokenKind::Identifier, unit.tokens.peek());
     return nullptr;
   }
 
   auto name = unit.source.buffer.get_text(name_token->slice.span);
   auto *id_node = unit.ast.create_node<core::node::IdentifierNode>(name);
 
+  // colon
   if (!unit.tokens.match(core::token::TokenKind::Colon)) {
-    report_error(DiagnosticCode::ExpectedColon, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Colon, .found = unit.tokens.peek()});
+    report_expected(DiagnosticCode::ExpectedColon, core::token::TokenKind::Colon, unit.tokens.peek());
     return nullptr;
   }
 
+  // type
   auto *type_node = parse_type();
   if (!type_node) {
-    report_error(DiagnosticCode::ExpectedType, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Identifier, .found = unit.tokens.peek()});
+    report_expected(DiagnosticCode::ExpectedType, core::node::NodeKind::Type, unit.tokens.peek());
     return nullptr;
   }
 
   core::node::ExpressionNode *value_node = nullptr;
 
-  // 🔹 inicialização opcional
+  // optional initializer
   if (unit.tokens.match(core::token::TokenKind::Assign)) {
     value_node = parse_expression();
-
     if (!value_node) {
-      report_error(DiagnosticCode::ExpectedExpression, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Assign, .found = unit.tokens.peek()});
+      report_expected(DiagnosticCode::ExpectedExpression, core::node::NodeKind::AssignmentExpression, unit.tokens.peek());
       return nullptr;
     }
   }
 
-  // 🔴 SEMPRE consome o ';'
+  // semicolon (obrigatório)
   if (!unit.tokens.match(core::token::TokenKind::Semicolon)) {
-    report_error(DiagnosticCode::ExpectedToken, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Semicolon, .found = unit.tokens.peek()});
+    report_expected(DiagnosticCode::ExpectedToken, core::token::TokenKind::Semicolon, unit.tokens.peek());
     return nullptr;
   }
 

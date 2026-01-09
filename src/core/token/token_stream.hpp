@@ -110,6 +110,11 @@ public:
     return last_token_ ? last_token_->slice : empty;
   }
 
+  inline const Slice slice_of(const Token *tok) const noexcept {
+    static Slice empty{};
+    return tok ? tok->slice : empty;
+  }
+
 private:
   core::memory::Arena arena_;
   std::vector<core::token::Token *> tokens_;

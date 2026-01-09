@@ -1,16 +1,7 @@
 import debug.console;
 
-val a: Number;
+val  a: Number = 10;
 
-
-// wtf a not initialized is false?
-if a {
-  console.log(a);
-} 
-
-a = 20;
-
-
-if a {
-  console.log(a);
+if a == 20 {
+  a = 30;
 }

@@ -61,13 +61,11 @@ void ASTDebug::debug_node(const core::node::Node *node, bool isLast, std::string
 
   case NodeKind::PathExpression: debug_path_expression(static_cast<const parser::node::statement::PathExprNode *>(node)); break;
 
-  case NodeKind::IfStatement:
-    debug_if_statement(static_cast<const parser::node::IfStatementNode *>(node));
-    break;
+  case NodeKind::IfStatement: debug_if_statement(static_cast<const parser::node::IfStatementNode *>(node)); break;
 
-    // case NodeKind::Assignment: debug_assing_node(static_cast<const parser::node::statement::AssignmentNode *>(node)); break;
+  case NodeKind::Assignment: debug_assing_node(static_cast<const parser::node::statement::AssignmentNode *>(node)); break;
 
-  case NodeKind::Block: debug_block_node(static_cast<const parser::node::BlockNode *>(node)); break;
+  case NodeKind::Block: debug_block(static_cast<const parser::node::BlockNode *>(node)); break;
 
   default: out << "<unknow>"; break;
   }
@@ -86,7 +84,7 @@ void ASTDebug::dump_ast(const AST &ast) {
     debug_node(ast.get_nodes()[i], is_last);
   }
   out << std::endl;
-  out << "EOF" << std::endl;
+  out << "EOF\n" << std::endl;
 }
 
 void ASTDebug::debug_children(const std::vector<const core::node::Node *> &children) {

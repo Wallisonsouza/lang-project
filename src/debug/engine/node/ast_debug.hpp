@@ -46,7 +46,7 @@ struct ASTDebug {
   void debug_path_expression(const parser::node::statement::PathExprNode *node);
   void debug_if_statement(const parser::node::IfStatementNode *node);
   void debug_assing_node(const parser::node::statement::AssignmentNode *node);
-  void debug_block_node(const parser::node::BlockNode *node);
+  void debug_block(const parser::node::BlockNode *node);
 
   void debug_children(const std::vector<const core::node::Node *> &children);
 };

@@ -124,16 +124,17 @@ fill_line(const char *display_start, const char *display_end, const char *span_b
 // ------------------------------------------------------------
 // Diagnóstico principal
 // ------------------------------------------------------------
-inline void print_diagnostic(const std::string &message, const std::string &help, const Slice &slice, const core::source::SourceBuffer &buffer) {
+inline void print_diagnostic(const std::string &title, std::string &message, const std::string &help, const Slice &slice, const core::source::SourceBuffer &buffer) {
   constexpr std::string_view CUT = "...";
 
-  // error label
-  debug::Console::log(ERR_LABEL, "error: ", ERR_TEXT, message);
+  // Cabeçalho do erro
+  debug::Console::log(ERR_LABEL, "[", title, "] ", ERR_TEXT, message);
 
-  // header
+  // Linha de localização
   debug::Console::log(ARROW, "--> ", LINE_INFO, "line ", LINE_INFO, std::to_string(slice.range.begin.line), LINE_INFO, " col ", LINE_INFO, std::to_string(slice.range.begin.column), LINE_INFO, "..",
                       LINE_INFO, std::to_string(slice.range.end.column));
 
+  // Linha de código cortada
   auto line_sv = buffer.get_line(slice.range.begin.line);
   auto cut = cut_line(line_sv, slice.span, CUT, CUT);
 
@@ -141,16 +142,22 @@ inline void print_diagnostic(const std::string &message, const std::string &help
   ln << slice.range.begin.line;
   size_t ln_width = ln.str().size();
 
+  // Imprime a linha de código
   debug::Console::log(LINE_NO, ln.str(), SEP, " | ", CODE_TEXT, cut.text);
 
+  // Imprime os tildes cobrindo todo o slice
   debug::Console::log(LINE_NO, std::string(ln_width, ' '), SEP, " | ", TILDE, fill_line(cut.start, cut.end, slice.span.begin, slice.span.end, cut.prefix_offset));
 
-  int caret_pos = static_cast<int>(slice.span.begin - cut.start) + cut.prefix_offset;
+  // Caret no final do slice
+  int caret_pos = static_cast<int>(slice.span.end - cut.start) + cut.prefix_offset - 1;
+  if (caret_pos < 0) caret_pos = 0;
+
   std::string caret_line(caret_pos, ' ');
-  caret_line += "└─▶ ";
+  caret_line += "^";
 
   debug::Console::log(LINE_NO, std::string(ln_width, ' '), SEP, " | ", CARET, caret_line, HELP_TEXT, " help: ", help);
 
   std::cout << std::endl;
 }
+
 } // namespace diagnostic
