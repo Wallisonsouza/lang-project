@@ -6,11 +6,11 @@ void ASTDebug::debug_if_statement(const parser::node::IfStatementNode *node) {
   bool has_else = node->else_block != nullptr;
 
   // Condition
-  if (node->condition) { debug_labeled_child("Condition", node->condition, false); }
+  if (node->condition) { debug_labeled("Condition", node->condition, false); }
 
   // Then
-  if (node->then_block) { debug_labeled_child("Then", node->then_block, !has_else); }
+  if (node->then_block) { debug_labeled("Then", node->then_block, !has_else); }
 
   // Else
-  if (node->else_block) { debug_labeled_child("Else", node->else_block, true); }
+  if (node->else_block) { debug_labeled("Else", node->else_block, true); }
 }

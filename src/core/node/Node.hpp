@@ -1,6 +1,7 @@
 #pragma once
 
 #include "NodeKind.hpp"
+#include "core/node/flags.hpp"
 #include "core/token/Location.hpp"
 #include <string>
 
@@ -10,6 +11,7 @@ struct Node {
   NodeKind kind;
   NodeKindBase base_kind;
   Slice slice;
+  NodeFlags flags = NodeFlags::None;
   virtual std::string to_string_node() { return "NOT_STRING_IMPLEMENTATION"; }
 
 protected:

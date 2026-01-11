@@ -12,5 +12,12 @@ enum class DiagnosticCode {
   NotCallable,
   UnterminatedString,
   ModuleNotFound,
-  Custom
+  RedeclaredIdentifier,
+  Custom,
+
+  // if
+  IfConditionMissing,
+  IfConditionAssignment,
+  ThenBlockMissing,
+  ElseBlockMissing
 };

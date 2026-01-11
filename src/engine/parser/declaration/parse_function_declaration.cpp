@@ -1,53 +1,49 @@
-// #include "core/node/Node.hpp"
-// #include "core/node/Type.hpp"
-// #include "engine/parser/node/statement_nodes.hpp"
-// #include "engine/parser/parser.hpp"
+#include "core/node/Type.hpp"
+#include "engine/parser/parser.hpp"
 
-// core::node::StatementNode *Parser::parse_function_declaration() {
+core::node::StatementNode *Parser::parse_function_declaration() {
 
-//   auto mod = parse_modifiers();
+  if (!unit.tokens.try_match(core::token::TokenKind::FunctionKeyword)) return nullptr;
 
-//   stream.add_checkpoint();
+  auto *identifier = parse_identifier();
 
-//   auto keyword = stream.peek();
-//   if (!keyword || keyword->descriptor->kind != core::token::TokenKind::FunctionKeyword) {
-//     stream.rollback_checkpoint();
-//     return nullptr;
-//   }
-//   stream.advance();
+  if (!identifier) {
+    synchronize_statement();
+    return nullptr;
+  }
 
-//   auto name_token = stream.peek();
-//   if (!name_token || name_token->descriptor->kind != core::token::TokenKind::Identifier) {
-//     stream.rollback_checkpoint();
-//     return nullptr;
-//   }
-//   stream.advance();
+  std::vector<core::node::FunctionParameterNode *> params;
+  if (unit.tokens.match(core::token::TokenKind::OpenParen)) {
+    while (!unit.tokens.match(core::token::TokenKind::CloseParen)) {
+      auto *param_tok = unit.tokens.try_match(core::token::TokenKind::Identifier);
+      if (!param_tok) return report_error(DiagnosticCode::ExpectedIdentifier, "identificador de parâmetro", unit.tokens.last_slice());
 
-//   auto params = parse_parameter_list();
+      auto *param_name = unit.ast.create_node<core::node::IdentifierNode>(unit.source.buffer.get_text(param_tok->slice.span));
 
-//   core::node::TypeNode *return_type = nullptr;
-//   auto next = stream.peek();
-//   if (next && next->descriptor->kind == core::token::TokenKind::Arrow) {
-//     stream.advance();
-//     return_type = parse_type();
-//     if (!return_type) {
-//       stream.rollback_checkpoint();
-//       return nullptr;
-//     }
-//   } else {
-//     return_type = unit.ast.create_node<core::node::VoidTypeNode>();
-//   }
+      if (!unit.tokens.match(core::token::TokenKind::Colon)) return report_error(DiagnosticCode::ExpectedColon, ":", param_tok->slice);
 
-//   // auto body = match_block(unit, stream, exp);
+      auto *param_type = parse_type();
+      if (!param_type) return report_error(DiagnosticCode::ExpectedType, "type", param_tok->slice);
 
-//   core::node::Node *body = nullptr;
+      params.push_back(unit.ast.create_node<core::node::FunctionParameterNode>(param_name, param_type, nullptr));
 
-//   if (!body) {
-//     stream.rollback_checkpoint();
-//     return nullptr;
-//   }
+      unit.tokens.match(core::token::TokenKind::Comma);
+    }
+  }
 
-//   stream.discard_checkpoint();
+  // --- RETORNO ---
+  core::node::TypeNode *return_type = nullptr;
+  if (unit.tokens.match(core::token::TokenKind::Arrow)) {
+    return_type = parse_type();
+    if (!return_type) return report_error(DiagnosticCode::ExpectedType, "type", unit.tokens.last_slice());
+  }
 
-//   return unit.ast.create_node<parser::node::FunctionDeclarationNode>(unit.source.buffer.get_text(name_token->slice.span), std::move(params), return_type, body, mod);
-// }
+  // --- BLOCO ---
+  auto *body = parse_block();
+  if (!body) {
+    synchronize_statement();
+    // body = error_recovery::make_error_node<parser::node::BlockNode>(unit);
+  }
+
+  return unit.ast.create_node<parser::node::FunctionDeclarationNode>(identifier, params, return_type, body);
+}

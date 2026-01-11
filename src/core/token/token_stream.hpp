@@ -55,6 +55,14 @@ public:
     return true;
   }
 
+  inline const Slice &peek_slice(size_t offset = 0) const noexcept {
+    static Slice empty{};
+
+    if (auto *tok = peek(offset)) return tok->slice;
+
+    return last_slice();
+  }
+
   Token *try_match(TokenKind kind) {
     if (auto *tok = peek(); tok && tok->descriptor->kind == kind) {
       advance();

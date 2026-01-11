@@ -6,6 +6,8 @@ core::node::ExpressionNode *Parser::parse_assignment(core::node::ExpressionNode 
 
   if (!unit.tokens.match(core::token::TokenKind::Assign)) { return nullptr; }
 
+  auto start = unit.tokens.peek_slice();
+
   auto *value = parse_expression();
 
   if (!value) {
@@ -14,5 +16,7 @@ core::node::ExpressionNode *Parser::parse_assignment(core::node::ExpressionNode 
     // return nullptr;
   }
 
-  return unit.ast.create_node<parser::node::statement::AssignmentNode>(target, value);
+  auto node = unit.ast.create_node<parser::node::statement::AssignmentNode>(target, value);
+  node->slice = start;
+  return node;
 }

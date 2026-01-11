@@ -36,6 +36,7 @@ inline LanguageContext create_context() {
   context.descriptor_table.add(TokenKind::AsKeyword, "as", TokenGroup::Keyword);
 
   context.descriptor_table.add(TokenKind::IfKeyword, "if", TokenGroup::Keyword);
+  context.descriptor_table.add_alias(TokenKind::IfKeyword, "se");
   context.descriptor_table.add(TokenKind::ElseKeyword, "else", TokenGroup::Keyword);
 
   context.descriptor_table.add(TokenKind::FunctionKeyword, "fn", TokenGroup::Keyword);

@@ -4,7 +4,6 @@
 #include "core/node/NodeKind.hpp"
 #include "core/node/Type.hpp"
 #include "core/token/TokenKind.hpp"
-#include <string>
 
 namespace parser::node {
 
@@ -34,15 +33,19 @@ struct VariableDeclarationNode : core::node::StatementNode {
 };
 
 struct FunctionDeclarationNode : core::node::StatementNode {
-  std::string name;
+  core::node::IdentifierNode *identifier;
   std::vector<core::node::FunctionParameterNode *> params;
   core::node::TypeNode *return_type;
   BlockNode *body;
   core::node::Modifiers modifiers;
   SymbolId symbol_id = SIZE_MAX;
 
-  FunctionDeclarationNode(std::string n, std::vector<core::node::FunctionParameterNode *> params, core::node::TypeNode *ret_type = nullptr, BlockNode *b = nullptr, core::node::Modifiers mods = {})
-      : StatementNode(core::node::NodeKind::FunctionDeclaration), name(std::move(n)), params(std::move(params)), return_type(ret_type), body(b), modifiers(mods) {}
+  FunctionDeclarationNode(core::node::IdentifierNode *identifier,
+                          std::vector<core::node::FunctionParameterNode *> params,
+                          core::node::TypeNode *ret_type = nullptr,
+                          BlockNode *b = nullptr,
+                          core::node::Modifiers mods = {})
+      : StatementNode(core::node::NodeKind::FunctionDeclaration), identifier(identifier), params(std::move(params)), return_type(ret_type), body(b), modifiers(mods) {}
 };
 
 struct MemberAccessNode : core::node::ExpressionNode {

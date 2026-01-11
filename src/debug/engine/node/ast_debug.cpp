@@ -1,6 +1,8 @@
 #include "ast_debug.hpp"
 #include "core/AST.hpp"
+#include "core/node/NodeKind.hpp"
 #include "core/node/Type.hpp"
+#include "engine/parser/node/statement_nodes.hpp"
 
 ASTDebug::ASTDebug(std::ostream &out) : out(out), tree(out) {}
 
@@ -26,6 +28,8 @@ void ASTDebug::debug_node(const core::node::Node *node, bool isLast, std::string
   out << header;
 
   switch (node->kind) {
+
+  case core::node::NodeKind::Unknown: break;
 
   case NodeKind::NumberLiteral: debug_number_literal(static_cast<const parser::node::NumberLiteralNode *>(node)); break;
 
@@ -53,11 +57,9 @@ void ASTDebug::debug_node(const core::node::Node *node, bool isLast, std::string
 
   case NodeKind::FunctionCall: debug_function_call(static_cast<const parser::node::FunctionCallNode *>(node)); break;
 
-  case NodeKind::ExpressionStatement:
-    debug_expression_statement(static_cast<const ExpressionStatementNode *>(node));
-    break;
+  case NodeKind::ExpressionStatement: debug_expression_statement(static_cast<const ExpressionStatementNode *>(node)); break;
 
-    // case NodeKind::NativeFunctionDeclaration: debug_native_function_declaration(static_cast<const NativeFunctionDeclarationNode *>(node)); break;
+  case NodeKind::FunctionDeclaration: debug_function_declaration(static_cast<const parser::node::FunctionDeclarationNode *>(node)); break;
 
   case NodeKind::PathExpression: debug_path_expression(static_cast<const parser::node::statement::PathExprNode *>(node)); break;
 
@@ -66,6 +68,8 @@ void ASTDebug::debug_node(const core::node::Node *node, bool isLast, std::string
   case NodeKind::Assignment: debug_assing_node(static_cast<const parser::node::statement::AssignmentNode *>(node)); break;
 
   case NodeKind::Block: debug_block(static_cast<const parser::node::BlockNode *>(node)); break;
+
+  case NodeKind::FunctionParameter: debug_funtion_parameter(static_cast<const FunctionParameterNode *>(node)); break;
 
   default: out << "<unknow>"; break;
   }
@@ -102,14 +106,11 @@ void ASTDebug::debug_children(const std::vector<const core::node::Node *> &child
   }
 }
 
-void ASTDebug::debug_labeled_child(const char *label, const core::node::Node *child, bool is_last) {
+void ASTDebug::debug_labeled(const char *label, const core::node::Node *child, bool is_last) {
   tree.begin_node(is_last);
   out << label << "\n";
 
-  if (child) {
-    // o header NÃO é o último se ele tem filho
-    debug_node(child, true);
-  }
+  if (child) { debug_node(child, true); }
 
   tree.end_node();
 }

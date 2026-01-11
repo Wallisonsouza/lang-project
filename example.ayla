@@ -1,7 +1,6 @@
 import debug.console;
 
-val  a: Number = 10;
+ fn add(a: Number, b: Number)  {
 
-if a == 20 {
-  a = 30;
-}
+ }
+

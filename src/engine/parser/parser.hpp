@@ -2,6 +2,7 @@
 #include "core/node/Modifier.hpp"
 #include "core/node/Node.hpp"
 #include "core/node/Type.hpp"
+#include "core/token/Location.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 
@@ -11,6 +12,9 @@ struct Parser {
   core::node::TypeNode *parse_type();
 
 private:
+  core::node::IdentifierNode *parse_identifier();
+  void synchronize_statement();
+
   core::node::ExpressionNode *parse_assignment(core::node::ExpressionNode *target);
   core::node::ExpressionNode *finish_call(core::node::ExpressionNode *callee);
   core::node::ExpressionNode *finish_member(core::node::ExpressionNode *base);
@@ -48,26 +52,14 @@ public:
     }
   }
 
-  inline void report_expected(DiagnosticCode code, const std::variant<core::token::TokenKind, core::node::NodeKind, std::string> &expected, const core::token::Token *found) {
-    DiagnosticContext ctx;
+  core::node::StatementNode *report_error(DiagnosticCode code, const std::string &expected, const Slice &slice_override = Slice{}) {
 
-    if (std::holds_alternative<core::token::TokenKind>(expected))
-      ctx.set("expected", std::get<core::token::TokenKind>(expected));
-    else if (std::holds_alternative<core::node::NodeKind>(expected))
-      ctx.set("expected", std::get<core::node::NodeKind>(expected));
-    else
-      ctx.set("expected", std::get<std::string>(expected));
+    auto *diag = unit.diagns.create(code, unit.tokens.peek_slice());
+    diag->set_expected(expected);
 
-    // Preenche o found se houver
-    if (found && !found->descriptor->name.empty()) {
-      ctx.set("found", found->descriptor->kind);
-    } else if (found) {
-      // fallback se não houver descriptor
-      ctx.set("found", unit.source.buffer.get_text(found->slice.span));
-    }
-    auto slice = unit.tokens.last_slice();
-    if (found) { slice = found->slice; }
+    if (auto current = unit.tokens.peek()) { diag->set_found(unit.source.buffer.get_text(current->slice.span)); }
 
-    unit.diagns.report(Diagnostic{.origin = DiagnosticOrigin::Parser, .code = code, .slice = slice, .context = std::move(ctx)});
+    synchronize_statement();
+    return nullptr;
   }
 };

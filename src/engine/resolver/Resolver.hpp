@@ -30,4 +30,10 @@ struct Resolver {
   void resolve_import_node(parser::node::statement::ImportNode *node);
   void resolve_expression_statement(core::node::ExpressionStatementNode *node);
   void resolve_ast();
+
+  void report_error(DiagnosticCode code, const Slice &slice, const std::unordered_map<std::string, std::string> &ctx = {}) {
+    auto *diag = unit.diagns.create(code, slice);
+
+    for (auto &[k, v] : ctx) { diag->context.set(k, v); }
+  }
 };

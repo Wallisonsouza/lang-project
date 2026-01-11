@@ -5,7 +5,6 @@ void Resolver::resolve_function_call(parser::node::FunctionCallNode *node) {
 
   if (!node) return;
 
-  // resolve o callee e os argumentos primeiro
   resolve(node->callee);
 
   for (auto *arg : node->args) { resolve(arg); }
@@ -17,7 +16,6 @@ void Resolver::resolve_function_call(parser::node::FunctionCallNode *node) {
 
   auto *id_node = static_cast<core::node::IdentifierNode *>(node->callee);
 
-  // Agora find retorna SymbolId
   SymbolId sym_id = current_scope->resolve_symbol(id_node->name);
 
   if (sym_id == SIZE_MAX) {

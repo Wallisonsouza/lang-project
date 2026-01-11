@@ -3,6 +3,7 @@
 #include "core/memory/value.hpp"
 #include "core/node/Node.hpp"
 #include "core/node/NodeKind.hpp"
+#include "core/token/Location.hpp"
 #include <string>
 #include <vector>
 
@@ -33,7 +34,7 @@ struct IdentifierNode : core::node::ExpressionNode {
   std::string name;
   SymbolId symbol_id = SIZE_MAX;
 
-  explicit IdentifierNode(std::string n) : ExpressionNode(core::node::NodeKind::Identifier), name(std::move(n)) {}
+  explicit IdentifierNode(std::string n, const Slice &slice = {}) : ExpressionNode(core::node::NodeKind::Identifier), name(std::move(n)) { this->slice = slice; }
 };
 
 struct TypeNode : core::node::Node {
@@ -56,26 +57,26 @@ struct NumberTypeNode : TypeNode {
 };
 
 struct FunctionParameterNode : StatementNode {
-  std::string name;
+  IdentifierNode *identifier;
   core::node::TypeNode *type;
   core::node::ExpressionNode *value = nullptr;
   SymbolId symbol_id = SIZE_MAX;
 
-  FunctionParameterNode(std::string n, core::node::TypeNode *t, core::node::ExpressionNode *v) : StatementNode(core::node::NodeKind::FunctionParameter), name(std::move(n)), type(t), value(v) {}
+  FunctionParameterNode(IdentifierNode *id, core::node::TypeNode *t, core::node::ExpressionNode *v) : StatementNode(core::node::NodeKind::FunctionParameter), identifier(id), type(t), value(v) {}
 };
 
 using native_callback = std::function<Value(const std::vector<Value> &)>;
 
 struct NativeFunctionDeclarationNode : ExpressionNode {
-  std::string name;
+  IdentifierNode *id;
   std::vector<FunctionParameterNode *> params;
   node::TypeNode *return_type;
   SymbolId symbol_id;
 
   native_callback callback;
 
-  NativeFunctionDeclarationNode(std::string n, std::vector<FunctionParameterNode *> p, node::TypeNode *ret, native_callback cb)
-      : ExpressionNode(core::node::NodeKind::NativeFunctionDeclaration), name(std::move(n)), params(std::move(p)), return_type(ret), callback(std::move(cb)) {}
+  NativeFunctionDeclarationNode(IdentifierNode *id, std::vector<FunctionParameterNode *> p, node::TypeNode *ret, native_callback cb)
+      : ExpressionNode(core::node::NodeKind::NativeFunctionDeclaration), id(id), params(std::move(p)), return_type(ret), callback(std::move(cb)) {}
 };
 
 } // namespace core::node

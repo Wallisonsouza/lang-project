@@ -149,6 +149,8 @@ struct Executor {
   }
 
   void execute_ast(CompilationUnit &unit) {
+
+    if (unit.diagns.all().size() > 0) { return; }
     for (auto &resolved_node : unit.ast.get_nodes()) { execute_node(unit, resolved_node); }
   }
 };

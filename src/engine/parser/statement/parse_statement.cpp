@@ -1,3 +1,4 @@
+#include "core/token/TokenKind.hpp"
 #include "engine/parser/parser.hpp"
 
 core::node::StatementNode *Parser::parse_statement() {
@@ -16,6 +17,8 @@ core::node::StatementNode *Parser::parse_statement() {
   if (tok->descriptor->kind == core::token::TokenKind::FunctionKeyword) {
     // return parse_function_declaration();
   }
+
+  if (tok->descriptor->kind == core::token::TokenKind::FunctionKeyword) { return parse_function_declaration(); }
 
   // expressão
   auto *expr = parse_expression();
