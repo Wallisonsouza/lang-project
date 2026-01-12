@@ -46,14 +46,17 @@ struct TypeNode : core::node::Node {
   explicit TypeNode(IdentifierNode *id, bool primitive = false) : Node(NodeKindBase::Type, core::node::NodeKind::Type), id(id), is_primitive(primitive) {}
 
   TypeNode(IdentifierNode *id, std::vector<TypeNode *> g) : Node(NodeKindBase::Type, core::node::NodeKind::Type), id(id), generics(std::move(g)) {}
-};
 
-struct VoidTypeNode : TypeNode {
-  VoidTypeNode() : TypeNode(new IdentifierNode("void"), true) { kind = core::node::NodeKind::Type; }
-};
+  static bool is_same_type(TypeNode *a, TypeNode *b) {
+    if (a->is_primitive && b->is_primitive) { return a->id->name == b->id->name; }
 
-struct NumberTypeNode : TypeNode {
-  NumberTypeNode() : TypeNode(new IdentifierNode("number"), true) { kind = core::node::NodeKind::Type; }
+    if (a->id->name != b->id->name) return false;
+    if (a->generics.size() != b->generics.size()) return false;
+    for (size_t i = 0; i < a->generics.size(); i++) {
+      if (!is_same_type(a->generics[i], b->generics[i])) return false;
+    }
+    return true;
+  }
 };
 
 struct FunctionParameterNode : StatementNode {

@@ -1,8 +1,13 @@
 #include "ast_debug.hpp"
 
-void ASTDebug::debug_block(const parser::node::BlockNode *node) {
+void ASTDebug::debug_block(const parser::node::BlockExpressionNode *node) {
+
   out << "Block\n";
 
-  size_t count = node->statements.size();
-  for (size_t i = 0; i < count; ++i) { debug_node(node->statements[i], i == count - 1); }
+  bool has_statements = !node->statements.empty();
+  bool has_tail = node->tail_expression != nullptr;
+
+  if (has_statements) { debug_labeled_childrens(node->statements, "Statements", !has_tail); }
+
+  if (has_tail) { debug_labeled("TailExpression", node->tail_expression, true); }
 }

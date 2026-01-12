@@ -1,9 +1,21 @@
 #include "Resolver.hpp"
 #include "core/node/Type.hpp"
+#include "engine/parser/node/statement_nodes.hpp"
+
+void Resolver::resolve_function_declaration(parser::node::FunctionDeclarationNode *node) {
+
+  current_scope->add_symbol(node->identifier->name, node->symbol_id);
+
+  push_scope();
+
+  for (auto *param : node->params) { current_scope->add_symbol(param->identifier->name, param->symbol_id); }
+
+  resolve_block(node->body, false);
+
+  pop_scope();
+}
 
 void Resolver::resolve_function_call(parser::node::FunctionCallNode *node) {
-
-  if (!node) return;
 
   resolve(node->callee);
 

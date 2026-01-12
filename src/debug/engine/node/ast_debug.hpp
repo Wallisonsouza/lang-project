@@ -22,6 +22,28 @@ struct TreeLayout {
 
 struct ASTDebug {
 
+  struct LabeledChild {
+    const char *label;
+    const core::node::Node *node;
+  };
+
+  void debug_labeled_children(const char *label, const std::vector<LabeledChild> &children, bool is_last) {
+    tree.begin_node(is_last);
+    out << label << "\n";
+
+    for (size_t i = 0; i < children.size(); ++i) {
+      const auto &child = children[i];
+      bool child_is_last = (i + 1 == children.size());
+
+      tree.begin_node(child_is_last);
+      out << child.label << "\n";
+      debug_node(child.node, true);
+      tree.end_node();
+    }
+
+    tree.end_node();
+  }
+
   std::ostream &out;
   TreeLayout tree;
 
@@ -30,21 +52,7 @@ struct ASTDebug {
   void dump_ast(const AST &ast);
   void debug_labeled(const char *label, const core::node::Node *child, bool is_last);
 
-  template <typename T> void debug_labeled_childrens(const std::vector<T *> &children) {
-    size_t count = 0;
-    for (auto *c : children)
-      if (c) ++count;
-
-    size_t printed = 0;
-    for (auto *c : children) {
-      if (!c) continue;
-      ++printed;
-      bool is_last = (printed == count);
-      debug_node(c, is_last);
-    }
-  }
-
-  void debug_node(const core::node::Node *node, bool is_last, const std::string header = "");
+  void debug_node(const core::node::Node *node, bool is_last);
 
   void debug_number_literal(const parser::node::NumberLiteralNode *node);
   void debug_funtion_parameter(const core::node::FunctionParameterNode *node);
@@ -65,9 +73,29 @@ struct ASTDebug {
   void debug_function_declaration(const parser::node::FunctionDeclarationNode *node);
 
   void debug_path_expression(const parser::node::statement::PathExprNode *node);
-  void debug_if_statement(const parser::node::IfStatementNode *node);
+  void debug_if_statement(const parser::node::IfExpressionNode *node);
   void debug_assing_node(const parser::node::statement::AssignmentNode *node);
-  void debug_block(const parser::node::BlockNode *node);
+  void debug_block(const parser::node::BlockExpressionNode *node);
 
   void debug_children(const std::vector<const core::node::Node *> &children);
+
+  template <typename T> void debug_labeled_childrens(const std::vector<T *> &children, const std::string &label, bool is_last) {
+
+    tree.begin_node(is_last);
+    out << label << "\n";
+
+    size_t count = 0;
+    for (auto *c : children)
+      if (c) ++count;
+
+    size_t printed = 0;
+    for (auto *c : children) {
+      if (!c) continue;
+      ++printed;
+      bool child_is_last = (printed == count);
+      debug_node(c, child_is_last);
+    }
+
+    tree.end_node();
+  }
 };

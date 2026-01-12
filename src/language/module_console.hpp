@@ -2,6 +2,7 @@
 #include "core/AST.hpp"
 #include "core/module/module.hpp"
 #include "core/node/Type.hpp"
+#include "core/node/types.hpp"
 #include "engine/language_context.hpp"
 #include <cmath>
 #include <iostream>
@@ -31,7 +32,7 @@ inline void create_module_console(LanguageContext &context, core::ModuleId paren
   core::ModuleId console_id = context.modules.create_module("console", parent);
   auto *module = context.modules.get(console_id);
 
-  auto *void_return = module->ast.create_node<core::node::VoidTypeNode>();
+  auto *void_return = module->ast.create_node<VoidTypeNode>();
 
   make_native(module, id(module->ast, "log"), {}, void_return, [](const std::vector<Value> &args) -> Value {
     std::cout << ANSI_BOLD_GRAY << "[log] " << ANSI_GRAY;
@@ -59,7 +60,7 @@ inline void create_module_math(LanguageContext &context, core::ModuleId parent =
   core::ModuleId math_id = context.modules.create_module("math", parent);
   auto *module = context.modules.get(math_id);
 
-  auto *number_type = module->ast.create_node<core::node::NumberTypeNode>();
+  auto *number_type = module->ast.create_node<NumberTypeNode>();
 
   auto make_param = [&](const char *name) { return module->ast.create_node<core::node::FunctionParameterNode>(id(module->ast, name), number_type, nullptr); };
 

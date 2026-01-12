@@ -1,6 +1,5 @@
-import debug.console;
+fn add(a: Number, b: Number) -> Number{
+  a + b
+}
 
- fn add(a: Number, b: Number)  {
-
- }
 

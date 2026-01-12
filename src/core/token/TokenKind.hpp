@@ -16,25 +16,24 @@ enum class TokenKind : uint8_t {
   // Define um enum class chamado TokenKind que representa diferentes tipos de
   // tokens na análise léxica.
   // ': uint8_t' força o enum a usar apenas 1 byte de memória por valor.
-  Value,
+  ValueKeyword,
 
   FunctionKeyword,
   OperatorKeyword,
-  ReturnKeyword,
   ImportKeyword,
   AsKeyword,
 
-  Function,    // Representa a palavra-chave 'function' em uma linguagem.
-  IfKeyword,   // Representa a palavra-chave 'if'.
-  ElseKeyword, // Representa a palavra-chave 'else'.
-  While,       // Representa a palavra-chave 'while'.
-  For,         // Representa a palavra-chave 'for'.
-  Return,      // Representa a palavra-chave 'return'.
-  Comma,       // Representa a vírgula ','.
-  DoubleQuote, // Representa uma aspa dupla '"'.
-  SingleQuote, // Representa uma aspa simples '\''.
-  Variable,    // Representa a declaração de uma variável.
-  Colon,       // Representa o caractere ':'.
+  Function,      // Representa a palavra-chave 'function' em uma linguagem.
+  IfKeyword,     // Representa a palavra-chave 'if'.
+  ElseKeyword,   // Representa a palavra-chave 'else'.
+  WhileKeyword,  // Representa a palavra-chave 'while'.
+  ForKeyword,    // Representa a palavra-chave 'for'.
+  ReturnKeyword, // Representa a palavra-chave 'return'.
+  Comma,         // Representa a vírgula ','.
+  DoubleQuote,   // Representa uma aspa dupla '"'.
+  SingleQuote,   // Representa uma aspa simples '\''.
+  Variable,      // Representa a declaração de uma variável.
+  Colon,         // Representa o caractere ':'.
   Arrow,
   Plus,        // Representa o operador de adição '+'.
   Minus,       // Representa o operador de subtração '-'.

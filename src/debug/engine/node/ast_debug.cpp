@@ -19,17 +19,13 @@ void TreeLayout::begin_node(bool is_last) {
 
 void TreeLayout::end_node() { ancestors_alive.pop_back(); }
 
-void ASTDebug::debug_node(const core::node::Node *node, bool isLast, std::string header) {
-
+void ASTDebug::debug_node(const core::node::Node *node, bool isLast) {
   using namespace core::node;
   if (!node) return;
 
   tree.begin_node(isLast);
-  out << header;
 
   switch (node->kind) {
-
-  case core::node::NodeKind::Unknown: break;
 
   case NodeKind::NumberLiteral: debug_number_literal(static_cast<const parser::node::NumberLiteralNode *>(node)); break;
 
@@ -41,11 +37,7 @@ void ASTDebug::debug_node(const core::node::Node *node, bool isLast, std::string
 
   case NodeKind::NullLiteral: debug_null_literal(static_cast<const parser::node::NullLiteralNode *>(node)); break;
 
-  case NodeKind::Identifier:
-    debug_identifier(static_cast<const IdentifierNode *>(node));
-    break;
-
-    // case NodeKind::MemberAccess: debug_member_access(static_cast<const parser::node::MemberAccessNode *>(node)); break;
+  case NodeKind::Identifier: debug_identifier(static_cast<const IdentifierNode *>(node)); break;
 
   case NodeKind::Import: debug_import(static_cast<const parser::node::statement::ImportNode *>(node)); break;
 
@@ -63,15 +55,15 @@ void ASTDebug::debug_node(const core::node::Node *node, bool isLast, std::string
 
   case NodeKind::PathExpression: debug_path_expression(static_cast<const parser::node::statement::PathExprNode *>(node)); break;
 
-  case NodeKind::IfStatement: debug_if_statement(static_cast<const parser::node::IfStatementNode *>(node)); break;
+  case NodeKind::IfExpression: debug_if_statement(static_cast<const parser::node::IfExpressionNode *>(node)); break;
 
   case NodeKind::Assignment: debug_assing_node(static_cast<const parser::node::statement::AssignmentNode *>(node)); break;
 
-  case NodeKind::Block: debug_block(static_cast<const parser::node::BlockNode *>(node)); break;
+  case NodeKind::BlockExpression: debug_block(static_cast<const parser::node::BlockExpressionNode *>(node)); break;
 
   case NodeKind::FunctionParameter: debug_funtion_parameter(static_cast<const FunctionParameterNode *>(node)); break;
 
-  default: out << "<unknow>"; break;
+  default: out << "<unknown>\n"; break;
   }
 
   tree.end_node();
@@ -79,32 +71,28 @@ void ASTDebug::debug_node(const core::node::Node *node, bool isLast, std::string
 
 void ASTDebug::dump_ast(const AST &ast) {
 
-  out << "AST" << std::endl;
-
   tree.ancestors_alive.clear();
 
   for (size_t i = 0; i < ast.size(); ++i) {
     bool is_last = (i + 1 == ast.size());
     debug_node(ast.get_nodes()[i], is_last);
   }
-  out << std::endl;
-  out << "EOF\n" << std::endl;
 }
 
-void ASTDebug::debug_children(const std::vector<const core::node::Node *> &children) {
+// void ASTDebug::debug_children(const std::vector<const core::node::Node *> &children) {
 
-  size_t count = 0;
-  for (auto *c : children)
-    if (c) ++count;
+//   size_t count = 0;
+//   for (auto *c : children)
+//     if (c) ++count;
 
-  size_t printed = 0;
-  for (auto *c : children) {
-    if (!c) continue;
-    ++printed;
-    bool is_last = (printed == count);
-    debug_node(c, is_last);
-  }
-}
+//   size_t printed = 0;
+//   for (auto *c : children) {
+//     if (!c) continue;
+//     ++printed;
+//     bool is_last = (printed == count);
+//     debug_node(c, is_last);
+//   }
+// }
 
 void ASTDebug::debug_labeled(const char *label, const core::node::Node *child, bool is_last) {
   tree.begin_node(is_last);

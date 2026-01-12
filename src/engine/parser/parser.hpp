@@ -13,29 +13,34 @@ struct Parser {
 
 private:
   core::node::IdentifierNode *parse_identifier();
+
   void synchronize_statement();
+  void synchronize_parameter();
 
   core::node::ExpressionNode *parse_assignment(core::node::ExpressionNode *target);
   core::node::ExpressionNode *finish_call(core::node::ExpressionNode *callee);
   core::node::ExpressionNode *finish_member(core::node::ExpressionNode *base);
   core::node::ExpressionNode *finish_index(core::node::ExpressionNode *base);
   core::node::Modifiers parse_modifiers();
+  std::vector<core::node::FunctionParameterNode *> parse_function_parameters();
 
   std::vector<core::node::FunctionParameterNode *> parse_parameter_list();
 
 public:
+  parser::node::ReturnStatementNode *parse_return_statement();
   core::node::ExpressionNode *parse_path_expression();
   core::node::ExpressionNode *parse_expression();
   core::node::ExpressionNode *parse_postfix_expression();
   core::node::ExpressionNode *parse_primary_expression();
   core::node::ExpressionNode *parse_binary_expression(int min_precedence, core::node::ExpressionNode *lef);
+  core::node::ExpressionNode *parse_if_expression();
 
   core::node::StatementNode *parse_statement();
   core::node::StatementNode *parse_import_statement();
-  core::node::StatementNode *parse_if_statement();
+
   core::node::StatementNode *parse_variable_declaration();
   core::node::StatementNode *parse_function_declaration();
-  parser::node::BlockNode *parse_block();
+  parser::node::BlockExpressionNode *parse_block_expression();
   core::node::FunctionParameterNode *parse_function_parameter();
 
   core::node::Node *call_parser() { return parse_statement(); }
@@ -52,14 +57,11 @@ public:
     }
   }
 
-  core::node::StatementNode *report_error(DiagnosticCode code, const std::string &expected, const Slice &slice_override = Slice{}) {
+  void report_error(DiagnosticCode code, const std::string &expected, const Slice &slice_override = Slice{}) {
 
     auto *diag = unit.diagns.create(code, unit.tokens.peek_slice());
     diag->set_expected(expected);
 
     if (auto current = unit.tokens.peek()) { diag->set_found(unit.source.buffer.get_text(current->slice.span)); }
-
-    synchronize_statement();
-    return nullptr;
   }
 };

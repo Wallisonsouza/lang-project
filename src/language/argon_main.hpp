@@ -36,16 +36,16 @@ inline LanguageContext create_context() {
   context.descriptor_table.add(TokenKind::AsKeyword, "as", TokenGroup::Keyword);
 
   context.descriptor_table.add(TokenKind::IfKeyword, "if", TokenGroup::Keyword);
-  context.descriptor_table.add_alias(TokenKind::IfKeyword, "se");
   context.descriptor_table.add(TokenKind::ElseKeyword, "else", TokenGroup::Keyword);
 
   context.descriptor_table.add(TokenKind::FunctionKeyword, "fn", TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::ReturnKeyword, "return", TokenGroup::Keyword);
   context.descriptor_table.add(TokenKind::ImportKeyword, "import", TokenGroup::Keyword);
 
   context.descriptor_table.add(TokenKind::Static, "static", TokenGroup::Keyword);
 
   context.descriptor_table.add(TokenKind::Mut, "mut", TokenGroup::Keyword);
-  context.descriptor_table.add(TokenKind::Value, "val", TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::ValueKeyword, "val", TokenGroup::Keyword);
   context.descriptor_table.add(TokenKind::Public, "public", TokenGroup::Keyword);
   context.descriptor_table.add(TokenKind::Private, "private", TokenGroup::Keyword);
 

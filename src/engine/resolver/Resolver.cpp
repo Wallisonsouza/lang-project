@@ -1,8 +1,6 @@
 #include "Resolver.hpp"
 #include <iostream>
 
-#define AYLA_ASSERT_SCOPE() assert(current_scope && "current_scope is null")
-
 void Resolver::resolve(core::node::Node *node) {
 
   if (!node) return;
@@ -13,9 +11,9 @@ void Resolver::resolve(core::node::Node *node) {
   case core::node::NodeKind::StringLiteral:
   case core::node::NodeKind::BooleanLiteral: return;
 
-  case core::node::NodeKind::IfStatement: resolve_if_statement(static_cast<parser::node::IfStatementNode *>(node)); break;
+  case core::node::NodeKind::IfExpression: resolve_if_statement(static_cast<parser::node::IfExpressionNode *>(node)); break;
 
-  case core::node::NodeKind::Block: resolve_block(static_cast<parser::node::BlockNode *>(node)); break;
+  case core::node::NodeKind::BlockExpression: resolve_block(static_cast<parser::node::BlockExpressionNode *>(node)); break;
 
   case core::node::NodeKind::BinaryExpression: resolve_binary_expression(static_cast<parser::node::BinaryExpressionNode *>(node)); break;
 

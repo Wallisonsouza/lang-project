@@ -18,8 +18,8 @@ enum class NodeKind {
   // === Statements ===
   MemberAccess = 8,
   IndexAccess = 9,
-  Block = 10,
-  IfStatement = 11,
+  BlockExpression = 10,
+  IfExpression = 11,
   WhileStatement = 12,
   ForStatement = 13,
   ReturnStatement = 14,

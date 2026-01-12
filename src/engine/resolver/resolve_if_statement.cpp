@@ -1,11 +1,11 @@
 #include "engine/resolver/Resolver.hpp"
 
-void Resolver::resolve_if_statement(parser::node::IfStatementNode *node) {
+void Resolver::resolve_if_statement(parser::node::IfExpressionNode *node) {
   if (!node) return;
 
   if (node->condition) { resolve(node->condition); }
 
-  if (node->then_block) { resolve(node->then_block); }
+  if (node->if_block) { resolve(node->if_block); }
 
   if (node->else_block) { resolve(node->else_block); }
 }

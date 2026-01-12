@@ -26,6 +26,4 @@ int main() {
   executor.execute_ast(exec->comp_unit);
 
   for (auto &diag : exec->comp_unit.diagns.all()) { print(*diag, exec->comp_unit); }
-
-  return 0;
 }

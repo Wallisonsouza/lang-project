@@ -43,7 +43,7 @@ core::node::TypeNode *Parser::parse_type() {
   //   }
   // }
 
-  // Cria node de tipo sem resolver no escopo
+  // Cria node de tipo sem name_resolution no escopo
 
   return unit.ast.create_node<core::node::TypeNode>(id, generic_args);
 }

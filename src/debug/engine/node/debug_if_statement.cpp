@@ -1,16 +1,19 @@
 #include "ast_debug.hpp"
 
-void ASTDebug::debug_if_statement(const parser::node::IfStatementNode *node) {
+void ASTDebug::debug_if_statement(const parser::node::IfExpressionNode *node) {
+
   out << "If\n";
 
-  bool has_else = node->else_block != nullptr;
+  std::vector<LabeledChild> children;
 
-  // Condition
-  if (node->condition) { debug_labeled("Condition", node->condition, false); }
+  if (node->condition) children.push_back({"Condition", node->condition});
 
-  // Then
-  if (node->then_block) { debug_labeled("Then", node->then_block, !has_else); }
+  if (node->if_block) children.push_back({"Then", node->if_block});
 
-  // Else
-  if (node->else_block) { debug_labeled("Else", node->else_block, true); }
+  if (node->else_block) children.push_back({"Else", node->else_block});
+
+  for (size_t i = 0; i < children.size(); ++i) {
+    bool is_last = (i + 1 == children.size());
+    debug_labeled(children[i].label, children[i].node, is_last);
+  }
 }

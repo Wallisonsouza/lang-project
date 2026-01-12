@@ -7,18 +7,21 @@
 
 namespace parser::node {
 
-struct BlockNode : core::node::StatementNode {
+struct BlockExpressionNode : core::node::ExpressionNode {
   std::vector<core::node::StatementNode *> statements;
-  explicit BlockNode(std::vector<core::node::StatementNode *> stmts = {}) : StatementNode(core::node::NodeKind::Block), statements(std::move(stmts)) {}
+  core::node::ExpressionNode *tail_expression = nullptr;
+
+  explicit BlockExpressionNode(std::vector<core::node::StatementNode *> stmts = {}, core::node::ExpressionNode *tail = nullptr)
+      : ExpressionNode(core::node::NodeKind::BlockExpression), statements(std::move(stmts)), tail_expression(tail) {}
 };
 
-struct IfStatementNode : core::node::StatementNode {
+struct IfExpressionNode : core::node::ExpressionNode {
   core::node::ExpressionNode *condition;
-  BlockNode *then_block;
-  BlockNode *else_block;
+  BlockExpressionNode *if_block;
+  BlockExpressionNode *else_block;
 
-  IfStatementNode(core::node::ExpressionNode *condition = nullptr, BlockNode *then_body = nullptr, BlockNode *else_body = nullptr)
-      : condition(condition), then_block(then_body), else_block(else_body), StatementNode(core::node::NodeKind::IfStatement) {}
+  IfExpressionNode(core::node::ExpressionNode *cond, BlockExpressionNode *then_b, BlockExpressionNode *else_b = nullptr)
+      : ExpressionNode(core::node::NodeKind::IfExpression), condition(cond), if_block(then_b), else_block(else_b) {}
 };
 
 struct VariableDeclarationNode : core::node::StatementNode {
@@ -36,14 +39,14 @@ struct FunctionDeclarationNode : core::node::StatementNode {
   core::node::IdentifierNode *identifier;
   std::vector<core::node::FunctionParameterNode *> params;
   core::node::TypeNode *return_type;
-  BlockNode *body;
+  BlockExpressionNode *body;
   core::node::Modifiers modifiers;
   SymbolId symbol_id = SIZE_MAX;
 
   FunctionDeclarationNode(core::node::IdentifierNode *identifier,
                           std::vector<core::node::FunctionParameterNode *> params,
                           core::node::TypeNode *ret_type = nullptr,
-                          BlockNode *b = nullptr,
+                          BlockExpressionNode *b = nullptr,
                           core::node::Modifiers mods = {})
       : StatementNode(core::node::NodeKind::FunctionDeclaration), identifier(identifier), params(std::move(params)), return_type(ret_type), body(b), modifiers(mods) {}
 };
@@ -55,16 +58,12 @@ struct MemberAccessNode : core::node::ExpressionNode {
   MemberAccessNode(core::node::ExpressionNode *obj, core::node::ExpressionNode *prop) : ExpressionNode(core::node::NodeKind::MemberAccess), object(obj), property(prop) {}
 };
 
-namespace parser::node {
-
 struct IndexAccessNode : core::node::ExpressionNode {
   core::node::ExpressionNode *base;  // objeto ou array
   core::node::ExpressionNode *index; // índice ou expressão de acesso
 
   IndexAccessNode(core::node::ExpressionNode *b, core::node::ExpressionNode *i) : ExpressionNode(core::node::NodeKind::IndexAccess), base(b), index(i) {}
 };
-
-} // namespace parser::node
 
 struct FunctionCallNode : core::node::ExpressionNode {
   core::node::ExpressionNode *callee;
@@ -78,7 +77,7 @@ struct OperatorDeclarationNode : core::node::StatementNode {
 
   std::vector<core::node::FunctionParameterNode *> parameters;
   core::node::TypeNode *return_type;
-  BlockNode *body;
+  BlockExpressionNode *body;
 
   core::node::Modifier modifiers;
   SymbolId symbol_id = SIZE_MAX;
@@ -86,7 +85,7 @@ struct OperatorDeclarationNode : core::node::StatementNode {
   OperatorDeclarationNode(core::token::TokenKind op,
                           std::vector<core::node::FunctionParameterNode *> params,
                           core::node::TypeNode *ret_type = nullptr,
-                          BlockNode *b = nullptr,
+                          BlockExpressionNode *b = nullptr,
                           core::node::Modifier mods = core::node::Modifier::None)
       : StatementNode(core::node::NodeKind::OperatorDeclaration), operator_kind(op), parameters(std::move(params)), return_type(ret_type), body(b), modifiers(mods) {}
 };
@@ -96,5 +95,4 @@ struct ReturnStatementNode : core::node::StatementNode {
 
   ReturnStatementNode(core::node::ExpressionNode *v) : StatementNode(core::node::NodeKind::ReturnStatement), value(v) {}
 };
-
 } // namespace parser::node

@@ -54,19 +54,19 @@ struct Executor {
 
     case core::node::NodeKind::PathExpression: return execute_identifier(static_cast<parser::node::statement::PathExprNode *>(node)->symbol_id);
 
-    case core::node::NodeKind::FunctionCall: return execute_function(unit, static_cast<parser::node::FunctionCallNode *>(node));
+    case core::node::NodeKind::FunctionCall: return execute_function_call(unit, static_cast<parser::node::FunctionCallNode *>(node));
 
     case core::node::NodeKind::VariableDeclaration: return execute_variable_declaration(unit, static_cast<parser::node::VariableDeclarationNode *>(node));
 
-    case core::node::NodeKind::Block: return execute_block(unit, static_cast<parser::node::BlockNode *>(node));
+    case core::node::NodeKind::BlockExpression: return execute_block(unit, static_cast<parser::node::BlockExpressionNode *>(node));
 
-    case core::node::NodeKind::IfStatement: return execute_if(unit, static_cast<parser::node::IfStatementNode *>(node));
+    case core::node::NodeKind::IfExpression: return execute_if(unit, static_cast<parser::node::IfExpressionNode *>(node));
 
     default: return Value::Null();
     }
   }
 
-  Value execute_block(CompilationUnit &unit, parser::node::BlockNode *block) {
+  Value execute_block(CompilationUnit &unit, parser::node::BlockExpressionNode *block) {
     if (!block) return Value::Void();
 
     Value last_value = Value::Void();
@@ -75,7 +75,7 @@ struct Executor {
     return last_value;
   }
 
-  Value execute_if(CompilationUnit &unit, parser::node::IfStatementNode *node) {
+  Value execute_if(CompilationUnit &unit, parser::node::IfExpressionNode *node) {
 
     if (!node || !node->condition) return Value::Void();
 
@@ -83,7 +83,7 @@ struct Executor {
     bool cond_truthy = cond.as_bool();
 
     if (cond_truthy) {
-      return execute_block(unit, node->then_block);
+      return execute_block(unit, node->if_block);
     } else {
       return execute_block(unit, node->else_block);
     }
@@ -122,7 +122,7 @@ struct Executor {
     return Value::Void();
   }
 
-  Value execute_function(CompilationUnit &unit, parser::node::FunctionCallNode *node) {
+  Value execute_function_call(CompilationUnit &unit, parser::node::FunctionCallNode *node) {
 
     auto callee = node->callee;
 

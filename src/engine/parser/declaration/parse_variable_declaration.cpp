@@ -17,13 +17,20 @@ core::node::StatementNode *Parser::parse_variable_declaration() {
 
     auto desc = unit.context.descriptor_table.lookup_by_kind(core::token::TokenKind::Colon);
 
-    return report_error(DiagnosticCode::ExpectedColon, desc ? desc->name : ":");
+    report_error(DiagnosticCode::ExpectedColon, desc ? desc->name : ":");
+
+    return nullptr;
   }
 
   // TYPE
   auto *type_node = parse_type();
 
-  if (!type_node) return report_error(DiagnosticCode::ExpectedType, "type");
+  if (!type_node) {
+
+    report_error(DiagnosticCode::ExpectedType, "type");
+
+    return nullptr;
+  }
 
   core::node::ExpressionNode *value_node = nullptr;
 
@@ -31,7 +38,12 @@ core::node::StatementNode *Parser::parse_variable_declaration() {
 
     value_node = parse_expression();
 
-    if (!value_node) return report_error(DiagnosticCode::ExpectedExpression, "expressão");
+    if (!value_node) {
+
+      report_error(DiagnosticCode::ExpectedExpression, "expressão");
+
+      return nullptr;
+    }
   }
 
   if (!unit.tokens.match(core::token::TokenKind::Semicolon)) {
