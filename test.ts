@@ -1,0 +1,1 @@
+let a: number = if (10 < 10) { 20 } else { 30 };

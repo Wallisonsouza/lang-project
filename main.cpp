@@ -5,6 +5,8 @@
 #include "engine/Engine.hpp"
 #include "engine/runtime/executor.hpp"
 #include "language/argon_main.hpp"
+#include <iostream>
+#include <ostream>
 #include <string>
 
 int main() {
@@ -20,6 +22,8 @@ int main() {
   auto debugger = ASTDebug();
 
   debugger.dump_ast(exec->comp_unit.ast);
+
+  std::cout << "ast size: " << exec->comp_unit.ast.size() << std::endl;
 
   RuntimeScope scope;
   Executor executor(&scope);

@@ -1,3 +1,4 @@
+#include "core/node/Type.hpp"
 #include "engine/parser/parser.hpp"
 
 core::node::StatementNode *Parser::parse_variable_declaration() {
@@ -6,14 +7,14 @@ core::node::StatementNode *Parser::parse_variable_declaration() {
 
   if (mods.order.empty()) return nullptr;
 
-  auto *id_node = parse_identifier();
+  auto *id_node = parse_identifier_name();
 
   if (!id_node) {
     synchronize_statement();
     return nullptr;
   }
 
-  if (!unit.tokens.try_match(core::token::TokenKind::Colon)) {
+  if (!unit.tokens.match(core::token::TokenKind::Colon)) {
 
     auto desc = unit.context.descriptor_table.lookup_by_kind(core::token::TokenKind::Colon);
 
@@ -55,5 +56,5 @@ core::node::StatementNode *Parser::parse_variable_declaration() {
     unit.tokens.match(core::token::TokenKind::Semicolon);
   }
 
-  return unit.ast.create_node<parser::node::VariableDeclarationNode>(id_node, type_node, value_node, mods);
+  return unit.ast.create_node<parser::node::VariableDeclarationNode>(static_cast<core::node::IdentifierNode *>(id_node), type_node, value_node, mods);
 }

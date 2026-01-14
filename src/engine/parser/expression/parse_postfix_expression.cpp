@@ -11,15 +11,21 @@ core::node::ExpressionNode *Parser::parse_postfix_expression() {
 
     switch (tok->descriptor->kind) {
 
-    case core::token::TokenKind::OpenParen: expr = finish_call(expr); break;
+    case core::token::TokenKind::OpenParen:
+      expr = finish_call(expr);
+      if (!expr) return nullptr;
+      break;
 
     case core::token::TokenKind::Dot:
-      // expr = parse_member_access(unit, unit.tokens, expr);
+
+      expr = parse_path_segment(expr);
+      if (!expr) return nullptr;
       break;
 
     case core::token::TokenKind::OpenBracket:
-      // expr = parse_index_access(unit, unit.tokens, expr);
-      break;
+      // expr = parse_index_access(expr);
+      // if (!expr) return nullptr;
+      // break;
 
     default: return expr;
     }

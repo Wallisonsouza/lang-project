@@ -12,8 +12,6 @@ struct Parser {
   core::node::TypeNode *parse_type();
 
 private:
-  core::node::IdentifierNode *parse_identifier();
-
   void synchronize_statement();
   void synchronize_parameter();
 
@@ -43,7 +41,13 @@ public:
   parser::node::BlockExpressionNode *parse_block_expression();
   core::node::FunctionParameterNode *parse_function_parameter();
 
-  core::node::Node *call_parser() { return parse_statement(); }
+  core::node::Node *call_parser() { return parse_expression(); }
+
+  core::node::ExpressionNode *parse_number_literal();
+  core::node::ExpressionNode *parse_string_literal();
+  core::node::ExpressionNode *parse_identifier_name();
+  core::node::ExpressionNode *parse_grouped_expression();
+  core::node::ExpressionNode *parse_path_segment(core::node::ExpressionNode *base);
 
   void generate_ast() {
 

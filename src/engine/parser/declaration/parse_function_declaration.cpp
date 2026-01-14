@@ -11,7 +11,7 @@ std::vector<core::node::FunctionParameterNode *> Parser::parse_function_paramete
 
   while (true) {
 
-    auto *param_tok = unit.tokens.try_match(core::token::TokenKind::Identifier);
+    auto *param_tok = unit.tokens.match(core::token::TokenKind::Identifier);
     if (!param_tok) {
       report_error(DiagnosticCode::ExpectedIdentifier, "parameter name", unit.tokens.last_slice());
       synchronize_parameter();
@@ -45,9 +45,9 @@ std::vector<core::node::FunctionParameterNode *> Parser::parse_function_paramete
 }
 
 core::node::StatementNode *Parser::parse_function_declaration() {
-  if (!unit.tokens.try_match(core::token::TokenKind::FunctionKeyword)) return nullptr;
+  if (!unit.tokens.match(core::token::TokenKind::FunctionKeyword)) return nullptr;
 
-  auto *identifier = parse_identifier();
+  auto *identifier = parse_identifier_name();
   if (!identifier) {
     synchronize_statement();
     return nullptr;
@@ -85,5 +85,5 @@ core::node::StatementNode *Parser::parse_function_declaration() {
     return nullptr;
   }
 
-  return unit.ast.create_node<parser::node::FunctionDeclarationNode>(identifier, params, return_type, body);
+  return unit.ast.create_node<parser::node::FunctionDeclarationNode>(static_cast<core::node::IdentifierNode *>(identifier), params, return_type, body);
 }

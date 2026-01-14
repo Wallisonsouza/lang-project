@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Deleta a pasta build se existir
-rm -rf build
+# # Deleta a pasta build se existir
+# rm -rf build
 
 # Cria novamente
 mkdir -p build

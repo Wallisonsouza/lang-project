@@ -42,17 +42,16 @@ public:
 
   inline core::token::Token *peek(size_t offset = 0) const noexcept { return has(offset) ? tokens_[pos_ + offset] : nullptr; }
 
-  // -----------------------------
-  // Matching
-  // -----------------------------
-  bool match(core::token::TokenKind kind) {
-    auto *token = peek();
-    if (!token || !token->descriptor) return false;
-    if (token->descriptor->kind != kind) return false;
+  Token *match(TokenKind kind) {
 
-    last_token_ = token;
-    ++pos_;
-    return true;
+    auto *token = peek();
+
+    if (!token || !token->descriptor) return nullptr;
+
+    if (token->descriptor->kind != kind) return nullptr;
+
+    advance();
+    return token;
   }
 
   inline const Slice &peek_slice(size_t offset = 0) const noexcept {
@@ -61,14 +60,6 @@ public:
     if (auto *tok = peek(offset)) return tok->slice;
 
     return last_slice();
-  }
-
-  Token *try_match(TokenKind kind) {
-    if (auto *tok = peek(); tok && tok->descriptor->kind == kind) {
-      advance();
-      return tok;
-    }
-    return nullptr;
   }
 
   // -----------------------------

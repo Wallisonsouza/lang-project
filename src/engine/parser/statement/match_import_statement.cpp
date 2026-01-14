@@ -11,12 +11,12 @@
 
 core::node::StatementNode *Parser::parse_import_statement() {
 
-  if (!unit.tokens.try_match(core::token::TokenKind::ImportKeyword)) return nullptr;
+  if (!unit.tokens.match(core::token::TokenKind::ImportKeyword)) return nullptr;
 
   std::vector<core::node::IdentifierNode *> path_nodes;
 
   while (true) {
-    auto name_token = unit.tokens.try_match(core::token::TokenKind::Identifier);
+    auto name_token = unit.tokens.match(core::token::TokenKind::Identifier);
     if (!name_token) {
 
       // report_error(DiagnosticCode::ExpectedToken, unit.tokens.last_slice(), DiagnosticToken{.expected = core::token::TokenKind::Identifier, .found = unit.tokens.peek()});
@@ -30,7 +30,7 @@ core::node::StatementNode *Parser::parse_import_statement() {
     auto next = unit.tokens.peek();
     if (!next) break;
 
-    if (unit.tokens.try_match(core::token::TokenKind::Dot)) continue;
+    if (unit.tokens.match(core::token::TokenKind::Dot)) continue;
 
     if (unit.tokens.match(core::token::TokenKind::Semicolon)) { break; }
 

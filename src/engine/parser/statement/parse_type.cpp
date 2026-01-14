@@ -8,7 +8,7 @@
 
 core::node::TypeNode *Parser::parse_type() {
 
-  auto name_token = unit.tokens.try_match(core::token::TokenKind::Identifier);
+  auto name_token = unit.tokens.match(core::token::TokenKind::Identifier);
   if (!name_token) { return nullptr; }
 
   auto type_name = unit.source.buffer.get_text(name_token->slice.span);

@@ -7,7 +7,7 @@
 #include "engine/parser/parser.hpp"
 
 core::node::ExpressionNode *Parser::parse_if_expression() {
-  auto *if_tok = unit.tokens.try_match(core::token::TokenKind::IfKeyword);
+  auto *if_tok = unit.tokens.match(core::token::TokenKind::IfKeyword);
   if (!if_tok) return nullptr;
 
   auto *condition = parse_expression();

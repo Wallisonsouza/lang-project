@@ -1,5 +1,1 @@
-fn add(a: Number, b: Number) -> Number{
-  a + b
-}
-
-
+console.log().test.ts(10, 20);

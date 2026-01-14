@@ -2,6 +2,8 @@
 #include "core/AST.hpp"
 #include "core/node/NodeKind.hpp"
 #include "core/node/Type.hpp"
+#include "debug/console/color.hpp"
+#include "debug/console/console.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 
 ASTDebug::ASTDebug(std::ostream &out) : out(out), tree(out) {}
@@ -96,7 +98,8 @@ void ASTDebug::dump_ast(const AST &ast) {
 
 void ASTDebug::debug_labeled(const char *label, const core::node::Node *child, bool is_last) {
   tree.begin_node(is_last);
-  out << label << "\n";
+
+  debug::Console::log(debug::Color::Blue, label);
 
   if (child) { debug_node(child, true); }
 
