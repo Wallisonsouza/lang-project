@@ -2,7 +2,6 @@
 #include "core/AST.hpp"
 #include "core/node/NodeKind.hpp"
 #include "core/node/Type.hpp"
-#include "debug/console/color.hpp"
 #include "debug/console/console.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 
@@ -57,14 +56,18 @@ void ASTDebug::debug_node(const core::node::Node *node, bool isLast) {
 
   case NodeKind::PathExpression: debug_path_expression(static_cast<const parser::node::statement::PathExprNode *>(node)); break;
 
-  case NodeKind::IfExpression: debug_if_statement(static_cast<const parser::node::IfExpressionNode *>(node)); break;
+  case NodeKind::IfStatement: debug_if_statement(static_cast<const parser::node::IfStatementNode *>(node)); break;
 
   case NodeKind::Assignment: debug_assing_node(static_cast<const parser::node::statement::AssignmentNode *>(node)); break;
 
-  case NodeKind::BlockExpression: debug_block(static_cast<const parser::node::BlockExpressionNode *>(node)); break;
+  case NodeKind::BlockStatement: debug_block(static_cast<const parser::node::BlockStatementNode *>(node)); break;
 
   case NodeKind::FunctionParameter: debug_funtion_parameter(static_cast<const FunctionParameterNode *>(node)); break;
+
   case NodeKind::IndexAccess: debug_index_acess(static_cast<const parser::node::IndexAccessNode *>(node)); break;
+
+  case NodeKind::ReturnStatement: debug_return_statement(static_cast<const parser::node::ReturnStatementNode *>(node)); break;
+
   default: out << "<unknown>\n"; break;
   }
 
@@ -99,7 +102,7 @@ void ASTDebug::dump_ast(const AST &ast) {
 void ASTDebug::debug_labeled(const char *label, const core::node::Node *child, bool is_last) {
   tree.begin_node(is_last);
 
-  debug::Console::log(debug::Color::Blue, label);
+  debug::Console::log(label_color, label);
 
   if (child) { debug_node(child, true); }
 

@@ -1,1 +1,10 @@
-console.log().test[1];
+
+fn add_missing_brace(a: Number, b: Number) -> Number {  
+
+  if a == 20 {
+    return 10
+  
+
+
+ 
+}

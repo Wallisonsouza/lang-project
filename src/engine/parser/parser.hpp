@@ -31,17 +31,23 @@ public:
   core::node::ExpressionNode *parse_postfix_expression();
   core::node::ExpressionNode *parse_primary_expression();
   core::node::ExpressionNode *parse_binary_expression(int min_precedence, core::node::ExpressionNode *lef);
-  core::node::ExpressionNode *parse_if_expression();
 
   core::node::StatementNode *parse_statement();
   core::node::StatementNode *parse_import_statement();
 
   core::node::StatementNode *parse_variable_declaration();
   core::node::StatementNode *parse_function_declaration();
-  parser::node::BlockExpressionNode *parse_block_expression();
+  core::node::StatementNode *parse_if_statement();
+
+  parser::node::BlockStatementNode *parse_block_statement();
   core::node::FunctionParameterNode *parse_function_parameter();
 
-  core::node::Node *call_parser() { return parse_expression(); }
+  core::node::Node *call_parser() {
+    if (auto stmt = parse_statement()) return stmt;
+    if (auto expr = parse_expression()) return expr;
+
+    return nullptr;
+  }
 
   core::node::ExpressionNode *parse_number_literal();
   core::node::ExpressionNode *parse_string_literal();
@@ -68,5 +74,18 @@ public:
     diag->set_expected(expected);
 
     if (auto current = unit.tokens.peek()) { diag->set_found(unit.source.buffer.get_text(current->slice.span)); }
+  }
+
+  void synchronize_block() {
+    while (!unit.tokens.is_end()) {
+      auto *tok = unit.tokens.peek();
+      if (!tok) break;
+
+      switch (tok->descriptor->kind) {
+      case core::token::TokenKind::CloseBrace:
+      case core::token::TokenKind::FunctionKeyword: return;
+      default: unit.tokens.advance();
+      }
+    }
   }
 };

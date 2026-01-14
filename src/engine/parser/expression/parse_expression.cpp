@@ -2,10 +2,6 @@
 
 core::node::ExpressionNode *Parser::parse_expression() {
 
-  // if (unit.tokens.peek(core::token::TokenKind::IfKeyword)) return parse_if_expression();
-
-  // if (unit.tokens.peek(core::token::TokenKind::OpenBrace)) return parse_block_expression();
-
   auto *lhs = parse_postfix_expression();
   if (!lhs) return nullptr;
 

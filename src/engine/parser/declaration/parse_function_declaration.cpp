@@ -7,10 +7,7 @@
 std::vector<core::node::FunctionParameterNode *> Parser::parse_function_parameters() {
   std::vector<core::node::FunctionParameterNode *> params;
 
-  if (unit.tokens.peek(core::token::TokenKind::CloseParen)) return params;
-
-  while (true) {
-
+  while (!unit.tokens.peek(core::token::TokenKind::CloseParen) && !unit.tokens.is_end()) {
     auto *param_tok = unit.tokens.match(core::token::TokenKind::Identifier);
     if (!param_tok) {
       report_error(DiagnosticCode::ExpectedIdentifier, "parameter name", unit.tokens.last_slice());
@@ -74,13 +71,25 @@ core::node::StatementNode *Parser::parse_function_declaration() {
       synchronize_statement();
       return nullptr;
     }
-  } else {
-    auto desc = unit.context.descriptor_table.lookup_by_kind(core::token::TokenKind::Arrow);
-    report_error(DiagnosticCode::ExpectedToken, desc->name);
   }
 
-  auto *body = parse_block_expression();
+  // Abre bloco (função consome o '{')
+  if (!unit.tokens.match(core::token::TokenKind::OpenBrace)) {
+    report_error(DiagnosticCode::ExpectedToken, "expected '{' to start function body");
+    synchronize_statement();
+    return nullptr;
+  }
+
+  // Parseia statements e tail expression, mas não fecha o '}'
+  auto *body = parse_block_statement();
   if (!body) {
+    synchronize_statement();
+    return nullptr;
+  }
+
+  // Fecha bloco (função consome o '}')
+  if (!unit.tokens.match(core::token::TokenKind::CloseBrace)) {
+    report_error(DiagnosticCode::ExpectedToken, "expected '}' to close function body");
     synchronize_statement();
     return nullptr;
   }

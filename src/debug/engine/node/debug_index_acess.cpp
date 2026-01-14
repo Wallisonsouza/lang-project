@@ -3,7 +3,7 @@
 
 void ASTDebug::debug_index_acess(const parser::node::IndexAccessNode *node) {
 
-  out << "IndexAcess\n";
+  debug_header("IndexAcess");
 
   debug_labeled("Base", node->base, false);
   debug_labeled("Index", node->index, true);

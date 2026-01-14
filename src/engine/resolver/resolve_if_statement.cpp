@@ -1,6 +1,6 @@
 #include "engine/resolver/Resolver.hpp"
 
-void Resolver::resolve_if_statement(parser::node::IfExpressionNode *node) {
+void Resolver::resolve_if_statement(parser::node::IfStatementNode *node) {
   if (!node) return;
 
   if (node->condition) { resolve(node->condition); }

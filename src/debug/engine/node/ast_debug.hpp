@@ -29,6 +29,9 @@ struct ASTDebug {
     const core::node::Node *node;
   };
 
+  debug::Color label_color = debug::Color::Blue;
+  debug::Color header_color = debug::Color::Purple;
+
   void debug_labeled_children(const char *label, const std::vector<LabeledChild> &children, bool is_last) {
     tree.begin_node(is_last);
     out << label << "\n";
@@ -45,6 +48,8 @@ struct ASTDebug {
 
     tree.end_node();
   }
+
+  void debug_header(const std::string &header) { debug::Console::log(header_color, header); }
 
   std::ostream &out;
   TreeLayout tree;
@@ -71,14 +76,16 @@ struct ASTDebug {
   void debug_function_call(const parser::node::FunctionCallNode *node);
   void debug_expression_statement(const core::node::ExpressionStatementNode *node);
 
+  void debug_return_statement(const parser::node::ReturnStatementNode *node);
+
   void debug_native_function_declaration(const core::node::NativeFunctionDeclarationNode *node);
   void debug_function_declaration(const parser::node::FunctionDeclarationNode *node);
   void debug_index_acess(const parser::node::IndexAccessNode *node);
 
   void debug_path_expression(const parser::node::statement::PathExprNode *node);
-  void debug_if_statement(const parser::node::IfExpressionNode *node);
+  void debug_if_statement(const parser::node::IfStatementNode *node);
   void debug_assing_node(const parser::node::statement::AssignmentNode *node);
-  void debug_block(const parser::node::BlockExpressionNode *node);
+  void debug_block(const parser::node::BlockStatementNode *node);
 
   void debug_children(const std::vector<const core::node::Node *> &children);
 
@@ -86,7 +93,7 @@ struct ASTDebug {
 
     tree.begin_node(is_last);
 
-    debug::Console::log(debug::Color::Blue, label);
+    debug::Console::log(label_color, label);
 
     size_t count = 0;
     for (auto *c : children)

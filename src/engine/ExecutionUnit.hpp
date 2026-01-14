@@ -15,6 +15,6 @@ public:
   void execute() {
     lexer.generate_tokens();
     parser.generate_ast();
-    resolver.resolve_ast();
+    // resolver.resolve_ast();
   }
 };

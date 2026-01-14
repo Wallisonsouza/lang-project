@@ -1,11 +1,8 @@
-#include "core/node/Node.hpp"
-#include "core/node/Type.hpp"
 #include "debug/engine/node/ast_debug.hpp"
-#include <vector>
 
 void ASTDebug::debug_function_declaration(const parser::node::FunctionDeclarationNode *node) {
 
-  out << "FunctionDeclarationNode\n";
+  debug_header("FunctionDeclaration");
 
   if (node->identifier) { debug_node(node->identifier, false); }
 
@@ -18,18 +15,11 @@ void ASTDebug::debug_function_declaration(const parser::node::FunctionDeclaratio
 
 void ASTDebug::debug_funtion_parameter(const core::node::FunctionParameterNode *node) {
 
-  out << "FunctionParameterNode\n";
+  debug_header("FunctionParameter");
 
-  std::vector<const core::node::Node *> children;
-
-  if (node->identifier) children.push_back(node->identifier);
-  if (node->type) children.push_back(node->type);
-  if (node->value) children.push_back(node->value);
-
-  for (size_t i = 0; i < children.size(); ++i) {
-    bool is_last = (i + 1 == children.size());
-    debug_node(children[i], is_last);
-  }
+  if (node->identifier) { debug_labeled("Identifier", node->identifier, false); }
+  if (node->type) { debug_labeled("Type", node->type, false); }
+  if (node->value) { debug_labeled("Value", node->value, true); }
 }
 
 void ASTDebug::debug_function_call(const parser::node::FunctionCallNode *node) {

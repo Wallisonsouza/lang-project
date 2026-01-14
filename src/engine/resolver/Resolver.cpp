@@ -11,9 +11,9 @@ void Resolver::resolve(core::node::Node *node) {
   case core::node::NodeKind::StringLiteral:
   case core::node::NodeKind::BooleanLiteral: return;
 
-  case core::node::NodeKind::IfExpression: resolve_if_statement(static_cast<parser::node::IfExpressionNode *>(node)); break;
+  case core::node::NodeKind::IfStatement: resolve_if_statement(static_cast<parser::node::IfStatementNode *>(node)); break;
 
-  case core::node::NodeKind::BlockExpression: resolve_block(static_cast<parser::node::BlockExpressionNode *>(node)); break;
+  case core::node::NodeKind::BlockStatement: resolve_block(static_cast<parser::node::BlockStatementNode *>(node)); break;
 
   case core::node::NodeKind::BinaryExpression: resolve_binary_expression(static_cast<parser::node::BinaryExpressionNode *>(node)); break;
 

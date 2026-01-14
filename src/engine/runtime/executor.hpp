@@ -58,15 +58,15 @@ struct Executor {
 
     case core::node::NodeKind::VariableDeclaration: return execute_variable_declaration(unit, static_cast<parser::node::VariableDeclarationNode *>(node));
 
-    case core::node::NodeKind::BlockExpression: return execute_block(unit, static_cast<parser::node::BlockExpressionNode *>(node));
+    case core::node::NodeKind::BlockStatement: return execute_block(unit, static_cast<parser::node::BlockStatementNode *>(node));
 
-    case core::node::NodeKind::IfExpression: return execute_if(unit, static_cast<parser::node::IfExpressionNode *>(node));
+    case core::node::NodeKind::IfStatement: return execute_if(unit, static_cast<parser::node::IfStatementNode *>(node));
 
     default: return Value::Null();
     }
   }
 
-  Value execute_block(CompilationUnit &unit, parser::node::BlockExpressionNode *block) {
+  Value execute_block(CompilationUnit &unit, parser::node::BlockStatementNode *block) {
     if (!block) return Value::Void();
 
     Value last_value = Value::Void();
@@ -75,7 +75,7 @@ struct Executor {
     return last_value;
   }
 
-  Value execute_if(CompilationUnit &unit, parser::node::IfExpressionNode *node) {
+  Value execute_if(CompilationUnit &unit, parser::node::IfStatementNode *node) {
 
     if (!node || !node->condition) return Value::Void();
 

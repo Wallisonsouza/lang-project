@@ -1,1 +1,8 @@
-let a: number = if (10 < 10) { 20 } else { 30 };
+function add() {
+  if(10 < 10) {
+
+    return 5;
+ 
+
+
+}
