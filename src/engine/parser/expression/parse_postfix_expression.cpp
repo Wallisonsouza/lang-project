@@ -23,9 +23,9 @@ core::node::ExpressionNode *Parser::parse_postfix_expression() {
       break;
 
     case core::token::TokenKind::OpenBracket:
-      // expr = parse_index_access(expr);
-      // if (!expr) return nullptr;
-      // break;
+      expr = parse_index_access(expr);
+      if (!expr) return nullptr;
+      break;
 
     default: return expr;
     }

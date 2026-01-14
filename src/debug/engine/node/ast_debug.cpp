@@ -64,7 +64,7 @@ void ASTDebug::debug_node(const core::node::Node *node, bool isLast) {
   case NodeKind::BlockExpression: debug_block(static_cast<const parser::node::BlockExpressionNode *>(node)); break;
 
   case NodeKind::FunctionParameter: debug_funtion_parameter(static_cast<const FunctionParameterNode *>(node)); break;
-
+  case NodeKind::IndexAccess: debug_index_acess(static_cast<const parser::node::IndexAccessNode *>(node)); break;
   default: out << "<unknown>\n"; break;
   }
 

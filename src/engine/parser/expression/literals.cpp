@@ -1,6 +1,7 @@
 #include "core/node/Type.hpp"
 #include "engine/parser/node/literal_nodes.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
+#include "engine/parser/node/statement_nodes.hpp"
 #include "engine/parser/parser.hpp"
 
 core::node::ExpressionNode *Parser::parse_number_literal() {
@@ -59,4 +60,18 @@ core::node::ExpressionNode *Parser::parse_path_segment(core::node::ExpressionNod
   if (!field) { return nullptr; }
 
   return unit.ast.create_node<parser::node::statement::PathExprNode>(base, field);
+}
+
+core::node::ExpressionNode *Parser::parse_index_access(core::node::ExpressionNode *base) {
+
+  auto *open = unit.tokens.match(core::token::TokenKind::OpenBracket);
+  if (!open) return nullptr; // erro: '[' esperado
+
+  core::node::ExpressionNode *index_expr = parse_expression();
+  if (!index_expr) return nullptr; // erro: expressão esperada dentro de '[]'
+
+  auto *close = unit.tokens.match(core::token::TokenKind::CloseBracket);
+  if (!close) return nullptr; // erro: ']' esperado
+
+  return unit.ast.create_node<parser::node::IndexAccessNode>(base, index_expr);
 }

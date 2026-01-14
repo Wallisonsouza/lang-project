@@ -48,6 +48,7 @@ public:
   core::node::ExpressionNode *parse_identifier_name();
   core::node::ExpressionNode *parse_grouped_expression();
   core::node::ExpressionNode *parse_path_segment(core::node::ExpressionNode *base);
+  core::node::ExpressionNode *parse_index_access(core::node::ExpressionNode *base);
 
   void generate_ast() {
 

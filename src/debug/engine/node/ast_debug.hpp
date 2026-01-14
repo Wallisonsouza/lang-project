@@ -2,6 +2,8 @@
 #include "core/AST.hpp"
 #include "core/node/Node.hpp"
 #include "core/node/Type.hpp"
+#include "debug/console/color.hpp"
+#include "debug/console/console.hpp"
 #include "engine/parser/node/literal_nodes.hpp"
 #include "engine/parser/node/operator_nodes.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
@@ -71,6 +73,7 @@ struct ASTDebug {
 
   void debug_native_function_declaration(const core::node::NativeFunctionDeclarationNode *node);
   void debug_function_declaration(const parser::node::FunctionDeclarationNode *node);
+  void debug_index_acess(const parser::node::IndexAccessNode *node);
 
   void debug_path_expression(const parser::node::statement::PathExprNode *node);
   void debug_if_statement(const parser::node::IfExpressionNode *node);
@@ -82,7 +85,8 @@ struct ASTDebug {
   template <typename T> void debug_labeled_childrens(const std::vector<T *> &children, const std::string &label, bool is_last) {
 
     tree.begin_node(is_last);
-    out << label << "\n";
+
+    debug::Console::log(debug::Color::Blue, label);
 
     size_t count = 0;
     for (auto *c : children)
