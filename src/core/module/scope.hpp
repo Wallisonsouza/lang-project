@@ -1,8 +1,6 @@
 #pragma once
 
 #include "core/memory/symbol.hpp"
-#include <cstdint>
-#include <iostream>
 #include <string>
 #include <unordered_map>
 
@@ -35,11 +33,10 @@ struct Scope {
     return nullptr;
   }
 
-  SymbolId add_symbol(const std::string &name, SymbolId id) {
+  void add_symbol(const std::string &name, SymbolId id) {
     auto it = symbols.find(name);
-    if (it != symbols.end()) return it->second;
+    if (it != symbols.end()) return;
     symbols[name] = id;
-    return id;
   }
 
   bool has_symbol_local(const std::string &name) const { return symbols.find(name) != symbols.end(); }

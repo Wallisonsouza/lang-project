@@ -1,14 +1,17 @@
 #pragma once
 #include "core/memory/symbol.hpp"
+#include "core/memory/value.hpp"
 #include "core/node/BinaryOp.hpp"
 #include "core/node/NodeKind.hpp"
 #include "core/node/Type.hpp"
+#include "debug/engine/node/ast_debug.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/parser/node/literal_nodes.hpp"
 #include "engine/parser/node/operator_nodes.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 #include "runtime_scope.hpp"
+#include <iostream>
 
 struct Executor {
 
@@ -40,9 +43,7 @@ struct Executor {
       return Value::Void();
     }
 
-    case core::node::NodeKind::Assignment: {
-      return execute_assignment(unit, static_cast<parser::node::statement::AssignmentNode *>(node));
-    }
+    case core::node::NodeKind::Assignment: return execute_assignment(unit, static_cast<parser::node::statement::AssignmentNode *>(node));
 
     case core::node::NodeKind::Identifier: return execute_identifier(static_cast<core::node::IdentifierNode *>(node)->symbol_id);
 
@@ -62,8 +63,17 @@ struct Executor {
 
     case core::node::NodeKind::IfStatement: return execute_if(unit, static_cast<parser::node::IfStatementNode *>(node));
 
+    case core::node::NodeKind::FunctionDeclaration: return execute_function_declaration(unit, static_cast<parser::node::FunctionDeclarationNode *>(node));
+
+    case core::node::NodeKind::ReturnStatement: return execute_return(unit, static_cast<parser::node::ReturnStatementNode *>(node));
+
     default: return Value::Null();
     }
+  }
+
+  Value execute_return(CompilationUnit &unit, parser::node::ReturnStatementNode *node) {
+    if (!node->value) return Value::Void();
+    return execute_node(unit, node->value);
   }
 
   Value execute_block(CompilationUnit &unit, parser::node::BlockStatementNode *block) {
@@ -123,29 +133,51 @@ struct Executor {
   }
 
   Value execute_function_call(CompilationUnit &unit, parser::node::FunctionCallNode *node) {
-
-    auto callee = node->callee;
-
     SymbolId id = INVALID_SYMBOL_ID;
-    if (node->callee->kind == core::node::NodeKind::PathExpression) {
-      auto *path = static_cast<parser::node::statement::PathExprNode *>(node->callee);
-      id = path->symbol_id;
-    }
+
+    if (node->callee->kind == core::node::NodeKind::Identifier)
+      id = static_cast<core::node::IdentifierNode *>(node->callee)->symbol_id;
+    else if (node->callee->kind == core::node::NodeKind::PathExpression)
+      id = static_cast<parser::node::statement::PathExprNode *>(node->callee)->symbol_id;
 
     if (id == INVALID_SYMBOL_ID) return Value::Null();
 
     auto symbol = unit.symbols.get(id);
+    if (!symbol) return Value::Null();
 
-    if (symbol->declaration && symbol->declaration->kind == core::node::NodeKind::NativeFunctionDeclaration) {
-      auto *native = static_cast<core::node::NativeFunctionDeclarationNode *>(symbol->declaration);
+    Value func_val;
+    if (symbol->declaration->kind == core::node::NodeKind::NativeFunctionDeclaration) {
+      func_val = Value::Native(static_cast<core::node::NativeFunctionDeclarationNode *>(symbol->declaration)->callback);
+    } else if (symbol->declaration->kind == core::node::NodeKind::FunctionDeclaration) {
+      func_val = Value::User(static_cast<parser::node::FunctionDeclarationNode *>(symbol->declaration), current_scope);
+    } else {
+      return Value::Null();
+    }
 
+    if (func_val.is_native_function()) {
       std::vector<Value> args;
-      for (auto *arg : node->args) { args.push_back(execute_node(unit, arg)); }
+      for (auto *arg : node->args) args.push_back(execute_node(unit, arg));
+      return func_val.get_native()(args);
+    }
 
-      return native->callback(args);
+    if (func_val.is_user_function()) {
+      auto &fn = func_val.get_user_function();
+      RuntimeScope new_scope(fn.captured_scope);
+      for (size_t i = 0; i < node->args.size(); ++i) new_scope.set(fn.node->params[i]->symbol_id, execute_node(unit, node->args[i]));
+      Executor executor(&new_scope);
+      return executor.execute_block(unit, fn.node->body);
     }
 
     return Value::Null();
+  }
+
+  Value execute_function_declaration(CompilationUnit &unit, parser::node::FunctionDeclarationNode *node) {
+
+    Value func_value = Value::User(node, current_scope);
+
+    current_scope->set(node->symbol_id, func_value);
+
+    return Value::Void();
   }
 
   void execute_ast(CompilationUnit &unit) {

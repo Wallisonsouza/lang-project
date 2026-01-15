@@ -22,7 +22,7 @@ namespace ayla::modules {
 inline core::node::IdentifierNode *id(AST &ast, const char *name) { return ast.create_node<core::node::IdentifierNode>(name); }
 
 inline core::node::NativeFunctionDeclarationNode *
-make_native(core::Module *module, core::node::IdentifierNode *name, std::vector<core::node::FunctionParameterNode *> params, core::node::TypeNode *return_type, core::node::native_callback callback) {
+make_native(core::Module *module, core::node::IdentifierNode *name, std::vector<core::node::FunctionParameterNode *> params, core::node::TypeNode *return_type, Value::NativeFunction callback) {
   auto *node = module->ast.create_node<core::node::NativeFunctionDeclarationNode>(name, std::move(params), return_type, std::move(callback));
   module->ast.add_root(node);
   return node;

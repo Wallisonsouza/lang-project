@@ -1,10 +1,17 @@
-
-fn add_missing_brace(a: Number, b: Number) -> Number {  
-
-  if a == 20 {
-    return 10
-  
+import debug.console
 
 
- 
+
+fn sub() -> Number { 
+  val a: Number = 10;
+  val b: Number = 50;
 }
+
+
+fn add() -> Number { 
+ return a + b
+
+}
+
+
+console.log(add())

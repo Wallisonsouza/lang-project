@@ -1,14 +1,20 @@
 #include "Resolver.hpp"
-#include "core/node/Type.hpp"
-#include "engine/parser/node/statement_nodes.hpp"
 
 void Resolver::resolve_function_declaration(parser::node::FunctionDeclarationNode *node) {
 
-  current_scope->add_symbol(node->identifier->name, node->symbol_id);
-
   push_scope();
 
-  for (auto *param : node->params) { current_scope->add_symbol(param->identifier->name, param->symbol_id); }
+  for (auto *param : node->params) {
+    if (current_scope->has_symbol_local(param->identifier->name)) {
+      report_error(DiagnosticCode::RedeclaredIdentifier, param->identifier->slice, {{"name", param->identifier->name}});
+      continue;
+    }
+
+    auto symbol = unit.symbols.create_symbol(param->identifier->name, SymbolKind::Variable);
+    current_scope->add_symbol(param->identifier->name, symbol);
+
+    param->symbol_id = symbol;
+  }
 
   resolve_block(node->body, false);
 

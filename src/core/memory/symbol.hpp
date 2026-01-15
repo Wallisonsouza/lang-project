@@ -5,11 +5,7 @@
 
 enum class Visibility { Private, Public };
 
-enum class SymbolKind {
-  Type,
-  Function,
-  Variable,
-};
+enum class SymbolKind { Type, Function, Variable, Module };
 
 struct Symbol {
   std::string name;
@@ -18,11 +14,8 @@ struct Symbol {
   bool is_builtin;
   core::node::Node *declaration = nullptr;
 
-  Symbol(std::string name, SymbolKind kind,
-         Visibility visibility = Visibility::Private, bool is_builtin = false,
-         core::node::Node *decl = nullptr)
-      : name(std::move(name)), kind(kind), visibility(visibility),
-        is_builtin(is_builtin) {}
+  Symbol(std::string name, SymbolKind kind, Visibility visibility = Visibility::Private, bool is_builtin = false, core::node::Node *decl = nullptr)
+      : name(std::move(name)), kind(kind), visibility(visibility), is_builtin(is_builtin) {}
 };
 
 using SymbolId = size_t;

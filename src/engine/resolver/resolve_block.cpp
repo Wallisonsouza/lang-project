@@ -1,3 +1,4 @@
+#include "engine/parser/node/statement_nodes.hpp"
 #include "engine/resolver/Resolver.hpp"
 
 void Resolver::resolve_block(parser::node::BlockStatementNode *node, bool create_scope) {
@@ -7,4 +8,8 @@ void Resolver::resolve_block(parser::node::BlockStatementNode *node, bool create
   for (auto *stmt : node->statements) resolve(stmt);
 
   if (create_scope) pop_scope();
+}
+
+void Resolver::resolve_return_statement(parser::node::ReturnStatementNode *node) {
+  if (node->value) { resolve(node->value); }
 }

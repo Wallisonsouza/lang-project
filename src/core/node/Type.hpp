@@ -6,6 +6,7 @@
 #include "core/token/Location.hpp"
 #include <string>
 #include <vector>
+struct Value;
 
 namespace core::node {
 
@@ -68,18 +69,17 @@ struct FunctionParameterNode : StatementNode {
   FunctionParameterNode(IdentifierNode *id, core::node::TypeNode *t, core::node::ExpressionNode *v) : StatementNode(core::node::NodeKind::FunctionParameter), identifier(id), type(t), value(v) {}
 };
 
-using native_callback = std::function<Value(const std::vector<Value> &)>;
-
 struct NativeFunctionDeclarationNode : ExpressionNode {
-  IdentifierNode *id;
+  IdentifierNode *identifier;
   std::vector<FunctionParameterNode *> params;
   node::TypeNode *return_type;
   SymbolId symbol_id;
 
-  native_callback callback;
+  Value::NativeFunction callback;
 
-  NativeFunctionDeclarationNode(IdentifierNode *id, std::vector<FunctionParameterNode *> p, node::TypeNode *ret, native_callback cb)
-      : ExpressionNode(core::node::NodeKind::NativeFunctionDeclaration), id(id), params(std::move(p)), return_type(ret), callback(std::move(cb)) {}
+  // Construtor
+  NativeFunctionDeclarationNode(IdentifierNode *id, std::vector<FunctionParameterNode *> p, node::TypeNode *ret, Value::NativeFunction cb)
+      : ExpressionNode(core::node::NodeKind::NativeFunctionDeclaration), identifier(id), params(std::move(p)), return_type(ret), callback(std::move(cb)) {}
 };
 
 } // namespace core::node

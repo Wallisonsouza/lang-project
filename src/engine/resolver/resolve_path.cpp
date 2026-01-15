@@ -1,28 +1,51 @@
+#include "core/module/scope.hpp"
+#include "engine/resolver/Resolver.hpp"
+
+#include "core/module/scope.hpp"
 #include "engine/resolver/Resolver.hpp"
 
 void Resolver::resolve_path(parser::node::statement::PathExprNode *path) {
-  // if (!path || path->segments.empty()) return;
+  if (!path) return;
 
-  // core::Scope *scope = current_scope;
+  // Resolve o base primeiro
+  resolve(path->base);
 
-  // for (size_t i = 0; i + 1 < path->segments.size(); ++i) {
-  //   const std::string &name = path->segments[i]->name;
 
-  //   scope = scope->resolve_import(name);
+  
 
-  //   if (!scope) {
-  //     std::cout << "[resolve_path] Prefix not found: " << name << "\n";
-  //     return;
-  //   }
-  // }
+  // Se o base for um identificador
+  if (auto *id = dynamic_cast<core::node::IdentifierNode *>(path->base)) {
+    SymbolId base_sym_id = current_scope->resolve_symbol(id->name);
 
-  // const std::string &last = path->segments.back()->name;
-  // SymbolId sym = scope->resolve_symbol(last);
+    if (base_sym_id == INVALID_SYMBOL_ID) {
+      report_error(DiagnosticCode::UndeclaredSymbol, id->slice);
+      return;
+    }
 
-  // if (sym == INVALID_SYMBOL_ID) {
-  //   std::cout << "[resolve_path] Symbol not found: " << last << "\n";
-  //   return;
-  // }
+    Symbol *base_sym = unit.symbols.get(base_sym_id);
 
-  // path->symbol_id = sym;
+    if (base_sym->kind != SymbolKind::Module) {
+      report_error(DiagnosticCode::NotCallable, id->slice);
+      return;
+    }
+
+    // Se o field for um identificador, resolve dentro do módulo
+    if (auto *field_id = dynamic_cast<core::node::IdentifierNode *>(path->field)) {
+      core::Scope *module_scope = current_scope->resolve_import(id->name);
+
+      if (!module_scope) {
+        report_error(DiagnosticCode::UndeclaredSymbol, id->slice);
+        return;
+      }
+
+      SymbolId field_sym = module_scope->resolve_symbol(field_id->name);
+
+      if (field_sym == INVALID_SYMBOL_ID) {
+        report_error(DiagnosticCode::UndeclaredSymbol, field_id->slice);
+        return;
+      }
+
+      path->symbol_id = field_sym;
+    }
+  }
 }

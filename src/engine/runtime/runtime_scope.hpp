@@ -1,5 +1,6 @@
+#pragma once
 #include "core/memory/symbol.hpp"
-#include "core/node/Type.hpp"
+#include "core/memory/value.hpp"
 #include <unordered_map>
 
 struct RuntimeScope {

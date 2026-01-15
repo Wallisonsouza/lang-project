@@ -31,6 +31,9 @@ void Resolver::resolve(core::node::Node *node) {
 
   case core::node::NodeKind::ExpressionStatement: resolve_expression_statement(static_cast<core::node::ExpressionStatementNode *>(node)); break;
 
+  case core::node::NodeKind::FunctionDeclaration: resolve_function_declaration(static_cast<parser::node::FunctionDeclarationNode *>(node)); break;
+
+  case core::node::NodeKind::ReturnStatement: resolve_return_statement(static_cast<parser::node::ReturnStatementNode *>(node)); break;
   case core::node::NodeKind::Assignment: {
     auto *assign = static_cast<parser::node::statement::AssignmentNode *>(node);
     resolve(assign->target);
@@ -43,6 +46,8 @@ void Resolver::resolve(core::node::Node *node) {
 }
 
 void Resolver::resolve_ast() {
+  resolve_top_level();
+
   for (auto *node : unit.ast.get_nodes()) { resolve(node); }
 }
 

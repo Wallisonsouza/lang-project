@@ -19,6 +19,8 @@ struct Resolver {
   void push_scope();
   void pop_scope();
 
+  void resolve_top_level();
+
   void resolve_function_call(parser::node::FunctionCallNode *node);
   void resolve_assignment(parser::node::statement::AssignmentNode *node);
 
@@ -30,6 +32,8 @@ struct Resolver {
   void resolve_native_function_declaration(core::node::NativeFunctionDeclarationNode *node);
 
   void resolve_block(parser::node::BlockStatementNode *node, bool create_scope = true);
+
+  void resolve_return_statement(parser::node::ReturnStatementNode *node);
 
   void resolve_path(parser::node::statement::PathExprNode *node);
   void resolve_import_node(parser::node::statement::ImportNode *node);

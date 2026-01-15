@@ -50,6 +50,8 @@ core::node::ExpressionNode *Parser::parse_grouped_expression() {
   return expr;
 }
 
+
+// a.b.c.d  -> PathExprNode(base=PathExprNode(base=IdentifierNode(a), b), c), d)
 core::node::ExpressionNode *Parser::parse_path_segment(core::node::ExpressionNode *base) {
 
   auto *dot = unit.tokens.match(core::token::TokenKind::Dot);
@@ -62,6 +64,8 @@ core::node::ExpressionNode *Parser::parse_path_segment(core::node::ExpressionNod
   return unit.ast.create_node<parser::node::statement::PathExprNode>(base, field);
 }
 
+
+// a[b] -> IndexAccessNode(base=a, index=b)
 core::node::ExpressionNode *Parser::parse_index_access(core::node::ExpressionNode *base) {
 
   auto *open = unit.tokens.match(core::token::TokenKind::OpenBracket);

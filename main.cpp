@@ -19,15 +19,11 @@ int main() {
 
   exec->execute();
 
-  auto debugger = ASTDebug();
-
-  debugger.dump_ast(exec->comp_unit.ast);
-
   std::cout << "ast size: " << exec->comp_unit.ast.size() << std::endl;
 
-  // RuntimeScope scope;
-  // Executor executor(&scope);
-  // executor.execute_ast(exec->comp_unit);
+  RuntimeScope scope;
+  Executor executor(&scope);
+  executor.execute_ast(exec->comp_unit);
 
   for (auto &diag : exec->comp_unit.diagns.all()) { print(*diag, exec->comp_unit); }
 }

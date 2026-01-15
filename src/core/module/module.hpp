@@ -1,6 +1,5 @@
 #pragma once
 #include "core/AST.hpp"
-#include "core/memory/symbol_manager.hpp"
 #include "core/module/scope.hpp"
 #include <string>
 #include <unordered_map>
