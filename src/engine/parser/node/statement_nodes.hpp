@@ -3,7 +3,6 @@
 #include "core/node/Modifier.hpp"
 #include "core/node/NodeKind.hpp"
 #include "core/node/Type.hpp"
-#include "core/token/TokenKind.hpp"
 
 namespace parser::node {
 
@@ -22,27 +21,16 @@ struct IfStatementNode : core::node::StatementNode {
       : core::node::StatementNode(core::node::NodeKind::IfStatement), condition(cond), if_block(then_b), else_block(else_b) {}
 };
 
-struct VariableDeclarationNode : core::node::StatementNode {
-  core::node::IdentifierNode *identifier;
-  core::node::TypeNode *type;
-  core::node::ExpressionNode *value;
-  core::node::Modifiers modifiers;
-  SymbolId symbol_id = SIZE_MAX;
-
-  VariableDeclarationNode(core::node::IdentifierNode *n, core::node::TypeNode *t, core::node::ExpressionNode *v, core::node::Modifiers modifiers = {})
-      : StatementNode(core::node::NodeKind::VariableDeclaration), identifier(n), type(t), value(v), modifiers(modifiers) {}
-};
-
 struct FunctionDeclarationNode : core::node::StatementNode {
   core::node::IdentifierNode *identifier;
-  std::vector<core::node::FunctionParameterNode *> params;
+  std::vector<core::node::PatternNode *> params;
   core::node::TypeNode *return_type;
   BlockStatementNode *body;
   core::node::Modifiers modifiers;
   SymbolId symbol_id = SIZE_MAX;
 
   FunctionDeclarationNode(core::node::IdentifierNode *identifier,
-                          std::vector<core::node::FunctionParameterNode *> params,
+                          std::vector<core::node::PatternNode *> params,
                           core::node::TypeNode *ret_type = nullptr,
                           BlockStatementNode *b = nullptr,
                           core::node::Modifiers mods = {})
@@ -68,24 +56,6 @@ struct FunctionCallNode : core::node::ExpressionNode {
   std::vector<core::node::ExpressionNode *> args;
   SymbolId symbol_id = SIZE_MAX;
   FunctionCallNode(core::node::ExpressionNode *c, std::vector<core::node::ExpressionNode *> a) : ExpressionNode(core::node::NodeKind::FunctionCall), callee(c), args(std::move(a)) {}
-};
-
-struct OperatorDeclarationNode : core::node::StatementNode {
-  core::token::TokenKind operator_kind; // +, -, *, ==, etc
-
-  std::vector<core::node::FunctionParameterNode *> parameters;
-  core::node::TypeNode *return_type;
-  BlockStatementNode *body;
-
-  core::node::Modifier modifiers;
-  SymbolId symbol_id = SIZE_MAX;
-
-  OperatorDeclarationNode(core::token::TokenKind op,
-                          std::vector<core::node::FunctionParameterNode *> params,
-                          core::node::TypeNode *ret_type = nullptr,
-                          BlockStatementNode *b = nullptr,
-                          core::node::Modifier mods = core::node::Modifier::None)
-      : StatementNode(core::node::NodeKind::OperatorDeclaration), operator_kind(op), parameters(std::move(params)), return_type(ret_type), body(b), modifiers(mods) {}
 };
 
 struct ReturnStatementNode : core::node::StatementNode {

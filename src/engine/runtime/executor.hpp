@@ -4,14 +4,12 @@
 #include "core/node/BinaryOp.hpp"
 #include "core/node/NodeKind.hpp"
 #include "core/node/Type.hpp"
-#include "debug/engine/node/ast_debug.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/parser/node/literal_nodes.hpp"
 #include "engine/parser/node/operator_nodes.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 #include "runtime_scope.hpp"
-#include <iostream>
 
 struct Executor {
 
@@ -57,7 +55,7 @@ struct Executor {
 
     case core::node::NodeKind::FunctionCall: return execute_function_call(unit, static_cast<parser::node::FunctionCallNode *>(node));
 
-    case core::node::NodeKind::VariableDeclaration: return execute_variable_declaration(unit, static_cast<parser::node::VariableDeclarationNode *>(node));
+    case core::node::NodeKind::VariableDeclaration: return execute_variable_declaration(unit, static_cast<core::node::PatternNode *>(node));
 
     case core::node::NodeKind::BlockStatement: return execute_block(unit, static_cast<parser::node::BlockStatementNode *>(node));
 
@@ -119,7 +117,7 @@ struct Executor {
     }
   }
 
-  Value execute_variable_declaration(CompilationUnit &unit, parser::node::VariableDeclarationNode *node) {
+  Value execute_variable_declaration(CompilationUnit &unit, core::node::PatternNode *node) {
 
     Value value = Value::Null();
 

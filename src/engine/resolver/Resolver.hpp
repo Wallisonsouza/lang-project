@@ -27,7 +27,7 @@ struct Resolver {
   void resolve_identifier(core::node::IdentifierNode *node);
   void resolve_binary_expression(parser::node::BinaryExpressionNode *node);
   void resolve_if_statement(parser::node::IfStatementNode *node);
-  void resolve_variable_declaration(parser::node::VariableDeclarationNode *node);
+  void resolve_variable_declaration(core::node::PatternNode *node);
   void resolve_function_declaration(parser::node::FunctionDeclarationNode *node);
   void resolve_native_function_declaration(core::node::NativeFunctionDeclarationNode *node);
 

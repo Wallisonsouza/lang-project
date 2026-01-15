@@ -35,8 +35,8 @@ public:
     while (!stream.eof()) {
       char32_t c = stream.peek();
 
-      // Espaços em branco
-      if (utils::Unicode::is_white_space(c)) {
+      // Espaços em branco, mas NÃO newline
+      if (utils::Unicode::is_white_space(c) && c != U'\n') {
         stream.advance();
         continue;
       }
@@ -61,7 +61,7 @@ public:
         continue;
       }
 
-      break;
+      break; // Não é espaço nem comentário
     }
   }
 
@@ -69,6 +69,14 @@ public:
 
     while (!stream.eof()) {
       skip_whitespace_and_comments(stream);
+
+      if (stream.peek() == U'\n') {
+
+        auto state = stream.get_state();
+
+        auto desc = unit.context.descriptor_table.lookup_by_kind(core::token::TokenKind::Newline);
+        unit.tokens.create_token<core::token::Token>(desc, stream.slice_from(state));
+      }
 
       auto start_state = stream.get_state();
       auto *token = match_token();

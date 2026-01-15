@@ -1,4 +1,5 @@
 #include "Resolver.hpp"
+#include "core/node/Type.hpp"
 #include <iostream>
 
 void Resolver::resolve(core::node::Node *node) {
@@ -25,7 +26,7 @@ void Resolver::resolve(core::node::Node *node) {
 
   case core::node::NodeKind::FunctionCall: resolve_function_call(static_cast<parser::node::FunctionCallNode *>(node)); break;
 
-  case core::node::NodeKind::VariableDeclaration: resolve_variable_declaration(static_cast<parser::node::VariableDeclarationNode *>(node)); break;
+  case core::node::NodeKind::VariableDeclaration: resolve_variable_declaration(static_cast<core::node::PatternNode *>(node)); break;
 
   case core::node::NodeKind::NativeFunctionDeclaration: resolve_native_function_declaration(static_cast<core::node::NativeFunctionDeclarationNode *>(node)); break;
 

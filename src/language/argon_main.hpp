@@ -80,6 +80,7 @@ inline LanguageContext create_context() {
   context.descriptor_table.add(TokenKind::BoolLiteral, TokenGroup::Literal);
   context.descriptor_table.add(TokenKind::CharLiteral, TokenGroup::Literal);
   context.descriptor_table.add(TokenKind::NullLiteral, TokenGroup::Literal);
+  context.descriptor_table.add(TokenKind::Newline, "\\n", TokenGroup::Whitespace);
 
   return context;
 }

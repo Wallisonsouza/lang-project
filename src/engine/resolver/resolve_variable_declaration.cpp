@@ -1,6 +1,6 @@
 #include "Resolver.hpp"
 
-void Resolver::resolve_variable_declaration(parser::node::VariableDeclarationNode *node) {
+void Resolver::resolve_variable_declaration(core::node::PatternNode *node) {
 
   if (current_scope->has_symbol_local(node->identifier->name)) {
 

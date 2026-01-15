@@ -13,14 +13,14 @@ void ASTDebug::debug_function_declaration(const parser::node::FunctionDeclaratio
   if (node->body) { debug_node(node->body, true); }
 }
 
-void ASTDebug::debug_funtion_parameter(const core::node::FunctionParameterNode *node) {
+// void ASTDebug::debug_funtion_parameter(const core::node::FunctionParameterNode *node) {
 
-  debug_header("FunctionParameter");
+//   debug_header("FunctionParameter");
 
-  if (node->identifier) { debug_labeled("Identifier", node->identifier, false); }
-  if (node->type) { debug_labeled("Type", node->type, false); }
-  if (node->value) { debug_labeled("Value", node->value, true); }
-}
+//   if (node->identifier) { debug_labeled("Identifier", node->identifier, false); }
+//   if (node->type) { debug_labeled("Type", node->type, false); }
+//   if (node->value) { debug_labeled("Value", node->value, true); }
+// }
 
 void ASTDebug::debug_function_call(const parser::node::FunctionCallNode *node) {
   out << "FunctionCall\n";

@@ -1,5 +1,6 @@
 #include "core/managers/execution_unit_manager.hpp"
 #include "debug/engine/node/ast_debug.hpp"
+#include "debug/engine/token/dump_tokens.hpp"
 #include "diagnostic/formatter.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/Engine.hpp"
@@ -10,6 +11,8 @@
 #include <string>
 
 int main() {
+
+  std::vector<std::string> scripts = {"/home/wallison/Documentos/git/ayla/examples/stdlib/stdlib.ayla"};
 
   auto context = ayla::language::create_context();
 

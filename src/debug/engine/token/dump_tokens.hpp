@@ -33,7 +33,7 @@ constexpr const char *token_kind_to_str(core::token::TokenKind kin) {
   case K::ElseKeyword: return "Else";
   case K::WhileKeyword: return "While";
   case K::ForKeyword: return "For";
-  case K::ReturntKeyword: return "Return";
+  case K::ReturnKeyword: return "Return";
   case K::Equals: return "Equals";
   case K::Assign: return "Assign";
   case K::Ternary: return "Ternary";

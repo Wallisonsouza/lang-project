@@ -20,9 +20,9 @@ private:
   core::node::ExpressionNode *finish_member(core::node::ExpressionNode *base);
   core::node::ExpressionNode *finish_index(core::node::ExpressionNode *base);
   core::node::Modifiers parse_modifiers();
-  std::vector<core::node::FunctionParameterNode *> parse_function_parameters();
+  std::vector<core::node::PatternNode *> parse_function_parameters();
 
-  std::vector<core::node::FunctionParameterNode *> parse_parameter_list();
+  std::vector<core::node::PatternNode *> parse_parameter_list();
 
 public:
   parser::node::ReturnStatementNode *parse_return_statement();
@@ -40,7 +40,7 @@ public:
   core::node::StatementNode *parse_if_statement();
 
   parser::node::BlockStatementNode *parse_block_statement();
-  core::node::FunctionParameterNode *parse_function_parameter();
+  core::node::PatternNode *parse_function_parameter();
 
   core::node::Node *call_parser() {
     if (auto stmt = parse_statement()) return stmt;
@@ -51,10 +51,12 @@ public:
 
   core::node::ExpressionNode *parse_number_literal();
   core::node::ExpressionNode *parse_string_literal();
-  core::node::ExpressionNode *parse_identifier_name();
+  core::node::IdentifierNode *parse_identifier_name();
   core::node::ExpressionNode *parse_grouped_expression();
   core::node::ExpressionNode *parse_path_segment(core::node::ExpressionNode *base);
   core::node::ExpressionNode *parse_index_access(core::node::ExpressionNode *base);
+
+  core::node::PatternNode *parse_pattern(core::node::Modifiers mods);
 
   void generate_ast() {
 
@@ -67,6 +69,8 @@ public:
       }
     }
   }
+
+  void consume_statement_separators() { while (unit.tokens.match(core::token::TokenKind::Newline) || unit.tokens.match(core::token::TokenKind::Semicolon)); }
 
   void report_error(DiagnosticCode code, const std::string &expected, const Slice &slice_override = Slice{}) {
 

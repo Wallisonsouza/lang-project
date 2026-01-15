@@ -17,6 +17,7 @@ enum class TokenKind : uint8_t {
   // tokens na análise léxica.
   // ': uint8_t' força o enum a usar apenas 1 byte de memória por valor.
   ValueKeyword,
+  ConstKeyword,
 
   FunctionKeyword,
   OperatorKeyword,
@@ -62,6 +63,7 @@ enum class TokenKind : uint8_t {
   CharLiteral,   // Representa um literal de caractere, como 'a'.
   BoolLiteral,   // Representa um literal booleano: true ou false.
   EndOfFile,     // Representa o fim do arquivo, usado para indicar que não há mais
-                 // tokens.
+  Newline
+  // tokens.
 };
 }

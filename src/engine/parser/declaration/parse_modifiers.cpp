@@ -6,7 +6,6 @@ core::node::Modifiers Parser::parse_modifiers() {
 
   while (auto *tok = unit.tokens.peek()) {
     switch (tok->descriptor->kind) {
-    case core::token::TokenKind::ValueKeyword: mods.add(core::node::Modifier::Value); break;
     case core::token::TokenKind::Static: mods.add(core::node::Modifier::Static); break;
     case core::token::TokenKind::Mut: mods.add(core::node::Modifier::Mut); break;
     case core::token::TokenKind::Public: mods.add(core::node::Modifier::Public); break;

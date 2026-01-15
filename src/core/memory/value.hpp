@@ -53,7 +53,7 @@ struct Value {
     if (std::holds_alternative<bool>(data)) return std::get<bool>(data) ? "true" : "false";
     if (std::holds_alternative<std::string>(data)) return std::get<std::string>(data);
     if (std::holds_alternative<NativeFunction>(data)) return "<native function>";
-    return "null";
+    return "void";
   }
 
   bool as_bool() const {

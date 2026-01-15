@@ -22,7 +22,7 @@ namespace ayla::modules {
 inline core::node::IdentifierNode *id(AST &ast, const char *name) { return ast.create_node<core::node::IdentifierNode>(name); }
 
 inline core::node::NativeFunctionDeclarationNode *
-make_native(core::Module *module, core::node::IdentifierNode *name, std::vector<core::node::FunctionParameterNode *> params, core::node::TypeNode *return_type, Value::NativeFunction callback) {
+make_native(core::Module *module, core::node::IdentifierNode *name, std::vector<core::node::PatternNode *> params, core::node::TypeNode *return_type, Value::NativeFunction callback) {
   auto *node = module->ast.create_node<core::node::NativeFunctionDeclarationNode>(name, std::move(params), return_type, std::move(callback));
   module->ast.add_root(node);
   return node;
@@ -62,7 +62,7 @@ inline void create_module_math(LanguageContext &context, core::ModuleId parent =
 
   auto *number_type = module->ast.create_node<NumberTypeNode>();
 
-  auto make_param = [&](const char *name) { return module->ast.create_node<core::node::FunctionParameterNode>(id(module->ast, name), number_type, nullptr); };
+  auto make_param = [&](const char *name) { return module->ast.create_node<core::node::PatternNode>(id(module->ast, name), number_type, nullptr); };
 
   make_native(module, id(module->ast, "abs"), {make_param("x")}, number_type, [](const std::vector<Value> &args) -> Value { return Value::Number(std::abs(args[0].get_number())); });
 

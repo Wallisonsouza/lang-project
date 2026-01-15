@@ -4,36 +4,19 @@
 #include "engine/parser/node/statement_nodes.hpp"
 #include "engine/parser/parser.hpp"
 
-std::vector<core::node::FunctionParameterNode *> Parser::parse_function_parameters() {
-  std::vector<core::node::FunctionParameterNode *> params;
+std::vector<core::node::PatternNode *> Parser::parse_function_parameters() {
+  std::vector<core::node::PatternNode *> params;
 
   while (!unit.tokens.peek(core::token::TokenKind::CloseParen) && !unit.tokens.is_end()) {
-    auto *param_tok = unit.tokens.match(core::token::TokenKind::Identifier);
-    if (!param_tok) {
-      report_error(DiagnosticCode::ExpectedIdentifier, "parameter name", unit.tokens.last_slice());
+    auto mods = core::node::Modifiers{};
+    auto *param = parse_pattern(mods);
+    if (!param) {
       synchronize_parameter();
       if (!unit.tokens.match(core::token::TokenKind::Comma)) break;
       continue;
     }
 
-    auto *param_name = unit.ast.create_node<core::node::IdentifierNode>(unit.source.buffer.get_text(param_tok->slice.span));
-
-    if (!unit.tokens.match(core::token::TokenKind::Colon)) {
-      report_error(DiagnosticCode::ExpectedColon, ":", unit.tokens.peek_slice());
-      synchronize_parameter();
-      if (!unit.tokens.match(core::token::TokenKind::Comma)) break;
-      continue;
-    }
-
-    auto *param_type = parse_type();
-    if (!param_type) {
-      report_error(DiagnosticCode::ExpectedType, "type", unit.tokens.peek_slice());
-      synchronize_parameter();
-      if (!unit.tokens.match(core::token::TokenKind::Comma)) break;
-      continue;
-    }
-
-    params.push_back(unit.ast.create_node<core::node::FunctionParameterNode>(param_name, param_type, nullptr));
+    params.push_back(param);
 
     if (!unit.tokens.match(core::token::TokenKind::Comma)) break;
   }
@@ -94,5 +77,5 @@ core::node::StatementNode *Parser::parse_function_declaration() {
     return nullptr;
   }
 
-  return unit.ast.create_node<parser::node::FunctionDeclarationNode>(static_cast<core::node::IdentifierNode *>(identifier), params, return_type, body);
+  return unit.ast.create_node<parser::node::FunctionDeclarationNode>(identifier, params, return_type, body);
 }

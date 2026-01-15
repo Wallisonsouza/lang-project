@@ -19,23 +19,23 @@ parser::node::ReturnStatementNode *Parser::parse_return_statement() {
 parser::node::BlockStatementNode *Parser::parse_block_statement() {
   std::vector<core::node::StatementNode *> statements;
 
-  while (!unit.tokens.is_end()) {
+  while (!unit.tokens.is_end() && !unit.tokens.peek(core::token::TokenKind::CloseBrace)) {
 
-    if (unit.tokens.peek(core::token::TokenKind::CloseBrace)) { break; }
+    consume_statement_separators();
 
-    if (unit.tokens.peek(core::token::TokenKind::ReturnKeyword)) {
-      auto *ret = parse_return_statement();
-      statements.push_back(ret);
-      break;
-    }
+    auto *stmt = parse_statement();
 
-    if (auto *stmt = parse_statement()) {
-      statements.push_back(stmt);
+    if (!stmt) {
+      // Se não houver statement, mas o próximo token for '}', apenas encerra o bloco
+      if (unit.tokens.peek(core::token::TokenKind::CloseBrace)) break;
+
+      // Caso contrário, é realmente um erro
+      report_error(DiagnosticCode::ExpectedToken, "expected statement");
+      synchronize_block();
       continue;
     }
 
-    report_error(DiagnosticCode::ExpectedToken, "expected statement");
-    synchronize_block();
+    statements.push_back(stmt);
   }
 
   return unit.ast.create_node<parser::node::BlockStatementNode>(std::move(statements));

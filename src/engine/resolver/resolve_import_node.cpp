@@ -1,5 +1,4 @@
 #include "engine/resolver/Resolver.hpp"
-#include <iostream>
 
 void Resolver::resolve_import_node(parser::node::statement::ImportNode *node) {
   std::vector<std::string> path_segments;

@@ -1,17 +1,3 @@
-import debug.console
-
-
-
-fn sub() -> Number { 
-  val a: Number = 10;
-  val b: Number = 50;
+fn add(a: Num, b: Num) -> Num {
+  return a + b
 }
-
-
-fn add() -> Number { 
- return a + b
-
-}
-
-
-console.log(add())

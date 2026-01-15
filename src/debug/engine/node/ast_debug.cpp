@@ -44,7 +44,7 @@ void ASTDebug::debug_node(const core::node::Node *node, bool isLast) {
 
   case NodeKind::Type: debug_type(static_cast<const TypeNode *>(node)); break;
 
-  case NodeKind::VariableDeclaration: debug_variable_declaration(static_cast<const parser::node::VariableDeclarationNode *>(node)); break;
+  case NodeKind::VariableDeclaration: debug_variable_declaration(static_cast<const PatternNode *>(node)); break;
 
   case NodeKind::BinaryExpression: debug_binary_expression(static_cast<const parser::node::BinaryExpressionNode *>(node)); break;
 
@@ -61,8 +61,6 @@ void ASTDebug::debug_node(const core::node::Node *node, bool isLast) {
   case NodeKind::Assignment: debug_assing_node(static_cast<const parser::node::statement::AssignmentNode *>(node)); break;
 
   case NodeKind::BlockStatement: debug_block(static_cast<const parser::node::BlockStatementNode *>(node)); break;
-
-  case NodeKind::FunctionParameter: debug_funtion_parameter(static_cast<const FunctionParameterNode *>(node)); break;
 
   case NodeKind::IndexAccess: debug_index_acess(static_cast<const parser::node::IndexAccessNode *>(node)); break;
 

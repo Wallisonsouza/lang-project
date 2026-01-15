@@ -62,7 +62,6 @@ struct ASTDebug {
   void debug_node(const core::node::Node *node, bool is_last);
 
   void debug_number_literal(const parser::node::NumberLiteralNode *node);
-  void debug_funtion_parameter(const core::node::FunctionParameterNode *node);
   void debug_string_literal(const parser::node::StringLiteralNode *node);
   void debug_bool_literal(const parser::node::BoolLiteralNode *node);
   void debug_char_literal(const parser::node::CharLiteralNode *node);
@@ -71,7 +70,7 @@ struct ASTDebug {
   void debug_member_access(const parser::node::MemberAccessNode *node);
   void debug_import(const parser::node::statement::ImportNode *node);
   void debug_type(const core::node::TypeNode *node);
-  void debug_variable_declaration(const parser::node::VariableDeclarationNode *node);
+  void debug_variable_declaration(const core::node::PatternNode *node);
   void debug_binary_expression(const parser::node::BinaryExpressionNode *node);
   void debug_function_call(const parser::node::FunctionCallNode *node);
   void debug_expression_statement(const core::node::ExpressionStatementNode *node);

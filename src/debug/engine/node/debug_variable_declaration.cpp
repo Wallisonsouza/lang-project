@@ -1,8 +1,6 @@
 #include "ast_debug.hpp"
 
-#include "ast_debug.hpp"
-
-void ASTDebug::debug_variable_declaration(const parser::node::VariableDeclarationNode *node) {
+void ASTDebug::debug_variable_declaration(const core::node::PatternNode *node) {
 
   out << "VariableDeclaration\n";
 
@@ -15,7 +13,7 @@ void ASTDebug::debug_variable_declaration(const parser::node::VariableDeclaratio
   if (node->value) children.push_back({"Value", node->value});
 
   for (size_t i = 0; i < children.size(); ++i) {
-    
+
     bool is_last = (i + 1 == children.size());
 
     debug_labeled(children[i].label, children[i].node, is_last);

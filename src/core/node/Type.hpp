@@ -1,6 +1,7 @@
 #pragma once
 #include "core/memory/symbol.hpp"
 #include "core/memory/value.hpp"
+#include "core/node/Modifier.hpp"
 #include "core/node/Node.hpp"
 #include "core/node/NodeKind.hpp"
 #include "core/token/Location.hpp"
@@ -60,26 +61,28 @@ struct TypeNode : core::node::Node {
   }
 };
 
-struct FunctionParameterNode : StatementNode {
-  IdentifierNode *identifier;
+struct PatternNode : StatementNode {
+  core::node::IdentifierNode *identifier;
   core::node::TypeNode *type;
-  core::node::ExpressionNode *value = nullptr;
+  core::node::ExpressionNode *value;
+  core::node::Modifiers modifiers;
   SymbolId symbol_id = SIZE_MAX;
 
-  FunctionParameterNode(IdentifierNode *id, core::node::TypeNode *t, core::node::ExpressionNode *v) : StatementNode(core::node::NodeKind::FunctionParameter), identifier(id), type(t), value(v) {}
+  PatternNode(core::node::IdentifierNode *n, core::node::TypeNode *t, core::node::ExpressionNode *v, core::node::Modifiers modifiers = {})
+      : StatementNode(core::node::NodeKind::VariableDeclaration), identifier(n), type(t), value(v), modifiers(modifiers) {}
 };
 
-struct NativeFunctionDeclarationNode : ExpressionNode {
+struct NativeFunctionDeclarationNode : StatementNode {
   IdentifierNode *identifier;
-  std::vector<FunctionParameterNode *> params;
+  std::vector<PatternNode *> params;
   node::TypeNode *return_type;
   SymbolId symbol_id;
 
   Value::NativeFunction callback;
 
   // Construtor
-  NativeFunctionDeclarationNode(IdentifierNode *id, std::vector<FunctionParameterNode *> p, node::TypeNode *ret, Value::NativeFunction cb)
-      : ExpressionNode(core::node::NodeKind::NativeFunctionDeclaration), identifier(id), params(std::move(p)), return_type(ret), callback(std::move(cb)) {}
+  NativeFunctionDeclarationNode(IdentifierNode *id, std::vector<PatternNode *> p, node::TypeNode *ret, Value::NativeFunction cb)
+      : StatementNode(core::node::NodeKind::NativeFunctionDeclaration), identifier(id), params(std::move(p)), return_type(ret), callback(std::move(cb)) {}
 };
 
 } // namespace core::node

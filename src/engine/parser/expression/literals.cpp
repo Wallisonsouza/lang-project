@@ -25,7 +25,7 @@ core::node::ExpressionNode *Parser::parse_string_literal() {
   return unit.ast.create_node<parser::node::StringLiteralNode>(text);
 }
 
-core::node::ExpressionNode *Parser::parse_identifier_name() {
+core::node::IdentifierNode *Parser::parse_identifier_name() {
 
   core::token::Token *token = unit.tokens.match(core::token::TokenKind::Identifier);
   if (!token) return nullptr;
