@@ -1,13 +1,16 @@
-#include "core/node/Type.hpp"
 #include "engine/parser/parser.hpp"
 
+/// I'm going crazy.
 core::node::PatternNode *Parser::parse_pattern(core::node::Modifiers mods) {
+
+  auto start = unit.tokens.peek_slice();
 
   auto *id_node = parse_identifier_name();
   if (!id_node) {
     report_error(DiagnosticCode::ExpectedIdentifier, "identifier");
-    synchronize_statement();
-    return nullptr;
+
+    unit.tokens.advance();
+    return unit.ast.create_node<core::node::PatternErrorNode>(start, mods);
   }
 
   core::node::TypeNode *type_node = nullptr;
@@ -15,8 +18,8 @@ core::node::PatternNode *Parser::parse_pattern(core::node::Modifiers mods) {
     type_node = parse_type();
     if (!type_node) {
       report_error(DiagnosticCode::ExpectedType, "type");
-      synchronize_statement();
-      return nullptr;
+
+      return unit.ast.create_node<core::node::PatternErrorNode>(start, mods);
     }
   }
 
@@ -25,17 +28,19 @@ core::node::PatternNode *Parser::parse_pattern(core::node::Modifiers mods) {
     value_node = parse_expression();
     if (!value_node) {
       report_error(DiagnosticCode::ExpectedExpression, "expression after '='");
-      synchronize_statement();
-      return nullptr;
+
+      return unit.ast.create_node<core::node::PatternErrorNode>(start, mods);
     }
   } else {
-    auto *exp = parse_expression();
-    if (exp) {
-      report_error(DiagnosticCode::ExpectedToken, "expected '=' in pattern", exp->slice);
-      synchronize_statement();
-      return nullptr;
-    }
+    // auto *exp = parse_expression();
+    // if (exp) {
+    //   report_error(DiagnosticCode::ExpectedToken, "expected '=' in pattern",
+    //                exp->slice);
+
+    //   return unit.ast.create_node<core::node::PatternErrorNode>(start, mods);
+    // }
   }
 
-  return unit.ast.create_node<core::node::PatternNode>(id_node, type_node, value_node, mods);
+  return unit.ast.create_node<core::node::PatternNode>(id_node, type_node,
+                                                       value_node, mods);
 }

@@ -7,11 +7,12 @@ namespace core::token {
 
 struct Token {
   const TokenDescriptor *descriptor = nullptr;
-  Slice slice;
+  SourceSlice slice;
 
   constexpr Token() = default;
 
-  constexpr Token(const TokenDescriptor *desc, Slice slice) : descriptor(desc), slice(slice) {}
+  constexpr Token(const TokenDescriptor *desc, SourceSlice slice)
+      : descriptor(desc), slice(slice) {}
 };
 
 } // namespace core::token

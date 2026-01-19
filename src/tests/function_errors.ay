@@ -36,7 +36,7 @@ fn soma(a: Number) -> Number
 fn soma(a: Number) -> Number {
   val x = 10
 
-
+// 10. Função válida depois de erros
 fn ok(a: Number, b: Number) -> Number {
   return a + b
 }

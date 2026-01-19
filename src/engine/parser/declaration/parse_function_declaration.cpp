@@ -1,81 +1,106 @@
 #include "core/node/Type.hpp"
 #include "core/token/TokenKind.hpp"
-#include "diagnostic/diagnostic_code.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 #include "engine/parser/parser.hpp"
 
-std::vector<core::node::PatternNode *> Parser::parse_function_parameters() {
-  std::vector<core::node::PatternNode *> params;
+parser::node::ReturnStatementNode *Parser::parse_return_statement() {
+  unit.tokens.match(core::token::TokenKind::RETURN_KEYWORD);
 
-  while (!unit.tokens.peek(core::token::TokenKind::CloseParen) && !unit.tokens.is_end()) {
-    auto mods = core::node::Modifiers{};
-    auto *param = parse_pattern(mods);
-    if (!param) {
-      synchronize_parameter();
-      if (!unit.tokens.match(core::token::TokenKind::Comma)) break;
-      continue;
-    }
-
-    params.push_back(param);
-
-    if (!unit.tokens.match(core::token::TokenKind::Comma)) break;
+  // return sem valor
+  if (unit.tokens.peek(core::token::TokenKind::CLOSE_BRACE) ||
+      unit.tokens.peek(core::token::TokenKind::NEW_LINE)) {
+    return unit.ast.create_node<parser::node::ReturnStatementNode>(nullptr);
   }
 
-  return params;
+  auto *value = parse_expression();
+  if (!value) {
+    report_error(DiagnosticCode::ExpectedToken,
+                 "expected expression after 'return'");
+    unit.tokens.advance();
+  }
+
+  return unit.ast.create_node<parser::node::ReturnStatementNode>(value);
+}
+
+//
+
+ParserResult<parser::node::BlockStatementNode> Parser::parse_block_statement() {
+
+  std::vector<core::node::StatementNode *> statements;
+
+  if (!unit.tokens.match(core::token::TokenKind::OpenBrace)) {
+
+    report_error(DiagnosticCode::ExpectedToken, "'{' to start block");
+    return ParserResult<parser::node::BlockStatementNode>::error();
+  }
+
+  consume_statement_separators();
+
+  while (!unit.tokens.is_end() &&
+         !unit.tokens.peek(core::token::TokenKind::CLOSE_BRACE)) {
+
+    auto *stmt = parse_statement();
+    if (stmt) {
+      statements.push_back(stmt);
+    } else {
+      unit.tokens.advance();
+    }
+
+    consume_statement_separators();
+  }
+
+  // '}'
+  if (!unit.tokens.match(core::token::TokenKind::CLOSE_BRACE)) {
+    report_error(DiagnosticCode::ExpectedToken, "'}' to close block");
+    return ParserResult<parser::node::BlockStatementNode>::error();
+  }
+
+  return ParserResult<parser::node::BlockStatementNode>::success(
+      unit.ast.create_node<parser::node::BlockStatementNode>(
+          std::move(statements)));
 }
 
 core::node::StatementNode *Parser::parse_function_declaration() {
-  if (!unit.tokens.match(core::token::TokenKind::FunctionKeyword)) return nullptr;
+  auto start = unit.tokens.peek_slice();
 
-  auto *identifier = parse_identifier_name();
-  if (!identifier) {
-    synchronize_statement();
+  if (!unit.tokens.match(core::token::TokenKind::FUNCTION_KEYWORD)) {
     return nullptr;
   }
 
-  if (!unit.tokens.match(core::token::TokenKind::OpenParen)) {
-    report_error(DiagnosticCode::ExpectedToken, "(");
-    synchronize_statement();
-    return nullptr;
+  auto *name = parse_identifier_name();
+
+  if (!name) {
+    report_error(DiagnosticCode::ExpectedIdentifier, "function name");
+    synchronize_function();
+    return unit.ast.create_node<parser::node::FunctionErrorNode>(start);
   }
 
-  auto params = parse_function_parameters();
+  auto params = parse_list(
+      core::token::TokenKind::OpenParen, core::token::TokenKind::CloseParen,
+      core::token::TokenKind::COMMA, [&]() { return parse_pattern({}); });
 
-  if (!unit.tokens.match(core::token::TokenKind::CloseParen)) {
-    report_error(DiagnosticCode::ExpectedToken, ")");
-    synchronize_statement();
+  if (params.code == ParserResultCode::Error) {
+    synchronize_function();
+    return unit.ast.create_node<parser::node::FunctionErrorNode>(start);
   }
 
   core::node::TypeNode *return_type = nullptr;
   if (unit.tokens.match(core::token::TokenKind::Arrow)) {
     return_type = parse_type();
     if (!return_type) {
-      report_error(DiagnosticCode::ExpectedType, "return type", unit.tokens.last_slice());
-      synchronize_statement();
-      return nullptr;
+      report_error(DiagnosticCode::ExpectedType, "return type");
+      synchronize_function();
+      return unit.ast.create_node<parser::node::FunctionErrorNode>(start);
     }
   }
 
-  // Abre bloco (função consome o '{')
-  if (!unit.tokens.match(core::token::TokenKind::OpenBrace)) {
-    report_error(DiagnosticCode::ExpectedToken, "expected '{' to start function body");
-    synchronize_statement();
-    return nullptr;
+  auto body = parse_block_statement();
+
+  if (body.code == ParserResultCode::Error) {
+    synchronize_function();
+    return unit.ast.create_node<parser::node::FunctionErrorNode>(start);
   }
 
-  // Parseia statements e tail expression, mas não fecha o '}'
-  auto *body = parse_block_statement();
-  if (!body) {
-    synchronize_statement();
-    return nullptr;
-  }
-
-  // Fecha bloco (função consome o '}')
-  if (!unit.tokens.match(core::token::TokenKind::CloseBrace)) {
-    report_error(DiagnosticCode::ExpectedToken, "expected '}' to close function body");
-    synchronize_statement();
-    return nullptr;
-  }
-
-  return unit.ast.create_node<parser::node::FunctionDeclarationNode>(identifier, params, return_type, body);
+  return unit.ast.create_node<parser::node::FunctionDeclarationNode>(
+      name, params.node->parameters, return_type, body.node);
 }

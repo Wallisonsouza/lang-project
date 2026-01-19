@@ -18,7 +18,7 @@ struct ChildGroup {
 struct Node {
   NodeKind kind;
   NodeKindBase base_kind;
-  Slice slice;
+  SourceSlice slice;
   NodeFlags flags = NodeFlags::None;
 
   virtual ~Node() = default;

@@ -16,14 +16,17 @@ public:
   }
 
   void traverse(const std::function<void(core::token::Token *)> &fn) const {
-    for (auto *tok : tokens_) fn(tok);
+    for (auto *tok : tokens_)
+      fn(tok);
   }
 
   size_t size() const { return tokens_.size(); }
 
   core::token::Token *operator[](size_t idx) const { return tokens_[idx]; }
 
-  const std::vector<core::token::Token *> &get_tokens() const { return tokens_; }
+  const std::vector<core::token::Token *> &get_tokens() const {
+    return tokens_;
+  }
 
 public:
   size_t pos_ = 0;
@@ -34,30 +37,47 @@ public:
   // -----------------------------
   inline bool is_end() const noexcept { return pos_ >= tokens_.size(); }
 
-  inline bool has(size_t offset = 0) const noexcept { return pos_ + offset < tokens_.size(); }
+  inline bool has(size_t offset = 0) const noexcept {
+    return pos_ + offset < tokens_.size();
+  }
 
   inline size_t current_pos() const noexcept { return pos_; }
 
-  inline core::token::Token *current() const noexcept { return has() ? tokens_[pos_] : nullptr; }
+  inline core::token::Token *current() const noexcept {
+    return has() ? tokens_[pos_] : nullptr;
+  }
 
-  inline core::token::Token *peek(size_t offset = 0) const noexcept { return has(offset) ? tokens_[pos_ + offset] : nullptr; }
+  inline core::token::Token *peek(size_t offset = 0) const noexcept {
+    return has(offset) ? tokens_[pos_ + offset] : nullptr;
+  }
+
+  inline core::token::Token *peek_or_last(size_t offset = 0) const noexcept {
+    if (has(offset)) {
+      return tokens_[pos_ + offset];
+    } else {
+      return last_token_;
+    }
+  }
 
   Token *match(TokenKind kind) {
 
     auto *token = peek();
 
-    if (!token || !token->descriptor) return nullptr;
+    if (!token || !token->descriptor)
+      return nullptr;
 
-    if (token->descriptor->kind != kind) return nullptr;
+    if (token->descriptor->kind != kind)
+      return nullptr;
 
     advance();
     return token;
   }
 
-  inline const Slice &peek_slice(size_t offset = 0) const noexcept {
-    static Slice empty{};
+  inline const SourceSlice &peek_slice(size_t offset = 0) const noexcept {
+    static SourceSlice empty{};
 
-    if (auto *tok = peek(offset)) return tok->slice;
+    if (auto *tok = peek(offset))
+      return tok->slice;
 
     return last_slice();
   }
@@ -66,7 +86,8 @@ public:
   // Consumo e avanço
   // -----------------------------
   inline core::token::Token *consume() noexcept {
-    if (is_end()) return nullptr;
+    if (is_end())
+      return nullptr;
     last_token_ = tokens_[pos_];
     return tokens_[pos_++];
   }
@@ -83,7 +104,9 @@ public:
     return tok && tok->descriptor && tok->descriptor->kind == k;
   }
 
-  inline void reset(size_t p) noexcept { pos_ = (p <= tokens_.size()) ? p : tokens_.size(); }
+  inline void reset(size_t p) noexcept {
+    pos_ = (p <= tokens_.size()) ? p : tokens_.size();
+  }
 
   // -----------------------------
   // Checkpoints
@@ -98,19 +121,20 @@ public:
   }
 
   inline void discard_checkpoint() noexcept {
-    if (!checkpoint_stack_.empty()) checkpoint_stack_.pop_back();
+    if (!checkpoint_stack_.empty())
+      checkpoint_stack_.pop_back();
   }
 
   // -----------------------------
   // Diagnóstico / Localização
   // -----------------------------
-  inline const Slice &last_slice() const noexcept {
-    static Slice empty{};
+  inline const SourceSlice &last_slice() const noexcept {
+    static SourceSlice empty{};
     return last_token_ ? last_token_->slice : empty;
   }
 
-  inline const Slice slice_of(const Token *tok) const noexcept {
-    static Slice empty{};
+  inline const SourceSlice slice_of(const Token *tok) const noexcept {
+    static SourceSlice empty{};
     return tok ? tok->slice : empty;
   }
 

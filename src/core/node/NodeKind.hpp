@@ -48,7 +48,9 @@ enum class NodeKind {
   TypeReference = 31,
   GenericType = 32,
   Assignment = 33,
-  Pattern = 34
+  Pattern = 34,
+  Error = 35,
+  ParameterList = 36,
 };
 
 } // namespace core::node

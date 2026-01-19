@@ -3,31 +3,37 @@
 core::node::ExpressionNode *Parser::parse_postfix_expression() {
 
   auto *expr = parse_primary_expression();
-  if (!expr) return nullptr;
+  if (!expr)
+    return nullptr;
 
   while (true) {
     auto *tok = unit.tokens.peek();
-    if (!tok) break;
+    if (!tok)
+      break;
 
     switch (tok->descriptor->kind) {
 
     case core::token::TokenKind::OpenParen:
       expr = finish_call(expr);
-      if (!expr) return nullptr;
+      if (!expr)
+        return nullptr;
       break;
 
     case core::token::TokenKind::Dot:
 
       expr = parse_path_segment(expr);
-      if (!expr) return nullptr;
+      if (!expr)
+        return nullptr;
       break;
 
-    case core::token::TokenKind::OpenBracket:
+    case core::token::TokenKind::OPEN_BRACKET:
       expr = parse_index_access(expr);
-      if (!expr) return nullptr;
+      if (!expr)
+        return nullptr;
       break;
 
-    default: return expr;
+    default:
+      return expr;
     }
   }
 

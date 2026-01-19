@@ -12,13 +12,17 @@ private:
 
   core::token::Token *match_token() {
 
-    if (auto t = match_string()) return t;
+    if (auto t = match_string())
+      return t;
 
-    if (auto t = match_number()) return t;
+    if (auto t = match_number())
+      return t;
 
-    if (auto t = match_identifier()) return t;
+    if (auto t = match_identifier())
+      return t;
 
-    if (auto t = match_operator()) return t;
+    if (auto t = match_operator())
+      return t;
 
     return nullptr;
   }
@@ -30,6 +34,7 @@ public:
   core::token::Token *match_string();
   core::token::Token *match_number();
   core::token::Token *match_operator();
+  core::token::Token mathch_comment();
 
   void skip_whitespace_and_comments(core::source::TextStream &stream) {
     while (!stream.eof()) {
@@ -44,7 +49,8 @@ public:
       // Comentário de linha //
       if (c == U'/' && stream.peek_n(1) == U'/') {
         stream.advance_n(2);
-        while (stream.peek() != U'\n' && !stream.eof()) stream.advance();
+        while (stream.peek() != U'\n' && !stream.eof())
+          stream.advance();
         continue;
       }
 
@@ -74,16 +80,21 @@ public:
 
         auto state = stream.get_state();
 
-        auto desc = unit.context.descriptor_table.lookup_by_kind(core::token::TokenKind::Newline);
-        unit.tokens.create_token<core::token::Token>(desc, stream.slice_from(state));
+        auto desc = unit.context.descriptor_table.lookup_by_kind(
+            core::token::TokenKind::NEW_LINE);
+        unit.tokens.create_token<core::token::Token>(desc,
+                                                     stream.slice_from(state));
       }
 
       auto start_state = stream.get_state();
       auto *token = match_token();
 
       if (!token) {
-        auto slice = Slice{.range = start_state.range_to(stream.get_state()), .span = start_state.span_to(stream.get_state())};
-        // unit.diagnostics.emit({DiagnosticCode::UnexpectedToken, slice}, unit);
+        auto slice =
+            SourceSlice{.range = start_state.range_to(stream.get_state()),
+                        .span = start_state.span_to(stream.get_state())};
+        // unit.diagnostics.emit({DiagnosticCode::UnexpectedToken, slice},
+        // unit);
         stream.advance();
       }
     }

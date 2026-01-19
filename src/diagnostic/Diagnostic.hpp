@@ -15,20 +15,24 @@ struct Diagnostic {
   DiagnosticCode code;
   Severity severity;
 
-  std::optional<Slice> slice;
+  std::optional<SourceSlice> slice;
   DiagnosticContext context;
 
 public:
   void set_expected(const std::string &expected) {
 
-    if (expected.empty()) { return; }
+    if (expected.empty()) {
+      return;
+    }
 
     context.set("expected", expected);
   }
 
   void set_found(const std::string &found) {
 
-    if (found.empty()) { return; }
+    if (found.empty()) {
+      return;
+    }
 
     context.set("found", found);
   }

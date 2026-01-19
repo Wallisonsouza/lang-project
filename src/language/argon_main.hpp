@@ -33,21 +33,28 @@ inline LanguageContext create_context() {
   // context.precedence_table.add(TokenKind::Greater, 6, false);      // >
   // context.precedence_table.add(TokenKind::GreaterEqual, 6, false); // >=
 
-  context.descriptor_table.add(TokenKind::AsKeyword, "as", TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::IF_KEYWORD, "if",
+                               TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::ELSE_KEYWORD, "else",
+                               TokenGroup::Keyword);
 
-  context.descriptor_table.add(TokenKind::IfKeyword, "if", TokenGroup::Keyword);
-  context.descriptor_table.add(TokenKind::ElseKeyword, "else", TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::FUNCTION_KEYWORD, "fn",
+                               TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::RETURN_KEYWORD, "return",
+                               TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::IMPORT_KEYWORD, "import",
+                               TokenGroup::Keyword);
 
-  context.descriptor_table.add(TokenKind::FunctionKeyword, "fn", TokenGroup::Keyword);
-  context.descriptor_table.add(TokenKind::ReturnKeyword, "return", TokenGroup::Keyword);
-  context.descriptor_table.add(TokenKind::ImportKeyword, "import", TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::STATIC, "static",
+                               TokenGroup::Keyword);
 
-  context.descriptor_table.add(TokenKind::Static, "static", TokenGroup::Keyword);
-
-  context.descriptor_table.add(TokenKind::Mut, "mut", TokenGroup::Keyword);
-  context.descriptor_table.add(TokenKind::ValueKeyword, "val", TokenGroup::Keyword);
-  context.descriptor_table.add(TokenKind::Public, "public", TokenGroup::Keyword);
-  context.descriptor_table.add(TokenKind::Private, "private", TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::MUT, "mut", TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::VALUE_KEYWORD, "val",
+                               TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::PUBLIC, "public",
+                               TokenGroup::Keyword);
+  context.descriptor_table.add(TokenKind::PRIVATE, "private",
+                               TokenGroup::Keyword);
 
   context.descriptor_table.add(TokenKind::Plus, "+", TokenGroup::Operator);
   context.descriptor_table.add(TokenKind::Minus, "-", TokenGroup::Operator);
@@ -58,29 +65,39 @@ inline LanguageContext create_context() {
   context.descriptor_table.add(TokenKind::Arrow, "->", TokenGroup::Operator);
   context.descriptor_table.add(TokenKind::Equals, "==", TokenGroup::Operator);
   context.descriptor_table.add(TokenKind::Ternary, "?", TokenGroup::Operator);
-  context.descriptor_table.add(TokenKind::GreaterThan, ">", TokenGroup::Operator);
+  context.descriptor_table.add(TokenKind::GreaterThan, ">",
+                               TokenGroup::Operator);
 
-  context.descriptor_table.add(TokenKind::OpenParen, "(", TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::OpenParen, "(",
+                               TokenGroup::Punctuation);
 
   context.descriptor_table.add(TokenKind::Colon, ":", TokenGroup::Punctuation);
   context.descriptor_table.add(TokenKind::Dot, ".", TokenGroup::Punctuation);
-  context.descriptor_table.add(TokenKind::CloseParen, ")", TokenGroup::Punctuation);
-  context.descriptor_table.add(TokenKind::OpenBrace, "{", TokenGroup::Punctuation);
-  context.descriptor_table.add(TokenKind::CloseBrace, "}", TokenGroup::Punctuation);
-  context.descriptor_table.add(TokenKind::OpenBracket, "[", TokenGroup::Punctuation);
-  context.descriptor_table.add(TokenKind::CloseBracket, "]", TokenGroup::Punctuation);
-  context.descriptor_table.add(TokenKind::Semicolon, ";", TokenGroup::Punctuation);
-  context.descriptor_table.add(TokenKind::Comma, ",", TokenGroup::Punctuation);
-  context.descriptor_table.add(TokenKind::SingleQuote, "\'", TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::CloseParen, ")",
+                               TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::OpenBrace, "{",
+                               TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::CLOSE_BRACE, "}",
+                               TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::OPEN_BRACKET, "[",
+                               TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::CLOSE_BRACKET, "]",
+                               TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::Semicolon, ";",
+                               TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::COMMA, ",", TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::SINGLE_QUOTE, "\'",
+                               TokenGroup::Punctuation);
 
-  context.descriptor_table.add(TokenKind::Identifier, TokenGroup::Name);
+  context.descriptor_table.add(TokenKind::Identifier, TokenGroup::NAME);
 
   context.descriptor_table.add(TokenKind::NumberLiteral, TokenGroup::Literal);
   context.descriptor_table.add(TokenKind::StringLiteral, TokenGroup::Literal);
   context.descriptor_table.add(TokenKind::BoolLiteral, TokenGroup::Literal);
   context.descriptor_table.add(TokenKind::CharLiteral, TokenGroup::Literal);
   context.descriptor_table.add(TokenKind::NullLiteral, TokenGroup::Literal);
-  context.descriptor_table.add(TokenKind::Newline, "\\n", TokenGroup::Whitespace);
+  context.descriptor_table.add(TokenKind::NEW_LINE, "\\n",
+                               TokenGroup::Whitespace);
 
   return context;
 }

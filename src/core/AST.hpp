@@ -1,6 +1,7 @@
 #pragma once
 #include "core/memory/Arena.hpp"
 #include "core/node/Node.hpp"
+#include "core/token/Location.hpp"
 #include <functional>
 #include <vector>
 
@@ -13,8 +14,20 @@ public:
     return node;
   }
 
+  template <typename T, typename... Args>
+  T *create_error_node(const SourceSlice &slice, Args &&...args) {
+    T *node = ast_arena.alloc<T>(std::forward<Args>(args)...);
+
+    node->kind = core::node::NodeKind::Error;
+
+    node->slice = slice;
+    node->range = slice.range;
+    return node;
+  }
+
   void traverse(const std::function<void(core::node::Node *)> &fn) const {
-    for (auto *node : roots_) fn(node);
+    for (auto *node : roots_)
+      fn(node);
   }
 
   size_t size() const { return roots_.size(); }

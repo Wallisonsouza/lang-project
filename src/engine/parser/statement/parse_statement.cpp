@@ -3,24 +3,35 @@
 #include "engine/parser/parser.hpp"
 
 core::node::StatementNode *Parser::parse_statement() {
-  auto *tok = unit.tokens.peek();
-  if (!tok) return nullptr;
 
-  core::node::StatementNode *stmt = nullptr;
+  auto *tok = unit.tokens.peek();
+  if (!tok)
+    return nullptr;
 
   switch (tok->descriptor->kind) {
-  case core::token::TokenKind::ImportKeyword: stmt = parse_import_statement(); break;
-  case core::token::TokenKind::IfKeyword: stmt = parse_if_statement(); break;
-  case core::token::TokenKind::ReturnKeyword: stmt = parse_return_statement(); break;
-  case core::token::TokenKind::ValueKeyword:
-  case core::token::TokenKind::Variable: stmt = parse_variable_declaration(); break;
-  case core::token::TokenKind::FunctionKeyword: stmt = parse_function_declaration(); break;
+
+  case core::token::TokenKind::IMPORT_KEYWORD:
+    return parse_import_statement();
+
+  case core::token::TokenKind::IF_KEYWORD:
+    return parse_if_statement();
+
+  case core::token::TokenKind::RETURN_KEYWORD:
+    return parse_return_statement();
+
+  case core::token::TokenKind::VALUE_KEYWORD:
+  case core::token::TokenKind::CONST_KEYWORD:
+    return parse_variable_declaration();
+
+  case core::token::TokenKind::FUNCTION_KEYWORD:
+    return parse_function_declaration();
+
   default:
-    if (auto *expr = parse_expression()) { stmt = unit.ast.create_node<core::node::ExpressionStatementNode>(expr); }
-    break;
+    if (auto *expr = parse_expression()) {
+      return unit.ast.create_node<core::node::ExpressionStatementNode>(expr);
+    }
+
+    unit.tokens.advance();
+    return nullptr;
   }
-
-  if (unit.tokens.peek(core::token::TokenKind::Newline)) { unit.tokens.advance(); }
-
-  return stmt;
 }

@@ -9,18 +9,18 @@ struct Location {
   size_t column;
 };
 
-struct Range {
+struct SourceRange {
   Location begin;
   Location end;
 };
 
-struct Slice {
-  Range range;
+struct SourceSlice {
+  SourceRange range;
   core::source::Span span;
 };
 
-inline Slice operator+(const Slice &a, const Slice &b) {
-  Slice result;
+inline SourceSlice operator+(const SourceSlice &a, const SourceSlice &b) {
+  SourceSlice result;
   result.range.begin = a.range.begin;
   result.range.end = b.range.end;
   result.span.begin = a.span.begin;
