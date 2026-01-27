@@ -10,7 +10,7 @@ private:
   CompilationUnit &unit;
   core::source::TextStream stream;
 
-  core::token::Token *match_token() {
+  Token *match_token() {
 
     if (auto t = match_string())
       return t;
@@ -30,11 +30,11 @@ private:
 public:
   Lexer(CompilationUnit &unit) : unit(unit), stream(unit.source.buffer) {};
 
-  core::token::Token *match_identifier();
-  core::token::Token *match_string();
-  core::token::Token *match_number();
-  core::token::Token *match_operator();
-  core::token::Token mathch_comment();
+  Token *match_identifier();
+  Token *match_string();
+  Token *match_number();
+  Token *match_operator();
+  Token mathch_comment();
 
   void skip_whitespace_and_comments(core::source::TextStream &stream) {
     while (!stream.eof()) {
@@ -80,10 +80,9 @@ public:
 
         auto state = stream.get_state();
 
-        auto desc = unit.context.descriptor_table.lookup_by_kind(
-            core::token::TokenKind::NEW_LINE);
-        unit.tokens.create_token<core::token::Token>(desc,
-                                                     stream.slice_from(state));
+        auto desc =
+            unit.context.descriptor_table.lookup_by_kind(TokenKind::NEW_LINE);
+        unit.tokens.create_token<Token>(desc, stream.slice_from(state));
       }
 
       auto start_state = stream.get_state();

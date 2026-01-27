@@ -8,20 +8,19 @@ Parser::finish_call(core::node::ExpressionNode *base) {
 
   while (true) {
     auto *tok = unit.tokens.peek();
-    if (!tok || tok->descriptor->kind != core::token::TokenKind::OpenParen)
+    if (!tok || tok->descriptor->kind != TokenKind::OpenParen)
       break;
     unit.tokens.advance(); // consumir '('
 
     std::vector<core::node::ExpressionNode *> args;
-    while (!unit.tokens.is_end() &&
-           !unit.tokens.match(core::token::TokenKind::CloseParen)) {
+    while (!unit.tokens.is_end() && !unit.tokens.match(TokenKind::CloseParen)) {
       auto *expr = parse_expression();
       if (!expr)
         break;
       args.push_back(expr);
 
-      if (!unit.tokens.match(core::token::TokenKind::COMMA)) {
-        unit.tokens.match(core::token::TokenKind::CloseParen);
+      if (!unit.tokens.match(TokenKind::COMMA)) {
+        unit.tokens.match(TokenKind::CloseParen);
         break;
       }
     }

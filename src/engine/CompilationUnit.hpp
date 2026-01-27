@@ -18,5 +18,6 @@ struct CompilationUnit {
   AST ast;
   core::token::TokenStream tokens;
 
-  explicit CompilationUnit(LanguageContext &ctx, core::source::Source &src) : context(ctx), source(src), diagns(*this) {}
+  explicit CompilationUnit(LanguageContext &ctx, core::source::Source &src)
+      : context(ctx), source(src), diagns(*this) {}
 };

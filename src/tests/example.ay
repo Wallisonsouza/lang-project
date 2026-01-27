@@ -1,0 +1,3 @@
+import debug.console
+
+console.log("ola")

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/module/module.hpp"
+#include "core/node/Type.hpp"
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -26,6 +27,32 @@ struct ModuleManager {
   }
 
   Module *get(ModuleId id) { return &modules[id]; }
+
+  ModuleId find_path(std::vector<node::IdentifierNode *> &path,
+                     size_t &failed_index) {
+    failed_index = SIZE_MAX;
+
+    if (path.empty())
+      return SIZE_MAX;
+
+    auto it = root_modules.find(path[0]->name);
+    if (it == root_modules.end()) {
+      failed_index = 0;
+      return SIZE_MAX;
+    }
+
+    ModuleId current = it->second;
+    for (size_t i = 1; i < path.size(); ++i) {
+      auto child_it = modules[current].children.find(path[i]->name);
+      if (child_it == modules[current].children.end()) {
+        failed_index = i;
+        return SIZE_MAX;
+      }
+      current = child_it->second;
+    }
+
+    return current;
+  }
 
   ModuleId find_path(const std::vector<std::string> &path) {
     if (path.empty())

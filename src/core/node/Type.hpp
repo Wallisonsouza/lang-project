@@ -4,6 +4,7 @@
 #include "core/node/Modifier.hpp"
 #include "core/node/Node.hpp"
 #include "core/node/NodeKind.hpp"
+#include "core/node/flags.hpp"
 #include "core/token/Location.hpp"
 #include <string>
 #include <vector>
@@ -98,7 +99,7 @@ struct PatternErrorNode : PatternNode {
     this->kind = core::node::NodeKind::Error;
     this->slice = expected_slice;
 
-    flags |= NodeFlags::HasError;
+    flags.set(NodeFlags::HasError);
 
     this->slice = expected_slice;
   }
@@ -110,6 +111,19 @@ struct ParameterListNode : Node {
   explicit ParameterListNode(std::vector<PatternNode *> params = {})
       : Node(NodeKindBase::Unknown, core::node::NodeKind::ParameterList),
         parameters(std::move(params)) {}
+};
+
+struct ParameterListNodeError : ParameterListNode {
+
+  ParameterListNodeError(const SourceSlice &expected_slice)
+      : ParameterListNode({}) {
+    this->kind = core::node::NodeKind::Error;
+    this->slice = expected_slice;
+
+    flags.set(NodeFlags::HasError);
+
+    this->slice = expected_slice;
+  }
 };
 
 struct NativeFunctionDeclarationNode : StatementNode {

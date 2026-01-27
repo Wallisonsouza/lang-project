@@ -1,12 +1,14 @@
 #include "lexer.hpp"
 
-core::token::Token *Lexer::match_number() {
+Token *Lexer::match_number() {
 
   auto start = stream.get_state();
 
   auto c = stream.peek();
 
-  if (!utils::Unicode::is_digit(c)) { return nullptr; }
+  if (!utils::Unicode::is_digit(c)) {
+    return nullptr;
+  }
 
   bool has_dot = false;
 
@@ -24,7 +26,8 @@ core::token::Token *Lexer::match_number() {
 
   auto slice = stream.slice_from(start);
 
-  auto descriptor = unit.context.descriptor_table.lookup_by_kind(core::token::TokenKind::NumberLiteral);
+  auto descriptor =
+      unit.context.descriptor_table.lookup_by_kind(TokenKind::NumberLiteral);
 
-  return unit.tokens.create_token<core::token::Token>(descriptor, slice);
+  return unit.tokens.create_token<Token>(descriptor, slice);
 }

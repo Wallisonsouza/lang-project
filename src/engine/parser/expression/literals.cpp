@@ -5,8 +5,7 @@
 #include "engine/parser/parser.hpp"
 
 core::node::ExpressionNode *Parser::parse_number_literal() {
-  core::token::Token *token =
-      unit.tokens.match(core::token::TokenKind::NumberLiteral);
+  Token *token = unit.tokens.match(TokenKind::NumberLiteral);
   if (!token)
     return nullptr;
 
@@ -21,8 +20,7 @@ core::node::ExpressionNode *Parser::parse_number_literal() {
 
 core::node::ExpressionNode *Parser::parse_string_literal() {
 
-  core::token::Token *token =
-      unit.tokens.match(core::token::TokenKind::StringLiteral);
+  Token *token = unit.tokens.match(TokenKind::StringLiteral);
   if (!token)
     return nullptr;
 
@@ -33,8 +31,7 @@ core::node::ExpressionNode *Parser::parse_string_literal() {
 
 core::node::IdentifierNode *Parser::parse_identifier_name() {
 
-  core::token::Token *token =
-      unit.tokens.match(core::token::TokenKind::Identifier);
+  Token *token = unit.tokens.match(TokenKind::Identifier);
   if (!token)
     return nullptr;
 
@@ -47,7 +44,7 @@ core::node::IdentifierNode *Parser::parse_identifier_name() {
 
 core::node::ExpressionNode *Parser::parse_grouped_expression() {
 
-  auto *open = unit.tokens.match(core::token::TokenKind::OpenParen);
+  auto *open = unit.tokens.match(TokenKind::OpenParen);
   if (!open)
     return nullptr;
 
@@ -56,7 +53,7 @@ core::node::ExpressionNode *Parser::parse_grouped_expression() {
     return nullptr;
   }
 
-  auto *close = unit.tokens.match(core::token::TokenKind::CloseParen);
+  auto *close = unit.tokens.match(TokenKind::CloseParen);
   if (!close) {
     return nullptr;
   }
@@ -68,7 +65,7 @@ core::node::ExpressionNode *Parser::parse_grouped_expression() {
 core::node::ExpressionNode *
 Parser::parse_path_segment(core::node::ExpressionNode *base) {
 
-  auto *dot = unit.tokens.match(core::token::TokenKind::Dot);
+  auto *dot = unit.tokens.match(TokenKind::Dot);
   if (!dot)
     return nullptr;
 
@@ -86,7 +83,7 @@ Parser::parse_path_segment(core::node::ExpressionNode *base) {
 core::node::ExpressionNode *
 Parser::parse_index_access(core::node::ExpressionNode *base) {
 
-  auto *open = unit.tokens.match(core::token::TokenKind::OPEN_BRACKET);
+  auto *open = unit.tokens.match(TokenKind::OPEN_BRACKET);
   if (!open)
     return nullptr; // erro: '[' esperado
 
@@ -94,7 +91,7 @@ Parser::parse_index_access(core::node::ExpressionNode *base) {
   if (!index_expr)
     return nullptr; // erro: expressão esperada dentro de '[]'
 
-  auto *close = unit.tokens.match(core::token::TokenKind::CLOSE_BRACKET);
+  auto *close = unit.tokens.match(TokenKind::CLOSE_BRACKET);
   if (!close)
     return nullptr; // erro: ']' esperado
 

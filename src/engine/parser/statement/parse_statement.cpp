@@ -10,20 +10,20 @@ core::node::StatementNode *Parser::parse_statement() {
 
   switch (tok->descriptor->kind) {
 
-  case core::token::TokenKind::IMPORT_KEYWORD:
+  case TokenKind::IMPORT_KEYWORD:
     return parse_import_statement();
 
-  case core::token::TokenKind::IF_KEYWORD:
+  case TokenKind::IF_KEYWORD:
     return parse_if_statement();
 
-  case core::token::TokenKind::RETURN_KEYWORD:
+  case TokenKind::RETURN_KEYWORD:
     return parse_return_statement();
 
-  case core::token::TokenKind::VALUE_KEYWORD:
-  case core::token::TokenKind::CONST_KEYWORD:
+  case TokenKind::VALUE_KEYWORD:
+  case TokenKind::CONST_KEYWORD:
     return parse_variable_declaration();
 
-  case core::token::TokenKind::FUNCTION_KEYWORD:
+  case TokenKind::FUNCTION_KEYWORD:
     return parse_function_declaration();
 
   default:

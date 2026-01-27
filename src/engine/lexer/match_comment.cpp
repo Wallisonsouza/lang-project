@@ -1,6 +1,6 @@
 // #include "engine/lexer/lexer.hpp"
 
-// core::token::Token *Lexer::match_comment() {
+// Token *Lexer::match_comment() {
 
 //   char32_t c = stream.peek();
 
@@ -11,8 +11,8 @@
 //       stream.advance();
 //     auto slice = stream.slice_from(start);
 //     auto descriptor = unit.context.descriptor_table.lookup_by_kind(
-//         core::token::TokenKind::COMMENT);
-//     return unit.tokens.create_token<core::token::Token>(descriptor, slice);
+//         TokenKind::COMMENT);
+//     return unit.tokens.create_token<Token>(descriptor, slice);
 //   }
 
 //   if (c == U'/' && stream.peek_n(1) == U'*') {
@@ -27,8 +27,8 @@
 //     }
 //     auto slice = stream.slice_from(start);
 //     auto descriptor = unit.context.descriptor_table.lookup_by_kind(
-//         core::token::TokenKind::COMMENT);
-//     return unit.tokens.create_token<core::token::Token>(descriptor, slice);
+//         TokenKind::COMMENT);
+//     return unit.tokens.create_token<Token>(descriptor, slice);
 //   }
 
 //   return nullptr;

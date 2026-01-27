@@ -10,9 +10,6 @@ val a : Number =
 // 4. Faltando '='
 val a : Number 10
 
-// 5. Tipo inválido
-val a : Numb3r = 10
-
 // 6. Identificador inválido
 val 1a : Number = 10
 

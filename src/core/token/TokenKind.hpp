@@ -1,8 +1,6 @@
 #pragma once
 #include <cstdint>
 
-namespace core::token {
-
 enum class TokenKind : uint8_t {
   STATIC,
   MUT,
@@ -42,7 +40,7 @@ enum class TokenKind : uint8_t {
 
   OpenBrace,   // Representa a chave esquerda '{'.
   CLOSE_BRACE, // Representa a chave direita '}'.
-  Semicolon,   // Representa o ponto e vírgula ';'.
+  SEMI_COLON,  // Representa o ponto e vírgula ';'.
   Dot,
   Alias,      // Representa um alias (como 'type alias' em algumas linguagens).
   Identifier, // Representa nomes de variáveis, funções ou outros
@@ -57,4 +55,3 @@ enum class TokenKind : uint8_t {
   Type, // mais tokens a serem lidos.
   // tokens.
 };
-}

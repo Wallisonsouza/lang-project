@@ -10,8 +10,8 @@
 
 namespace debug::engine {
 
-constexpr const char *token_group_to_str(core::token::TokenGroup grp) {
-  using G = core::token::TokenGroup;
+constexpr const char *token_group_to_str(TokenGroup grp) {
+  using G = TokenGroup;
   switch (grp) {
   case G::NAME:
     return "Name";
@@ -29,8 +29,8 @@ constexpr const char *token_group_to_str(core::token::TokenGroup grp) {
   return "<UnknownGroup>";
 }
 
-constexpr const char *token_kind_to_str(core::token::TokenKind kin) {
-  using K = core::token::TokenKind;
+constexpr const char *token_kind_to_str(TokenKind kin) {
+  using K = TokenKind;
   switch (kin) {
 
   case K::STATIC:
@@ -87,7 +87,7 @@ constexpr const char *token_kind_to_str(core::token::TokenKind kin) {
     return "Colon";
   case K::COMMA:
     return "Comma";
-  case K::Semicolon:
+  case K::SEMI_COLON:
     return "Semicolon";
   case K::OpenParen:
     return "LParen";
@@ -127,7 +127,7 @@ inline std::string sanitize_text(std::string text, size_t max = 40) {
 
 // ================= DUMP TOKEN =================
 
-inline void dump_token(const core::token::Token &token) {
+inline void dump_token(const Token &token) {
 
   const char *kind = "<no-descriptor>";
   const char *group = "<no-descriptor>";
@@ -154,7 +154,7 @@ inline void dump_token(const core::token::Token &token) {
   Console::debug(oss.str());
 }
 
-inline void dump_tokens(core::token::TokenStream &tokens) {
+inline void dump_tokens(TokenStream &tokens) {
 
   for (auto &token : tokens.get_tokens()) {
     dump_token(*token);

@@ -1,4 +1,15 @@
 // 1. Função sem nome
+
+
+
+fn (a: Number) {
+  val : Number = 10
+}
+
+
+
+
+
 fn (a: Number) {
   val x: Number = 10
 }

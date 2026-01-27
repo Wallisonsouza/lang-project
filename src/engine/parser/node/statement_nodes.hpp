@@ -49,7 +49,7 @@ struct FunctionErrorNode : core::node::StatementNode {
       : StatementNode(core::node::NodeKind::Error) {
     this->slice = slice;
 
-    flags |= NodeFlags::HasError;
+    flags.set(NodeFlags::HasError);
   }
 };
 

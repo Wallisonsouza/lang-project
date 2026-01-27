@@ -1,5 +1,3 @@
-#include "debug/engine/node/ast_debug.hpp"
-#include "debug/engine/token/dump_tokens.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/lexer/lexer.hpp"
 #include "engine/parser/parser.hpp"
@@ -18,15 +16,7 @@ public:
 
   void execute() {
     lexer.generate_tokens();
-
-    for (auto &tok : comp_unit.tokens.get_tokens()) {
-      debug::engine::dump_token(*tok);
-    }
     parser.parse_program();
-
-    auto debugger = ASTDebug();
-
-    debugger.dump_ast(comp_unit.ast);
-    // resolver.resolve_ast();
+    resolver.resolve_ast();
   }
 };

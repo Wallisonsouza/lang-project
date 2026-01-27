@@ -7,12 +7,12 @@ namespace core::table {
 
 class PrecedenceTable {
 public:
-  void add(token::TokenKind kind, int precedence, bool right_assoc = false);
+  void add(TokenKind kind, int precedence, bool right_assoc = false);
 
-  bool has(token::TokenKind kind) const;
+  bool has(TokenKind kind) const;
 
-  int get_precedence(token::TokenKind kind) const;
-  bool is_right_associative(token::TokenKind kind) const;
+  int get_precedence(TokenKind kind) const;
+  bool is_right_associative(TokenKind kind) const;
 
 private:
   struct OperatorInfo {
@@ -20,7 +20,7 @@ private:
     bool right_assoc;
   };
 
-  std::unordered_map<token::TokenKind, OperatorInfo> table;
+  std::unordered_map<TokenKind, OperatorInfo> table;
 };
 
 } // namespace core::table

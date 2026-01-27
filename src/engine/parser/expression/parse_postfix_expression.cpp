@@ -13,20 +13,20 @@ core::node::ExpressionNode *Parser::parse_postfix_expression() {
 
     switch (tok->descriptor->kind) {
 
-    case core::token::TokenKind::OpenParen:
+    case TokenKind::OpenParen:
       expr = finish_call(expr);
       if (!expr)
         return nullptr;
       break;
 
-    case core::token::TokenKind::Dot:
+    case TokenKind::Dot:
 
       expr = parse_path_segment(expr);
       if (!expr)
         return nullptr;
       break;
 
-    case core::token::TokenKind::OPEN_BRACKET:
+    case TokenKind::OPEN_BRACKET:
       expr = parse_index_access(expr);
       if (!expr)
         return nullptr;

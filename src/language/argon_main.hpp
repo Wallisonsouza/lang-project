@@ -8,8 +8,6 @@ namespace ayla::language {
 
 inline LanguageContext create_context() {
 
-  using namespace core::token;
-
   auto context = LanguageContext();
 
   auto parent = context.modules.create_module("debug");
@@ -83,7 +81,7 @@ inline LanguageContext create_context() {
                                TokenGroup::Punctuation);
   context.descriptor_table.add(TokenKind::CLOSE_BRACKET, "]",
                                TokenGroup::Punctuation);
-  context.descriptor_table.add(TokenKind::Semicolon, ";",
+  context.descriptor_table.add(TokenKind::SEMI_COLON, ";",
                                TokenGroup::Punctuation);
   context.descriptor_table.add(TokenKind::COMMA, ",", TokenGroup::Punctuation);
   context.descriptor_table.add(TokenKind::SINGLE_QUOTE, "\'",

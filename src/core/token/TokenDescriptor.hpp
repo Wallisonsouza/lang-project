@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 
-namespace core::token {
-
 struct TokenDescriptor {
 
   const TokenKind kind;
@@ -13,6 +11,6 @@ struct TokenDescriptor {
   const std::string name;
   std::vector<std::string> aliases;
 
-  TokenDescriptor(TokenKind kind, TokenGroup group, const std::string &lexeme) : kind(kind), group(group), name(lexeme) {}
+  TokenDescriptor(TokenKind kind, TokenGroup group, const std::string &lexeme)
+      : kind(kind), group(group), name(lexeme) {}
 };
-} // namespace core::token

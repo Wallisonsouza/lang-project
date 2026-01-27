@@ -3,8 +3,9 @@
 #include "core/node/Type.hpp"
 #include "core/token/Location.hpp"
 #include "core/token/TokenKind.hpp"
-#include "debug/engine/token/dump_tokens.hpp"
 #include "engine/CompilationUnit.hpp"
+
+#include "engine/parser/error/recover.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 
 enum class ParserResultCode { Success, Error };
@@ -28,10 +29,8 @@ struct Parser {
   core::node::TypeNode *parse_type();
 
 private:
-  void synchronize_statement();
-  void synchronize_function();
-
-  using BoundaryFn = std::function<bool(core::token::TokenKind)>;
+  void recover_until(RecoverBoundary boundaries);
+  using BoundaryFn = std::function<bool(TokenKind)>;
 
   void recover_until(BoundaryFn boundary);
 
@@ -83,11 +82,6 @@ public:
 
       auto *stmt = parse_statement();
 
-      auto *tok = unit.tokens.peek();
-      if (tok) {
-        debug::engine::dump_token(*tok);
-      }
-
       if (stmt) {
         unit.ast.add_root(stmt);
       }
@@ -97,8 +91,8 @@ public:
   }
 
   void consume_statement_separators() {
-    while (unit.tokens.match(core::token::TokenKind::NEW_LINE) ||
-           unit.tokens.match(core::token::TokenKind::Semicolon))
+    while (unit.tokens.match(TokenKind::NEW_LINE) ||
+           unit.tokens.match(TokenKind::SEMI_COLON))
       ;
   }
 
@@ -113,88 +107,8 @@ public:
     }
   }
 
-  ParserResult<core::node::ParameterListNode>
-  parse_list(core::token::TokenKind open_token,
-             core::token::TokenKind close_token,
-             core::token::TokenKind separator_token,
-             std::function<core::node::PatternNode *()> parse_element) {
-
-    std::vector<core::node::PatternNode *> elements;
-
-    // '('
-    if (!unit.tokens.match(open_token)) {
-      auto desc = unit.context.descriptor_table.lookup_by_kind(open_token);
-      report_error(DiagnosticCode::ExpectedToken,
-                   desc ? desc->name : "opening token");
-      return ParserResult<core::node::ParameterListNode>::error();
-    }
-
-    bool expect_element = true;
-
-    while (!unit.tokens.is_end()) {
-
-      // ignora newlines internos
-      while (unit.tokens.peek(core::token::TokenKind::NEW_LINE))
-        unit.tokens.advance();
-
-      // fechamento correto
-      if (unit.tokens.peek(close_token)) {
-        unit.tokens.advance();
-        return ParserResult<core::node::ParameterListNode>::success(
-            unit.ast.create_node<core::node::ParameterListNode>(
-                std::move(elements)));
-      }
-
-      auto *current = unit.tokens.peek();
-      if (!current)
-        break;
-
-      // ---- ESPERANDO ELEMENTO ----
-      if (expect_element) {
-
-        // token que claramente NÃO pode iniciar um elemento
-        // ex: '{', 'fn', 'let', etc.
-        auto *el = parse_element();
-        if (!el) {
-          report_error(DiagnosticCode::ExpectedIdentifier,
-                       "expected parameter");
-          return ParserResult<core::node::ParameterListNode>::error();
-        }
-
-        elements.push_back(el);
-        expect_element = false;
-        continue;
-      }
-
-      // ---- ESPERANDO ',' OU ')' ----
-      if (unit.tokens.match(separator_token)) {
-        expect_element = true;
-        continue;
-      }
-
-      // aqui sabemos que:
-      // - não é ','
-      // - não é ')'
-      // então decidimos a mensagem com base no token encontrado
-
-      if (current->descriptor->kind == core::token::TokenKind::OpenBrace) {
-        report_error(DiagnosticCode::ExpectedToken,
-                     "expected ')' before function body");
-      } else {
-        auto sep_desc =
-            unit.context.descriptor_table.lookup_by_kind(separator_token);
-
-        report_error(DiagnosticCode::ExpectedToken,
-                     sep_desc ? sep_desc->name
-                              : "separator between parameters");
-      }
-
-      return ParserResult<core::node::ParameterListNode>::error();
-    }
-
-    // EOF antes de fechar a lista
-    report_error(DiagnosticCode::ExpectedToken,
-                 "unterminated parameter list, missing ')'");
-    return ParserResult<core::node::ParameterListNode>::error();
-  }
+  core::node::ParameterListNode *
+  parse_list(TokenKind open_token, TokenKind close_token,
+             TokenKind separator_token,
+             std::function<core::node::PatternNode *()> parse_element);
 };

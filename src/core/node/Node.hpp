@@ -19,7 +19,7 @@ struct Node {
   NodeKind kind;
   NodeKindBase base_kind;
   SourceSlice slice;
-  NodeFlags flags = NodeFlags::None;
+  NodeFlag flags;
 
   virtual ~Node() = default;
 

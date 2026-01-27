@@ -15,18 +15,16 @@ public:
     return tok;
   }
 
-  void traverse(const std::function<void(core::token::Token *)> &fn) const {
+  void traverse(const std::function<void(Token *)> &fn) const {
     for (auto *tok : tokens_)
       fn(tok);
   }
 
   size_t size() const { return tokens_.size(); }
 
-  core::token::Token *operator[](size_t idx) const { return tokens_[idx]; }
+  Token *operator[](size_t idx) const { return tokens_[idx]; }
 
-  const std::vector<core::token::Token *> &get_tokens() const {
-    return tokens_;
-  }
+  const std::vector<Token *> &get_tokens() const { return tokens_; }
 
 public:
   size_t pos_ = 0;
@@ -43,15 +41,15 @@ public:
 
   inline size_t current_pos() const noexcept { return pos_; }
 
-  inline core::token::Token *current() const noexcept {
+  inline Token *current() const noexcept {
     return has() ? tokens_[pos_] : nullptr;
   }
 
-  inline core::token::Token *peek(size_t offset = 0) const noexcept {
+  inline Token *peek(size_t offset = 0) const noexcept {
     return has(offset) ? tokens_[pos_ + offset] : nullptr;
   }
 
-  inline core::token::Token *peek_or_last(size_t offset = 0) const noexcept {
+  inline Token *peek_or_last(size_t offset = 0) const noexcept {
     if (has(offset)) {
       return tokens_[pos_ + offset];
     } else {
@@ -85,7 +83,7 @@ public:
   // -----------------------------
   // Consumo e avanço
   // -----------------------------
-  inline core::token::Token *consume() noexcept {
+  inline Token *consume() noexcept {
     if (is_end())
       return nullptr;
     last_token_ = tokens_[pos_];
@@ -140,8 +138,8 @@ public:
 
 private:
   core::memory::Arena arena_;
-  std::vector<core::token::Token *> tokens_;
-  core::token::Token *last_token_ = nullptr;
+  std::vector<Token *> tokens_;
+  Token *last_token_ = nullptr;
 };
 
 } // namespace core::token

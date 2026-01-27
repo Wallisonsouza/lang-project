@@ -1,4 +1,5 @@
 #pragma once
+#include "core/source/Source.hpp"
 #include "core/source/SourceBuffer.hpp"
 #include "core/source/Span.hpp"
 #include "core/token/Location.hpp"
@@ -141,7 +142,7 @@ inline std::string fill_line(const char *display_start, const char *display_end,
 // ------------------------------------------------------------
 inline void print_diagnostic(const std::string &title, std::string &message,
                              const std::string &help, const SourceSlice &slice,
-                             const core::source::SourceBuffer &buffer) {
+                             const core::source::Source &source) {
   constexpr std::string_view CUT = "...";
 
   // Cabeçalho do erro
@@ -154,8 +155,10 @@ inline void print_diagnostic(const std::string &title, std::string &message,
                       std::to_string(slice.range.begin.column), LINE_INFO, "..",
                       LINE_INFO, std::to_string(slice.range.end.column));
 
+  debug::Console::log(debug::Color::BrightBlack, source.path);
+
   // Linha de código cortada
-  auto line_sv = buffer.get_line(slice.range.begin.line);
+  auto line_sv = source.buffer.get_line(slice.range.begin.line);
   auto cut = cut_line(line_sv, slice.span, CUT, CUT);
 
   std::ostringstream ln;

@@ -13,7 +13,8 @@
 // class DescriptorTable {
 // public:
 //     // Adiciona um token principal com nome
-//     token::TokenDescriptor &add(token::TokenKind kind, const std::string &name, token::TokenGroup group) {
+//     token::TokenDescriptor &add(TokenKind kind, const std::string &name,
+//     token::TokenGroup group) {
 //         storage_.emplace_back(kind, group, name);
 //         TokenDescriptor &desc = storage_.back();
 //         by_kind_[kind] = &desc;
@@ -23,7 +24,7 @@
 //     }
 
 //     // Adiciona um token sem nome (ex.: TokenKind::Identifier)
-//     token::TokenDescriptor &add(token::TokenKind kind, token::TokenGroup group) {
+//     token::TokenDescriptor &add(TokenKind kind, token::TokenGroup group) {
 //         storage_.emplace_back(kind, group, "");
 //         TokenDescriptor &desc = storage_.back();
 //         by_kind_[kind] = &desc;
@@ -31,7 +32,7 @@
 //     }
 
 //     // Adiciona um alias para um TokenDescriptor existente
-//     void add_alias(token::TokenKind kind, const std::string &alias) {
+//     void add_alias(TokenKind kind, const std::string &alias) {
 //         auto it = by_kind_.find(kind);
 //         if (!it) return; // token principal não existe
 //         TokenDescriptor *desc = it->second;
@@ -40,7 +41,7 @@
 //         desc->aliases.push_back(alias); // opcional, útil para help
 //     }
 
-//     token::TokenDescriptor *lookup_by_kind(token::TokenKind kind) {
+//     token::TokenDescriptor *lookup_by_kind(TokenKind kind) {
 //         auto it = by_kind_.find(kind);
 //         return it != by_kind_.end() ? it->second : nullptr;
 //     }
@@ -54,15 +55,17 @@
 //         return trie_.has_prefix(prefix);
 //     }
 
-//     const std::deque<token::TokenDescriptor> &all() const { return storage_; }
+//     const std::deque<token::TokenDescriptor> &all() const { return storage_;
+//     }
 
-//     const std::unordered_map<std::string, token::TokenDescriptor *> &all_names() const { return by_name_; }
+//     const std::unordered_map<std::string, token::TokenDescriptor *>
+//     &all_names() const { return by_name_; }
 
 // private:
 //     std::deque<token::TokenDescriptor> storage_;
-//     std::unordered_map<token::TokenKind, token::TokenDescriptor *> by_kind_;
-//     std::unordered_map<std::string, token::TokenDescriptor *, U32Hash, U32Equal> by_name_;
-//     Trie<token::TokenDescriptor> trie_;
+//     std::unordered_map<TokenKind, token::TokenDescriptor *> by_kind_;
+//     std::unordered_map<std::string, token::TokenDescriptor *, U32Hash,
+//     U32Equal> by_name_; Trie<token::TokenDescriptor> trie_;
 // };
 
 // } // namespace core::table

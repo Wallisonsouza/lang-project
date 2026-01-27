@@ -3,23 +3,22 @@
 
 namespace core::table {
 
-void PrecedenceTable::add(token::TokenKind kind, int precedence,
-                          bool right_assoc) {
+void PrecedenceTable::add(TokenKind kind, int precedence, bool right_assoc) {
   table[kind] = OperatorInfo{precedence, right_assoc};
 }
 
-bool PrecedenceTable::has(token::TokenKind kind) const {
+bool PrecedenceTable::has(TokenKind kind) const {
   return table.find(kind) != table.end();
 }
 
-int PrecedenceTable::get_precedence(token::TokenKind kind) const {
+int PrecedenceTable::get_precedence(TokenKind kind) const {
   auto it = table.find(kind);
   if (it == table.end())
     return -1;
   return it->second.precedence;
 }
 
-bool PrecedenceTable::is_right_associative(token::TokenKind kind) const {
+bool PrecedenceTable::is_right_associative(TokenKind kind) const {
   auto it = table.find(kind);
   if (it == table.end())
     return false;
