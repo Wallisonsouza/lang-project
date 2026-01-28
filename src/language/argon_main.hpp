@@ -69,11 +69,11 @@ inline LanguageContext create_context() {
   context.descriptor_table.add(TokenKind::OpenParen, "(",
                                TokenGroup::Punctuation);
 
-  context.descriptor_table.add(TokenKind::Colon, ":", TokenGroup::Punctuation);
+  context.descriptor_table.add(TokenKind::COLON, ":", TokenGroup::Punctuation);
   context.descriptor_table.add(TokenKind::Dot, ".", TokenGroup::Punctuation);
   context.descriptor_table.add(TokenKind::CloseParen, ")",
                                TokenGroup::Punctuation);
-  context.descriptor_table.add(TokenKind::OpenBrace, "{",
+  context.descriptor_table.add(TokenKind::OPEN_BRACE, "{",
                                TokenGroup::Punctuation);
   context.descriptor_table.add(TokenKind::CLOSE_BRACE, "}",
                                TokenGroup::Punctuation);

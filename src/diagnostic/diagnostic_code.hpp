@@ -13,6 +13,7 @@ enum class DiagnosticCode {
   UnterminatedString,
   ModuleNotFound,
   RedeclaredIdentifier,
+  IfBlockError,
 
   // if
   IfConditionMissing,

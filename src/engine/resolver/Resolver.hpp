@@ -3,6 +3,7 @@
 #include "core/node/Node.hpp"
 #include "core/node/Type.hpp"
 #include "diagnostic/DiagnosticEngine.hpp"
+#include "engine/CompilationUnit.hpp"
 #include "engine/parser/node/operator_nodes.hpp"
 #include "engine/parser/node/statement/ImportStatement.hpp"
 #include "engine/parser/node/statement_nodes.hpp"

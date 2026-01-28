@@ -1,32 +1,23 @@
-
 #include "core/token/TokenKind.hpp"
 #include "engine/parser/parser.hpp"
-
 #include <cstdint>
+#include <unordered_map>
 
-inline bool has_flag(RecoverBoundary flags, RecoverBoundary test) {
-  return (static_cast<uint32_t>(flags) & static_cast<uint32_t>(test)) != 0;
-}
+inline bool has_flag(RecoverBoundary flags, RecoverBoundary test) { return (static_cast<uint32_t>(flags) & static_cast<uint32_t>(test)) != 0; }
 
-bool is_function_boundary(TokenKind kind) {
-  using K = TokenKind;
-  return kind == K::FUNCTION_KEYWORD || kind == K::VALUE_KEYWORD ||
-         kind == K::IMPORT_KEYWORD;
-}
+static const std::unordered_map<TokenGroup, RecoverBoundary> group_boundaries = {
+    {TokenGroup::Keyword, RecoverBoundary::Statement | RecoverBoundary::Function | RecoverBoundary::Variable},
+    {TokenGroup::Punctuation, RecoverBoundary::Statement | RecoverBoundary::Variable},
 
-bool is_statement_boundary(TokenKind kind) {
-  using K = TokenKind;
-  return kind == K::SEMI_COLON || kind == K::NEW_LINE ||
-         kind == K::CLOSE_BRACE || kind == K::FUNCTION_KEYWORD ||
-         kind == K::VALUE_KEYWORD || kind == K::IMPORT_KEYWORD;
-}
+};
 
-bool is_variable_boundary(TokenKind kind) {
-  using K = TokenKind;
-  return kind == K::SEMI_COLON || kind == K::NEW_LINE ||
-         kind == K::CLOSE_BRACE || kind == K::VALUE_KEYWORD ||
-         kind == K::FUNCTION_KEYWORD || kind == K::IMPORT_KEYWORD;
-}
+static const std::unordered_map<TokenKind, RecoverBoundary> token_boundaries = {
+    {TokenKind::SEMI_COLON, RecoverBoundary::Statement},
+    {TokenKind::NEW_LINE, RecoverBoundary::Statement},
+    {TokenKind::CLOSE_BRACE, RecoverBoundary::Statement | RecoverBoundary::Function | RecoverBoundary::Variable},
+    {TokenKind::OPEN_BRACE, RecoverBoundary::Function},
+    {TokenKind::COLON, RecoverBoundary::Function},
+};
 
 void Parser::recover_until(RecoverBoundary boundaries) {
   while (!unit.tokens.is_end()) {
@@ -36,21 +27,16 @@ void Parser::recover_until(RecoverBoundary boundaries) {
       continue;
     }
 
-    auto kind = tok->descriptor->kind;
+    auto *desc = tok->descriptor;
     bool stop = false;
 
-    if (has_flag(boundaries, RecoverBoundary::Function) &&
-        is_function_boundary(kind))
-      stop = true;
-    if (has_flag(boundaries, RecoverBoundary::Statement) &&
-        is_statement_boundary(kind))
-      stop = true;
-    if (has_flag(boundaries, RecoverBoundary::Variable) &&
-        is_variable_boundary(kind))
-      stop = true;
+    auto it_group = group_boundaries.find(desc->group);
+    if (it_group != group_boundaries.end() && has_flag(boundaries, it_group->second)) { stop = true; }
 
-    if (stop)
-      return;
+    auto it_token = token_boundaries.find(desc->kind);
+    if (it_token != token_boundaries.end() && has_flag(boundaries, it_token->second)) { stop = true; }
+
+    if (stop) return;
 
     unit.tokens.advance();
   }

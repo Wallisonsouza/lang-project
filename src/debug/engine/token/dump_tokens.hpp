@@ -154,7 +154,7 @@ inline void dump_token(const Token &token) {
   Console::debug(oss.str());
 }
 
-inline void dump_tokens(TokenStream &tokens) {
+inline void dump_tokens(core::token::TokenStream &tokens) {
 
   for (auto &token : tokens.get_tokens()) {
     dump_token(*token);

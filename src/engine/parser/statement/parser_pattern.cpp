@@ -15,7 +15,7 @@ core::node::PatternNode *Parser::parse_pattern(core::node::Modifiers mods) {
   }
 
   core::node::TypeNode *type_node = nullptr;
-  if (unit.tokens.match(TokenKind::Colon)) {
+  if (unit.tokens.match(TokenKind::COLON)) {
     type_node = parse_type();
     if (!type_node) {
       report_error(DiagnosticCode::ExpectedType, "type");

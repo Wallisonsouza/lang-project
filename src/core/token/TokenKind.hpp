@@ -22,7 +22,7 @@ enum class TokenKind : uint8_t {
   COMMA,        // Representa a vírgula ','.d
   DOUBLE_QUOTE, // Representa uma aspa dupla '"'.
   SINGLE_QUOTE, // Representa uma aspa simples '\''.
-  Colon,        // Representa o caractere ':'.
+  COLON,        // Representa o caractere ':'.
   Arrow,
   Plus,        // Representa o operador de adição '+'.
   Minus,       // Representa o operador de subtração '-'.
@@ -38,7 +38,7 @@ enum class TokenKind : uint8_t {
   Space,      // Representa um espaço em branco.
   CloseParen, // Representa o parêntese direito ')'.
 
-  OpenBrace,   // Representa a chave esquerda '{'.
+  OPEN_BRACE,  // Representa a chave esquerda '{'.
   CLOSE_BRACE, // Representa a chave direita '}'.
   SEMI_COLON,  // Representa o ponto e vírgula ';'.
   Dot,

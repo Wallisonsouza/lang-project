@@ -1,3 +1,4 @@
+#include "debug/engine/node/ast_debug.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/lexer/lexer.hpp"
 #include "engine/parser/parser.hpp"
@@ -16,7 +17,10 @@ public:
 
   void execute() {
     lexer.generate_tokens();
+
+    ASTDebug debug;
     parser.parse_program();
+    debug.dump_ast(comp_unit.ast);
     resolver.resolve_ast();
   }
 };

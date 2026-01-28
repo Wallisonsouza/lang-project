@@ -1,66 +1,58 @@
 #include "core/node/Type.hpp"
+#include "core/node/flags.hpp"
+#include "engine/parser/node/statement_nodes.hpp"
 #include "engine/parser/parser.hpp"
 
 core::node::StatementNode *Parser::parse_if_statement() {
-  // auto *if_tok = unit.tokens.match(TokenKind::IF_KEYWORD);
-  // if (!if_tok)
-  //   return nullptr;
+  if (!unit.tokens.match(TokenKind::IF_KEYWORD)) return nullptr;
 
-  // auto *condition = parse_expression();
-  // if (!condition) {
-  //   report_error(DiagnosticCode::IfConditionMissing,
-  //                "expected condition after 'if'", if_tok->slice);
+  auto *condition = parse_expression();
+  if (!condition || condition->flags.has(NodeFlags::HasError)) {
 
-  //   synchronize_statement();
-  //   return unit.ast.create_node<parser::node::IfStatementNode>(nullptr,
-  //   nullptr,
-  //                                                              nullptr);
-  // }
+    report_error(DiagnosticCode::IfConditionMissing, "expected condition after 'if'");
 
-  // if (condition->kind == core::node::NodeKind::Assignment) {
-  //   report_error(DiagnosticCode::IfConditionAssignment,
-  //                "assignment is not allowed in if condition",
-  //                condition->slice);
-  // }
+    recover_until(RecoverBoundary::If);
 
-  // if (!unit.tokens.match(TokenKind::OpenBrace)) {
-  //   report_error(DiagnosticCode::ExpectedToken,
-  //                "expected '{' after if condition",
-  //                unit.tokens.peek_slice());
+    return unit.ast.create_node<parser::node::IfStatementNodeError>();
+  }
 
-  //   synchronize_statement();
-  //   return unit.ast.create_node<parser::node::IfStatementNode>(
-  //       condition, nullptr, nullptr);
-  // }
+  if (condition->kind == core::node::NodeKind::Assignment) {
 
-  // auto *then_block = parse_block_statement();
+    report_error(DiagnosticCode::IfConditionAssignment, "assignment is not allowed in if condition");
 
-  // if (!unit.tokens.match(TokenKind::CLOSE_BRACE)) {
-  //   report_error(DiagnosticCode::ExpectedToken,
-  //                "expected '}' to close if block", unit.tokens.peek_slice());
-  // }
+    recover_until(RecoverBoundary::If);
 
-  // parser::node::BlockStatementNode *else_block = nullptr;
+    return unit.ast.create_node<parser::node::IfStatementNodeError>();
+  }
 
-  // if (unit.tokens.match(TokenKind::ELSE_KEYWORD)) {
+  auto *then_block = parse_block_statement();
 
-  //   if (!unit.tokens.match(TokenKind::OpenBrace)) {
-  //     report_error(DiagnosticCode::ExpectedToken, "expected '{' after else",
-  //                  unit.tokens.peek_slice());
-  //     synchronize_statement();
-  //   } else {
-  //     else_block = parse_block_statement();
+  if (then_block->flags.has(NodeFlags::HasError)) {
 
-  //     if (!unit.tokens.match(TokenKind::CLOSE_BRACE)) {
-  //       report_error(DiagnosticCode::ExpectedToken,
-  //                    "expected '}' to close else block",
-  //                    unit.tokens.peek_slice());
-  //     }
-  //   }
-  // }
+    report_error(DiagnosticCode::IfBlockError, "error in then block");
 
-  // return unit.ast.create_node<parser::node::IfStatementNode>(
-  //     condition, then_block, else_block);
+    recover_until(RecoverBoundary::If);
 
-  return nullptr;
+    return unit.ast.create_node<parser::node::IfStatementNodeError>();
+  }
+
+  core::node::StatementNode *else_block = nullptr;
+  if (unit.tokens.match(TokenKind::ELSE_KEYWORD)) {
+    if (unit.tokens.peek(TokenKind::IF_KEYWORD)) {
+      else_block = parse_if_statement();
+    } else {
+      else_block = parse_block_statement();
+    }
+
+    if (else_block && else_block->flags.has(NodeFlags::HasError)) {
+
+      report_error(DiagnosticCode::IfBlockError, "error in else block");
+
+      recover_until(RecoverBoundary::If);
+
+      return unit.ast.create_node<parser::node::IfStatementNodeError>();
+    }
+  }
+
+  return unit.ast.create_node<parser::node::IfStatementNode>(condition, then_block, else_block);
 }

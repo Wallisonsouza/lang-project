@@ -93,7 +93,7 @@ struct Executor {
     if (cond_truthy) {
       return execute_block(unit, node->if_block);
     } else {
-      return execute_block(unit, node->else_block);
+      return execute_node(unit, node->else_block);
     }
   }
 

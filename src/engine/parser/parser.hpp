@@ -60,7 +60,7 @@ public:
   core::node::StatementNode *parse_function_declaration();
   core::node::StatementNode *parse_if_statement();
 
-  ParserResult<parser::node::BlockStatementNode> parse_block_statement();
+  parser::node::BlockStatementNode *parse_block_statement();
   core::node::PatternNode *parse_function_parameter();
 
   core::node::ExpressionNode *parse_number_literal();
@@ -105,6 +105,15 @@ public:
     if (auto current = unit.tokens.peek()) {
       diag->set_found(unit.source.buffer.get_text(current->slice.span));
     }
+  }
+
+  template <typename ErrorNodeT>
+  ErrorNodeT *make_error(DiagnosticCode code, const std::string &message,
+                         const SourceSlice &slice) {
+    report_error(code, message);
+    recover_until(RecoverBoundary::Function);
+
+    return unit.ast.create_node<ErrorNodeT>(slice);
   }
 
   core::node::ParameterListNode *

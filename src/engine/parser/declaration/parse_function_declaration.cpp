@@ -5,18 +5,15 @@
 #include "engine/parser/parser.hpp"
 
 parser::node::ReturnStatementNode *Parser::parse_return_statement() {
+
   unit.tokens.match(TokenKind::RETURN_KEYWORD);
 
   // return sem valor
-  if (unit.tokens.peek(TokenKind::CLOSE_BRACE) ||
-      unit.tokens.peek(TokenKind::NEW_LINE)) {
-    return unit.ast.create_node<parser::node::ReturnStatementNode>(nullptr);
-  }
+  if (unit.tokens.peek(TokenKind::CLOSE_BRACE) || unit.tokens.peek(TokenKind::NEW_LINE)) { return unit.ast.create_node<parser::node::ReturnStatementNode>(nullptr); }
 
   auto *value = parse_expression();
   if (!value) {
-    report_error(DiagnosticCode::ExpectedToken,
-                 "expected expression after 'return'");
+    report_error(DiagnosticCode::ExpectedToken, "expected expression after 'return'");
     unit.tokens.advance();
   }
 
@@ -25,14 +22,15 @@ parser::node::ReturnStatementNode *Parser::parse_return_statement() {
 
 //
 
-ParserResult<parser::node::BlockStatementNode> Parser::parse_block_statement() {
+parser::node::BlockStatementNode *Parser::parse_block_statement() {
 
   std::vector<core::node::StatementNode *> statements;
 
-  if (!unit.tokens.match(TokenKind::OpenBrace)) {
+  if (!unit.tokens.match(TokenKind::OPEN_BRACE)) {
 
     report_error(DiagnosticCode::ExpectedToken, "'{' to start block");
-    return ParserResult<parser::node::BlockStatementNode>::error();
+
+    return unit.ast.create_node<parser::node::BlockStatementNodeError>();
   }
 
   consume_statement_separators();
@@ -51,21 +49,19 @@ ParserResult<parser::node::BlockStatementNode> Parser::parse_block_statement() {
 
   // '}'
   if (!unit.tokens.match(TokenKind::CLOSE_BRACE)) {
+
     report_error(DiagnosticCode::ExpectedToken, "'}' to close block");
-    return ParserResult<parser::node::BlockStatementNode>::error();
+
+    return unit.ast.create_node<parser::node::BlockStatementNodeError>();
   }
 
-  return ParserResult<parser::node::BlockStatementNode>::success(
-      unit.ast.create_node<parser::node::BlockStatementNode>(
-          std::move(statements)));
+  return unit.ast.create_node<parser::node::BlockStatementNode>(std::move(statements));
 }
 
 core::node::StatementNode *Parser::parse_function_declaration() {
   auto start = unit.tokens.peek_slice();
 
-  if (!unit.tokens.match(TokenKind::FUNCTION_KEYWORD)) {
-    return nullptr;
-  }
+  if (!unit.tokens.match(TokenKind::FUNCTION_KEYWORD)) { return nullptr; }
 
   auto *name = parse_identifier_name();
 
@@ -78,8 +74,7 @@ core::node::StatementNode *Parser::parse_function_declaration() {
     return unit.ast.create_node<parser::node::FunctionErrorNode>(start);
   }
 
-  auto list = parse_list(TokenKind::OpenParen, TokenKind::CloseParen,
-                         TokenKind::COMMA, [&]() { return parse_pattern({}); });
+  auto list = parse_list(TokenKind::OpenParen, TokenKind::CloseParen, TokenKind::COMMA, [&]() { return parse_pattern({}); });
 
   if (list->flags.has(NodeFlags::HasError)) {
 
@@ -106,13 +101,12 @@ core::node::StatementNode *Parser::parse_function_declaration() {
 
   auto body = parse_block_statement();
 
-  if (body.code == ParserResultCode::Error) {
+  if (body->flags.has(NodeFlags::HasError)) {
 
     recover_until(RecoverBoundary::Function);
 
     return unit.ast.create_node<parser::node::FunctionErrorNode>(start);
   }
 
-  return unit.ast.create_node<parser::node::FunctionDeclarationNode>(
-      name, list->parameters, return_type, body.node);
+  return unit.ast.create_node<parser::node::FunctionDeclarationNode>(name, list->parameters, return_type, body);
 }

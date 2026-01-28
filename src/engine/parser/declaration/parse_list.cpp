@@ -52,7 +52,7 @@ Parser::parse_list(TokenKind open_token, TokenKind close_token,
     }
 
     // Se não for ',' nem ')', é erro
-    if (current->descriptor->kind == TokenKind::OpenBrace) {
+    if (current->descriptor->kind == TokenKind::OPEN_BRACE) {
       report_error(DiagnosticCode::ExpectedToken,
                    "expected ')' before function body");
     } else {

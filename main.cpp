@@ -3,19 +3,19 @@
 #include "engine/CompilationUnit.hpp"
 #include "engine/Engine.hpp"
 #include "engine/runtime/executor.hpp"
+#include "engine/runtime/runtime_scope.hpp"
 #include "language/argon_main.hpp"
 #include <iostream>
 #include <ostream>
 #include <string>
 
 int main() {
-
   auto context = ayla::language::create_context();
   auto engine = Engine(context);
 
   std::vector<std::string> scripts = {
       "/home/wallison/Documentos/git/ayla/src/tests/example.ay",
-      "/home/wallison/Documentos/git/ayla/src/tests/variable_errors.ay",
+
   };
 
   for (auto &path : scripts) {
@@ -27,7 +27,8 @@ int main() {
         print(*diag, exec->comp_unit);
       }
 
-      Executor interpreter(nullptr);
+      RuntimeScope scope;
+      Executor interpreter(&scope);
       interpreter.execute_ast(exec->comp_unit);
 
     } catch (const std::exception &e) {
