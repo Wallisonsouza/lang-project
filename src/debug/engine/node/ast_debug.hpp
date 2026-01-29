@@ -26,7 +26,7 @@ struct ASTDebug {
 
   struct LabeledChild {
     const char *label;
-    const core::node::Node *node;
+    const core::ast::ASTNode *node;
   };
 
   debug::Color label_color = debug::Color::Blue;
@@ -57,27 +57,27 @@ struct ASTDebug {
   explicit ASTDebug(std::ostream &out = std::cout);
 
   void dump_ast(const AST &ast);
-  void debug_labeled(const char *label, const core::node::Node *child, bool is_last);
+  void debug_labeled(const char *label, const core::ast::ASTNode *child, bool is_last);
 
-  void debug_node(const core::node::Node *node, bool is_last);
+  void debug_node(const core::ast::ASTNode *node, bool is_last);
 
   void debug_number_literal(const parser::node::NumberLiteralNode *node);
   void debug_string_literal(const parser::node::StringLiteralNode *node);
   void debug_bool_literal(const parser::node::BoolLiteralNode *node);
   void debug_char_literal(const parser::node::CharLiteralNode *node);
   void debug_null_literal(const parser::node::NullLiteralNode *node);
-  void debug_identifier(const core::node::IdentifierNode *node);
+  void debug_identifier(const core::ast::IdentifierNode *node);
   void debug_member_access(const parser::node::MemberAccessNode *node);
   void debug_import(const parser::node::statement::ImportNode *node);
-  void debug_type(const core::node::TypeNode *node);
-  void debug_variable_declaration(const core::node::PatternNode *node);
+  void debug_type(const core::ast::TypeNode *node);
+  void debug_variable_declaration(const core::ast::PatternNode *node);
   void debug_binary_expression(const parser::node::BinaryExpressionNode *node);
   void debug_function_call(const parser::node::FunctionCallNode *node);
-  void debug_expression_statement(const core::node::ExpressionStatementNode *node);
+  void debug_expression_statement(const core::ast::ExpressionStatementNode *node);
 
   void debug_return_statement(const parser::node::ReturnStatementNode *node);
 
-  void debug_native_function_declaration(const core::node::NativeFunctionDeclarationNode *node);
+  void debug_native_function_declaration(const core::ast::NativeFunctionDeclarationNode *node);
   void debug_function_declaration(const parser::node::FunctionDeclarationNode *node);
   void debug_index_acess(const parser::node::IndexAccessNode *node);
 
@@ -86,7 +86,7 @@ struct ASTDebug {
   void debug_assing_node(const parser::node::statement::AssignmentNode *node);
   void debug_block(const parser::node::BlockStatementNode *node);
 
-  void debug_children(const std::vector<const core::node::Node *> &children);
+  void debug_children(const std::vector<const core::ast::ASTNode *> &children);
 
   template <typename T> void debug_labeled_childrens(const std::vector<T *> &children, const std::string &label, bool is_last) {
 

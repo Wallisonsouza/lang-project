@@ -5,36 +5,32 @@
 
 namespace parser::node {
 
-struct NumberLiteralNode : core::node::ExpressionNode {
+struct NumberLiteralNode : core::ast::ASTExpressionNode {
   double value;
 
-  std::string to_string_node() override { return std::to_string(value); }
-
-  explicit NumberLiteralNode(double v) : core::node::ExpressionNode(core::node::NodeKind::NumberLiteral), value(v) {}
+  explicit NumberLiteralNode(double v) : core::ast::ASTExpressionNode(core::ast::NodeKind::NumberLiteral), value(v) {}
 };
 
-struct StringLiteralNode : core::node::ExpressionNode {
+struct StringLiteralNode : core::ast::ASTExpressionNode {
   std::string value;
 
-  std::string to_string_node() override { return value; }
-
-  explicit StringLiteralNode(std::string v) : ExpressionNode(core::node::NodeKind::StringLiteral), value(std::move(v)) {}
+  explicit StringLiteralNode(std::string v) : ASTExpressionNode(core::ast::NodeKind::StringLiteral), value(std::move(v)) {}
 };
 
-struct BoolLiteralNode : core::node::ExpressionNode {
+struct BoolLiteralNode : core::ast::ASTExpressionNode {
   bool value;
 
-  explicit BoolLiteralNode(bool v) : ExpressionNode(core::node::NodeKind::BooleanLiteral), value(v) {}
+  explicit BoolLiteralNode(bool v) : ASTExpressionNode(core::ast::NodeKind::BooleanLiteral), value(v) {}
 };
 
-struct CharLiteralNode : core::node::ExpressionNode {
+struct CharLiteralNode : core::ast::ASTExpressionNode {
   char32_t value;
 
-  explicit CharLiteralNode(char32_t v) : ExpressionNode(core::node::NodeKind::CharLiteral), value(v) {}
+  explicit CharLiteralNode(char32_t v) : ASTExpressionNode(core::ast::NodeKind::CharLiteral), value(v) {}
 };
 
-struct NullLiteralNode : core::node::ExpressionNode {
-  NullLiteralNode() : ExpressionNode(core::node::NodeKind::NullLiteral) {}
+struct NullLiteralNode : core::ast::ASTExpressionNode {
+  NullLiteralNode() : ASTExpressionNode(core::ast::NodeKind::NullLiteral) {}
 };
 
 } // namespace parser::node

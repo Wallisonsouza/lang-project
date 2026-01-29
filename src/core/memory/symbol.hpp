@@ -12,9 +12,9 @@ struct Symbol {
   SymbolKind kind;
   Visibility visibility;
   bool is_builtin;
-  core::node::Node *declaration = nullptr;
+  core::ast::ASTNode *declaration = nullptr;
 
-  Symbol(std::string name, SymbolKind kind, Visibility visibility = Visibility::Private, bool is_builtin = false, core::node::Node *decl = nullptr)
+  Symbol(std::string name, SymbolKind kind, Visibility visibility = Visibility::Private, bool is_builtin = false, core::ast::ASTNode *decl = nullptr)
       : name(std::move(name)), kind(kind), visibility(visibility), is_builtin(is_builtin) {}
 };
 

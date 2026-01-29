@@ -7,77 +7,77 @@
 
 namespace parser::node {
 
-struct BlockStatementNode : core::node::StatementNode {
-  std::vector<core::node::StatementNode *> statements;
+struct BlockStatementNode : core::ast::ASTStatementNode {
+  std::vector<core::ast::ASTStatementNode *> statements;
 
-  explicit BlockStatementNode(std::vector<core::node::StatementNode *> stmts = {}) : StatementNode(core::node::NodeKind::BlockStatement), statements(std::move(stmts)) {}
+  explicit BlockStatementNode(std::vector<core::ast::ASTStatementNode *> stmts = {}) : ASTStatementNode(core::ast::NodeKind::BlockStatement), statements(std::move(stmts)) {}
 };
 
 struct BlockStatementNodeError : BlockStatementNode {
   explicit BlockStatementNodeError() : BlockStatementNode({}) { flags.set(NodeFlags::HasError); }
 };
 
-struct IfStatementNode : core::node::StatementNode {
-  core::node::ExpressionNode *condition;
+struct IfStatementNode : core::ast::ASTStatementNode {
+  core::ast::ASTExpressionNode *condition;
   BlockStatementNode *if_block;
-  core::node::StatementNode *else_block;
+  core::ast::ASTStatementNode *else_block;
 
-  IfStatementNode(core::node::ExpressionNode *cond, BlockStatementNode *then_b, core::node::StatementNode *else_b = nullptr)
-      : core::node::StatementNode(core::node::NodeKind::IfStatement), condition(cond), if_block(then_b), else_block(else_b) {}
+  IfStatementNode(core::ast::ASTExpressionNode *cond, BlockStatementNode *then_b, core::ast::ASTStatementNode *else_b = nullptr)
+      : core::ast::ASTStatementNode(core::ast::NodeKind::IfStatement), condition(cond), if_block(then_b), else_block(else_b) {}
 };
 
 struct IfStatementNodeError : IfStatementNode {
   IfStatementNodeError() : IfStatementNode(nullptr, nullptr, nullptr) { flags.set(NodeFlags::HasError); }
 };
 
-struct FunctionDeclarationNode : core::node::StatementNode {
-  core::node::IdentifierNode *identifier;
-  std::vector<core::node::PatternNode *> params;
-  core::node::TypeNode *return_type;
+struct FunctionDeclarationNode : core::ast::ASTStatementNode {
+  core::ast::IdentifierNode *identifier;
+  std::vector<core::ast::PatternNode *> params;
+  core::ast::TypeNode *return_type;
   BlockStatementNode *body;
-  core::node::Modifiers modifiers;
+  core::ast::Modifiers modifiers;
   SymbolId symbol_id = SIZE_MAX;
 
-  FunctionDeclarationNode(core::node::IdentifierNode *identifier,
-                          std::vector<core::node::PatternNode *> params,
-                          core::node::TypeNode *ret_type = nullptr,
+  FunctionDeclarationNode(core::ast::IdentifierNode *identifier,
+                          std::vector<core::ast::PatternNode *> params,
+                          core::ast::TypeNode *ret_type = nullptr,
                           BlockStatementNode *b = nullptr,
-                          core::node::Modifiers mods = {})
-      : StatementNode(core::node::NodeKind::FunctionDeclaration), identifier(identifier), params(std::move(params)), return_type(ret_type), body(b), modifiers(mods) {}
+                          core::ast::Modifiers mods = {})
+      : ASTStatementNode(core::ast::NodeKind::FunctionDeclaration), identifier(identifier), params(std::move(params)), return_type(ret_type), body(b), modifiers(mods) {}
 };
 
-struct FunctionErrorNode : core::node::StatementNode {
-  explicit FunctionErrorNode(const SourceSlice &slice = {}) : StatementNode(core::node::NodeKind::Error) {
+struct FunctionErrorNode : core::ast::ASTStatementNode {
+  explicit FunctionErrorNode(const SourceSlice &slice = {}) : ASTStatementNode(core::ast::NodeKind::Error) {
     this->slice = slice;
 
     flags.set(NodeFlags::HasError);
   }
 };
 
-struct MemberAccessNode : core::node::ExpressionNode {
-  core::node::ExpressionNode *object;
-  core::node::ExpressionNode *property;
+struct MemberAccessNode : core::ast::ASTExpressionNode {
+  core::ast::ASTExpressionNode *object;
+  core::ast::ASTExpressionNode *property;
 
-  MemberAccessNode(core::node::ExpressionNode *obj, core::node::ExpressionNode *prop) : ExpressionNode(core::node::NodeKind::MemberAccess), object(obj), property(prop) {}
+  MemberAccessNode(core::ast::ASTExpressionNode *obj, core::ast::ASTExpressionNode *prop) : ASTExpressionNode(core::ast::NodeKind::MemberAccess), object(obj), property(prop) {}
 };
 
-struct IndexAccessNode : core::node::ExpressionNode {
-  core::node::ExpressionNode *base;  // objeto ou array
-  core::node::ExpressionNode *index; // índice ou expressão de acesso
+struct IndexAccessNode : core::ast::ASTExpressionNode {
+  core::ast::ASTExpressionNode *base;  // objeto ou array
+  core::ast::ASTExpressionNode *index; // índice ou expressão de acesso
 
-  IndexAccessNode(core::node::ExpressionNode *b, core::node::ExpressionNode *i) : ExpressionNode(core::node::NodeKind::IndexAccess), base(b), index(i) {}
+  IndexAccessNode(core::ast::ASTExpressionNode *b, core::ast::ASTExpressionNode *i) : ASTExpressionNode(core::ast::NodeKind::IndexAccess), base(b), index(i) {}
 };
 
-struct FunctionCallNode : core::node::ExpressionNode {
-  core::node::ExpressionNode *callee;
-  std::vector<core::node::ExpressionNode *> args;
+struct FunctionCallNode : core::ast::ASTExpressionNode {
+  core::ast::ASTExpressionNode *callee;
+  std::vector<core::ast::ASTExpressionNode *> args;
   SymbolId symbol_id = SIZE_MAX;
-  FunctionCallNode(core::node::ExpressionNode *c, std::vector<core::node::ExpressionNode *> a) : ExpressionNode(core::node::NodeKind::FunctionCall), callee(c), args(std::move(a)) {}
+  FunctionCallNode(core::ast::ASTExpressionNode *c, std::vector<core::ast::ASTExpressionNode *> a) : ASTExpressionNode(core::ast::NodeKind::FunctionCall), callee(c), args(std::move(a)) {}
 };
 
-struct ReturnStatementNode : core::node::StatementNode {
-  core::node::ExpressionNode *value = nullptr;
+struct ReturnStatementNode : core::ast::ASTStatementNode {
+  core::ast::ASTExpressionNode *value = nullptr;
 
-  ReturnStatementNode(core::node::ExpressionNode *v) : StatementNode(core::node::NodeKind::ReturnStatement), value(v) {}
+  ReturnStatementNode(core::ast::ASTExpressionNode *v) : ASTStatementNode(core::ast::NodeKind::ReturnStatement), value(v) {}
 };
 } // namespace parser::node

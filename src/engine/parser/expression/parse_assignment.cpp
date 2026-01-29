@@ -2,12 +2,9 @@
 #include "engine/parser/node/statement/ImportStatement.hpp"
 #include "engine/parser/parser.hpp"
 
-core::node::ExpressionNode *
-Parser::parse_assignment(core::node::ExpressionNode *target) {
+core::ast::ASTExpressionNode *Parser::parse_assignment(core::ast::ASTExpressionNode *target) {
 
-  if (!unit.tokens.match(TokenKind::Assign)) {
-    return nullptr;
-  }
+  if (!unit.tokens.match(TokenKind::Assign)) { return nullptr; }
 
   auto start = unit.tokens.peek_slice();
 
@@ -19,8 +16,7 @@ Parser::parse_assignment(core::node::ExpressionNode *target) {
     // return nullptr;
   }
 
-  auto node = unit.ast.create_node<parser::node::statement::AssignmentNode>(
-      target, value);
+  auto node = unit.ast.create_node<parser::node::statement::AssignmentNode>(target, value);
   node->slice = start;
   return node;
 }

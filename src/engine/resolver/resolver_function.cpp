@@ -27,12 +27,12 @@ void Resolver::resolve_function_call(parser::node::FunctionCallNode *node) {
 
   for (auto *arg : node->args) { resolve(arg); }
 
-  if (node->callee->kind != core::node::NodeKind::Identifier) {
+  if (node->callee->kind != core::ast::NodeKind::Identifier) {
     // report_error(DiagnosticCode::NotCallable, node->callee->slice);
     return;
   }
 
-  auto *id_node = static_cast<core::node::IdentifierNode *>(node->callee);
+  auto *id_node = static_cast<core::ast::IdentifierNode *>(node->callee);
 
   SymbolId sym_id = current_scope->resolve_symbol(id_node->name);
 

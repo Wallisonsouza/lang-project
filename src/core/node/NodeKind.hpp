@@ -1,6 +1,6 @@
 #pragma once
 
-namespace core::node {
+namespace core::ast {
 
 enum class NodeKindBase { Expression, Statement, Type, Pattern, Unknown };
 
@@ -53,4 +53,4 @@ enum class NodeKind {
   ParameterList = 36,
 };
 
-} // namespace core::node
+} // namespace core::ast

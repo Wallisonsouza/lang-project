@@ -3,32 +3,19 @@
 #include "NodeKind.hpp"
 #include "core/node/flags.hpp"
 #include "core/token/Location.hpp"
-#include <string>
-#include <vector>
 
-namespace core::node {
+namespace core::ast {
 
-struct Node;
-
-struct ChildGroup {
-  const char *label;
-  std::vector<Node *> children;
-};
-
-struct Node {
+struct ASTNode {
   NodeKind kind;
   NodeKindBase base_kind;
   SourceSlice slice;
   NodeFlag flags;
 
-  virtual ~Node() = default;
-
-  virtual std::string to_string_node() { return "NOT_STRING_IMPLEMENTATION"; }
-
-  virtual std::vector<ChildGroup> child_groups() const { return {}; }
+  virtual ~ASTNode() = default;
 
 protected:
-  explicit Node(NodeKindBase base, NodeKind k) : base_kind(base), kind(k) {}
+  explicit ASTNode(NodeKindBase base, NodeKind k) : base_kind(base), kind(k) {}
 };
 
-} // namespace core::node
+} // namespace core::ast

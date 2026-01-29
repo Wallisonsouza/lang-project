@@ -1,7 +1,8 @@
 #pragma once
-#include "core/managers/compilation_unit_manager.hpp"
-#include "core/managers/execution_unit_manager.hpp"
+
 #include "core/managers/surce_manager.hpp"
+#include "engine/compilation_unit_manager.hpp"
+#include "engine/execution_unit_manager.hpp"
 #include "engine/language_context.hpp"
 
 class Engine {

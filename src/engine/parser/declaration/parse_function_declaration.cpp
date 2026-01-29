@@ -24,7 +24,7 @@ parser::node::ReturnStatementNode *Parser::parse_return_statement() {
 
 parser::node::BlockStatementNode *Parser::parse_block_statement() {
 
-  std::vector<core::node::StatementNode *> statements;
+  std::vector<core::ast::ASTStatementNode *> statements;
 
   if (!unit.tokens.match(TokenKind::OPEN_BRACE)) {
 
@@ -58,7 +58,7 @@ parser::node::BlockStatementNode *Parser::parse_block_statement() {
   return unit.ast.create_node<parser::node::BlockStatementNode>(std::move(statements));
 }
 
-core::node::StatementNode *Parser::parse_function_declaration() {
+core::ast::ASTStatementNode *Parser::parse_function_declaration() {
   auto start = unit.tokens.peek_slice();
 
   if (!unit.tokens.match(TokenKind::FUNCTION_KEYWORD)) { return nullptr; }
@@ -83,7 +83,7 @@ core::node::StatementNode *Parser::parse_function_declaration() {
     return unit.ast.create_node<parser::node::FunctionErrorNode>(start);
   }
 
-  core::node::TypeNode *return_type = nullptr;
+  core::ast::TypeNode *return_type = nullptr;
 
   if (unit.tokens.match(TokenKind::Arrow)) {
 

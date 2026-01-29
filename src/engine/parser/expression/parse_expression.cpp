@@ -1,6 +1,6 @@
 #include "engine/parser/parser.hpp"
 
-core::node::ExpressionNode *Parser::parse_expression() {
+core::ast::ASTExpressionNode *Parser::parse_expression() {
 
   auto *lhs = parse_postfix_expression();
   if (!lhs) return nullptr;

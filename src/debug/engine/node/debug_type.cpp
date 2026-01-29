@@ -1,6 +1,6 @@
 #include "ast_debug.hpp"
 
-void ASTDebug::debug_type(const core::node::TypeNode *node) {
+void ASTDebug::debug_type(const core::ast::TypeNode *node) {
   out << "Type\n";
 
   debug_node(node->id, true);

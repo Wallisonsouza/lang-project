@@ -21,7 +21,7 @@ struct Executor {
     // 1. Executa o valor da atribuição
     Value val = execute_node(unit, node->value);
 
-    if (auto *id = dynamic_cast<core::node::IdentifierNode *>(node->target)) {
+    if (auto *id = dynamic_cast<core::ast::IdentifierNode *>(node->target)) {
       current_scope->set(id->symbol_id, val);
     } else {
       throw std::runtime_error("Invalid assignment target");
@@ -30,40 +30,40 @@ struct Executor {
     return val; // ou Void()
   }
 
-  Value execute_node(CompilationUnit &unit, core::node::Node *node) {
+  Value execute_node(CompilationUnit &unit, core::ast::ASTNode *node) {
     if (!node) return Value::Null();
 
     switch (node->kind) {
 
-    case core::node::NodeKind::ExpressionStatement: {
-      auto *es = static_cast<core::node::ExpressionStatementNode *>(node);
+    case core::ast::NodeKind::ExpressionStatement: {
+      auto *es = static_cast<core::ast::ExpressionStatementNode *>(node);
       execute_node(unit, es->expr);
       return Value::Void();
     }
 
-    case core::node::NodeKind::Assignment: return execute_assignment(unit, static_cast<parser::node::statement::AssignmentNode *>(node));
+    case core::ast::NodeKind::Assignment: return execute_assignment(unit, static_cast<parser::node::statement::AssignmentNode *>(node));
 
-    case core::node::NodeKind::Identifier: return execute_identifier(static_cast<core::node::IdentifierNode *>(node)->symbol_id);
+    case core::ast::NodeKind::Identifier: return execute_identifier(static_cast<core::ast::IdentifierNode *>(node)->symbol_id);
 
-    case core::node::NodeKind::NumberLiteral: return Value::Number(static_cast<parser::node::NumberLiteralNode *>(node)->value);
+    case core::ast::NodeKind::NumberLiteral: return Value::Number(static_cast<parser::node::NumberLiteralNode *>(node)->value);
 
-    case core::node::NodeKind::StringLiteral: return Value::String(static_cast<parser::node::StringLiteralNode *>(node)->value);
+    case core::ast::NodeKind::StringLiteral: return Value::String(static_cast<parser::node::StringLiteralNode *>(node)->value);
 
-    case core::node::NodeKind::BinaryExpression: return execute_binary(unit, static_cast<parser::node::BinaryExpressionNode *>(node));
+    case core::ast::NodeKind::BinaryExpression: return execute_binary(unit, static_cast<parser::node::BinaryExpressionNode *>(node));
 
-    case core::node::NodeKind::PathExpression: return execute_identifier(static_cast<parser::node::statement::PathExprNode *>(node)->symbol_id);
+    case core::ast::NodeKind::PathExpression: return execute_identifier(static_cast<parser::node::statement::PathExprNode *>(node)->symbol_id);
 
-    case core::node::NodeKind::FunctionCall: return execute_function_call(unit, static_cast<parser::node::FunctionCallNode *>(node));
+    case core::ast::NodeKind::FunctionCall: return execute_function_call(unit, static_cast<parser::node::FunctionCallNode *>(node));
 
-    case core::node::NodeKind::VariableDeclaration: return execute_variable_declaration(unit, static_cast<core::node::PatternNode *>(node));
+    case core::ast::NodeKind::VariableDeclaration: return execute_variable_declaration(unit, static_cast<core::ast::PatternNode *>(node));
 
-    case core::node::NodeKind::BlockStatement: return execute_block(unit, static_cast<parser::node::BlockStatementNode *>(node));
+    case core::ast::NodeKind::BlockStatement: return execute_block(unit, static_cast<parser::node::BlockStatementNode *>(node));
 
-    case core::node::NodeKind::IfStatement: return execute_if(unit, static_cast<parser::node::IfStatementNode *>(node));
+    case core::ast::NodeKind::IfStatement: return execute_if(unit, static_cast<parser::node::IfStatementNode *>(node));
 
-    case core::node::NodeKind::FunctionDeclaration: return execute_function_declaration(unit, static_cast<parser::node::FunctionDeclarationNode *>(node));
+    case core::ast::NodeKind::FunctionDeclaration: return execute_function_declaration(unit, static_cast<parser::node::FunctionDeclarationNode *>(node));
 
-    case core::node::NodeKind::ReturnStatement: return execute_return(unit, static_cast<parser::node::ReturnStatementNode *>(node));
+    case core::ast::NodeKind::ReturnStatement: return execute_return(unit, static_cast<parser::node::ReturnStatementNode *>(node));
 
     default: return Value::Null();
     }
@@ -107,17 +107,17 @@ struct Executor {
     Value rhs = execute_node(unit, node->right);
 
     switch (node->op) {
-    case core::node::BinaryOperation::Add: return Value::Number(lhs.get_number() + rhs.get_number());
-    case core::node::BinaryOperation::Subtract: return Value::Number(lhs.get_number() - rhs.get_number());
-    case core::node::BinaryOperation::Multiply: return Value::Number(lhs.get_number() * rhs.get_number());
-    case core::node::BinaryOperation::Divide: return Value::Number(lhs.get_number() / rhs.get_number());
-    case core::node::BinaryOperation::Equal: return Value::Boolean(lhs.get_number() == rhs.get_number());
-    case core::node::BinaryOperation::Less: return Value::Boolean(lhs.get_number() < rhs.get_number());
+    case core::ast::BinaryOperation::Add: return Value::Number(lhs.get_number() + rhs.get_number());
+    case core::ast::BinaryOperation::Subtract: return Value::Number(lhs.get_number() - rhs.get_number());
+    case core::ast::BinaryOperation::Multiply: return Value::Number(lhs.get_number() * rhs.get_number());
+    case core::ast::BinaryOperation::Divide: return Value::Number(lhs.get_number() / rhs.get_number());
+    case core::ast::BinaryOperation::Equal: return Value::Boolean(lhs.get_number() == rhs.get_number());
+    case core::ast::BinaryOperation::Less: return Value::Boolean(lhs.get_number() < rhs.get_number());
     default: return Value::Null();
     }
   }
 
-  Value execute_variable_declaration(CompilationUnit &unit, core::node::PatternNode *node) {
+  Value execute_variable_declaration(CompilationUnit &unit, core::ast::PatternNode *node) {
 
     Value value = Value::Null();
 
@@ -133,9 +133,9 @@ struct Executor {
   Value execute_function_call(CompilationUnit &unit, parser::node::FunctionCallNode *node) {
     SymbolId id = INVALID_SYMBOL_ID;
 
-    if (node->callee->kind == core::node::NodeKind::Identifier)
-      id = static_cast<core::node::IdentifierNode *>(node->callee)->symbol_id;
-    else if (node->callee->kind == core::node::NodeKind::PathExpression)
+    if (node->callee->kind == core::ast::NodeKind::Identifier)
+      id = static_cast<core::ast::IdentifierNode *>(node->callee)->symbol_id;
+    else if (node->callee->kind == core::ast::NodeKind::PathExpression)
       id = static_cast<parser::node::statement::PathExprNode *>(node->callee)->symbol_id;
 
     if (id == INVALID_SYMBOL_ID) return Value::Null();
@@ -144,9 +144,9 @@ struct Executor {
     if (!symbol) return Value::Null();
 
     Value func_val;
-    if (symbol->declaration->kind == core::node::NodeKind::NativeFunctionDeclaration) {
-      func_val = Value::Native(static_cast<core::node::NativeFunctionDeclarationNode *>(symbol->declaration)->callback);
-    } else if (symbol->declaration->kind == core::node::NodeKind::FunctionDeclaration) {
+    if (symbol->declaration->kind == core::ast::NodeKind::NativeFunctionDeclaration) {
+      func_val = Value::Native(static_cast<core::ast::NativeFunctionDeclarationNode *>(symbol->declaration)->callback);
+    } else if (symbol->declaration->kind == core::ast::NodeKind::FunctionDeclaration) {
       func_val = Value::User(static_cast<parser::node::FunctionDeclarationNode *>(symbol->declaration), current_scope);
     } else {
       return Value::Null();

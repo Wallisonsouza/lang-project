@@ -4,7 +4,7 @@
 
 void ASTDebug::debug_binary_expression(const parser::node::BinaryExpressionNode *node) {
 
-  debug_header("BinaryExpression: " + core::node::binary_op_to_string(node->op));
+  debug_header("BinaryExpression: " + core::ast::binary_op_to_string(node->op));
 
   if (node->left) { debug_labeled("Left", node->left, false); }
 

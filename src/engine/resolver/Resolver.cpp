@@ -2,40 +2,40 @@
 #include "core/node/Type.hpp"
 #include <iostream>
 
-void Resolver::resolve(core::node::Node *node) {
+void Resolver::resolve(core::ast::ASTNode *node) {
 
   if (!node) return;
 
   switch (node->kind) {
 
-  case core::node::NodeKind::NumberLiteral:
-  case core::node::NodeKind::StringLiteral:
-  case core::node::NodeKind::BooleanLiteral: return;
+  case core::ast::NodeKind::NumberLiteral:
+  case core::ast::NodeKind::StringLiteral:
+  case core::ast::NodeKind::BooleanLiteral: return;
 
-  case core::node::NodeKind::IfStatement: resolve_if_statement(static_cast<parser::node::IfStatementNode *>(node)); break;
+  case core::ast::NodeKind::IfStatement: resolve_if_statement(static_cast<parser::node::IfStatementNode *>(node)); break;
 
-  case core::node::NodeKind::BlockStatement: resolve_block(static_cast<parser::node::BlockStatementNode *>(node)); break;
+  case core::ast::NodeKind::BlockStatement: resolve_block(static_cast<parser::node::BlockStatementNode *>(node)); break;
 
-  case core::node::NodeKind::BinaryExpression: resolve_binary_expression(static_cast<parser::node::BinaryExpressionNode *>(node)); break;
+  case core::ast::NodeKind::BinaryExpression: resolve_binary_expression(static_cast<parser::node::BinaryExpressionNode *>(node)); break;
 
-  case core::node::NodeKind::PathExpression: resolve_path(static_cast<parser::node::statement::PathExprNode *>(node)); break;
+  case core::ast::NodeKind::PathExpression: resolve_path(static_cast<parser::node::statement::PathExprNode *>(node)); break;
 
-  case core::node::NodeKind::Import: resolve_import_node(static_cast<parser::node::statement::ImportNode *>(node)); break;
+  case core::ast::NodeKind::Import: resolve_import_node(static_cast<parser::node::statement::ImportNode *>(node)); break;
 
-  case core::node::NodeKind::Identifier: resolve_identifier(static_cast<core::node::IdentifierNode *>(node)); break;
+  case core::ast::NodeKind::Identifier: resolve_identifier(static_cast<core::ast::IdentifierNode *>(node)); break;
 
-  case core::node::NodeKind::FunctionCall: resolve_function_call(static_cast<parser::node::FunctionCallNode *>(node)); break;
+  case core::ast::NodeKind::FunctionCall: resolve_function_call(static_cast<parser::node::FunctionCallNode *>(node)); break;
 
-  case core::node::NodeKind::VariableDeclaration: resolve_variable_declaration(static_cast<core::node::PatternNode *>(node)); break;
+  case core::ast::NodeKind::VariableDeclaration: resolve_variable_declaration(static_cast<core::ast::PatternNode *>(node)); break;
 
-  case core::node::NodeKind::NativeFunctionDeclaration: resolve_native_function_declaration(static_cast<core::node::NativeFunctionDeclarationNode *>(node)); break;
+  case core::ast::NodeKind::NativeFunctionDeclaration: resolve_native_function_declaration(static_cast<core::ast::NativeFunctionDeclarationNode *>(node)); break;
 
-  case core::node::NodeKind::ExpressionStatement: resolve_expression_statement(static_cast<core::node::ExpressionStatementNode *>(node)); break;
+  case core::ast::NodeKind::ExpressionStatement: resolve_expression_statement(static_cast<core::ast::ExpressionStatementNode *>(node)); break;
 
-  case core::node::NodeKind::FunctionDeclaration: resolve_function_declaration(static_cast<parser::node::FunctionDeclarationNode *>(node)); break;
+  case core::ast::NodeKind::FunctionDeclaration: resolve_function_declaration(static_cast<parser::node::FunctionDeclarationNode *>(node)); break;
 
-  case core::node::NodeKind::ReturnStatement: resolve_return_statement(static_cast<parser::node::ReturnStatementNode *>(node)); break;
-  case core::node::NodeKind::Assignment: {
+  case core::ast::NodeKind::ReturnStatement: resolve_return_statement(static_cast<parser::node::ReturnStatementNode *>(node)); break;
+  case core::ast::NodeKind::Assignment: {
     auto *assign = static_cast<parser::node::statement::AssignmentNode *>(node);
     resolve(assign->target);
     resolve(assign->value);

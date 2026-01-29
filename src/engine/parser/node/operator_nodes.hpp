@@ -5,14 +5,14 @@
 
 namespace parser::node {
 
-struct BinaryExpressionNode : core::node::ExpressionNode {
+struct BinaryExpressionNode : core::ast::ASTExpressionNode {
 
-  core::node::ExpressionNode *left;
-  core::node::BinaryOperation op;
-  core::node::ExpressionNode *right;
+  core::ast::ASTExpressionNode *left;
+  core::ast::BinaryOperation op;
+  core::ast::ASTExpressionNode *right;
 
-  BinaryExpressionNode(core::node::ExpressionNode *l, core::node::BinaryOperation o, core::node::ExpressionNode *r)
-      : ExpressionNode(core::node::NodeKind::BinaryExpression), left(l), op(o), right(r) {}
+  BinaryExpressionNode(core::ast::ASTExpressionNode *l, core::ast::BinaryOperation o, core::ast::ASTExpressionNode *r)
+      : ASTExpressionNode(core::ast::NodeKind::BinaryExpression), left(l), op(o), right(r) {}
 };
 
 } // namespace parser::node

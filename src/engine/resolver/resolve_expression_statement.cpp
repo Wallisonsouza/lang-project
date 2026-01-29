@@ -1,6 +1,6 @@
 #include "engine/resolver/Resolver.hpp"
 
-void Resolver::resolve_expression_statement(core::node::ExpressionStatementNode *node) {
+void Resolver::resolve_expression_statement(core::ast::ExpressionStatementNode *node) {
 
   if (node->expr) { resolve(node->expr); }
 }

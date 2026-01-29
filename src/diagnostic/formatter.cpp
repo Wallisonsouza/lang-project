@@ -9,23 +9,14 @@ struct DiagnosticValueRenderer {
 
   std::string operator()(const std::string &s) const { return s; }
 
-  std::string operator()(TokenKind k) const {
-    return "'" + unit.context.descriptor_table.lookup_by_kind(k)->name + "'";
-  }
+  std::string operator()(TokenKind k) const { return "'" + unit.context.descriptor_table.lookup_by_kind(k)->name + "'"; }
 
-  std::string operator()(core::node::NodeKind k) const {
-    return "unit.context.node_names.at(k);";
-  }
+  std::string operator()(core::ast::NodeKind k) const { return "unit.context.node_names.at(k);"; }
 };
 
-std::string render_value(const DiagnosticValue &v,
-                         const CompilationUnit &unit) {
-  return std::visit(DiagnosticValueRenderer{unit}, v);
-}
+std::string render_value(const DiagnosticValue &v, const CompilationUnit &unit) { return std::visit(DiagnosticValueRenderer{unit}, v); }
 
-std::string apply_template(const std::string &tmpl,
-                           const DiagnosticContext &ctx,
-                           const CompilationUnit &unit) {
+std::string apply_template(const std::string &tmpl, const DiagnosticContext &ctx, const CompilationUnit &unit) {
 
   std::string out;
   out.reserve(tmpl.size());
@@ -40,9 +31,7 @@ std::string apply_template(const std::string &tmpl,
 
       auto key = tmpl.substr(i + 1, end - i - 1);
 
-      if (auto *val = ctx.get(std::string(key))) {
-        out += render_value(*val, unit);
-      }
+      if (auto *val = ctx.get(std::string(key))) { out += render_value(*val, unit); }
 
       i = end + 1;
       continue;
@@ -69,6 +58,5 @@ void print(const Diagnostic &diag, const CompilationUnit &unit) {
   std::string help = apply_template(tmpl.help, diag.context, unit);
   std::string message = apply_template(tmpl.message, diag.context, unit);
 
-  diagnostic::print_diagnostic(tmpl.title, message, help,
-                               diag.slice.value_or({}), unit.source);
+  diagnostic::print_diagnostic(tmpl.title, message, help, diag.slice.value_or({}), unit.source);
 }

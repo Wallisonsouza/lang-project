@@ -8,10 +8,7 @@ struct SymbolManager {
   std::vector<Symbol> symbols;
   std::unordered_map<std::string, SymbolId> name_to_id;
 
-  SymbolId create_symbol(const std::string &name, SymbolKind kind,
-                         Visibility visibility = Visibility::Private,
-                         bool is_builtin = false,
-                         core::node::Node *decl = nullptr) {
+  SymbolId create_symbol(const std::string &name, SymbolKind kind, Visibility visibility = Visibility::Private, bool is_builtin = false, core::ast::ASTNode *decl = nullptr) {
     SymbolId id = symbols.size();
     symbols.emplace_back(name, kind, visibility, is_builtin, decl);
     name_to_id[name] = id;

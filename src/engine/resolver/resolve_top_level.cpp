@@ -6,7 +6,7 @@ void Resolver::resolve_top_level() {
 
     switch (node->kind) {
 
-    case core::node::NodeKind::FunctionDeclaration: {
+    case core::ast::NodeKind::FunctionDeclaration: {
       auto *fn = static_cast<parser::node::FunctionDeclarationNode *>(node);
 
       if (current_scope->has_symbol_local(fn->identifier->name)) {
@@ -25,8 +25,8 @@ void Resolver::resolve_top_level() {
       break;
     }
 
-    case core::node::NodeKind::NativeFunctionDeclaration: {
-      auto *fn = static_cast<core::node::NativeFunctionDeclarationNode *>(node);
+    case core::ast::NodeKind::NativeFunctionDeclaration: {
+      auto *fn = static_cast<core::ast::NativeFunctionDeclarationNode *>(node);
 
       auto symbol = unit.symbols.create_symbol(fn->identifier->name, SymbolKind::Function, Visibility::Public, true, fn);
       fn->symbol_id = symbol;

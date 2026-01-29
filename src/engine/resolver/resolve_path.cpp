@@ -10,11 +10,8 @@ void Resolver::resolve_path(parser::node::statement::PathExprNode *path) {
   // Resolve o base primeiro
   resolve(path->base);
 
-
-  
-
   // Se o base for um identificador
-  if (auto *id = dynamic_cast<core::node::IdentifierNode *>(path->base)) {
+  if (auto *id = dynamic_cast<core::ast::IdentifierNode *>(path->base)) {
     SymbolId base_sym_id = current_scope->resolve_symbol(id->name);
 
     if (base_sym_id == INVALID_SYMBOL_ID) {
@@ -30,7 +27,7 @@ void Resolver::resolve_path(parser::node::statement::PathExprNode *path) {
     }
 
     // Se o field for um identificador, resolve dentro do módulo
-    if (auto *field_id = dynamic_cast<core::node::IdentifierNode *>(path->field)) {
+    if (auto *field_id = dynamic_cast<core::ast::IdentifierNode *>(path->field)) {
       core::Scope *module_scope = current_scope->resolve_import(id->name);
 
       if (!module_scope) {

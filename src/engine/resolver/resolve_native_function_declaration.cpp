@@ -2,7 +2,7 @@
 #include "engine/CompilationUnit.hpp"
 #include "engine/resolver/Resolver.hpp"
 
-void Resolver::resolve_native_function_declaration(core::node::NativeFunctionDeclarationNode *node) {
+void Resolver::resolve_native_function_declaration(core::ast::NativeFunctionDeclarationNode *node) {
 
   SymbolId id = unit.symbols.create_symbol(node->identifier->name, SymbolKind::Function, Visibility::Public, true, node);
 
