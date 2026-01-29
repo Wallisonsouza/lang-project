@@ -12,8 +12,8 @@ cd build
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
 
 # Compila usando todos os núcleos
-make -j$(nproc)
-
+# make -j$(nproc)
+make
 # Limpa a tela
 clear
 

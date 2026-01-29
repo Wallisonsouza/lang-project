@@ -11,7 +11,7 @@ core::ast::ASTExpressionNode *Parser::parse_postfix_expression() {
 
     switch (tok->descriptor->kind) {
 
-    case TokenKind::OpenParen:
+    case TokenKind::OPEN_PAREN:
       expr = finish_call(expr);
       if (!expr) return nullptr;
       break;

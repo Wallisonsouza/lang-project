@@ -1,4 +1,3 @@
-#include "core/managers/execution_unit_manager.hpp"
 #include "diagnostic/formatter.hpp"
 #include "engine/CompilationUnit.hpp"
 #include "engine/Engine.hpp"
@@ -23,17 +22,13 @@ int main() {
       auto exec = engine.create_execution(path);
       exec->execute();
 
-      for (auto &diag : exec->comp_unit.diagns.all()) {
-        print(*diag, exec->comp_unit);
-      }
+      for (auto &diag : exec->comp_unit.diagns.all()) { print(*diag, exec->comp_unit); }
 
       RuntimeScope scope;
       Executor interpreter(&scope);
       interpreter.execute_ast(exec->comp_unit);
 
-    } catch (const std::exception &e) {
-      std::cerr << "Erro ao executar " << path << ": " << e.what() << std::endl;
-    }
+    } catch (const std::exception &e) { std::cerr << "Erro ao executar " << path << ": " << e.what() << std::endl; }
   }
 
   return 0;

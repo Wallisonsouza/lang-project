@@ -13,7 +13,7 @@ core::ast::ASTExpressionNode *Parser::parse_primary_expression() {
 
   case TokenKind::Identifier: return parse_identifier_name();
 
-  case TokenKind::OpenParen: return parse_grouped_expression();
+  case TokenKind::OPEN_PAREN: return parse_grouped_expression();
 
   default: return nullptr;
   }

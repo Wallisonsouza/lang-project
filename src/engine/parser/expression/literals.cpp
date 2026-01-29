@@ -38,13 +38,13 @@ core::ast::IdentifierNode *Parser::parse_identifier_name() {
 
 core::ast::ASTExpressionNode *Parser::parse_grouped_expression() {
 
-  auto *open = unit.tokens.match(TokenKind::OpenParen);
+  auto *open = unit.tokens.match(TokenKind::OPEN_PAREN);
   if (!open) return nullptr;
 
   core::ast::ASTExpressionNode *expr = parse_expression();
   if (!expr) { return nullptr; }
 
-  auto *close = unit.tokens.match(TokenKind::CloseParen);
+  auto *close = unit.tokens.match(TokenKind::CLOSE_PAREN);
   if (!close) { return nullptr; }
 
   return expr;

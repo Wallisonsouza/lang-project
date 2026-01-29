@@ -2,6 +2,7 @@
 #include "core/node/NodeKind.hpp"
 #include "core/node/Type.hpp"
 #include <string>
+#include <vector>
 
 namespace parser::node {
 
@@ -31,6 +32,19 @@ struct CharLiteralNode : core::ast::ASTExpressionNode {
 
 struct NullLiteralNode : core::ast::ASTExpressionNode {
   NullLiteralNode() : ASTExpressionNode(core::ast::NodeKind::NullLiteral) {}
+};
+
+template <typename T> struct ListNode : core::ast::ASTExpressionNode {
+  std::vector<T *> elements;
+  ListNode(core::ast::NodeKind kind, std::vector<T *> elems) : ASTExpressionNode(kind), elements(std::move(elems)) {}
+};
+
+struct ASTParameterListNode : ListNode<core::ast::PatternNode> {
+  explicit ASTParameterListNode(std::vector<core::ast::PatternNode *> elems) : ListNode(core::ast::NodeKind::ParameterList, std::move(elems)) {}
+};
+
+struct ASTArrayLiteralNode : ListNode<core::ast::ASTExpressionNode> {
+  explicit ASTArrayLiteralNode(std::vector<core::ast::ASTExpressionNode *> elems) : ListNode(core::ast::NodeKind::ArrayLiteral, std::move(elems)) {}
 };
 
 } // namespace parser::node

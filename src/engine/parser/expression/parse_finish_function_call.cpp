@@ -6,17 +6,17 @@ core::ast::ASTExpressionNode *Parser::finish_call(core::ast::ASTExpressionNode *
 
   while (true) {
     auto *tok = unit.tokens.peek();
-    if (!tok || tok->descriptor->kind != TokenKind::OpenParen) break;
+    if (!tok || tok->descriptor->kind != TokenKind::OPEN_PAREN) break;
     unit.tokens.advance(); // consumir '('
 
     std::vector<core::ast::ASTExpressionNode *> args;
-    while (!unit.tokens.is_end() && !unit.tokens.match(TokenKind::CloseParen)) {
+    while (!unit.tokens.is_end() && !unit.tokens.match(TokenKind::CLOSE_PAREN)) {
       auto *expr = parse_expression();
       if (!expr) break;
       args.push_back(expr);
 
       if (!unit.tokens.match(TokenKind::COMMA)) {
-        unit.tokens.match(TokenKind::CloseParen);
+        unit.tokens.match(TokenKind::CLOSE_PAREN);
         break;
       }
     }

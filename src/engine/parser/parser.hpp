@@ -96,4 +96,53 @@ public:
 
     return unit.ast.create_node<ErrorNodeT>(slice);
   }
+
+  template <typename ListNodeType, typename ElementType, typename ParseFunc>
+  ListNodeType *parse_generic_list(TokenKind open_token, TokenKind close_token, TokenKind separator_token, ParseFunc parse_element) {
+    std::vector<ElementType *> elements;
+
+    if (!unit.tokens.match(open_token)) {
+      auto desc = unit.context.descriptor_table.lookup_by_kind(open_token);
+      report_error(DiagnosticCode::ExpectedToken, desc ? desc->name : "opening token");
+      return nullptr;
+    }
+
+    bool expect_element = true;
+
+    while (!unit.tokens.is_end()) {
+      consume_statement_separators();
+
+      if (unit.tokens.match(close_token)) { return unit.ast.create_node<ListNodeType>(std::move(elements)); }
+
+      auto *current = unit.tokens.peek();
+      if (!current) break;
+
+      if (expect_element) {
+        auto *el = parse_element(); // agora funciona com qualquer callable
+
+        if (!el || el->flags.has(NodeFlags::HasError)) { return nullptr; }
+
+        elements.push_back(el);
+        expect_element = false;
+        continue;
+      }
+
+      if (unit.tokens.match(separator_token)) {
+        expect_element = true;
+        continue;
+      }
+
+      if (current->descriptor->kind == TokenKind::OPEN_BRACE) {
+        report_error(DiagnosticCode::ExpectedToken, "expected closing token before block");
+      } else {
+        auto sep_desc = unit.context.descriptor_table.lookup_by_kind(separator_token);
+        report_error(DiagnosticCode::ExpectedToken, sep_desc ? sep_desc->name : "separator token");
+      }
+
+      return nullptr;
+    }
+
+    report_error(DiagnosticCode::ExpectedToken, "unterminated list");
+    return nullptr;
+  }
 };

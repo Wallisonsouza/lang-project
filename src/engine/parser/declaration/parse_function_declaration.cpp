@@ -1,6 +1,7 @@
 #include "core/node/Type.hpp"
 #include "core/node/flags.hpp"
 #include "core/token/TokenKind.hpp"
+#include "engine/parser/node/literal_nodes.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 #include "engine/parser/parser.hpp"
 
@@ -74,9 +75,14 @@ core::ast::ASTStatementNode *Parser::parse_function_declaration() {
     return unit.ast.create_node<parser::node::FunctionErrorNode>(start);
   }
 
-  auto list = parse_list(TokenKind::OpenParen, TokenKind::CloseParen, TokenKind::COMMA, [&]() { return parse_pattern({}); });
+  auto param_list = parse_generic_list<parser::node::ASTParameterListNode, core::ast::PatternNode>(
+      // test
+      TokenKind::OPEN_PAREN,  // open
+      TokenKind::CLOSE_PAREN, // close
+      TokenKind::COMMA,       // sep
+      [&]() { return parse_pattern({}); });
 
-  if (list->flags.has(NodeFlags::HasError)) {
+  if (param_list->flags.has(NodeFlags::HasError)) {
 
     recover_until(RecoverBoundary::Function);
 
@@ -108,5 +114,7 @@ core::ast::ASTStatementNode *Parser::parse_function_declaration() {
     return unit.ast.create_node<parser::node::FunctionErrorNode>(start);
   }
 
-  return unit.ast.create_node<parser::node::FunctionDeclarationNode>(name, list->parameters, return_type, body);
+  return unit.ast.create_node<parser::node::FunctionDeclarationNode>(name, param_list->elements, return_type, body);
+
+  return nullptr;
 }
