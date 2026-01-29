@@ -42,15 +42,15 @@ enum class TokenKind : uint8_t {
   CLOSE_BRACE, // Representa a chave direita '}'.
   SEMI_COLON,  // Representa o ponto e vírgula ';'.
   Dot,
-  Alias,         // Representa um alias (como 'type alias' em algumas linguagens).
-  Identifier,    // Representa nomes de variáveis, funções ou outros
-                 // identificadores.
-  NumberLiteral, // Representa um literal numérico, como 42 ou 3.14.
-  StringLiteral, // Representa um literal de string, como "texto".
-  NullLiteral,   // Representa o valor nulo 'null'.
-  CharLiteral,   // Representa um literal de caractere, como 'a'.
-  BoolLiteral,   // Representa um literal booleano: true ou false.
-  EndOfFile,     // Representa o fim do arquivo, usado para indicar que não há mais
+  Alias,          // Representa um alias (como 'type alias' em algumas linguagens).
+  IDENTIFIER,     // Representa nomes de variáveis, funções ou outros
+                  // identificadores.
+  NUMBER_LITERAL, // Representa um literal numérico, como 42 ou 3.14.
+  STRING_LITERAL, // Representa um literal de string, como "texto".
+  NullLiteral,    // Representa o valor nulo 'null'.
+  CharLiteral,    // Representa um literal de caractere, como 'a'.
+  BoolLiteral,    // Representa um literal booleano: true ou false.
+  EndOfFile,      // Representa o fim do arquivo, usado para indicar que não há mais
   NEW_LINE,
   Type, // mais tokens a serem lidos.
   // tokens.

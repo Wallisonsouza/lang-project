@@ -3,6 +3,7 @@
 #include "core/node/NodeKind.hpp"
 #include "core/node/Type.hpp"
 #include "debug/console/console.hpp"
+#include "engine/parser/node/literal_nodes.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 
 ASTDebug::ASTDebug(std::ostream &out) : out(out), tree(out) {}
@@ -65,6 +66,8 @@ void ASTDebug::debug_node(const core::ast::ASTNode *node, bool isLast) {
   case NodeKind::IndexAccess: debug_index_acess(static_cast<const parser::node::IndexAccessNode *>(node)); break;
 
   case NodeKind::ReturnStatement: debug_return_statement(static_cast<const parser::node::ReturnStatementNode *>(node)); break;
+
+  case NodeKind::ArrayLiteral: debug_array_literal(static_cast<const parser::node::ASTArrayLiteralNode *>(node)); break;
 
   default: out << "<error>\n"; break;
   }

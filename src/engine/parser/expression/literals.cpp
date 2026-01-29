@@ -5,7 +5,7 @@
 #include "engine/parser/parser.hpp"
 
 core::ast::ASTExpressionNode *Parser::parse_number_literal() {
-  Token *token = unit.tokens.match(TokenKind::NumberLiteral);
+  Token *token = unit.tokens.match(TokenKind::NUMBER_LITERAL);
   if (!token) return nullptr;
 
   std::string text = unit.source.buffer.get_text(token->slice.span);
@@ -17,7 +17,7 @@ core::ast::ASTExpressionNode *Parser::parse_number_literal() {
 
 core::ast::ASTExpressionNode *Parser::parse_string_literal() {
 
-  Token *token = unit.tokens.match(TokenKind::StringLiteral);
+  Token *token = unit.tokens.match(TokenKind::STRING_LITERAL);
   if (!token) return nullptr;
 
   std::string text = unit.source.buffer.get_text(token->slice.span);
@@ -27,7 +27,7 @@ core::ast::ASTExpressionNode *Parser::parse_string_literal() {
 
 core::ast::IdentifierNode *Parser::parse_identifier_name() {
 
-  Token *token = unit.tokens.match(TokenKind::Identifier);
+  Token *token = unit.tokens.match(TokenKind::IDENTIFIER);
   if (!token) return nullptr;
 
   auto *node = unit.ast.create_node<core::ast::IdentifierNode>(unit.source.buffer.get_text(token->slice.span));

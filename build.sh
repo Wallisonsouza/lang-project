@@ -13,7 +13,8 @@ cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
 
 # Compila usando todos os núcleos
 # make -j$(nproc)
-make
+make -j$(nproc)
+
 # Limpa a tela
 clear
 

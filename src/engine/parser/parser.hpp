@@ -6,6 +6,7 @@
 #include "engine/CompilationUnit.hpp"
 
 #include "engine/parser/error/recover.hpp"
+#include "engine/parser/node/literal_nodes.hpp"
 #include "engine/parser/node/statement_nodes.hpp"
 
 enum class ParserResultCode { Success, Error };
@@ -49,7 +50,7 @@ public:
 
   core::ast::ASTStatementNode *parse_statement();
   core::ast::ASTStatementNode *parse_import_statement();
-
+  parser::node::ASTArrayLiteralNode *parse_array_literal();
   core::ast::ASTStatementNode *parse_variable_declaration();
   core::ast::ASTStatementNode *parse_function_declaration();
   core::ast::ASTStatementNode *parse_if_statement();

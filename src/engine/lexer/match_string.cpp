@@ -3,9 +3,7 @@
 Token *Lexer::match_string() {
   char32_t quote = stream.peek();
 
-  if (quote != U'"' && quote != U'\'') {
-    return nullptr;
-  }
+  if (quote != U'"' && quote != U'\'') { return nullptr; }
 
   auto start = stream.get_state();
   stream.advance();
@@ -46,8 +44,7 @@ Token *Lexer::match_string() {
     return nullptr;
   }
 
-  auto descriptor =
-      unit.context.descriptor_table.lookup_by_kind(TokenKind::StringLiteral);
+  auto descriptor = unit.context.descriptor_table.lookup_by_kind(TokenKind::STRING_LITERAL);
 
   return unit.tokens.create_token<Token>(descriptor, slice);
 }

@@ -19,3 +19,12 @@ void ASTDebug::debug_variable_declaration(const core::ast::PatternNode *node) {
     debug_labeled(children[i].label, children[i].node, is_last);
   }
 }
+
+void ASTDebug::debug_array_literal(const parser::node::ASTArrayLiteralNode *node) {
+  out << "ArrayLiteral\n";
+
+  for (size_t i = 0; i < node->elements.size(); ++i) {
+    bool is_last = (i + 1 == node->elements.size());
+    debug_node(node->elements[i], is_last);
+  }
+}

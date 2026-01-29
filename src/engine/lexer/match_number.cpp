@@ -6,9 +6,7 @@ Token *Lexer::match_number() {
 
   auto c = stream.peek();
 
-  if (!utils::Unicode::is_digit(c)) {
-    return nullptr;
-  }
+  if (!utils::Unicode::is_digit(c)) { return nullptr; }
 
   bool has_dot = false;
 
@@ -26,8 +24,7 @@ Token *Lexer::match_number() {
 
   auto slice = stream.slice_from(start);
 
-  auto descriptor =
-      unit.context.descriptor_table.lookup_by_kind(TokenKind::NumberLiteral);
+  auto descriptor = unit.context.descriptor_table.lookup_by_kind(TokenKind::NUMBER_LITERAL);
 
   return unit.tokens.create_token<Token>(descriptor, slice);
 }

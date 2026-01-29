@@ -80,7 +80,7 @@ struct ASTDebug {
   void debug_native_function_declaration(const core::ast::NativeFunctionDeclarationNode *node);
   void debug_function_declaration(const parser::node::FunctionDeclarationNode *node);
   void debug_index_acess(const parser::node::IndexAccessNode *node);
-
+  void debug_array_literal(const parser::node::ASTArrayLiteralNode *node);
   void debug_path_expression(const parser::node::statement::PathExprNode *node);
   void debug_if_statement(const parser::node::IfStatementNode *node);
   void debug_assing_node(const parser::node::statement::AssignmentNode *node);
@@ -89,7 +89,6 @@ struct ASTDebug {
   void debug_children(const std::vector<const core::ast::ASTNode *> &children);
 
   template <typename T> void debug_labeled_childrens(const std::vector<T *> &children, const std::string &label, bool is_last) {
-
     tree.begin_node(is_last);
 
     debug::Console::log(label_color, label);

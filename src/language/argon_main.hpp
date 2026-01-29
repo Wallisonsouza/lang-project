@@ -69,10 +69,10 @@ inline LanguageContext create_context() {
   context.descriptor_table.add(TokenKind::COMMA, ",", TokenGroup::Punctuation);
   context.descriptor_table.add(TokenKind::SINGLE_QUOTE, "\'", TokenGroup::Punctuation);
 
-  context.descriptor_table.add(TokenKind::Identifier, TokenGroup::NAME);
+  context.descriptor_table.add(TokenKind::IDENTIFIER, TokenGroup::NAME);
 
-  context.descriptor_table.add(TokenKind::NumberLiteral, TokenGroup::Literal);
-  context.descriptor_table.add(TokenKind::StringLiteral, TokenGroup::Literal);
+  context.descriptor_table.add(TokenKind::NUMBER_LITERAL, TokenGroup::Literal);
+  context.descriptor_table.add(TokenKind::STRING_LITERAL, TokenGroup::Literal);
   context.descriptor_table.add(TokenKind::BoolLiteral, TokenGroup::Literal);
   context.descriptor_table.add(TokenKind::CharLiteral, TokenGroup::Literal);
   context.descriptor_table.add(TokenKind::NullLiteral, TokenGroup::Literal);
